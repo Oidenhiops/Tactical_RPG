@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a88ec6029838284fa47ce9553970a52, type: 3}
+  m_Name: SoundsDB
+  m_EditorClassIdentifier: 
+  sounds:
+    _serializedList:
+    - Key: 1
+      Value:
+        _serializedList:
+        - Key: MenuBG
+          Value:
+          - {fileID: 8300000, guid: 31bafb895f6f79042bb86e54428b546a, type: 3}
+        - Key: MenuBG2
+          Value:
+          - {fileID: 8300000, guid: f9d4df4be0166b54f9458a3765788265, type: 3}
+        - Key: MenuBG3
+          Value:
+          - {fileID: 8300000, guid: 08b73ebaea0ebd84291b777479661b17, type: 3}
+        - Key: GameBg
+          Value:
+          - {fileID: 8300000, guid: a612d49759e71fe48bce9300b3756900, type: 3}
+    - Key: 2
+      Value:
+        _serializedList:
+        - Key: TouchButtonAdvance
+          Value:
+          - {fileID: 8300000, guid: 3038c2382d604514e94c9ef8b63990c1, type: 3}
+        - Key: TouchButtonBack
+          Value:
+          - {fileID: 8300000, guid: 01810f75a1b736d4985b35d9221924ab, type: 3}
+        - Key: SliderButton
+          Value:
+          - {fileID: 8300000, guid: 779a68550d877cf4aa9763d79d9f19e0, type: 3}

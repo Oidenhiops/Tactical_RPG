@@ -1,0 +1,137 @@
+using System.Collections;
+using UnityEngine;
+
+public class CharacterAnimation : MonoBehaviour
+{
+    public Character character;
+    public CharacterAnimationsSO.AnimationsInfo currentAnimation = new CharacterAnimationsSO.AnimationsInfo();
+    public int currentSpriteIndex;
+    public float currentSpritePerTime = 0.1f;
+    bool isUp = false;
+
+    public void SetInitialData(ref CharacterAnimationsSO animationsData)
+    {
+        StopAllCoroutines();
+        character.characterModel.characterMeshRenderer.transform.parent.transform.localScale = Vector3.one * GetScaleFactor(animationsData.animations["Idle"].spritesInfoDown[0].characterSprite.rect.width);
+        character.characterModel.characterMeshRenderer.material.SetTexture("_BaseTexture", animationsData.atlas);
+        if (character.characterModel.characterMeshRendererHand)
+        {
+            character.characterModel.characterMeshRendererHand.gameObject.SetActive(true);
+            character.characterModel.characterMeshRendererHand.material.SetTexture("_BaseTexture", animationsData.atlasHands);
+        }
+        currentAnimation = GetAnimation("Idle");
+        StartCoroutine(AnimateSprite());
+    }
+
+    float GetScaleFactor(float size)
+    {
+        float baseScale = 64f;
+        return size / baseScale;
+    }
+    public void MakeAnimation(string animationName)
+    {
+        StopAllCoroutines();
+        currentAnimation = GetAnimation(animationName);
+        currentSpriteIndex = 0;
+        StartCoroutine(AnimateSprite());
+    }
+
+    private CharacterAnimationsSO.AnimationsInfo GetAnimation(string animationName)
+    {
+        return character.characterModel.characterAnimations.animations[animationName];
+    }
+
+    IEnumerator AnimateSprite()
+    {
+        while (true)
+        {
+            isUp = character.direction.z > 0;
+            SetTextureFromAtlas(
+                isUp ?
+                    currentAnimation.spritesInfoUp[currentSpriteIndex].characterSprite :
+                    currentAnimation.spritesInfoDown[currentSpriteIndex].characterSprite,
+                character.characterModel.characterMeshRenderer
+            );
+
+            if (character.characterModel.characterMeshRendererHand) SetHandsPos();
+
+            yield return new WaitForSeconds(currentSpritePerTime);
+            currentSpriteIndex++;
+            if (currentSpriteIndex > currentAnimation.spritesInfoUp.Length - 1)
+            {
+                if (currentAnimation.loop)
+                {
+                    currentSpriteIndex = 0;
+                }
+                else
+                {
+                    if (currentAnimation.linkAnimation != "")
+                    {
+                        MakeAnimation(currentAnimation.linkAnimation);
+                    }
+                    else
+                    {
+                        MakeAnimation("Idle");
+                    }
+                }
+            }
+        }
+    }
+    void SetTextureFromAtlas(Sprite spriteFromAtlas, MeshRenderer meshRenderer)
+    {
+        Vector2[] uvs = character.characterModel.originalMesh.uv;
+        Texture2D texture = spriteFromAtlas.texture;
+        meshRenderer.material.mainTexture = texture;
+        Rect spriteRect = spriteFromAtlas.rect;
+        for (int i = 0; i < uvs.Length; i++)
+        {
+            uvs[i].x = Mathf.Lerp(spriteRect.x / texture.width, (spriteRect.x + spriteRect.width) / texture.width, uvs[i].x);
+            uvs[i].y = Mathf.Lerp(spriteRect.y / texture.height, (spriteRect.y + spriteRect.height) / texture.height, uvs[i].y);
+        }
+        meshRenderer.GetComponent<MeshFilter>().mesh.uv = uvs;
+    }
+    void SetHandsPos()
+    {
+        if (character.characterModel.characterMeshRendererHand)
+        {
+            if (currentSpriteIndex < currentAnimation.spritesInfoUp.Length &&
+                    currentAnimation.spritesInfoUp.Length > 0 &&
+                    currentAnimation.spritesInfoUp[0].handSprite)
+            {
+                SetTextureFromAtlas(
+                    isUp ?
+                        currentAnimation.spritesInfoUp[currentSpriteIndex].characterSprite :
+                        currentAnimation.spritesInfoDown[currentSpriteIndex].characterSprite,
+                    character.characterModel.characterMeshRendererHand
+                );
+                switch (isUp)
+                {
+                    case true:
+                        Vector3 spriteLeftUpPos = character.direction.x > 0 ?
+                                                    currentAnimation.spritesInfoUp[currentSpriteIndex].leftHandPosDR :
+                                                    currentAnimation.spritesInfoUp[currentSpriteIndex].leftHandPosDL;
+                        Vector3 spriteRightUpPos = character.direction.x > 0 ?
+                                                    currentAnimation.spritesInfoUp[currentSpriteIndex].rightHandPosDR :
+                                                    currentAnimation.spritesInfoUp[currentSpriteIndex].rightHandPosDL;
+                        character.characterModel.leftHand.transform.localPosition = spriteLeftUpPos;
+                        character.characterModel.leftHand.transform.localRotation = currentAnimation.spritesInfoUp[currentSpriteIndex].leftHandRotation;
+                        character.characterModel.rightHand.transform.localPosition = spriteRightUpPos;
+                        character.characterModel.rightHand.transform.localRotation = currentAnimation.spritesInfoUp[currentSpriteIndex].rightHandRotation;
+                        break;
+                    case false:
+                        Vector3 spriteLeftDownPos = character.direction.x > 0 ?
+                                                    currentAnimation.spritesInfoDown[currentSpriteIndex].leftHandPosDR :
+                                                    currentAnimation.spritesInfoDown[currentSpriteIndex].leftHandPosDL;
+                        Vector3 spriteRightDownPos = character.direction.x > 0 ?
+                                                    currentAnimation.spritesInfoDown[currentSpriteIndex].rightHandPosDR :
+                                                    currentAnimation.spritesInfoDown[currentSpriteIndex].rightHandPosDL;
+                        character.characterModel.leftHand.transform.localPosition = spriteLeftDownPos;
+                        character.characterModel.leftHand.transform.localRotation = currentAnimation.spritesInfoDown[currentSpriteIndex].leftHandRotation;
+                        character.characterModel.rightHand.transform.localPosition = spriteRightDownPos;
+                        character.characterModel.rightHand.transform.localRotation = currentAnimation.spritesInfoDown[currentSpriteIndex].rightHandRotation;
+                        break;
+                }
+            }
+        }
+    }
+}

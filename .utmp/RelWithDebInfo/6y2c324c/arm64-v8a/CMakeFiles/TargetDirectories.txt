@@ -1,0 +1,5 @@
+C:/Users/Oiden/OneDrive/Documentos/ProyectosUnity/echoes_of_the_abyss/.utmp/RelWithDebInfo/6y2c324c/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Users/Oiden/OneDrive/Documentos/ProyectosUnity/echoes_of_the_abyss/.utmp/RelWithDebInfo/6y2c324c/arm64-v8a/CMakeFiles/rebuild_cache.dir
+C:/Users/Oiden/OneDrive/Documentos/ProyectosUnity/echoes_of_the_abyss/.utmp/RelWithDebInfo/6y2c324c/arm64-v8a/FramePacing/CMakeFiles/swappywrapper.dir
+C:/Users/Oiden/OneDrive/Documentos/ProyectosUnity/echoes_of_the_abyss/.utmp/RelWithDebInfo/6y2c324c/arm64-v8a/FramePacing/CMakeFiles/edit_cache.dir
+C:/Users/Oiden/OneDrive/Documentos/ProyectosUnity/echoes_of_the_abyss/.utmp/RelWithDebInfo/6y2c324c/arm64-v8a/FramePacing/CMakeFiles/rebuild_cache.dir
