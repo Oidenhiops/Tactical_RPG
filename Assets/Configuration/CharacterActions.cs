@@ -126,6 +126,15 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Back"",
+                    ""type"": ""Button"",
+                    ""id"": ""8e0b1d3e-f199-48f8-953b-220e54d24610"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -348,6 +357,28 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
                     ""action"": ""RotateCamera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0f5d11e6-33cf-4f66-8a5f-f80c97d718d4"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Back"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""01b60cf2-df9c-47c8-8cb1-d8960a45c474"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Back"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -360,6 +391,7 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
         m_CharacterInputs_MousePos = m_CharacterInputs.FindAction("MousePos", throwIfNotFound: true);
         m_CharacterInputs_Interact = m_CharacterInputs.FindAction("Interact", throwIfNotFound: true);
         m_CharacterInputs_RotateCamera = m_CharacterInputs.FindAction("RotateCamera", throwIfNotFound: true);
+        m_CharacterInputs_Back = m_CharacterInputs.FindAction("Back", throwIfNotFound: true);
     }
 
     ~@CharacterActions()
@@ -444,6 +476,7 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_CharacterInputs_MousePos;
     private readonly InputAction m_CharacterInputs_Interact;
     private readonly InputAction m_CharacterInputs_RotateCamera;
+    private readonly InputAction m_CharacterInputs_Back;
     /// <summary>
     /// Provides access to input actions defined in input action map "CharacterInputs".
     /// </summary>
@@ -471,6 +504,10 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "CharacterInputs/RotateCamera".
         /// </summary>
         public InputAction @RotateCamera => m_Wrapper.m_CharacterInputs_RotateCamera;
+        /// <summary>
+        /// Provides access to the underlying input action "CharacterInputs/Back".
+        /// </summary>
+        public InputAction @Back => m_Wrapper.m_CharacterInputs_Back;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -509,6 +546,9 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
             @RotateCamera.started += instance.OnRotateCamera;
             @RotateCamera.performed += instance.OnRotateCamera;
             @RotateCamera.canceled += instance.OnRotateCamera;
+            @Back.started += instance.OnBack;
+            @Back.performed += instance.OnBack;
+            @Back.canceled += instance.OnBack;
         }
 
         /// <summary>
@@ -532,6 +572,9 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
             @RotateCamera.started -= instance.OnRotateCamera;
             @RotateCamera.performed -= instance.OnRotateCamera;
             @RotateCamera.canceled -= instance.OnRotateCamera;
+            @Back.started -= instance.OnBack;
+            @Back.performed -= instance.OnBack;
+            @Back.canceled -= instance.OnBack;
         }
 
         /// <summary>
@@ -600,5 +643,12 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnRotateCamera(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Back" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnBack(InputAction.CallbackContext context);
     }
 }

@@ -6185,6 +6185,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TestGrid
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a6b313210ede9bb47b25ffe8047d9ea0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6946,6 +6951,7 @@ GameObject:
   m_Component:
   - component: {fileID: 726234691}
   - component: {fileID: 726234690}
+  - component: {fileID: 726234692}
   m_Layer: 0
   m_Name: PlayerManager
   m_TagString: Untagged
@@ -6965,7 +6971,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d536e1777881bc40a1d88c329538061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  decal: {fileID: 469652712}
+  actionsManager: {fileID: 726234692}
+  mouseDecal: {fileID: 469652713}
   onMovement: 0
   direction: {x: 0, y: 0, z: 0}
   movementDirection: {x: 0, y: 0, z: 0}
@@ -6974,6 +6981,7 @@ MonoBehaviour:
   onRotateCamera: 0
   cameraRot: {fileID: 1353228496}
   directionCamera: 0
+  _characterPlayerOnMove: 0
 --- !u!4 &726234691
 Transform:
   m_ObjectHideFlags: 0
@@ -6989,6 +6997,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &726234692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 726234689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a12316d2ac8bd14bbc67f3bb0140039, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerManager: {fileID: 726234690}
+  actions: []
 --- !u!1001 &735198258
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15366,12 +15388,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _currentGrid:
     _serializedList: []
-  lastStartPos: {x: 0, y: 0, z: 0}
   grid:
     _serializedList: []
   characterSelected: {fileID: 0}
   limitX: 10
   limitZ: 10
+  characterTest: {fileID: 1797810321}
 --- !u!4 &1624877755
 Transform:
   m_ObjectHideFlags: 0
@@ -16392,7 +16414,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   drawMap: 1
-  character: {fileID: 1797810321}
 --- !u!1001 &1691259871
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17076,7 +17097,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1797810320
 Transform:
   m_ObjectHideFlags: 0
@@ -17185,6 +17206,7 @@ MonoBehaviour:
   items:
     _serializedList: []
   _direction: {x: 0, y: 0, z: 0}
+  _nextDirection: {x: 1, y: 0, z: -1}
   characterAnimations: {fileID: 1797810322}
   currentPositionInGrid: {x: 0, y: 0, z: 0}
   initialPositionInGrid: {x: 0, y: 0, z: 0}

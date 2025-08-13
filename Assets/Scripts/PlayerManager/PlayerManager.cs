@@ -1,11 +1,14 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerManager : MonoBehaviour
 {
+    public static PlayerManager Instance { get; private set; }
     public CharacterActions characterActions;
-    public Transform decal;
+    public ActionsManager actionsManager;
+    public MouseDecalAnim mouseDecal;
     public bool onMovement;
     public Vector3Int direction;
     public Vector3 movementDirection;
@@ -14,8 +17,23 @@ public class PlayerManager : MonoBehaviour
     public bool onRotateCamera;
     public Transform cameraRot;
     public bool directionCamera;
+    public bool _characterPlayerOnMove;
+    public Action<bool> OnCharacterPlayerMove;
+    public bool characterPlayerOnMove
+    {
+        get => _characterPlayerOnMove;
+        set
+        {
+            if (_characterPlayerOnMove != value)
+            {
+                _characterPlayerOnMove = value;
+                OnCharacterPlayerMove?.Invoke(_characterPlayerOnMove);
+            }
+        }
+    }
     void Awake()
     {
+        if (Instance == null) Instance = this;
         characterActions = new CharacterActions();
         characterActions.Enable();
 
@@ -27,30 +45,37 @@ public class PlayerManager : MonoBehaviour
         characterActions.CharacterInputs.Movement.canceled += HandleMovement;
         characterActions.CharacterInputs.Interact.performed += HandleAction;
         characterActions.CharacterInputs.RotateCamera.started += HandleRotateCamera;
+        OnCharacterPlayerMove += OnToggleCharacterPlayerMove;
     }
-
+    void OnToggleCharacterPlayerMove(bool state)
+    {
+        mouseDecal.decal.gameObject.SetActive(!state);
+    }
     void HandleMovement(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (!characterPlayerOnMove)
         {
-            Vector2 input = context.ReadValue<Vector2>();
-            direction = new Vector3Int(Mathf.RoundToInt(input.x), 0, Mathf.RoundToInt(input.y));
-        }
-        else
-        {
-            direction = Vector3Int.zero;
+            if (context.performed)
+            {
+                Vector2 input = context.ReadValue<Vector2>();
+                direction = new Vector3Int(Mathf.RoundToInt(input.x), 0, Mathf.RoundToInt(input.y));
+            }
+            else
+            {
+                direction = Vector3Int.zero;
+            }
         }
     }
     void HandleAction(InputAction.CallbackContext context)
     {
         if (!onMovement)
         {
-            AStarPathFinding.Instance.ValidateAction(new Vector3Int(Mathf.RoundToInt(decal.transform.position.x), Mathf.RoundToInt(decal.transform.position.y), Mathf.RoundToInt(decal.transform.position.z)));
+            AStarPathFinding.Instance.ValidateAction(new Vector3Int(Mathf.RoundToInt(mouseDecal.transform.position.x), Mathf.RoundToInt(mouseDecal.transform.position.y), Mathf.RoundToInt(mouseDecal.transform.position.z)));
         }
     }
     void HandleRotateCamera(InputAction.CallbackContext context)
     {
-        if (!cantRotateCamera)
+        if (!characterPlayerOnMove && !cantRotateCamera)
         {
             cantRotateCamera = true;
             onRotateCamera = true;
@@ -72,7 +97,7 @@ public class PlayerManager : MonoBehaviour
                 0,
                 camDirection.z
             ).normalized;
-            Vector3Int currentPos = new Vector3Int(Mathf.RoundToInt(decal.transform.position.x), Mathf.RoundToInt(decal.transform.position.y), Mathf.RoundToInt(decal.transform.position.z));
+            Vector3Int currentPos = new Vector3Int(Mathf.RoundToInt(mouseDecal.transform.position.x), Mathf.RoundToInt(mouseDecal.transform.position.y), Mathf.RoundToInt(mouseDecal.transform.position.z));
             nextPos = currentPos + new Vector3Int(Mathf.RoundToInt(camDirection.x), Mathf.RoundToInt(camDirection.y), Mathf.RoundToInt(camDirection.z));
             FixHeight(nextPos, out GenerateMap.WalkablePositionInfo blockFinded);
             nextPos.y = blockFinded != null ? blockFinded.pos.y : 0;
@@ -121,18 +146,18 @@ public class PlayerManager : MonoBehaviour
 
     IEnumerator MovePointer()
     {
-        Vector3 startPos = decal.transform.position;
+        Vector3 startPos = mouseDecal.transform.position;
         Vector3 endPos = nextPos;
         float duration = 0.2f;
         float elapsed = 0f;
         while (elapsed < duration)
         {
             float t = elapsed / duration;
-            decal.transform.position = Vector3.Lerp(startPos, endPos, t);
+            mouseDecal.transform.position = Vector3.Lerp(startPos, endPos, t);
             elapsed += Time.deltaTime;
             yield return null;
         }
-        decal.transform.position = endPos;
+        mouseDecal.transform.position = endPos;
         onMovement = false;
     }
 }

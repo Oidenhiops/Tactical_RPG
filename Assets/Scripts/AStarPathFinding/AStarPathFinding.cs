@@ -18,15 +18,17 @@ public class AStarPathFinding : MonoBehaviour
             if (!_currentGrid.SequenceEqual(value))
             {
                 _currentGrid = value;
-                if (_currentGrid != null) StartCoroutine(ToggleGrid(_currentGrid));
+                if (_currentGrid.Count > 0) _ToggleGrid = StartCoroutine(ToggleGrid(_currentGrid));
+                else StopCoroutine(_ToggleGrid);
                 OnCurrentGridChange?.Invoke(_currentGrid);
             }
         }
     }
-    public Vector3Int lastStartPos = Vector3Int.zero;
     public SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> grid = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
     public Character characterSelected;
     public int limitX = 10, limitZ = 10;
+    public Character characterTest;
+    Coroutine _ToggleGrid;
     void Awake()
     {
         if (Instance == null)
@@ -36,7 +38,7 @@ public class AStarPathFinding : MonoBehaviour
     }
     public void EnableGrid(Character character)
     {
-        currentGrid = GetWalkableTiles(character.initialPositionInGrid, character.statistics[Character.TypeStatistic.Spd].currentValue);
+        currentGrid = GetWalkableTiles(character.lastPositionInGrid, character.statistics[Character.TypeStatistic.Spd].currentValue);
         foreach (KeyValuePair<Vector3Int, GenerateMap.WalkablePositionInfo> cell in currentGrid)
         {
             cell.Value.blockInfo.blockGrid.SetActive(true);
@@ -44,6 +46,7 @@ public class AStarPathFinding : MonoBehaviour
     }
     public void DisableGrid()
     {
+        characterSelected = null;
         foreach (KeyValuePair<Vector3Int, GenerateMap.WalkablePositionInfo> cell in currentGrid)
         {
             cell.Value.blockInfo.blockGrid.SetActive(false);
@@ -100,6 +103,7 @@ public class AStarPathFinding : MonoBehaviour
                 }
                 else if (characterSelected && characterSelected.isCharacterPlayer)
                 {
+                    PlayerManager.Instance.actionsManager.AddAction(new ActionsManager.ActionInfo(characterSelected, ActionsManager.TypeAction.Move, pointerPos));
                     characterSelected.MoveCharacter(pointerPos);
                 }
                 else
@@ -121,6 +125,11 @@ public class AStarPathFinding : MonoBehaviour
                 }
                 else
                 {
+                    characterTest.gameObject.SetActive(true);
+                    characterSelected = characterTest;
+                    EnableGrid(characterSelected);
+                    grid[Vector3Int.zero].hasCharacter = characterTest;
+                    PlayerManager.Instance.actionsManager.AddAction(new ActionsManager.ActionInfo(characterTest, ActionsManager.TypeAction.Spawn, Vector3Int.zero));
                     print("Spawn encontrado yei");
                 }
             }
@@ -146,8 +155,6 @@ public class AStarPathFinding : MonoBehaviour
                 
                 if (GetHighestBlockAt(checkPos.x, checkPos.z, out GenerateMap.WalkablePositionInfo block) && block.pos.y <= characterSelected.GetMaxHeightToUp())
                 {
-                    Debug.Log($"Revisando {checkPos} -> Walkable:{block.isWalkable}, Ocuppied:{block.hasCharacter}");
-
                     if (block.isWalkable && !block.hasCharacter || block.isWalkable && block.hasCharacter && block.hasCharacter.isCharacterPlayer)
                     {
                         availablePositions.Add(block.pos, block);

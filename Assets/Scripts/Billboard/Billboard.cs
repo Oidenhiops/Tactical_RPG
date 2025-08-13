@@ -2,7 +2,7 @@ using UnityEngine;
 public class Billboard : MonoBehaviour
 {
     public Vector3 offsetRotation;
-    private void FixedUpdate()
+    private void LateUpdate()
     {
         if (Camera.main != null)
         {

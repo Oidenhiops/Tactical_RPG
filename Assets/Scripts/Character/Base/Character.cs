@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Character : MonoBehaviour
@@ -36,12 +37,25 @@ public class Character : MonoBehaviour
             }
         }
     }
+    public Vector3Int _nextDirection;
     public CharacterAnimation characterAnimations;
     public Vector3Int currentPositionInGrid;
-    public Vector3Int initialPositionInGrid;
+    public Vector3Int lastPositionInGrid;
     public void Start()
     {
         _ = InitializeCharacter();
+    }
+    public void OnEnable()
+    {
+        if (isInitialize) characterAnimations.MakeAnimation("Idle");
+    }
+    void LateUpdate()
+    {
+        CameraInfo.Instance.CamDirection(out Vector3 camForward, out Vector3 camRight);
+        Vector3 camRelativeDir = (_nextDirection.x * camRight + _nextDirection.z * camForward).normalized;
+        Vector3 movementDirection = new Vector3(camRelativeDir.x, 0, camRelativeDir.z).normalized;
+        direction = new Vector3Int(Mathf.RoundToInt(movementDirection.x), Mathf.RoundToInt(movementDirection.y), Mathf.RoundToInt(movementDirection.z));
+        ChangeDirectionModel();
     }
     public async Awaitable InitializeCharacter()
     {
@@ -80,39 +94,33 @@ public class Character : MonoBehaviour
         if (path != null && path.Count > 0)
         {
             AStarPathFinding.Instance.grid[currentPositionInGrid].hasCharacter = null;
+            if (isCharacterPlayer) PlayerManager.Instance.characterPlayerOnMove = true;
             AStarPathFinding.Instance.grid[targetPosition].hasCharacter = this;
             StartCoroutine(FollowPath(path));
         }
     }
     private IEnumerator FollowPath(List<Vector3Int> path)
     {
-        Vector3Int newDirection = Vector3Int.zero;
+        _nextDirection = Vector3Int.zero;
         characterAnimations.MakeAnimation("Walk");
         for (int i = 1; i < path.Count; i++)
         {
             if (path[i - 1].x == path[i].x)
             {
-                newDirection.x = path[i-1].z < path[i].z ? 1 : -1;
+                _nextDirection.x = path[i-1].z < path[i].z ? 1 : -1;
             }
             else
             {
-                newDirection.x = path[i-1].x < path[i].x ? -1 : 1;
+                _nextDirection.x = path[i-1].x < path[i].x ? -1 : 1;
             }
             if (path[i - 1].z == path[i].z)
             {
-                newDirection.z = path[i-1].x < path[i].x ? 1 : -1;
+                _nextDirection.z = path[i-1].x < path[i].x ? 1 : -1;
             }
             else
             {
-                newDirection.z = path[i-1].z < path[i].z ? 1 : -1;
+                _nextDirection.z = path[i-1].z < path[i].z ? 1 : -1;
             }
-
-            CameraInfo.Instance.CamDirection(out Vector3 camForward, out Vector3 camRight);
-            Vector3 camRelativeDir = (newDirection.x * camRight + newDirection.z * camForward).normalized;
-            Vector3 movementDirection = new Vector3(camRelativeDir.x, 0, camRelativeDir.z).normalized;
-
-            direction = new Vector3Int(Mathf.RoundToInt(movementDirection.x), Mathf.RoundToInt(movementDirection.y), Mathf.RoundToInt(movementDirection.z));
-            ChangeDirectionModel();
             if (path[i - 1].y != path[i].y)
             {
                 yield return StartCoroutine(JumpToPosition(path[i - 1], path[i], 1f));
@@ -123,7 +131,19 @@ public class Character : MonoBehaviour
             }
             currentPositionInGrid = path[i];
         }
-        characterAnimations.MakeAnimation("Idle");
+        if (isCharacterPlayer)
+        {
+            PlayerManager.Instance.characterPlayerOnMove = false;
+            if (currentPositionInGrid == Vector3Int.zero)
+            {
+                gameObject.SetActive(false);
+                AStarPathFinding.Instance.grid[Vector3Int.zero].hasCharacter = null;
+                PlayerManager.Instance.actionsManager.actions.Add(new ActionsManager.ActionInfo(this, ActionsManager.TypeAction.Despawn, currentPositionInGrid));
+                AStarPathFinding.Instance.DisableGrid();
+            }
+            else characterAnimations.MakeAnimation("Idle");
+        }
+        else characterAnimations.MakeAnimation("Idle");
     }
     void ChangeDirectionModel()
     {
