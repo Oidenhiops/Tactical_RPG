@@ -9,21 +9,9 @@ public class ManagementOpenCloseScene : MonoBehaviour
 {
     public Animator openCloseSceneAnimator;
     public bool _finishLoad;
-    public Action<bool>OnFinishLoadChange;
+    public Action OnFinishOpenAnimation;
     public float speedFill;
-    public GameObject[] characters;
-    public bool finishLoad
-    {
-        get => _finishLoad;
-        set
-        {
-            if (_finishLoad != value)
-            {
-                _finishLoad = value;
-                OnFinishLoadChange?.Invoke(_finishLoad);
-            }
-        }
-    }
+    public bool finishLoad;
     float _currentLoad = 0;
     public Image loaderImage;
     void Start()
@@ -93,9 +81,16 @@ public class ManagementOpenCloseScene : MonoBehaviour
                 }
             }
             openCloseSceneAnimator.SetBool("Out", false);
-            await Task.Delay(TimeSpan.FromSeconds(1));
+            while (true)
+            {
+                if (openCloseSceneAnimator.GetCurrentAnimatorStateInfo(0).IsName("OpenCloseSceneOpen") && openCloseSceneAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
+                {
+                    break;
+                }
+                await Task.Delay(TimeSpan.FromSeconds(0.05));
+            }
             loaderImage.fillAmount = 0;
-            GameManager.Instance.startGame = true;
+            OnFinishOpenAnimation?.Invoke();
         }
         catch (Exception e)
         {

@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour
     {
         SetInitialDevice();
         OnDeviceChanged += ValidateActiveMouse;
+        openCloseScene.OnFinishOpenAnimation += () => { startGame = true; };
         ValidateActiveMouse(principalDevice,currentDevice);
     }
     void LateUpdate()
@@ -249,6 +250,7 @@ public class GameManager : MonoBehaviour
         Reload = 4,
         Exit = 5,
         GameOverScene = 6,
+        Test = 7
     }
     public enum TypeDevice
     {

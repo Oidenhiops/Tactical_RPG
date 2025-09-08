@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -7,10 +6,7 @@ using UnityEngine.UI;
 public class OnObjectSelect : MonoBehaviour, ISelectHandler
 {
     public bool isDropDown;
-    public Toggle toggle;
-    public TMP_Dropdown dropdown;
     public DropdownSelected dropdownSelected;
-    public float marginToDetect = 5;
     public bool scrollByCode;
     public RectTransform item;
     public RectTransform viewport;
@@ -20,13 +16,9 @@ public class OnObjectSelect : MonoBehaviour, ISelectHandler
     float maxItemsInView;
     float itemsNonView;
     float sizeItemInViewport;
-    public static bool isInit = false;
-    void LateUpdate()
-    {
-        index = transform.GetSiblingIndex();
-    }
     public void OnSelect(BaseEventData eventData)
     {
+        index = transform.GetSiblingIndex();
         if (!scrollByCode)
         {
             if (isDropDown && dropdownSelected.isInit || !isDropDown) ScrollTo(index);
@@ -35,7 +27,7 @@ public class OnObjectSelect : MonoBehaviour, ISelectHandler
     public void ScrollTo(int pos)
     {
         int childCount = !isDropDown ? container.childCount : container.childCount - 1;
-        maxItemsInView = viewport.rect.height / item.rect.height;
+        maxItemsInView = Mathf.RoundToInt(viewport.rect.height / item.rect.height);
         itemsNonView = childCount - maxItemsInView;
         sizeItemInViewport = 1 / itemsNonView;
         if (!isDropDown && pos == 0 || isDropDown && pos == 1)
@@ -52,7 +44,7 @@ public class OnObjectSelect : MonoBehaviour, ISelectHandler
             {
                 scrollRect.verticalNormalizedPosition = 1 - sizeItemInViewport * (direction < 0 ? Mathf.Abs(index - maxItemsInView) : index - 1);
             }
-            else 
+            else
             {
                 scrollRect.verticalNormalizedPosition = 1 - sizeItemInViewport * (direction < 0 ? Mathf.Abs(index - (maxItemsInView - 1)) : index);
             }

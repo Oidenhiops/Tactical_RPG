@@ -1,50 +1,23 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using AYellowpaper.SerializedCollections;
-using Unity.VisualScripting;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-    public bool isCharacterPlayer;
     public bool isInitialize;
+    public bool isCharacterPlayer;
+    public TypeCharacter typeCharacter;
+    public InitialDataSO initialDataSO;
     public CharacterModel characterModel;
-    public SerializedDictionary<TypeStatistic, Statistic> statistics = new SerializedDictionary<TypeStatistic, Statistic>
-    {
-        {TypeStatistic.Hp, new Statistic{baseValue = 0, buffValue = 0, itemValue = 0, currentValue = 0, maxValue = 0}},
-        {TypeStatistic.Sp, new Statistic{baseValue = 0, buffValue = 0, itemValue = 0, currentValue = 0, maxValue = 0}},
-        {TypeStatistic.Atk, new Statistic{baseValue = 0, buffValue = 0, itemValue = 0, currentValue = 0, maxValue = 0}},
-        {TypeStatistic.Int, new Statistic{baseValue = 0, buffValue = 0, itemValue = 0, currentValue = 0, maxValue = 0}},
-        {TypeStatistic.Hit, new Statistic{baseValue = 0, buffValue = 0, itemValue = 0, currentValue = 0, maxValue = 0}},
-        {TypeStatistic.Def, new Statistic{baseValue = 0, buffValue = 0, itemValue = 0, currentValue = 0, maxValue = 0}},
-        {TypeStatistic.Res, new Statistic{baseValue = 0, buffValue = 0, itemValue = 0, currentValue = 0, maxValue = 0}},
-        {TypeStatistic.Spd, new Statistic{baseValue = 0, buffValue = 0, itemValue = 0, currentValue = 0, maxValue = 0}},
-        {TypeStatistic.Exp, new Statistic{baseValue = 0, buffValue = 0, itemValue = 0, currentValue = 0, maxValue = 0}},
-    };
-    public SerializedDictionary<string, CharacterItems> items = new SerializedDictionary<string, CharacterItems>();
-    public Vector3Int _direction;
-    public Action<Vector3Int> OnDirectionChange;
-    public Vector3Int direction
-    {
-        get => _direction;
-        set
-        {
-            if (_direction != value)
-            {
-                _direction = value;
-                OnDirectionChange?.Invoke(_direction);
-            }
-        }
-    }
+    public CharacterData characterData;
+    public Vector3Int direction = new Vector3Int();
     public Vector3Int _nextDirection;
     public CharacterAnimation characterAnimations;
-    public Vector3Int currentPositionInGrid;
-    public Vector3Int lastPositionInGrid;
-    public void Start()
-    {
-        _ = InitializeCharacter();
-    }
+    public Vector3Int positionInGrid;
+    public Vector3Int startPositionInGrid;
+    public ActionsManager.TypeAction lastAction;
     public void OnEnable()
     {
         if (isInitialize) characterAnimations.MakeAnimation("Idle");
@@ -61,6 +34,7 @@ public class Character : MonoBehaviour
     {
         try
         {
+            await InitializeCharacterData();
             await InitializeAnimations();
             isInitialize = true;
         }
@@ -70,11 +44,16 @@ public class Character : MonoBehaviour
             await Awaitable.NextFrameAsync();
         }
     }
+    async Awaitable InitializeCharacterData()
+    {
+        initialDataSO = GameData.Instance.charactersDataDBSO.data[characterData.id];
+        await Awaitable.NextFrameAsync();
+    }
     async Awaitable InitializeAnimations()
     {
         try
         {
-            characterAnimations.SetInitialData(ref characterModel.characterAnimations);
+            characterAnimations.SetInitialData(ref initialDataSO);
             await Awaitable.NextFrameAsync();
         }
         catch (Exception e)
@@ -83,43 +62,40 @@ public class Character : MonoBehaviour
             await Awaitable.NextFrameAsync();
         }
     }
-    public int GetMaxHeightToUp()
-    {
-        return Mathf.RoundToInt(transform.position.y) + 5;
-    }
     public void MoveCharacter(Vector3Int targetPosition)
     {
-        List<Vector3Int> path = AStarPathFinding.Instance.FindPath(currentPositionInGrid, targetPosition);
+        List<Vector3Int> path = AStarPathFinding.Instance.FindPath(positionInGrid, targetPosition);
 
         if (path != null && path.Count > 0)
         {
-            AStarPathFinding.Instance.grid[currentPositionInGrid].hasCharacter = null;
-            if (isCharacterPlayer) PlayerManager.Instance.characterPlayerOnMove = true;
+            AStarPathFinding.Instance.grid[path[0]].hasCharacter = null;
+            if (isCharacterPlayer) PlayerManager.Instance.characterPlayerMakingActions = true;
             AStarPathFinding.Instance.grid[targetPosition].hasCharacter = this;
             StartCoroutine(FollowPath(path));
         }
     }
     private IEnumerator FollowPath(List<Vector3Int> path)
     {
+        positionInGrid = path[path.Count - 1];
         _nextDirection = Vector3Int.zero;
         characterAnimations.MakeAnimation("Walk");
         for (int i = 1; i < path.Count; i++)
         {
             if (path[i - 1].x == path[i].x)
             {
-                _nextDirection.x = path[i-1].z < path[i].z ? 1 : -1;
+                _nextDirection.x = path[i - 1].z < path[i].z ? 1 : -1;
             }
             else
             {
-                _nextDirection.x = path[i-1].x < path[i].x ? -1 : 1;
+                _nextDirection.x = path[i - 1].x < path[i].x ? -1 : 1;
             }
             if (path[i - 1].z == path[i].z)
             {
-                _nextDirection.z = path[i-1].x < path[i].x ? 1 : -1;
+                _nextDirection.z = path[i - 1].x < path[i].x ? 1 : -1;
             }
             else
             {
-                _nextDirection.z = path[i-1].z < path[i].z ? 1 : -1;
+                _nextDirection.z = path[i - 1].z < path[i].z ? 1 : -1;
             }
             if (path[i - 1].y != path[i].y)
             {
@@ -129,19 +105,44 @@ public class Character : MonoBehaviour
             {
                 yield return StartCoroutine(MoveToPosition(path[i]));
             }
-            currentPositionInGrid = path[i];
         }
         if (isCharacterPlayer)
         {
-            PlayerManager.Instance.characterPlayerOnMove = false;
-            if (currentPositionInGrid == Vector3Int.zero)
+            PlayerManager.Instance.characterPlayerMakingActions = false;
+            if (positionInGrid == Vector3Int.zero)
             {
                 gameObject.SetActive(false);
+                AStarPathFinding.Instance.characterSelected = null;
                 AStarPathFinding.Instance.grid[Vector3Int.zero].hasCharacter = null;
-                PlayerManager.Instance.actionsManager.actions.Add(new ActionsManager.ActionInfo(this, ActionsManager.TypeAction.Despawn, currentPositionInGrid));
+                if (PlayerManager.Instance.actionsManager.characterActions.ContainsKey(this))
+                {
+                    PlayerManager.Instance.actionsManager.characterActions.Remove(this);
+                }
+                PlayerManager.Instance.menuCharacterSelector.amountCharacters++;
+                startPositionInGrid = Vector3Int.zero;
                 AStarPathFinding.Instance.DisableGrid();
             }
-            else characterAnimations.MakeAnimation("Idle");
+            else
+            {
+                if (PlayerManager.Instance.actionsManager.characterActions.TryGetValue(this, out List<ActionsManager.ActionInfo> actions))
+                {
+                    actions.Add(new ActionsManager.ActionInfo
+                    {
+                        character = this,
+                        typeAction = ActionsManager.TypeAction.Move,
+                        positionInGrid = path[0]
+                    });
+                }
+                else
+                {
+                    PlayerManager.Instance.actionsManager.characterActions.Add(this, new List<ActionsManager.ActionInfo> { new ActionsManager.ActionInfo{
+                        character = this,
+                        typeAction = ActionsManager.TypeAction.Move,
+                        positionInGrid = path[0]
+                    } });
+                }
+                characterAnimations.MakeAnimation("Idle");
+            }
         }
         else characterAnimations.MakeAnimation("Idle");
     }
@@ -164,59 +165,74 @@ public class Character : MonoBehaviour
         }
         transform.position = endPos;
     }
-private IEnumerator JumpToPosition(Vector3Int from, Vector3Int to, float duration)
-{
-    Vector3 startPos = new Vector3(from.x, from.y, from.z);
-    Vector3 endPos = new Vector3(to.x, to.y, to.z);
-    float elapsed = 0f;
-    float height = Mathf.Abs(to.y - from.y) * 0.5f + 0.5f;
-    while (elapsed < duration)
+    private IEnumerator JumpToPosition(Vector3Int from, Vector3Int to, float duration)
     {
-        float t = elapsed / duration;
-        Vector3 horizontal = Vector3.Lerp(startPos, endPos, t);
-        float baseY = Mathf.Lerp(startPos.y, endPos.y, t);
-        float parabola = 4 * height * t * (1 - t);
-        horizontal.y = baseY + parabola;
-        transform.position = horizontal;
-        elapsed += Time.deltaTime;
-        yield return null;
+        Vector3 startPos = new Vector3(from.x, from.y, from.z);
+        Vector3 endPos = new Vector3(to.x, to.y, to.z);
+        if (startPos.y > endPos.y)
+        {
+            Vector3 midPos = new Vector3(endPos.x, startPos.y, endPos.z);
+            yield return MakeParabola(startPos, midPos, duration);
+            yield return GoToHightPoint(midPos, endPos, duration);
+        }
+        else
+        {
+            Vector3 midPos = new Vector3(startPos.x, endPos.y, startPos.z);
+            yield return GoToHightPoint(startPos, endPos, duration);
+            yield return MakeParabola(midPos, endPos, duration);
+        }
+        transform.position = endPos;
     }
-    transform.position = endPos;
-}
-
-    [Serializable] public class Statistic
+    public IEnumerator GoToHightPoint(Vector3 startPos, Vector3 endPos, float duration)
     {
-        public int baseValue = 0;
-        public int itemValue = 0;
-        public int buffValue = 0;
-        public int maxValue = 0;
-        public int currentValue = 0;
+        float elapsed = 0f;
+        float halfDuration = duration * 0.5f;
+        while (elapsed < halfDuration)
+        {
+            float t = elapsed / halfDuration;
+            Vector3 pos = Vector3.Lerp(startPos,
+                new Vector3(startPos.x, endPos.y, startPos.z), t);
+            transform.position = pos;
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+    }
+    public IEnumerator MakeParabola(Vector3 startPos, Vector3 endPos, float duration)
+    {
+        float elapsed = 0f;
+        float halfDuration = duration * 0.5f;
+        while (elapsed < halfDuration)
+        {
+            float t = elapsed / halfDuration;
+            Vector3 horizontal = Vector3.Lerp(startPos, endPos, t);
+            float parabola = 4 * 1f * t * (1 - t);
+            horizontal.y += parabola;
+            transform.position = horizontal;
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+    }
+    public async Task MakeAttack()
+    {
+        await Awaitable.NextFrameAsync();
+    }
+    public async Task MakeSpecial()
+    {
+        await Awaitable.NextFrameAsync();
     }
     [Serializable] public class CharacterModel
     {
-        public string characterAnimationsId;
-        public CharacterAnimationsSO characterAnimations;
         public MeshRenderer characterMeshRenderer;
         public MeshRenderer characterMeshRendererHand;
         public Transform leftHand;
         public Transform rightHand;
         public Mesh originalMesh;
     }
-    [Serializable] public class CharacterItems
-    {
-        public string item;
-    }
-    public enum TypeStatistic
+    public enum TypeCharacter
     {
         None = 0,
-        Hp = 1,
-        Sp = 2,
-        Atk = 3,
-        Hit = 4,
-        Int = 5,
-        Def = 6,
-        Res = 7,
-        Spd = 8,
-        Exp = 9,
+        Character = 1,
+        GeoSymbol = 2,
+        Chest = 3
     }
 }

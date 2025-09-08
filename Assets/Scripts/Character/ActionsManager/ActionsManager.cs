@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,83 +8,232 @@ using UnityEngine.InputSystem;
 public class ActionsManager : MonoBehaviour
 {
     public PlayerManager playerManager;
-    public List<ActionInfo> actions;
+    public InputAction endTurnTest;
+    public SerializedDictionary<Character, List<ActionInfo>> characterActions = new SerializedDictionary<Character, List<ActionInfo>>();
+    public bool _isPlayerTurn;
+    public bool isPlayerTurn
+    {
+        get => _isPlayerTurn;
+        set
+        {
+            if (_isPlayerTurn != value)
+            {
+                _isPlayerTurn = value;
+                if (_isPlayerTurn)
+                {
+                    playerManager.canShowGridAndDecal = true;
+                    playerManager.EnableVisuals();
+                }
+            }
+        }
+    }
+    public bool isChangingTurn = false;
     void Start()
     {
         playerManager.characterActions.CharacterInputs.Back.started += OnUndoAction;
+        endTurnTest.Enable();
+        endTurnTest.started += OnEndTurnTest;
+    }
+    public void OnEndTurnTest(InputAction.CallbackContext context)
+    {
+        if (!isPlayerTurn) _ = EndTurn();
     }
     void OnUndoAction(InputAction.CallbackContext context)
     {
-        if (AStarPathFinding.Instance.characterSelected)
+        if (!isPlayerTurn) return;
+        if (playerManager.menuAllCharacters.menuAllCharacters.activeSelf)
         {
+            playerManager.menuAllCharacters.DisableMenu();
+        }
+        else if (playerManager.menuLiftCharacter.menuLiftCharacter.activeSelf)
+        {
+            playerManager.menuLiftCharacter.DisableMenu();
+        }
+        else if (playerManager.menuCharacterSelector.menuCharacterSelector.activeSelf)
+        {
+            playerManager.menuCharacterSelector.DisableMenu();
+        }
+        else if (playerManager.menuCharacterActions.menuCharacterActions.activeSelf)
+        {
+            playerManager.menuCharacterActions.DisableMenu();
+        }
+        else if (playerManager.menuGeneralActions.menuGeneralActions.activeSelf)
+        {
+            playerManager.menuGeneralActions.DisableMenu();
+        }
+        else if (playerManager.menuCharacterInfo.menuCharacterInfo.activeSelf)
+        {
+            playerManager.menuCharacterInfo.DisableMenu();
+        }
+        else if (playerManager.menuThrowCharacter.menuThrowCharacter.activeSelf)
+        {
+            playerManager.menuThrowCharacter.DisableMenuBack();
+        }
+        else if (AStarPathFinding.Instance.characterSelected)
+        {
+            AStarPathFinding.Instance.characterSelected = null;
             AStarPathFinding.Instance.DisableGrid();
         }
-        else if (actions.Count > 0)
+        else if (
+            AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)].hasCharacter != null &&
+            characterActions.TryGetValue(AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)].hasCharacter, out List<ActionInfo> actions))
         {
             switch (actions[actions.Count - 1].typeAction)
             {
                 case TypeAction.Move:
-                    AStarPathFinding.Instance.grid[actions[actions.Count - 1].positionInGrid].hasCharacter = null;
-                    actions.RemoveAt(actions.Count - 1);
-                    AStarPathFinding.Instance.grid[actions[actions.Count - 1].positionInGrid].hasCharacter = actions[actions.Count - 1].character;
-                    actions[actions.Count - 1].character.transform.position = actions[actions.Count - 1].positionInGrid;
-                    actions[actions.Count - 1].character.currentPositionInGrid = actions[actions.Count - 1].positionInGrid;
-                    break;
-                case TypeAction.Spawn:
-                    AStarPathFinding.Instance.grid[Vector3Int.zero].hasCharacter = null;
-                    
-                    AStarPathFinding.Instance.DisableGrid();
-                    actions[actions.Count - 1].character.gameObject.SetActive(false);
-                    actions.RemoveAt(actions.Count - 1);
-                    break;
-                case TypeAction.Despawn:
-                    actions[actions.Count - 1].character.gameObject.SetActive(true);
-                    actions.RemoveAt(actions.Count - 1);
-                    if (actions[actions.Count - 1].typeAction == TypeAction.Move)
+                    if (AStarPathFinding.Instance.grid[actions[actions.Count - 1].positionInGrid].hasCharacter == null)
                     {
-                        AStarPathFinding.Instance.grid[actions[actions.Count - 1].positionInGrid].hasCharacter = actions[actions.Count - 1].character;
+                        AStarPathFinding.Instance.grid[actions[actions.Count - 1].character.positionInGrid].hasCharacter = null;
                         actions[actions.Count - 1].character.transform.position = actions[actions.Count - 1].positionInGrid;
-                        actions[actions.Count - 1].character.currentPositionInGrid = actions[actions.Count - 1].positionInGrid;
+                        StartCoroutine(playerManager.MovePointerTo(actions[actions.Count - 1].positionInGrid));
+                        if (actions[actions.Count - 1].positionInGrid == Vector3Int.zero)
+                        {
+                            playerManager.menuCharacterSelector.amountCharacters++;
+                            actions[actions.Count - 1].character.positionInGrid = Vector3Int.zero;
+                            actions[actions.Count - 1].character.gameObject.SetActive(false);
+                            characterActions.Remove(actions[actions.Count - 1].character);
+                        }
+                        else
+                        {
+                            AStarPathFinding.Instance.grid[actions[actions.Count - 1].positionInGrid].hasCharacter = actions[actions.Count - 1].character;
+                            actions[actions.Count - 1].character.positionInGrid = actions[actions.Count - 1].positionInGrid;
+                            if (actions.Count > 1)
+                            {
+                                actions.RemoveAt(actions.Count - 1);
+                            }
+                            else
+                            {
+                                characterActions.Remove(actions[actions.Count - 1].character);
+                            }
+                        }
+                    }
+                    else if (actions[actions.Count - 1].positionInGrid == Vector3Int.zero)
+                    {
+                        AStarPathFinding.Instance.grid[actions[actions.Count - 1].character.positionInGrid].hasCharacter = null;
+                        actions[actions.Count - 1].character.positionInGrid = Vector3Int.zero;
+                        playerManager.menuCharacterSelector.amountCharacters++;
+                        StartCoroutine(playerManager.MovePointerTo(actions[actions.Count - 1].positionInGrid));
+                        actions[actions.Count - 1].character.gameObject.SetActive(false);
+                        characterActions.Remove(actions[actions.Count - 1].character);
+                    }
+                    break;
+                case TypeAction.Defend:
+                    actions[actions.Count - 1].character.lastAction = TypeAction.None;
+                    actions[actions.Count - 1].character.characterData.statistics[CharacterData.TypeStatistic.Def].buffValue -= 50;
+                    actions[actions.Count - 1].character.characterData.statistics[CharacterData.TypeStatistic.Def].RefreshValue();
+                    actions[actions.Count - 1].character.characterData.statistics[CharacterData.TypeStatistic.Def].SetMaxValue();
+                    actions.RemoveAt(actions.Count - 1);
+                    if (actions.Count == 0) characterActions.Remove(actions[actions.Count - 1].character);
+                    break;
+                case TypeAction.Lift:
+                    if (!AStarPathFinding.Instance.grid[actions[actions.Count - 1].otherCharacterInfo[0].positionInGrid].hasCharacter)
+                    {
+                        actions[actions.Count - 1].character.lastAction = TypeAction.None;
+                        actions[actions.Count - 1].otherCharacterInfo[0].character.transform.SetParent(null);
+                        actions[actions.Count - 1].otherCharacterInfo[0].character.transform.position = actions[actions.Count - 1].otherCharacterInfo[0].positionInGrid;
+                        AStarPathFinding.Instance.grid[actions[actions.Count - 1].otherCharacterInfo[0].positionInGrid].hasCharacter = actions[actions.Count - 1].otherCharacterInfo[0].character;
+                        actions.RemoveAt(actions.Count - 1);
+                        if (actions.Count == 0) characterActions.Remove(actions[actions.Count - 1].character);
                     }
                     break;
             }
         }
-    }
-    void ReposPlayerUndoMove()
-    {
-        
-    }
-    public void AddAction(ActionInfo actionInfo)
-    {
-        actions.Add(actionInfo);
-    }
-    public bool MoveActionExist(Character character)
-    {
-        foreach (ActionInfo action in actions)
+        else
         {
-            if (action.character == character && action.typeAction == TypeAction.Move) return true;
+            if (AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)].hasCharacter &&
+                Vector3Int.RoundToInt(AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)].hasCharacter.transform.position) == Vector3Int.zero)
+            {
+                playerManager.menuCharacterSelector.amountCharacters++;
+                AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)].hasCharacter.gameObject.SetActive(false);
+                AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)].hasCharacter = null;
+            }
         }
-        return false;
     }
-    [Serializable]
-    public class ActionInfo
+    public ActionInfo GetLastActionByCharacter(Character character)
+    {
+        return characterActions[character][characterActions[character].Count - 1];
+    }
+    public async Task MakeActions()
+    {
+        foreach (KeyValuePair<Character, List<ActionInfo>> actions in characterActions)
+        {
+            actions.Key.lastAction = TypeAction.EndTurn;
+            switch (actions.Value[actions.Value.Count - 1].typeAction)
+            {
+                case TypeAction.Attack:
+                    await Awaitable.NextFrameAsync();
+                    break;
+                case TypeAction.Special:
+                    await Awaitable.NextFrameAsync();
+                    break;
+            }
+        }
+        await Awaitable.NextFrameAsync();
+    }
+    public async Task EndTurn()
+    {
+        isChangingTurn = true;
+        AStarPathFinding.Instance.characterSelected = null;
+        await MakeActions();
+        foreach (KeyValuePair<Character, List<ActionInfo>> actions in characterActions)
+        {
+            actions.Key.startPositionInGrid = actions.Key.positionInGrid;
+            actions.Key.lastAction = TypeAction.None;
+            actions.Key.lastAction = TypeAction.None;
+        }
+        characterActions = new SerializedDictionary<Character, List<ActionInfo>>();
+        await ChangeRoundState();
+    }
+    public async Task ChangeRoundState()
+    {
+        await playerManager.ChangeRoundState(!isChangingTurn ? isPlayerTurn ? 21 : 22 : !isPlayerTurn ? 21 : 22);
+        isChangingTurn = false;
+    }
+    public void AttackOrSpecialActionExist(out bool attackActionExist, out bool specialActionExist)
+    {
+        attackActionExist = false;
+        specialActionExist = false;
+
+        foreach (KeyValuePair<Character, List<ActionInfo>> action in characterActions)
+        {
+            if (action.Value[action.Value.Count - 1].typeAction == TypeAction.Attack) attackActionExist = true;
+            if (action.Value[action.Value.Count - 1].typeAction == TypeAction.Special) specialActionExist = true;
+        }
+    }
+    [Serializable] public class ActionInfo
     {
         public Character character;
+        public List<OtherCharacterInfo> otherCharacterInfo;
         public TypeAction typeAction;
         public Vector3Int positionInGrid;
-        public ActionInfo(Character character, TypeAction typeAction, Vector3Int positionInGrid)
+        public ActionInfo(Character character = null, List<OtherCharacterInfo> otherCharacterInfo = null, TypeAction typeAction = TypeAction.None, Vector3Int positionInGrid = default)
         {
             this.character = character;
+            this.otherCharacterInfo = otherCharacterInfo;
             this.typeAction = typeAction;
+            this.positionInGrid = positionInGrid;
+        }
+    }
+    [Serializable] public class OtherCharacterInfo
+    {
+        public Character character;
+        public Vector3Int positionInGrid;
+        public OtherCharacterInfo(Character character, Vector3Int positionInGrid)
+        {
+            this.character = character;
             this.positionInGrid = positionInGrid;
         }
     }
     public enum TypeAction
     {
         None = 0,
-        Spawn = 1,
-        Despawn = 2,
-        Move = 3,
-        Attack = 4,
+        Move = 1,
+        Attack = 2,
+        Special = 3,
+        Defend = 4,
+        Lift = 5,
+        Throwing = 6,
+        Item = 7,
+        EndTurn = 8
     }
 }

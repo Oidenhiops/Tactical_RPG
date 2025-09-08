@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System;
 using AYellowpaper.SerializedCollections;
+using UnityEngine.SceneManagement;
 
 public class GameData : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class GameData : MonoBehaviour
     public SaveData saveData = new SaveData();
     public SystemData systemData = new SystemData();
     public InitialBGMSoundsConfigSO initialBGMSoundsConfigSO;
+    public CharacterDataDBSO charactersDataDBSO;
     public Dictionary<TypeLOCS, List<string[]>> locs = new Dictionary<TypeLOCS, List<string[]>>();
     void Awake()
     {
@@ -49,7 +51,7 @@ public class GameData : MonoBehaviour
 
     private void InitializeBGM()
     {
-        if (saveData.bgmSceneData.TryGetValue("HomeScene", out InitialBGMSoundsConfigSO.BGMScenesData bgmScenesData))
+        if (saveData.bgmSceneData.TryGetValue(SceneManager.GetActiveScene().name, out InitialBGMSoundsConfigSO.BGMScenesData bgmScenesData))
         {
             AudioManager.Instance.ChangeBGM(bgmScenesData);
         }
@@ -76,10 +78,10 @@ public class GameData : MonoBehaviour
             Debug.LogError("No se encontro el archivo LOC_System");
         }
     }
-    List<String[]> TransformCSV(TextAsset textAsset)
+    List<string[]> TransformCSV(TextAsset textAsset)
     {
         string[] lines = textAsset.text.Split('\n');
-        List<String[]> textData = new List<string[]>();
+        List<string[]> textData = new List<string[]>();
         foreach (string line in lines)
         {
             string[] columns = line.Split(';');
@@ -164,12 +166,32 @@ public class GameData : MonoBehaviour
         dataInfo.configurationsInfo.currentLanguage = TypeLanguage.English;
         SetStartingDataSound(ref dataInfo);
         GetInitialConfigBGMS(ref dataInfo);
+        SetStartingCharacter(ref dataInfo);
         GetAllResolutions();
         if (GameManager.Instance.currentDevice == GameManager.TypeDevice.PC) SetStartingResolution(ref dataInfo);
         saveData = dataInfo;
         SaveGameData();
     }
-
+    public void SetStartingCharacter(ref SaveData dataInfo)
+    {
+        for (int i = 0; i < 20; i++)
+        {
+            CharacterData character = new CharacterData
+            {
+                id = 0,
+                name = "Oiden " + i,
+                level = 1,
+            };
+            character.statistics = charactersDataDBSO.data[character.id].CloneStatistics();
+            foreach (KeyValuePair<CharacterData.TypeStatistic, CharacterData.Statistic> statistic in character.statistics)
+            {
+                statistic.Value.baseValue = i;
+                statistic.Value.RefreshValue();
+                statistic.Value.SetMaxValue();
+            }
+            dataInfo.characters.Add(character);
+        }
+    }
     private void GetInitialConfigBGMS(ref SaveData dataInfo)
     {
         dataInfo.bgmSceneData = initialBGMSoundsConfigSO.Clone();
@@ -189,6 +211,7 @@ public class GameData : MonoBehaviour
             systemData.allResolutions[0].width,
             systemData.allResolutions[0].height);
     }
+    [NaughtyAttributes.Button]
     public void SaveGameData()
     {
         WriteDataToJson();
@@ -234,6 +257,7 @@ public class GameData : MonoBehaviour
     }
     [Serializable] public class SaveData
     {
+        public List<CharacterData> characters = new List<CharacterData>();
         public ConfigurationsInfo configurationsInfo = new ConfigurationsInfo();
         public SerializedDictionary<string, InitialBGMSoundsConfigSO.BGMScenesData> bgmSceneData = new SerializedDictionary<string, InitialBGMSoundsConfigSO.BGMScenesData>();
     }

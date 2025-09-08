@@ -12,17 +12,83 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3045136b1a397b44aa70db0fd92f782, type: 3}
   m_Name: Warrior
   m_EditorClassIdentifier: 
+  isHumanoid: 1
   atlas: {fileID: 2800000, guid: 28ba607fe7aaf0248a6d0c1da3c60b3d, type: 3}
   atlasHands: {fileID: 2800000, guid: 4065f90a94fe85e44a5e6838f5cc4fd8, type: 3}
+  icon: {fileID: 998277421, guid: 5ad2e935482f278468588df16e4f60b8, type: 3}
+  initialStats:
+    _serializedList:
+    - Key: 1
+      Value:
+        baseValue: 0
+        itemValue: 0
+        buffValue: 0
+        currentValue: 0
+        maxValue: 0
+    - Key: 2
+      Value:
+        baseValue: 0
+        itemValue: 0
+        buffValue: 0
+        currentValue: 0
+        maxValue: 0
+    - Key: 3
+      Value:
+        baseValue: 0
+        itemValue: 0
+        buffValue: 0
+        currentValue: 0
+        maxValue: 0
+    - Key: 4
+      Value:
+        baseValue: 0
+        itemValue: 0
+        buffValue: 0
+        currentValue: 0
+        maxValue: 0
+    - Key: 5
+      Value:
+        baseValue: 0
+        itemValue: 0
+        buffValue: 0
+        currentValue: 0
+        maxValue: 0
+    - Key: 6
+      Value:
+        baseValue: 0
+        itemValue: 0
+        buffValue: 0
+        currentValue: 0
+        maxValue: 0
+    - Key: 7
+      Value:
+        baseValue: 0
+        itemValue: 0
+        buffValue: 0
+        currentValue: 0
+        maxValue: 0
+    - Key: 8
+      Value:
+        baseValue: 0
+        itemValue: 0
+        buffValue: 0
+        currentValue: 0
+        maxValue: 0
+    - Key: 9
+      Value:
+        baseValue: 0
+        itemValue: 0
+        buffValue: 0
+        currentValue: 19
+        maxValue: 0
   animations:
     _serializedList:
     - Key: Idle
       Value:
+        name: Idle
         linkAnimation: 
         spritesInfoDown:
         - characterSprite: {fileID: -591894429, guid: 28ba607fe7aaf0248a6d0c1da3c60b3d,
-            type: 3}
-          handSprite: {fileID: 835837219, guid: 4065f90a94fe85e44a5e6838f5cc4fd8,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -32,8 +98,6 @@ MonoBehaviour:
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
         - characterSprite: {fileID: 1259441725, guid: 28ba607fe7aaf0248a6d0c1da3c60b3d,
             type: 3}
-          handSprite: {fileID: -301336589, guid: 4065f90a94fe85e44a5e6838f5cc4fd8,
-            type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
           leftHandRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -42,8 +106,6 @@ MonoBehaviour:
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
         - characterSprite: {fileID: 178016035, guid: 28ba607fe7aaf0248a6d0c1da3c60b3d,
             type: 3}
-          handSprite: {fileID: 1671384185, guid: 4065f90a94fe85e44a5e6838f5cc4fd8,
-            type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
           leftHandRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -51,8 +113,6 @@ MonoBehaviour:
           rightHandPosDR: {x: 0.1404, y: -0.06239998, z: 0.02}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
         - characterSprite: {fileID: -1016933618, guid: 28ba607fe7aaf0248a6d0c1da3c60b3d,
-            type: 3}
-          handSprite: {fileID: 1232849867, guid: 4065f90a94fe85e44a5e6838f5cc4fd8,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -63,8 +123,6 @@ MonoBehaviour:
         spritesInfoUp:
         - characterSprite: {fileID: -481393877, guid: 28ba607fe7aaf0248a6d0c1da3c60b3d,
             type: 3}
-          handSprite: {fileID: 1659210100, guid: 4065f90a94fe85e44a5e6838f5cc4fd8,
-            type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
           leftHandRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -72,8 +130,6 @@ MonoBehaviour:
           rightHandPosDR: {x: 0.1248, y: -0.07799995, z: 0.02}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
         - characterSprite: {fileID: 1751723056, guid: 28ba607fe7aaf0248a6d0c1da3c60b3d,
-            type: 3}
-          handSprite: {fileID: -605552125, guid: 4065f90a94fe85e44a5e6838f5cc4fd8,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -83,8 +139,6 @@ MonoBehaviour:
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
         - characterSprite: {fileID: -819064214, guid: 28ba607fe7aaf0248a6d0c1da3c60b3d,
             type: 3}
-          handSprite: {fileID: 1119474163, guid: 4065f90a94fe85e44a5e6838f5cc4fd8,
-            type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
           leftHandRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -92,8 +146,6 @@ MonoBehaviour:
           rightHandPosDR: {x: 0.1404, y: -0.1091999, z: 0.02}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
         - characterSprite: {fileID: -41787750, guid: 28ba607fe7aaf0248a6d0c1da3c60b3d,
-            type: 3}
-          handSprite: {fileID: -1385839919, guid: 4065f90a94fe85e44a5e6838f5cc4fd8,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -108,11 +160,10 @@ MonoBehaviour:
         instance: {fileID: 0}
     - Key: Walk
       Value:
+        name: Walk
         linkAnimation: 
         spritesInfoDown:
         - characterSprite: {fileID: 155459562, guid: 28ba607fe7aaf0248a6d0c1da3c60b3d,
-            type: 3}
-          handSprite: {fileID: -616452168, guid: 4065f90a94fe85e44a5e6838f5cc4fd8,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -122,8 +173,6 @@ MonoBehaviour:
           rightHandRotation: {x: 0, y: 0, z: 0.9238795, w: 0.38268343}
         - characterSprite: {fileID: -2122074000, guid: 28ba607fe7aaf0248a6d0c1da3c60b3d,
             type: 3}
-          handSprite: {fileID: 2118534392, guid: 4065f90a94fe85e44a5e6838f5cc4fd8,
-            type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
           leftHandRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -132,7 +181,6 @@ MonoBehaviour:
           rightHandRotation: {x: 0, y: 0, z: 0.86602545, w: 0.49999997}
         - characterSprite: {fileID: -1948173097, guid: 28ba607fe7aaf0248a6d0c1da3c60b3d,
             type: 3}
-          handSprite: {fileID: 51383112, guid: 4065f90a94fe85e44a5e6838f5cc4fd8, type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
           leftHandRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -140,8 +188,6 @@ MonoBehaviour:
           rightHandPosDR: {x: 0.05204309, y: -0.1640751, z: 0.02}
           rightHandRotation: {x: 0, y: 0, z: 0.7933533, w: 0.6087614}
         - characterSprite: {fileID: 1938425958, guid: 28ba607fe7aaf0248a6d0c1da3c60b3d,
-            type: 3}
-          handSprite: {fileID: 1634350544, guid: 4065f90a94fe85e44a5e6838f5cc4fd8,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -151,8 +197,6 @@ MonoBehaviour:
           rightHandRotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
         - characterSprite: {fileID: 2115231821, guid: 28ba607fe7aaf0248a6d0c1da3c60b3d,
             type: 3}
-          handSprite: {fileID: -1517055755, guid: 4065f90a94fe85e44a5e6838f5cc4fd8,
-            type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
           leftHandRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -160,8 +204,6 @@ MonoBehaviour:
           rightHandPosDR: {x: 0.1212, y: -0.1253657, z: 0.02}
           rightHandRotation: {x: 0, y: 0, z: 0.81915206, w: 0.57357645}
         - characterSprite: {fileID: 222247794, guid: 28ba607fe7aaf0248a6d0c1da3c60b3d,
-            type: 3}
-          handSprite: {fileID: 164391383, guid: 4065f90a94fe85e44a5e6838f5cc4fd8,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -172,8 +214,6 @@ MonoBehaviour:
         spritesInfoUp:
         - characterSprite: {fileID: 131446786, guid: 28ba607fe7aaf0248a6d0c1da3c60b3d,
             type: 3}
-          handSprite: {fileID: 1326681474, guid: 4065f90a94fe85e44a5e6838f5cc4fd8,
-            type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
           leftHandRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -182,7 +222,6 @@ MonoBehaviour:
           rightHandRotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
         - characterSprite: {fileID: 355793009, guid: 28ba607fe7aaf0248a6d0c1da3c60b3d,
             type: 3}
-          handSprite: {fileID: 42842390, guid: 4065f90a94fe85e44a5e6838f5cc4fd8, type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
           leftHandRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -190,8 +229,6 @@ MonoBehaviour:
           rightHandPosDR: {x: 0.1630627, y: -0.05538666, z: 0.02}
           rightHandRotation: {x: 0, y: 0, z: 0.89687276, w: 0.44228867}
         - characterSprite: {fileID: 243173426, guid: 28ba607fe7aaf0248a6d0c1da3c60b3d,
-            type: 3}
-          handSprite: {fileID: 1347892054, guid: 4065f90a94fe85e44a5e6838f5cc4fd8,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -201,8 +238,6 @@ MonoBehaviour:
           rightHandRotation: {x: 0, y: 0, z: 0.9238795, w: 0.38268343}
         - characterSprite: {fileID: -1239089396, guid: 28ba607fe7aaf0248a6d0c1da3c60b3d,
             type: 3}
-          handSprite: {fileID: -1509428693, guid: 4065f90a94fe85e44a5e6838f5cc4fd8,
-            type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
           leftHandRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -210,8 +245,6 @@ MonoBehaviour:
           rightHandPosDR: {x: 0.1342737, y: -0.06977749, z: 0.02}
           rightHandRotation: {x: 0, y: 0, z: 0.89687276, w: 0.44228867}
         - characterSprite: {fileID: -1051662834, guid: 28ba607fe7aaf0248a6d0c1da3c60b3d,
-            type: 3}
-          handSprite: {fileID: -1079103000, guid: 4065f90a94fe85e44a5e6838f5cc4fd8,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -221,14 +254,66 @@ MonoBehaviour:
           rightHandRotation: {x: 0, y: 0, z: 0.8314696, w: 0.55557024}
         - characterSprite: {fileID: -1897302549, guid: 28ba607fe7aaf0248a6d0c1da3c60b3d,
             type: 3}
-          handSprite: {fileID: -118135693, guid: 4065f90a94fe85e44a5e6838f5cc4fd8,
-            type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
           leftHandRotation: {x: 0, y: 0, z: 0, w: 0}
           rightHandPosDL: {x: 0.0590491, y: -0.08782589, z: 0}
           rightHandPosDR: {x: 0.0590491, y: -0.08782589, z: 0.02}
           rightHandRotation: {x: 0, y: 0, z: 0.7518398, w: 0.6593458}
+        loop: 1
+        needInstance: 0
+        frameToInstance: 0
+        instanceObj: {fileID: 0}
+        instance: {fileID: 0}
+    - Key: Lift
+      Value:
+        name: Lift
+        linkAnimation: 
+        spritesInfoDown:
+        - characterSprite: {fileID: -1068310653, guid: 28ba607fe7aaf0248a6d0c1da3c60b3d,
+            type: 3}
+          leftHandPosDL: {x: 0, y: 0, z: 0}
+          leftHandPosDR: {x: 0, y: 0, z: 0}
+          leftHandRotation: {x: 0, y: 0, z: 0, w: 0}
+          rightHandPosDL: {x: 0, y: 0, z: 0}
+          rightHandPosDR: {x: 0, y: 0, z: 0}
+          rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
+        spritesInfoUp:
+        - characterSprite: {fileID: 439366908, guid: 28ba607fe7aaf0248a6d0c1da3c60b3d,
+            type: 3}
+          leftHandPosDL: {x: 0, y: 0, z: 0}
+          leftHandPosDR: {x: 0, y: 0, z: 0}
+          leftHandRotation: {x: 0, y: 0, z: 0, w: 0}
+          rightHandPosDL: {x: 0, y: 0, z: 0}
+          rightHandPosDR: {x: 0, y: 0, z: 0}
+          rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
+        loop: 1
+        needInstance: 0
+        frameToInstance: 0
+        instanceObj: {fileID: 0}
+        instance: {fileID: 0}
+    - Key: Lifted
+      Value:
+        name: Lifted
+        linkAnimation: 
+        spritesInfoDown:
+        - characterSprite: {fileID: -1263324298, guid: 28ba607fe7aaf0248a6d0c1da3c60b3d,
+            type: 3}
+          leftHandPosDL: {x: 0, y: 0, z: 0}
+          leftHandPosDR: {x: 0, y: 0, z: 0}
+          leftHandRotation: {x: 0, y: 0, z: 0, w: 0}
+          rightHandPosDL: {x: 0, y: 0, z: 0}
+          rightHandPosDR: {x: 0, y: 0, z: 0}
+          rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
+        spritesInfoUp:
+        - characterSprite: {fileID: 259822986, guid: 28ba607fe7aaf0248a6d0c1da3c60b3d,
+            type: 3}
+          leftHandPosDL: {x: 0, y: 0, z: 0}
+          leftHandPosDR: {x: 0, y: 0, z: 0}
+          leftHandRotation: {x: 0, y: 0, z: 0, w: 0}
+          rightHandPosDL: {x: 0, y: 0, z: 0}
+          rightHandPosDR: {x: 0, y: 0, z: 0}
+          rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
         loop: 1
         needInstance: 0
         frameToInstance: 0
