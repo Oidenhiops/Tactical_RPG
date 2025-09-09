@@ -41,6 +41,17 @@ public class MenuThrowCharacter : MonoBehaviour
     IEnumerator ThrowCharacterToPosition(Vector3 from, Vector3 to, Character character, float duration)
     {
         AStarPathFinding.Instance.DisableGrid();
+        AStarPathFinding.Instance.characterSelected.characterAnimations.MakeAnimation("Throw");
+        while (true)
+        {
+            if (AStarPathFinding.Instance.characterSelected.characterAnimations.currentAnimation.name == "Throw" &&
+                AStarPathFinding.Instance.characterSelected.characterAnimations.currentSpriteIndex == 
+                AStarPathFinding.Instance.characterSelected.characterAnimations.currentAnimation.frameToInstance)
+            {
+                break;
+            }
+            yield return null;
+        }
         isThrowingCharacter = true;
         Vector3 startPos = new Vector3(from.x, from.y, from.z);
         Vector3 endPos = new Vector3(to.x, to.y, to.z);
@@ -58,7 +69,10 @@ public class MenuThrowCharacter : MonoBehaviour
             yield return null;
         }
         character.transform.position = endPos;
-        character.characterAnimations.MakeAnimation("Idle");
+        if (character.characterAnimations.currentAnimation.name != "Lift")
+        {
+            character.characterAnimations.MakeAnimation("Idle");
+        }
         isThrowingCharacter = false;
         AStarPathFinding.Instance.characterSelected.lastAction = ActionsManager.TypeAction.EndTurn;
         if (playerManager.actionsManager.characterActions.TryGetValue(AStarPathFinding.Instance.characterSelected, out List<ActionsManager.ActionInfo> actions))
