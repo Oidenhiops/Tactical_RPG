@@ -120,9 +120,6 @@ public class ActionsManager : MonoBehaviour
                     break;
                 case TypeAction.Defend:
                     actions[actions.Count - 1].character.lastAction = TypeAction.None;
-                    actions[actions.Count - 1].character.characterData.statistics[CharacterData.TypeStatistic.Def].buffValue -= 50;
-                    actions[actions.Count - 1].character.characterData.statistics[CharacterData.TypeStatistic.Def].RefreshValue();
-                    actions[actions.Count - 1].character.characterData.statistics[CharacterData.TypeStatistic.Def].SetMaxValue();
                     actions.RemoveAt(actions.Count - 1);
                     if (actions.Count == 0) characterActions.Remove(actions[actions.Count - 1].character);
                     break;
@@ -169,6 +166,10 @@ public class ActionsManager : MonoBehaviour
                 case TypeAction.Special:
                     await Awaitable.NextFrameAsync();
                     break;
+                case TypeAction.Defend:
+                    DefendAction(actions.Key);
+                    await Awaitable.NextFrameAsync();
+                    break;
             }
         }
         await Awaitable.NextFrameAsync();
@@ -186,6 +187,12 @@ public class ActionsManager : MonoBehaviour
         }
         characterActions = new SerializedDictionary<Character, List<ActionInfo>>();
         await ChangeRoundState();
+    }
+    public void DefendAction(Character character)
+    {
+        character.characterData.statistics[CharacterData.TypeStatistic.Def].buffValue += 50;
+        character.characterData.statistics[CharacterData.TypeStatistic.Def].RefreshValue();
+        character.characterData.statistics[CharacterData.TypeStatistic.Def].SetMaxValue();
     }
     public async Task ChangeRoundState()
     {

@@ -124,8 +124,21 @@ public class MenuThrowCharacter : MonoBehaviour
             {
                 CancelCharacterActions(actions[actions.Count - 1].otherCharacterInfo[0].character);
             }
-            actions[actions.Count - 1].cantUndo = true;
-            actions[actions.Count - 1].otherCharacterInfo = new List<ActionsManager.OtherCharacterInfo>();
+            if (actions[actions.Count - 1].typeAction == ActionsManager.TypeAction.Lift)
+            {
+                actions[actions.Count - 1].cantUndo = true;
+                actions[actions.Count - 1].otherCharacterInfo = new List<ActionsManager.OtherCharacterInfo>();
+            }
+            else
+            {
+                PlayerManager.Instance.actionsManager.characterActions[character].Add(new ActionsManager.ActionInfo
+                {
+                    cantUndo = true,
+                    character = character,
+                    typeAction = ActionsManager.TypeAction.Throwing,
+                    positionInGrid = Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)
+                });
+            }
         }
     }
 }

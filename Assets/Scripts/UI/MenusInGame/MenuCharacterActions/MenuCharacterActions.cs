@@ -125,31 +125,7 @@ public class MenuCharacterActions : MonoBehaviour
     {
         if (isMenuActive)
         {
-            if (PlayerManager.Instance.actionsManager.characterActions.TryGetValue(AStarPathFinding.Instance.characterSelected, out List<ActionsManager.ActionInfo> actions))
-            {
-                actions.Add(new ActionsManager.ActionInfo
-                {
-                    character = AStarPathFinding.Instance.characterSelected,
-                    typeAction = ActionsManager.TypeAction.Defend,
-                });
-            }
-            else
-            {
-                PlayerManager.Instance.actionsManager.characterActions.Add(
-                    AStarPathFinding.Instance.characterSelected,
-                    new List<ActionsManager.ActionInfo> {
-                    new ActionsManager.ActionInfo{
-                        character = AStarPathFinding.Instance.characterSelected,
-                        typeAction = ActionsManager.TypeAction.Defend,
-                    }
-                    }
-                );
-            }
-            AStarPathFinding.Instance.characterSelected.characterData.statistics[CharacterData.TypeStatistic.Def].buffValue += 50;
-            AStarPathFinding.Instance.characterSelected.characterData.statistics[CharacterData.TypeStatistic.Def].RefreshValue();
-            AStarPathFinding.Instance.characterSelected.characterData.statistics[CharacterData.TypeStatistic.Def].SetMaxValue();
             AStarPathFinding.Instance.characterSelected.lastAction = ActionsManager.TypeAction.Defend;
-            DisableMenu();
         }
     }
     public void HandleLift()
