@@ -78,6 +78,7 @@ public class ActionsManager : MonoBehaviour
             AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)].hasCharacter != null &&
             characterActions.TryGetValue(AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)].hasCharacter, out List<ActionInfo> actions))
         {
+            if (actions[actions.Count - 1].cantUndo) return;
             switch (actions[actions.Count - 1].typeAction)
             {
                 case TypeAction.Move:
@@ -129,7 +130,9 @@ public class ActionsManager : MonoBehaviour
                     if (!AStarPathFinding.Instance.grid[actions[actions.Count - 1].otherCharacterInfo[0].positionInGrid].hasCharacter)
                     {
                         actions[actions.Count - 1].character.lastAction = TypeAction.None;
+                        actions[actions.Count - 1].character.characterAnimations.MakeAnimation("Idle");
                         actions[actions.Count - 1].otherCharacterInfo[0].character.transform.SetParent(null);
+                        if (actions[actions.Count - 1].otherCharacterInfo[0].character.characterAnimations.currentAnimation.name != "Lift") actions[actions.Count - 1].otherCharacterInfo[0].character.characterAnimations.MakeAnimation("Idle");
                         actions[actions.Count - 1].otherCharacterInfo[0].character.transform.position = actions[actions.Count - 1].otherCharacterInfo[0].positionInGrid;
                         AStarPathFinding.Instance.grid[actions[actions.Count - 1].otherCharacterInfo[0].positionInGrid].hasCharacter = actions[actions.Count - 1].otherCharacterInfo[0].character;
                         actions.RemoveAt(actions.Count - 1);
@@ -202,6 +205,7 @@ public class ActionsManager : MonoBehaviour
     }
     [Serializable] public class ActionInfo
     {
+        public bool cantUndo;
         public Character character;
         public List<OtherCharacterInfo> otherCharacterInfo;
         public TypeAction typeAction;

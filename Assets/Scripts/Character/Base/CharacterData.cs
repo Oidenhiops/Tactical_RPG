@@ -24,7 +24,7 @@ public class CharacterData
             int baseWhitItem = baseValue + itemValue;
             int baseWhitBuff = baseValue * buffValue / 100;
             int finalValue = Mathf.RoundToInt(baseWhitItem + baseWhitBuff);
-            maxValue = Mathf.Clamp(finalValue, 1, 10);
+            maxValue = Mathf.Clamp(finalValue, 1, 99999);
             if (currentValue > maxValue) currentValue = maxValue;
         }
         public void SetMaxValue()

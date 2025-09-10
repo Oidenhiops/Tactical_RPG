@@ -8,9 +8,30 @@ public class MenuThrowCharacter : MonoBehaviour
     public PlayerManager playerManager;
     public GameObject menuThrowCharacter;
     public bool isThrowingCharacter;
-    void OnDestroy()
+    void LateUpdate()
     {
-
+        if (menuThrowCharacter.activeSelf)
+        {
+            Vector3Int pos = Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position);
+            {
+                if (Vector3Int.RoundToInt(AStarPathFinding.Instance.characterSelected.transform.position).x == pos.x)
+                {
+                    AStarPathFinding.Instance.characterSelected.nextDirection.x = Vector3Int.RoundToInt(AStarPathFinding.Instance.characterSelected.transform.position).z < pos.z ? 1 : -1;
+                }
+                else
+                {
+                    AStarPathFinding.Instance.characterSelected.nextDirection.x = Vector3Int.RoundToInt(AStarPathFinding.Instance.characterSelected.transform.position).x < pos.x ? -1 : 1;
+                }
+                if (Vector3Int.RoundToInt(AStarPathFinding.Instance.characterSelected.transform.position).z == pos.z)
+                {
+                    AStarPathFinding.Instance.characterSelected.nextDirection.z = Vector3Int.RoundToInt(AStarPathFinding.Instance.characterSelected.transform.position).x < pos.x ? 1 : -1;
+                }
+                else
+                {
+                    AStarPathFinding.Instance.characterSelected.nextDirection.z = Vector3Int.RoundToInt(AStarPathFinding.Instance.characterSelected.transform.position).z < pos.z ? 1 : -1;
+                }
+            }
+        }
     }
     public IEnumerator EnableMenu()
     {
@@ -35,11 +56,15 @@ public class MenuThrowCharacter : MonoBehaviour
     {
         if (menuThrowCharacter.activeSelf && AStarPathFinding.Instance.grid[playerManager.currentMousePos].hasCharacter == null)
         {
-            StartCoroutine(ThrowCharacterToPosition(AStarPathFinding.Instance.characterSelected.transform.position + Vector3.up, playerManager.currentMousePos, playerManager.actionsManager.GetLastActionByCharacter(AStarPathFinding.Instance.characterSelected).otherCharacterInfo[0].character, 1));
+            if (playerManager.actionsManager.characterActions.TryGetValue(AStarPathFinding.Instance.characterSelected, out List<ActionsManager.ActionInfo> actions))
+            {
+                isThrowingCharacter = true;
+                StartCoroutine(ThrowCharacterToPosition(AStarPathFinding.Instance.characterSelected.transform.position + Vector3.up, playerManager.currentMousePos, actions[actions.Count - 1].otherCharacterInfo[0].character, 1));
+            }
         }
     }
     IEnumerator ThrowCharacterToPosition(Vector3 from, Vector3 to, Character character, float duration)
-    {
+    {        
         AStarPathFinding.Instance.DisableGrid();
         AStarPathFinding.Instance.characterSelected.characterAnimations.MakeAnimation("Throw");
         while (true)
@@ -52,7 +77,6 @@ public class MenuThrowCharacter : MonoBehaviour
             }
             yield return null;
         }
-        isThrowingCharacter = true;
         Vector3 startPos = new Vector3(from.x, from.y, from.z);
         Vector3 endPos = new Vector3(to.x, to.y, to.z);
         float elapsed = 0f;
@@ -73,7 +97,6 @@ public class MenuThrowCharacter : MonoBehaviour
         {
             character.characterAnimations.MakeAnimation("Idle");
         }
-        isThrowingCharacter = false;
         AStarPathFinding.Instance.characterSelected.lastAction = ActionsManager.TypeAction.EndTurn;
         if (playerManager.actionsManager.characterActions.TryGetValue(AStarPathFinding.Instance.characterSelected, out List<ActionsManager.ActionInfo> actions))
         {
@@ -89,7 +112,20 @@ public class MenuThrowCharacter : MonoBehaviour
             }
             actions[actions.Count - 1].otherCharacterInfo[0].character.transform.SetParent(null);
         }
-        playerManager.actionsManager.characterActions.Remove(AStarPathFinding.Instance.characterSelected);
+        CancelCharacterActions(AStarPathFinding.Instance.characterSelected);
+        isThrowingCharacter = false;
         DisableMenuActive();
+    }
+    void CancelCharacterActions(Character character)
+    {
+        if (PlayerManager.Instance.actionsManager.characterActions.TryGetValue(character, out List<ActionsManager.ActionInfo> actions))
+        {
+            if (actions[actions.Count - 1].otherCharacterInfo != null && actions[actions.Count - 1].otherCharacterInfo.Count > 0)
+            {
+                CancelCharacterActions(actions[actions.Count - 1].otherCharacterInfo[0].character);
+            }
+            actions[actions.Count - 1].cantUndo = true;
+            actions[actions.Count - 1].otherCharacterInfo = new List<ActionsManager.OtherCharacterInfo>();
+        }
     }
 }

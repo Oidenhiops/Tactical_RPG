@@ -130,7 +130,7 @@ public class PlayerManager : MonoBehaviour
     }
     void HandleMovement(InputAction.CallbackContext context)
     {
-        if (actionsManager.isPlayerTurn && !characterPlayerMakingActions && !actionsManager.isChangingTurn && !cantRotateCamera && !AnyMenuIsActive() && !menuThrowCharacter.isThrowingCharacter || menuThrowCharacter.menuThrowCharacter.activeSelf)
+        if (actionsManager.isPlayerTurn && !characterPlayerMakingActions && !actionsManager.isChangingTurn && !cantRotateCamera && !AnyMenuIsActive() && !menuThrowCharacter.isThrowingCharacter || menuThrowCharacter.menuThrowCharacter.activeSelf && !menuThrowCharacter.isThrowingCharacter)
         {
             if (context.performed)
             {
@@ -194,7 +194,7 @@ public class PlayerManager : MonoBehaviour
                     currentMousePos.x = Math.Clamp(currentMousePos.x, -AStarPathFinding.Instance.limitX, AStarPathFinding.Instance.limitX);
                     currentMousePos.z = Math.Clamp(currentMousePos.z, -AStarPathFinding.Instance.limitZ, AStarPathFinding.Instance.limitZ);
                     AStarPathFinding.Instance.GetHighestBlockAt(currentMousePos.x, currentMousePos.z, out GenerateMap.WalkablePositionInfo block);
-                    currentMousePos.y = block.pos.y;
+                    currentMousePos.y = block != null ? block.pos.y : 0;
                     isDecalMovement = false;
                 }
                 else

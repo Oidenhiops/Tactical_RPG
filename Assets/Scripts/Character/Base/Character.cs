@@ -13,7 +13,7 @@ public class Character : MonoBehaviour
     public CharacterModel characterModel;
     public CharacterData characterData;
     public Vector3Int direction = new Vector3Int();
-    public Vector3Int _nextDirection;
+    public Vector3Int nextDirection;
     public CharacterAnimation characterAnimations;
     public Vector3Int positionInGrid;
     public Vector3Int startPositionInGrid;
@@ -25,7 +25,7 @@ public class Character : MonoBehaviour
     void LateUpdate()
     {
         CameraInfo.Instance.CamDirection(out Vector3 camForward, out Vector3 camRight);
-        Vector3 camRelativeDir = (_nextDirection.x * camRight + _nextDirection.z * camForward).normalized;
+        Vector3 camRelativeDir = (nextDirection.x * camRight + nextDirection.z * camForward).normalized;
         Vector3 movementDirection = new Vector3(camRelativeDir.x, 0, camRelativeDir.z).normalized;
         direction = new Vector3Int(Mathf.RoundToInt(movementDirection.x), Mathf.RoundToInt(movementDirection.y), Mathf.RoundToInt(movementDirection.z));
         ChangeDirectionModel();
@@ -77,25 +77,25 @@ public class Character : MonoBehaviour
     private IEnumerator FollowPath(List<Vector3Int> path)
     {
         positionInGrid = path[path.Count - 1];
-        _nextDirection = Vector3Int.zero;
+        nextDirection = Vector3Int.zero;
         characterAnimations.MakeAnimation("Walk");
         for (int i = 1; i < path.Count; i++)
         {
             if (path[i - 1].x == path[i].x)
             {
-                _nextDirection.x = path[i - 1].z < path[i].z ? 1 : -1;
+                nextDirection.x = path[i - 1].z < path[i].z ? 1 : -1;
             }
             else
             {
-                _nextDirection.x = path[i - 1].x < path[i].x ? -1 : 1;
+                nextDirection.x = path[i - 1].x < path[i].x ? -1 : 1;
             }
             if (path[i - 1].z == path[i].z)
             {
-                _nextDirection.z = path[i - 1].x < path[i].x ? 1 : -1;
+                nextDirection.z = path[i - 1].x < path[i].x ? 1 : -1;
             }
             else
             {
-                _nextDirection.z = path[i - 1].z < path[i].z ? 1 : -1;
+                nextDirection.z = path[i - 1].z < path[i].z ? 1 : -1;
             }
             if (path[i - 1].y != path[i].y)
             {
