@@ -20,6 +20,7 @@ public class PlayerManager : MonoBehaviour
     public MouseDecalAnim mouseDecal;
     public bool isDecalMovement;
     public Vector3Int direction;
+    Vector3 camDirection;
     public Vector3 movementDirection;
     public Vector3Int currentMousePos;
     public bool cantRotateCamera;
@@ -175,7 +176,7 @@ public class PlayerManager : MonoBehaviour
         {
             Vector3Int lastPos = currentMousePos;
             CameraInfo.Instance.CamDirection(out Vector3 camForward, out Vector3 camRight);
-            Vector3 camDirection = (direction.x * camRight + direction.z * camForward).normalized;
+            camDirection = (direction.x * camRight + direction.z * camForward).normalized;
             movementDirection = new Vector3
             (
                 camDirection.x,
@@ -193,7 +194,7 @@ public class PlayerManager : MonoBehaviour
                 {
                     currentMousePos.x = Math.Clamp(currentMousePos.x, -AStarPathFinding.Instance.limitX, AStarPathFinding.Instance.limitX);
                     currentMousePos.z = Math.Clamp(currentMousePos.z, -AStarPathFinding.Instance.limitZ, AStarPathFinding.Instance.limitZ);
-                    AStarPathFinding.Instance.GetHighestBlockAt(currentMousePos.x, currentMousePos.z, out GenerateMap.WalkablePositionInfo block);
+                    AStarPathFinding.Instance.GetHighestBlockAt(currentMousePos, out GenerateMap.WalkablePositionInfo block);
                     currentMousePos.y = block != null ? block.pos.y : 0;
                     isDecalMovement = false;
                 }
@@ -206,8 +207,16 @@ public class PlayerManager : MonoBehaviour
             {
                 if (!AStarPathFinding.Instance.currentGrid.ContainsKey(currentMousePos))
                 {
-                    currentMousePos = lastPos;
-                    isDecalMovement = false;
+                    if (AStarPathFinding.Instance.currentGrid.ContainsKey(GetNearestPositionAccordingDirection(lastPos, out Vector3Int newPos)) && newPos != lastPos)
+                    {
+                        currentMousePos = newPos;
+                        StartCoroutine(MovePointerTo(currentMousePos));
+                    }
+                    else
+                    {
+                        currentMousePos = lastPos;
+                        isDecalMovement = false;
+                    }
                 }
                 else
                 {
@@ -215,6 +224,18 @@ public class PlayerManager : MonoBehaviour
                 }
             }
         }
+    }
+    Vector3Int GetNearestPositionAccordingDirection(Vector3Int lastPos, out Vector3Int newPos) {
+        newPos = lastPos;
+        for (int i = 0; i < 10; i++)
+        {
+            if (AStarPathFinding.Instance.grid.ContainsKey(currentMousePos + Vector3Int.RoundToInt(camDirection * i)))
+            {
+                newPos = currentMousePos + Vector3Int.RoundToInt(camDirection * i);
+                return newPos;
+            }
+        }
+        return lastPos;
     }
     IEnumerator RotateCamera()
     {
@@ -238,7 +259,7 @@ public class PlayerManager : MonoBehaviour
     }
     private void FixHeight(Vector3Int posToFix, out GenerateMap.WalkablePositionInfo blockFinded)
     {
-        AStarPathFinding.Instance.GetHighestBlockAt(posToFix.x, posToFix.z, out GenerateMap.WalkablePositionInfo block);
+        AStarPathFinding.Instance.GetHighestBlockAt(posToFix, out GenerateMap.WalkablePositionInfo block);
         blockFinded = block;
     }
     public IEnumerator MovePointerTo(Vector3Int posToGo)

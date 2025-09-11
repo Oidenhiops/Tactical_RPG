@@ -126,6 +126,28 @@ public class MenuCharacterActions : MonoBehaviour
         if (isMenuActive)
         {
             AStarPathFinding.Instance.characterSelected.lastAction = ActionsManager.TypeAction.Defend;
+            if (playerManager.actionsManager.characterActions.TryGetValue(AStarPathFinding.Instance.characterSelected, out List<ActionsManager.ActionInfo> actions))
+            {
+                actions.Add(new ActionsManager.ActionInfo
+                {
+                    character = AStarPathFinding.Instance.characterSelected,
+                    typeAction = ActionsManager.TypeAction.Defend,
+                });
+            }
+            else
+            {
+                playerManager.actionsManager.characterActions.Add(AStarPathFinding.Instance.characterSelected, new List<ActionsManager.ActionInfo>
+                {
+                    {
+                        new ActionsManager.ActionInfo
+                        {
+                        character = AStarPathFinding.Instance.characterSelected,
+                        typeAction = ActionsManager.TypeAction.Defend
+                        }
+                    }
+                });
+            }
+            DisableMenu();
         }
     }
     public void HandleLift()

@@ -58,7 +58,7 @@ public class MenuThrowCharacter : MonoBehaviour
         {
             if (playerManager.actionsManager.characterActions.TryGetValue(AStarPathFinding.Instance.characterSelected, out List<ActionsManager.ActionInfo> actions))
             {
-                isThrowingCharacter = true;
+                isThrowingCharacter = false;
                 StartCoroutine(ThrowCharacterToPosition(AStarPathFinding.Instance.characterSelected.transform.position + Vector3.up, playerManager.currentMousePos, actions[actions.Count - 1].otherCharacterInfo[0].character, 1));
             }
         }
@@ -103,13 +103,6 @@ public class MenuThrowCharacter : MonoBehaviour
             actions[actions.Count - 1].otherCharacterInfo[0].character.startPositionInGrid = Vector3Int.RoundToInt(endPos);
             actions[actions.Count - 1].otherCharacterInfo[0].character.positionInGrid = Vector3Int.RoundToInt(endPos);
             AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(endPos)].hasCharacter = actions[actions.Count - 1].otherCharacterInfo[0].character;
-            if (actions[actions.Count - 1].character.startPositionInGrid != actions[actions.Count - 1].character.positionInGrid)
-            {
-                if (actions[actions.Count - 1].character.lastAction != ActionsManager.TypeAction.EndTurn)
-                {
-                    actions[actions.Count - 1].otherCharacterInfo[0].character.lastAction = ActionsManager.TypeAction.Throwing;
-                }
-            }
             actions[actions.Count - 1].otherCharacterInfo[0].character.transform.SetParent(null);
         }
         CancelCharacterActions(AStarPathFinding.Instance.characterSelected);
@@ -122,7 +115,10 @@ public class MenuThrowCharacter : MonoBehaviour
         {
             if (actions[actions.Count - 1].otherCharacterInfo != null && actions[actions.Count - 1].otherCharacterInfo.Count > 0)
             {
-                CancelCharacterActions(actions[actions.Count - 1].otherCharacterInfo[0].character);
+                if (PlayerManager.Instance.actionsManager.characterActions.TryGetValue(actions[actions.Count - 1].otherCharacterInfo[0].character, out List<ActionsManager.ActionInfo> otherActions))
+                {
+                    otherActions[otherActions.Count - 1].cantUndo = true;
+                }
             }
             if (actions[actions.Count - 1].typeAction == ActionsManager.TypeAction.Lift)
             {
@@ -135,7 +131,7 @@ public class MenuThrowCharacter : MonoBehaviour
                 {
                     cantUndo = true,
                     character = character,
-                    typeAction = ActionsManager.TypeAction.Throwing,
+                    typeAction = ActionsManager.TypeAction.EndTurn,
                     positionInGrid = Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)
                 });
             }

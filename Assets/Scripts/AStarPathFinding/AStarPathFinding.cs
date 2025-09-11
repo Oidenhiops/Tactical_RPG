@@ -163,7 +163,6 @@ public class AStarPathFinding : MonoBehaviour
     public bool LastCharacterActionPermitActions()
     {
         return  characterSelected.lastAction != ActionsManager.TypeAction.Lift &&
-                characterSelected.lastAction != ActionsManager.TypeAction.Throwing &&
                 characterSelected.lastAction != ActionsManager.TypeAction.Attack &&
                 characterSelected.lastAction != ActionsManager.TypeAction.Defend &&
                 characterSelected.lastAction != ActionsManager.TypeAction.Item && 
@@ -185,7 +184,7 @@ public class AStarPathFinding : MonoBehaviour
                         new Vector2Int(checkPos.x, checkPos.z)) > radius)
                     continue;
 
-                if (GetHighestBlockAt(checkPos.x, checkPos.z, out GenerateMap.WalkablePositionInfo block) && block.pos.y <= Mathf.RoundToInt(characterSelected.transform.position.y) + characterSelected.characterData.GetMovementMaxHeight())
+                if (GetHighestBlockAt(checkPos, out GenerateMap.WalkablePositionInfo block) && block.pos.y <= Mathf.RoundToInt(characterSelected.transform.position.y) + characterSelected.characterData.GetMovementMaxHeight())
                 {
                     if (block.isWalkable && !block.hasCharacter || block.isWalkable && block.hasCharacter && block.hasCharacter.isCharacterPlayer)
                     {
@@ -196,10 +195,10 @@ public class AStarPathFinding : MonoBehaviour
         }
         return availablePositions;
     }
-    public bool GetHighestBlockAt(int x, int z, out GenerateMap.WalkablePositionInfo block)
+    public bool GetHighestBlockAt(Vector3Int pos, out GenerateMap.WalkablePositionInfo block)
     {
         block = grid
-            .Where(kv => kv.Key.x == x && kv.Key.z == z)
+            .Where(kv => kv.Key.x == pos.x && kv.Key.z == pos.z)
             .OrderByDescending(kv => kv.Key.y)
             .FirstOrDefault().Value;
 
@@ -222,7 +221,7 @@ public class AStarPathFinding : MonoBehaviour
             for (int x = 1; x < radius; x++)
             {
                 Vector3Int checkPos = startPos + directions[i] * x;
-                if (GetHighestBlockAt(checkPos.x, checkPos.z, out GenerateMap.WalkablePositionInfo block) && block.pos.y <= Mathf.RoundToInt(characterSelected.transform.position.y) + characterSelected.characterData.GetMovementMaxHeight())
+                if (GetHighestBlockAt(checkPos, out GenerateMap.WalkablePositionInfo block) && block.pos.y <= Mathf.RoundToInt(characterSelected.transform.position.y) + characterSelected.characterData.GetMovementMaxHeight())
                 {
                     if (block.isWalkable && !block.hasCharacter || block.isWalkable && block.hasCharacter && block.hasCharacter.isCharacterPlayer)
                     {
@@ -231,7 +230,7 @@ public class AStarPathFinding : MonoBehaviour
                 }
             }
         }
-        if (GetHighestBlockAt(startPos.x, startPos.z, out GenerateMap.WalkablePositionInfo startBlock))
+        if (GetHighestBlockAt(startPos, out GenerateMap.WalkablePositionInfo startBlock))
         {
             availablePositions.Add(startBlock.pos, startBlock);
         }
@@ -250,7 +249,7 @@ public class AStarPathFinding : MonoBehaviour
         foreach (var directionFounded in directions)
         {
             Vector3Int direction = directionFounded + initialPos;
-            if (GetHighestBlockAt(direction.x, direction.z, out GenerateMap.WalkablePositionInfo block) && MathF.Abs(block.pos.y - initialPos.y) <= 2 && block.hasCharacter)
+            if (GetHighestBlockAt(direction, out GenerateMap.WalkablePositionInfo block) && MathF.Abs(block.pos.y - initialPos.y) <= 2 && block.hasCharacter)
             {
                 positions.Add(direction, block);
             }
@@ -321,7 +320,7 @@ public class AStarPathFinding : MonoBehaviour
         {
             int targetX = node.X + dir.x;
             int targetZ = node.Z + dir.z;
-            if (GetHighestBlockAt(targetX, targetZ, out var highestBlock))
+            if (GetHighestBlockAt(new Vector3Int(targetX, 0, targetZ), out var highestBlock))
             {
                 if (!highestBlock.isWalkable)
                     continue;

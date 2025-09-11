@@ -1,14 +1,12 @@
 using System;
-using System.Linq;
-using AYellowpaper.SerializedCollections;
-using UnityEditor;
+using System.Collections;
 using UnityEngine;
 
 public class GenerateMap : MonoBehaviour
 {
     public static GenerateMap Instance { get; private set; }
-    public Transform[] blocks;
-    public WalkablePositionInfo[,] grid;
+    public Sprite currentAtlasMap;
+    public Block[] blocks;
     public bool showGizmos;
     public bool showHandles;
     void Awake()
@@ -18,91 +16,75 @@ public class GenerateMap : MonoBehaviour
             Instance = this;
         }
     }
-    public void GenerateGrid()
+    public IEnumerator GenerateGrid()
     {
-        if (blocks == null || blocks.Length == 0)
+        if (blocks != null && blocks.Length > 0)
         {
-            return;
-        }
-
-        var xs = blocks.Select(b => Mathf.RoundToInt(b.position.x)).Distinct().OrderBy(v => v).ToList();
-        var zs = blocks.Select(b => Mathf.RoundToInt(b.position.z)).Distinct().OrderBy(v => v).ToList();
-
-        int width = xs.Count;
-        int height = zs.Count;
-
-        grid = new WalkablePositionInfo[width, height];
-
-        foreach (var block in blocks)
-        {
-            int xIndex = xs.IndexOf(Mathf.RoundToInt(block.position.x));
-            int zIndex = zs.IndexOf(Mathf.RoundToInt(block.position.z));
-
-            grid[xIndex, zIndex] = new WalkablePositionInfo
+            foreach (Block block in blocks)
             {
-                pos = Vector3Int.RoundToInt(block.position),
-                isWalkable = true,
-                hasCharacter = null,
-                blockInfo = block.GetComponent<Block>()
-            };
-        }
-        AStarPathFinding.Instance.grid = ConvertToDictionary(grid);
-    }
-
-    SerializedDictionary<Vector3Int, WalkablePositionInfo> ConvertToDictionary(WalkablePositionInfo[,] arrayGrid)
-    {
-        var dict = new SerializedDictionary<Vector3Int, WalkablePositionInfo>();
-
-        int width = arrayGrid.GetLength(0);
-        int height = arrayGrid.GetLength(1);
-
-        for (int x = 0; x < width; x++)
-        {
-            for (int z = 0; z < height; z++)
-            {
-                var tile = arrayGrid[x, z];
-                if (tile != null)
+                if (block != null)
                 {
-                    dict.Add(tile.pos, tile);
+                    AStarPathFinding.Instance.grid.Add(Vector3Int.RoundToInt(block.transform.position), new WalkablePositionInfo
+                    {
+                        pos = Vector3Int.RoundToInt(block.transform.position),
+                        isWalkable = false,
+                        hasCharacter = null,
+                        blockInfo = block
+                    });
                 }
             }
+            foreach (Block blockEvaluate in blocks)
+            {
+                AStarPathFinding.Instance.GetHighestBlockAt(Vector3Int.RoundToInt(blockEvaluate.transform.position), out WalkablePositionInfo block);
+                block.isWalkable = true;
+            }
+            yield return null;
+            DrawBlocks();
         }
-
-        return dict;
     }
+    public void DrawBlocks()
+    {
+        for (int i = 0; i < blocks.Length; i++)
+        {
+            if (blocks[i] != null)
+            {
+                blocks[i].DrawBlock();
+            }
+        }
+    }
+    // void OnDrawGizmos()
+    // {
+    //     if (AStarPathFinding.Instance && AStarPathFinding.Instance.grid != null && AStarPathFinding.Instance.grid.Count > 0 && showGizmos)
+    //     {
+    //         foreach (Block blockEvaluate in blocks)
+    //         {
+    //             if (AStarPathFinding.Instance.grid.TryGetValue(Vector3Int.RoundToInt(blockEvaluate.transform.position), out WalkablePositionInfo block))
+    //             {
+    //                 Gizmos.color = block.isWalkable ? block.hasCharacter ? Color.cyan : Color.green : Color.red;
+    //                 Gizmos.DrawSphere(block.pos + Vector3.up * .25f, 0.1f);
 
-    [Serializable] public class WalkablePositionInfo
+    //                 if (showHandles)
+    //                 {
+    //                     GUIStyle labelStyle = new GUIStyle();
+    //                     labelStyle.normal.textColor = Color.black;
+    //                     labelStyle.fontStyle = FontStyle.Bold;
+    //                     string state = block.isWalkable ? "Walkable" : "Blocked";
+    //                     Handles.Label(
+    //                         block.pos,
+    //                         $"   {state}\n   {block.pos}",
+    //                         labelStyle
+    //                     );
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+    [Serializable]
+    public class WalkablePositionInfo
     {
         public Vector3Int pos;
         public bool isWalkable;
         public Character hasCharacter;
         public Block blockInfo;
-    }
-    void OnDrawGizmos()
-    {
-        if (grid != null && showGizmos)
-        {
-            foreach (var block in grid)
-            {
-                if (block != null)
-                {
-                    Gizmos.color = block.isWalkable ? block.hasCharacter ? Color.cyan : Color.green : Color.red;
-                    Gizmos.DrawSphere(block.pos + Vector3.up * .25f, 0.1f);
-
-                    if (showHandles)
-                    {
-                        GUIStyle labelStyle = new GUIStyle();
-                        labelStyle.normal.textColor = Color.black;
-                        labelStyle.fontStyle = FontStyle.Bold;
-                        string state = block.isWalkable ? "Walkable" : "Blocked";
-                        Handles.Label(
-                            block.pos,
-                            $"   {state}\n   {block.pos}",
-                            labelStyle
-                        );
-                    }
-                }
-            }
-        }
     }
 }

@@ -243,8 +243,7 @@ public class ActionsManager : MonoBehaviour
         Special = 3,
         Defend = 4,
         Lift = 5,
-        Throwing = 6,
-        Item = 7,
-        EndTurn = 8
+        Item = 6,
+        EndTurn = 7
     }
 }
