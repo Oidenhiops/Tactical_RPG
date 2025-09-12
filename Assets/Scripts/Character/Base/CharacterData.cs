@@ -34,15 +34,16 @@ public class CharacterData
     }
     public int GetMovementMaxHeight()
     {
-        return statistics[TypeStatistic.Spd].currentValue;
+        //return 2 + statistics[TypeStatistic.Spd].currentValue > 6 ? 6 : statistics[TypeStatistic.Spd].currentValue;
+        return 0;
     }
     public int GetMovementRadius()
     {
-        return statistics[TypeStatistic.Spd].currentValue;
+        return statistics[TypeStatistic.Spd].currentValue > 10 ? 10 : statistics[TypeStatistic.Spd].currentValue;
     }
     public int GetThrowRadius()
     {
-        return 5 + statistics[TypeStatistic.Spd].currentValue;
+        return 4 + statistics[TypeStatistic.Spd].currentValue > 6 ? 6 : statistics[TypeStatistic.Spd].currentValue;
     }
     [Serializable]
     public class CharacterItems

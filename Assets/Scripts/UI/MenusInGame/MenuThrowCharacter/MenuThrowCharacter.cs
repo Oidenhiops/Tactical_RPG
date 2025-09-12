@@ -8,31 +8,6 @@ public class MenuThrowCharacter : MonoBehaviour
     public PlayerManager playerManager;
     public GameObject menuThrowCharacter;
     public bool isThrowingCharacter;
-    void LateUpdate()
-    {
-        if (menuThrowCharacter.activeSelf)
-        {
-            Vector3Int pos = Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position);
-            {
-                if (Vector3Int.RoundToInt(AStarPathFinding.Instance.characterSelected.transform.position).x == pos.x)
-                {
-                    AStarPathFinding.Instance.characterSelected.nextDirection.x = Vector3Int.RoundToInt(AStarPathFinding.Instance.characterSelected.transform.position).z < pos.z ? 1 : -1;
-                }
-                else
-                {
-                    AStarPathFinding.Instance.characterSelected.nextDirection.x = Vector3Int.RoundToInt(AStarPathFinding.Instance.characterSelected.transform.position).x < pos.x ? -1 : 1;
-                }
-                if (Vector3Int.RoundToInt(AStarPathFinding.Instance.characterSelected.transform.position).z == pos.z)
-                {
-                    AStarPathFinding.Instance.characterSelected.nextDirection.z = Vector3Int.RoundToInt(AStarPathFinding.Instance.characterSelected.transform.position).x < pos.x ? 1 : -1;
-                }
-                else
-                {
-                    AStarPathFinding.Instance.characterSelected.nextDirection.z = Vector3Int.RoundToInt(AStarPathFinding.Instance.characterSelected.transform.position).z < pos.z ? 1 : -1;
-                }
-            }
-        }
-    }
     public IEnumerator EnableMenu()
     {
         menuThrowCharacter.SetActive(true);
@@ -45,7 +20,7 @@ public class MenuThrowCharacter : MonoBehaviour
     {
         menuThrowCharacter.SetActive(false);
         StartCoroutine(playerManager.menuCharacterActions.EnableMenu());
-        playerManager.MovePointerToInstant(Vector3Int.RoundToInt(AStarPathFinding.Instance.characterSelected.transform.position));
+        playerManager.MovePointerToInstant(AStarPathFinding.Instance.characterSelected.positionInGrid);
     }
     public void DisableMenuActive()
     {
@@ -59,7 +34,7 @@ public class MenuThrowCharacter : MonoBehaviour
             if (playerManager.actionsManager.characterActions.TryGetValue(AStarPathFinding.Instance.characterSelected, out List<ActionsManager.ActionInfo> actions))
             {
                 isThrowingCharacter = false;
-                StartCoroutine(ThrowCharacterToPosition(AStarPathFinding.Instance.characterSelected.transform.position + Vector3.up, playerManager.currentMousePos, actions[actions.Count - 1].otherCharacterInfo[0].character, 1));
+                StartCoroutine(ThrowCharacterToPosition(AStarPathFinding.Instance.characterSelected.positionInGrid + Vector3.up, playerManager.currentMousePos, actions[actions.Count - 1].otherCharacterInfo[0].character, 1));
             }
         }
     }

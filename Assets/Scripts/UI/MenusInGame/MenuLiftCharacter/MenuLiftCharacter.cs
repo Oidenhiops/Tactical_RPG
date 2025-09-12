@@ -51,7 +51,7 @@ public class MenuLiftCharacter : MonoBehaviour
     public void OnCharacterSelect(LiftCharactersBanner banner)
     {
         menuLiftCharacter.SetActive(false);
-        playerManager.MovePointerToInstant(Vector3Int.RoundToInt(AStarPathFinding.Instance.characterSelected.transform.position));
+        playerManager.MovePointerToInstant(Vector3Int.RoundToInt(AStarPathFinding.Instance.characterSelected.positionInGrid));
         foreach (Transform child in containerBanners.transform)
         {
             Destroy(child.gameObject);
@@ -93,7 +93,7 @@ public class MenuLiftCharacter : MonoBehaviour
         AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(banner.character.transform.position)].hasCharacter = null;
         if (playerManager.actionsManager.characterActions.TryGetValue(AStarPathFinding.Instance.characterSelected, out List<ActionsManager.ActionInfo> actionsFinded))
         {
-            actionsFinded[actionsFinded.Count - 1].otherCharacterInfo[0].character.transform.position = AStarPathFinding.Instance.characterSelected.transform.position + Vector3Int.up;
+            actionsFinded[actionsFinded.Count - 1].otherCharacterInfo[0].character.transform.position = AStarPathFinding.Instance.characterSelected.positionInGrid + Vector3Int.up;
             actionsFinded[actionsFinded.Count - 1].otherCharacterInfo[0].character.transform.SetParent(AStarPathFinding.Instance.characterSelected.transform);
         }
         AStarPathFinding.Instance.characterSelected.lastAction = ActionsManager.TypeAction.Lift;
@@ -134,6 +134,6 @@ public class MenuLiftCharacter : MonoBehaviour
         }
         banners = new SerializedDictionary<Character, LiftCharactersBanner>();
         playerManager.menuCharacterActions.BackToMenuWhitButton(MenuCharacterActions.TypeButton.Lift);
-        playerManager.MovePointerToInstant(Vector3Int.RoundToInt(AStarPathFinding.Instance.characterSelected.transform.position));
+        playerManager.MovePointerToInstant(AStarPathFinding.Instance.characterSelected.positionInGrid);
     }
 }

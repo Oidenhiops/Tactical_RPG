@@ -26,7 +26,7 @@ public class AStarPathFinding : MonoBehaviour
     }
     public SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> grid = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
     public Character characterSelected;
-    public int limitX = 10, limitZ = 10;
+    public Vector2Int limitX = new Vector2Int(-10, 10), limitZ = new Vector2Int(-10, 10);
     Coroutine _ToggleGrid;
     void Awake()
     {
@@ -105,7 +105,10 @@ public class AStarPathFinding : MonoBehaviour
                         characterSelected = block.hasCharacter;
                         if (characterSelected.isCharacterPlayer)
                         {
-                            if (LastCharacterActionPermitActions()) EnableGrid(GetWalkableTiles());
+                            if (LastCharacterActionPermitActions())
+                            {
+                                EnableGrid(GetWalkableTiles());
+                            }
                             else StartCoroutine(PlayerManager.Instance.menuCharacterActions.EnableMenu());
                         }
                         else
@@ -134,7 +137,10 @@ public class AStarPathFinding : MonoBehaviour
                     if (currentGrid.Count == 0 || grid[pointerPos].hasCharacter != characterSelected)
                     {
                         characterSelected = block.hasCharacter;
-                        if (LastCharacterActionPermitActions()) EnableGrid(GetWalkableTiles());
+                        if (LastCharacterActionPermitActions())
+                        {
+                            EnableGrid(GetWalkableTiles());
+                        }
                         else
                         {
                             StartCoroutine(PlayerManager.Instance.menuCharacterActions.EnableMenu());
@@ -171,20 +177,19 @@ public class AStarPathFinding : MonoBehaviour
     public SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> GetWalkableTiles()
     {
         SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> availablePositions = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
-        Vector3Int startPos = characterSelected.startPositionInGrid;
+        Vector2Int startPos = new Vector2Int(characterSelected.startPositionInGrid.x, characterSelected.startPositionInGrid.z);
+        Vector2Int checkPos = new Vector2Int();
         int radius = characterSelected.characterData.GetMovementRadius();
         for (int x = -radius; x <= radius; x++)
         {
             for (int z = -radius; z <= radius; z++)
             {
-                Vector3Int checkPos = new Vector3Int(startPos.x + x, startPos.y, startPos.z + z);
-
-                if (Vector2Int.Distance(
-                        new Vector2Int(startPos.x, startPos.z),
-                        new Vector2Int(checkPos.x, checkPos.z)) > radius)
-                    continue;
-
-                if (GetHighestBlockAt(checkPos, out GenerateMap.WalkablePositionInfo block) && block.pos.y <= Mathf.RoundToInt(characterSelected.transform.position.y) + characterSelected.characterData.GetMovementMaxHeight())
+                checkPos.x = startPos.x + x;
+                checkPos.y = startPos.y + z;
+                
+                if (Vector2Int.Distance(startPos, checkPos) <= radius &&
+                    GetHighestBlockAt(checkPos.x, checkPos.y, out GenerateMap.WalkablePositionInfo block) &&
+                    block.pos.y <= characterSelected.positionInGrid.y + characterSelected.characterData.GetMovementMaxHeight())
                 {
                     if (block.isWalkable && !block.hasCharacter || block.isWalkable && block.hasCharacter && block.hasCharacter.isCharacterPlayer)
                     {
@@ -197,12 +202,37 @@ public class AStarPathFinding : MonoBehaviour
     }
     public bool GetHighestBlockAt(Vector3Int pos, out GenerateMap.WalkablePositionInfo block)
     {
-        block = grid
-            .Where(kv => kv.Key.x == pos.x && kv.Key.z == pos.z)
-            .OrderByDescending(kv => kv.Key.y)
-            .FirstOrDefault().Value;
-
-        return block != null;
+        Vector3Int posToValidate = new Vector3Int(); 
+        for (int i = 10; i >= 0; i--)
+        {
+            posToValidate.x = pos.x;
+            posToValidate.y = i;
+            posToValidate.z = pos.z;
+            if (grid.ContainsKey(posToValidate))
+            {
+                block = grid[posToValidate];
+                return true;
+            }
+        }
+        block = null;
+        return false;
+    }
+    public bool GetHighestBlockAt(int x, int z, out GenerateMap.WalkablePositionInfo block)
+    {
+        Vector3Int posToValidate = new Vector3Int(); 
+        for (int i = 10; i >= 0; i--)
+        {
+            posToValidate.x = x;
+            posToValidate.y = i;
+            posToValidate.z = z;
+            if (grid.ContainsKey(posToValidate))
+            {
+                block = grid[posToValidate];
+                return true;
+            }
+        }
+        block = null;
+        return false;
     }
     public SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> GetTilesToThrow()
     {
@@ -221,7 +251,7 @@ public class AStarPathFinding : MonoBehaviour
             for (int x = 1; x < radius; x++)
             {
                 Vector3Int checkPos = startPos + directions[i] * x;
-                if (GetHighestBlockAt(checkPos, out GenerateMap.WalkablePositionInfo block) && block.pos.y <= Mathf.RoundToInt(characterSelected.transform.position.y) + characterSelected.characterData.GetMovementMaxHeight())
+                if (GetHighestBlockAt(checkPos, out GenerateMap.WalkablePositionInfo block) && block.pos.y <= characterSelected.positionInGrid.y + characterSelected.characterData.GetMovementMaxHeight())
                 {
                     if (block.isWalkable && !block.hasCharacter || block.isWalkable && block.hasCharacter && block.hasCharacter.isCharacterPlayer)
                     {
@@ -308,6 +338,52 @@ public class AStarPathFinding : MonoBehaviour
         }
         return null;
     }
+
+    public bool PathExists(Vector3 startPos, Vector3 endPos)
+    {
+        Vector3Int start = Vector3Int.FloorToInt(startPos);
+        Vector3Int end = Vector3Int.FloorToInt(endPos);
+
+        if (!grid.TryGetValue(start, out var startTile) || !startTile.isWalkable ||
+            !grid.TryGetValue(end, out var endTile) || !endTile.isWalkable)
+        {
+            return false;
+        }
+
+        Node startNode = new Node(start.x, start.y, start.z);
+        Node endNode = new Node(end.x, end.y, end.z);
+
+        var queue = new Queue<Node>();
+        var visited = new HashSet<Vector3Int>();
+
+        queue.Enqueue(startNode);
+        visited.Add(start);
+
+        while (queue.Count > 0)
+        {
+            var current = queue.Dequeue();
+
+            if (current.Equals(endNode))
+                return true;
+
+            foreach (var neighbor in GetNeighbors(current))
+            {
+                Vector3Int neighborPos = new Vector3Int(neighbor.X, neighbor.Y, neighbor.Z);
+
+                if (!grid.TryGetValue(neighborPos, out var neighborTile) || !neighborTile.isWalkable)
+                    continue;
+
+                if (visited.Contains(neighborPos))
+                    continue;
+
+                visited.Add(neighborPos);
+                queue.Enqueue(neighbor);
+            }
+        }
+
+        return false;
+    }
+
     List<Node> GetNeighbors(Node node)
     {
         var neighbors = new List<Node>();

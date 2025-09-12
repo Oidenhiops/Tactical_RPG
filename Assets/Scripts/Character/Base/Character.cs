@@ -99,7 +99,7 @@ public class Character : MonoBehaviour
             }
             if (path[i - 1].y != path[i].y)
             {
-                yield return StartCoroutine(JumpToPosition(path[i - 1], path[i], 1f));
+                yield return StartCoroutine(JumpToPosition(path[i - 1], path[i], 0.5f));
             }
             else
             {
@@ -172,21 +172,21 @@ public class Character : MonoBehaviour
         if (startPos.y > endPos.y)
         {
             Vector3 midPos = new Vector3(endPos.x, startPos.y, endPos.z);
-            yield return MakeParabola(startPos, midPos, duration);
-            yield return GoToHightPoint(midPos, endPos, duration);
+            yield return MakeParabola(startPos, midPos, duration / 2);
+            yield return GoToHightPoint(midPos, endPos, duration / 4);
         }
         else
         {
             Vector3 midPos = new Vector3(startPos.x, endPos.y, startPos.z);
-            yield return GoToHightPoint(startPos, endPos, duration);
-            yield return MakeParabola(midPos, endPos, duration);
+            yield return GoToHightPoint(startPos, endPos, duration / 4);
+            yield return MakeParabola(midPos, endPos, duration / 2);
         }
         transform.position = endPos;
     }
     public IEnumerator GoToHightPoint(Vector3 startPos, Vector3 endPos, float duration)
     {
         float elapsed = 0f;
-        float halfDuration = duration * 0.5f;
+        float halfDuration = duration;
         while (elapsed < halfDuration)
         {
             float t = elapsed / halfDuration;
@@ -200,7 +200,7 @@ public class Character : MonoBehaviour
     public IEnumerator MakeParabola(Vector3 startPos, Vector3 endPos, float duration)
     {
         float elapsed = 0f;
-        float halfDuration = duration * 0.5f;
+        float halfDuration = duration;
         while (elapsed < halfDuration)
         {
             float t = elapsed / halfDuration;

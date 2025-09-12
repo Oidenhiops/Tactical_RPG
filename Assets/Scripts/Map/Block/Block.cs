@@ -8,7 +8,6 @@ public class Block : MonoBehaviour
     public GameObject blockGrid;
     public MeshRenderer meshRenderer;
     public Mesh originalMesh;
-    public Block blockToAddRules;
     public int bitMask;
     public SerializedDictionary<int, BlocksInfo> renderInfo;
     [SerializeField] List<TypeNeighbors> neighbors = new List<TypeNeighbors>();
@@ -42,14 +41,7 @@ public class Block : MonoBehaviour
             direction = Vector3Int.RoundToInt(transform.position + value.Key);
             if (AStarPathFinding.Instance.grid.ContainsKey(direction))
             {
-                if (value.Key == Vector3Int.down || value.Key == Vector3Int.up)
-                {
-                    neighbors.Add(value.Key == Vector3Int.down ? TypeNeighbors.Down : TypeNeighbors.Up);
-                }
-                else
-                {
-                    neighbors.Add(directions[GetDirection(Vector3Int.RoundToInt(transform.position), Vector3Int.RoundToInt(transform.position + value.Key))]);
-                }
+                neighbors.Add(directions[GetDirection(Vector3Int.RoundToInt(transform.position), Vector3Int.RoundToInt(transform.position + value.Key))]);
             }
         }
         if (renderInfo.TryGetValue(GetBitmask(), out BlocksInfo blockInfo))
@@ -57,7 +49,7 @@ public class Block : MonoBehaviour
             bitMask = GetBitmask();
             SetTextureFromAtlas(blockInfo.targetSprite);
         }
-        //else blockToAddRules.renderInfo.Add(GetBitmask(), new BlocksInfo { targetSprite = null, blockGeneratedRule = this });
+        else if (BlockAddRuleManager.Instance && !BlockAddRuleManager.Instance.blockToAddRule.renderInfo.ContainsKey(GetBitmask())) BlockAddRuleManager.Instance.blockToAddRule.renderInfo.Add(GetBitmask(), new BlocksInfo { targetSprite = null, blockGeneratedRule = this });
     }
     Vector3Int GetDirection(Vector3Int from, Vector3Int to)
     {

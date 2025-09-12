@@ -48,7 +48,7 @@ public class MenuCharacterActions : MonoBehaviour
                             {
                                 buttons[TypeButton.Lift].gameObject.SetActive(true);
                                 buttons[TypeButton.Throw].gameObject.SetActive(false);
-                                if (AStarPathFinding.Instance.characterSelected.initialDataSO.isHumanoid && AStarPathFinding.Instance.GetArroundPos(Vector3Int.RoundToInt(AStarPathFinding.Instance.characterSelected.transform.position), out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions))
+                                if (AStarPathFinding.Instance.characterSelected.initialDataSO.isHumanoid && AStarPathFinding.Instance.GetArroundPos(AStarPathFinding.Instance.characterSelected.positionInGrid, out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions))
                                 {
                                     buttonsExepts.Add(TypeButton.Lift);
                                     SendCharactersToLift(positions);

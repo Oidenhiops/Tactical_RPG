@@ -190,10 +190,10 @@ public class PlayerManager : MonoBehaviour
             isDecalMovement = true;
             if (AStarPathFinding.Instance.currentGrid.Count == 0)
             {
-                if (Mathf.Abs(currentMousePos.x) > AStarPathFinding.Instance.limitX || Mathf.Abs(currentMousePos.z) > AStarPathFinding.Instance.limitZ)
+                if (currentMousePos.x < AStarPathFinding.Instance.limitX.x || currentMousePos.x > AStarPathFinding.Instance.limitX.y || currentMousePos.z < AStarPathFinding.Instance.limitZ.x || currentMousePos.z > AStarPathFinding.Instance.limitZ.y)
                 {
-                    currentMousePos.x = Math.Clamp(currentMousePos.x, -AStarPathFinding.Instance.limitX, AStarPathFinding.Instance.limitX);
-                    currentMousePos.z = Math.Clamp(currentMousePos.z, -AStarPathFinding.Instance.limitZ, AStarPathFinding.Instance.limitZ);
+                    currentMousePos.x = Math.Clamp(currentMousePos.x, AStarPathFinding.Instance.limitX.x, AStarPathFinding.Instance.limitX.y);
+                    currentMousePos.z = Math.Clamp(currentMousePos.z, -AStarPathFinding.Instance.limitZ.x, AStarPathFinding.Instance.limitZ.y);
                     AStarPathFinding.Instance.GetHighestBlockAt(currentMousePos, out GenerateMap.WalkablePositionInfo block);
                     currentMousePos.y = block != null ? block.pos.y : 0;
                     isDecalMovement = false;
@@ -203,7 +203,7 @@ public class PlayerManager : MonoBehaviour
                     StartCoroutine(MovePointerTo(currentMousePos));
                 }
             }
-            else if (AStarPathFinding.Instance.currentGrid.Count > 0)
+            else
             {
                 if (!AStarPathFinding.Instance.currentGrid.ContainsKey(currentMousePos))
                 {
@@ -229,9 +229,10 @@ public class PlayerManager : MonoBehaviour
         newPos = lastPos;
         for (int i = 0; i < 10; i++)
         {
-            if (AStarPathFinding.Instance.grid.ContainsKey(currentMousePos + Vector3Int.RoundToInt(camDirection * i)))
+            AStarPathFinding.Instance.GetHighestBlockAt(currentMousePos + Vector3Int.RoundToInt(camDirection * i), out GenerateMap.WalkablePositionInfo blockFinded);
+            if (blockFinded != null && AStarPathFinding.Instance.currentGrid.ContainsKey(blockFinded.pos))
             {
-                newPos = currentMousePos + Vector3Int.RoundToInt(camDirection * i);
+                newPos = blockFinded.pos;
                 return newPos;
             }
         }
@@ -277,6 +278,29 @@ public class PlayerManager : MonoBehaviour
         }
         mouseDecal.transform.position = posToGo;
         isDecalMovement = false;
+
+        if (AStarPathFinding.Instance.characterSelected)
+        {
+            if (AStarPathFinding.Instance.characterSelected.positionInGrid != posToGo)
+            {
+                if (AStarPathFinding.Instance.characterSelected.positionInGrid.x == posToGo.x)
+                {
+                    AStarPathFinding.Instance.characterSelected.nextDirection.x = AStarPathFinding.Instance.characterSelected.positionInGrid.z < posToGo.z ? 1 : -1;
+                }
+                else
+                {
+                    AStarPathFinding.Instance.characterSelected.nextDirection.x = AStarPathFinding.Instance.characterSelected.positionInGrid.x < posToGo.x ? -1 : 1;
+                }
+                if (AStarPathFinding.Instance.characterSelected.positionInGrid.z == posToGo.z)
+                {
+                    AStarPathFinding.Instance.characterSelected.nextDirection.z = AStarPathFinding.Instance.characterSelected.positionInGrid.x < posToGo.x ? 1 : -1;
+                }
+                else
+                {
+                    AStarPathFinding.Instance.characterSelected.nextDirection.z = AStarPathFinding.Instance.characterSelected.positionInGrid.z < posToGo.z ? 1 : -1;
+                }
+            }
+        }
     }
     public void MovePointerToInstant(Vector3Int posToGo)
     {

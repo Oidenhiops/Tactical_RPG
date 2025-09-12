@@ -9,12 +9,17 @@ public class GenerateMap : MonoBehaviour
     public Block[] blocks;
     public bool showGizmos;
     public bool showHandles;
+    public bool autoInit;
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
         }
+    }
+    void Start()
+    {
+        if (autoInit) StartCoroutine(GenerateGrid());
     }
     public IEnumerator GenerateGrid()
     {
@@ -36,7 +41,7 @@ public class GenerateMap : MonoBehaviour
             foreach (Block blockEvaluate in blocks)
             {
                 AStarPathFinding.Instance.GetHighestBlockAt(Vector3Int.RoundToInt(blockEvaluate.transform.position), out WalkablePositionInfo block);
-                block.isWalkable = true;
+                if (block != null) block.isWalkable = true;
             }
             yield return null;
             DrawBlocks();
