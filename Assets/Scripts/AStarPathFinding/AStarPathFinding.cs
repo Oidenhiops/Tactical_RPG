@@ -266,7 +266,7 @@ public class AStarPathFinding : MonoBehaviour
         }
         return availablePositions;
     }
-    public bool GetArroundPos(Vector3Int initialPos, out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions)
+    public bool GetPositionsToLift(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions)
     {
         positions = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
         Vector3Int[] directions = new Vector3Int[]
@@ -278,10 +278,37 @@ public class AStarPathFinding : MonoBehaviour
         };
         foreach (var directionFounded in directions)
         {
-            Vector3Int direction = directionFounded + initialPos;
-            if (GetHighestBlockAt(direction, out GenerateMap.WalkablePositionInfo block) && MathF.Abs(block.pos.y - initialPos.y) <= 2 && block.hasCharacter)
+            Vector3Int direction = directionFounded + characterSelected.positionInGrid;
+            if (GetHighestBlockAt(direction, out GenerateMap.WalkablePositionInfo block) && MathF.Abs(block.pos.y - characterSelected.positionInGrid.y) <= 2 && block.hasCharacter)
             {
                 positions.Add(direction, block);
+            }
+        }
+        return positions.Count > 0;
+    }
+    public bool GetPositionsToAttack(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions)
+    {
+        positions = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
+        Vector3Int[] directions = new Vector3Int[0];
+        characterSelected.characterData.GetCurrentWeapon(out CharacterData.CharacterItems weapon);
+        if (weapon.typeObject == CharacterData.TypeObject.None || weapon.typeObject == CharacterData.TypeObject.Fist || weapon.typeObject == CharacterData.TypeObject.Staff)
+        {
+            directions = new Vector3Int[]{
+                Vector3Int.forward,
+                Vector3Int.back,
+                Vector3Int.left,
+                Vector3Int.right,
+            };
+        }
+        if (directions.Length > 0)
+        {
+            foreach (var directionFounded in directions)
+            {
+                Vector3Int direction = directionFounded + characterSelected.positionInGrid;
+                if (GetHighestBlockAt(direction, out GenerateMap.WalkablePositionInfo block) && MathF.Abs(block.pos.y - characterSelected.positionInGrid.y) <= 2 && block.hasCharacter)
+                {
+                    positions.Add(direction, block);
+                }
             }
         }
         return positions.Count > 0;

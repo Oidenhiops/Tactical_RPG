@@ -35,7 +35,11 @@ public class CharacterAnimation : MonoBehaviour
         currentSpriteIndex = 0;
         StartCoroutine(AnimateSprite());
     }
-
+    public string GetAnimationAttack()
+    {
+        character.characterData.GetCurrentWeapon(out CharacterData.CharacterItems weapon);
+        return weapon.animationName;
+    }
     private InitialDataSO.AnimationsInfo GetAnimation(string animationName)
     {
         return character.initialDataSO.animations[animationName];

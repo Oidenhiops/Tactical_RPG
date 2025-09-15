@@ -8,12 +8,12 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class MenuLiftCharacter : MonoBehaviour
+public class MenuAttackCharacter : MonoBehaviour
 {
     public PlayerManager playerManager;
-    public SerializedDictionary<Character, LiftCharactersBanner> banners = new SerializedDictionary<Character, LiftCharactersBanner>();
+    public SerializedDictionary<Character, AttackCharacterBanner> banners = new SerializedDictionary<Character, AttackCharacterBanner>();
     public RectTransform containerBanners;
-    public GameObject menuLiftCharacter;
+    public GameObject menuAttackCharacter;
     public ScrollRect ScrollRect;
     public RectTransform viewport;
     public Character[] characters;
@@ -23,8 +23,8 @@ public class MenuLiftCharacter : MonoBehaviour
     {
         for (int i = 0; i < characters.Length; i++)
         {
-            LiftCharactersBanner characterBanner = Instantiate(Resources.Load<GameObject>("Prefabs/UI/LiftCharactersBanner/LiftCharactersBanner"), containerBanners).GetComponent<LiftCharactersBanner>();
-            characterBanner.menuLiftCharacter = this;
+            AttackCharacterBanner characterBanner = Instantiate(Resources.Load<GameObject>("Prefabs/UI/AttackCharactersBanner/AttackCharactersBanner"), containerBanners).GetComponent<AttackCharacterBanner>();
+            characterBanner.menuAttackCharacter = this;
             characterBanner.onObjectSelect.container = containerBanners;
             characterBanner.onObjectSelect.scrollRect = ScrollRect;
             characterBanner.onObjectSelect.viewport = viewport;
@@ -47,21 +47,20 @@ public class MenuLiftCharacter : MonoBehaviour
             })
             .ToArray();
     }
-    public void OnCharacterSelect(LiftCharactersBanner banner)
+    public void OnCharacterSelect(AttackCharacterBanner banner)
     {
-        menuLiftCharacter.SetActive(false);
-        playerManager.MovePointerToInstant(Vector3Int.RoundToInt(AStarPathFinding.Instance.characterSelected.positionInGrid));
+        menuAttackCharacter.SetActive(false);
         foreach (Transform child in containerBanners.transform)
         {
             Destroy(child.gameObject);
         }
-        banners = new SerializedDictionary<Character, LiftCharactersBanner>();
+        banners = new SerializedDictionary<Character, AttackCharacterBanner>();
         if (playerManager.actionsManager.characterActions.TryGetValue(AStarPathFinding.Instance.characterSelected, out List<ActionsManager.ActionInfo> actions))
         {
             actions.Add(new ActionsManager.ActionInfo
             {
                 character = AStarPathFinding.Instance.characterSelected,
-                typeAction = ActionsManager.TypeAction.Lift,
+                typeAction = ActionsManager.TypeAction.Attack,
                 otherCharacterInfo = new List<ActionsManager.OtherCharacterInfo>
                 {
                     new ActionsManager.OtherCharacterInfo(banner.character, Vector3Int.RoundToInt(banner.character.transform.position))
@@ -75,7 +74,7 @@ public class MenuLiftCharacter : MonoBehaviour
                 new List<ActionsManager.ActionInfo> {
                     new ActionsManager.ActionInfo{
                         character = AStarPathFinding.Instance.characterSelected,
-                        typeAction = ActionsManager.TypeAction.Lift,
+                        typeAction = ActionsManager.TypeAction.Attack,
                         otherCharacterInfo = new List<ActionsManager.OtherCharacterInfo>
                         {
                             new ActionsManager.OtherCharacterInfo(banner.character, Vector3Int.RoundToInt(banner.character.transform.position))
@@ -84,19 +83,6 @@ public class MenuLiftCharacter : MonoBehaviour
                 }
             );
         }
-        if (banner.character.characterAnimations.currentAnimation.name != "Lift")
-        {
-            banner.character.characterAnimations.MakeAnimation("Lifted");
-        }
-        AStarPathFinding.Instance.characterSelected.characterAnimations.MakeAnimation("Lift");
-        AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(banner.character.transform.position)].hasCharacter = null;
-        if (playerManager.actionsManager.characterActions.TryGetValue(AStarPathFinding.Instance.characterSelected, out List<ActionsManager.ActionInfo> actionsFinded))
-        {
-            actionsFinded[actionsFinded.Count - 1].otherCharacterInfo[0].character.transform.position = AStarPathFinding.Instance.characterSelected.positionInGrid + Vector3Int.up;
-            actionsFinded[actionsFinded.Count - 1].otherCharacterInfo[0].character.transform.SetParent(AStarPathFinding.Instance.characterSelected.transform);
-        }
-        AStarPathFinding.Instance.characterSelected.lastAction = ActionsManager.TypeAction.Lift;
-        AStarPathFinding.Instance.characterSelected = null;
     }
     public IEnumerator EnableMenu()
     {
@@ -118,12 +104,12 @@ public class MenuLiftCharacter : MonoBehaviour
         isMenuActive = true;
         playerManager.menuCharacterActions.DisableMenu(true);
         playerManager.menuCharacterInfo.menuCharacterInfo.SetActive(false);
-        menuLiftCharacter.SetActive(true);
+        menuAttackCharacter.SetActive(true);
         playerManager.MovePointerToInstant(Vector3Int.RoundToInt(banners.ElementAt(0).Key.transform.position));
     }
     public void DisableMenu()
     {
-        menuLiftCharacter.SetActive(false);
+        menuAttackCharacter.SetActive(false);
         isMenuActive = false;
         playerManager.menuCharacterActions.menuCharacterActions.SetActive(true);
         playerManager.menuCharacterInfo.menuCharacterInfo.SetActive(true);
@@ -131,8 +117,8 @@ public class MenuLiftCharacter : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        banners = new SerializedDictionary<Character, LiftCharactersBanner>();
-        playerManager.menuCharacterActions.BackToMenuWhitButton(MenuCharacterActions.TypeButton.Lift);
+        banners = new SerializedDictionary<Character, AttackCharacterBanner>();
+        playerManager.menuCharacterActions.BackToMenuWhitButton(MenuCharacterActions.TypeButton.Attack);
         playerManager.MovePointerToInstant(AStarPathFinding.Instance.characterSelected.positionInGrid);
     }
 }

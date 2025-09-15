@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AYellowpaper.SerializedCollections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -48,6 +49,10 @@ public class ActionsManager : MonoBehaviour
         else if (playerManager.menuLiftCharacter.menuLiftCharacter.activeSelf)
         {
             playerManager.menuLiftCharacter.DisableMenu();
+        }
+        else if (playerManager.menuAttackCharacter.menuAttackCharacter.activeSelf)
+        {
+            playerManager.menuAttackCharacter.DisableMenu();
         }
         else if (playerManager.menuCharacterSelector.menuCharacterSelector.activeSelf)
         {
@@ -161,7 +166,14 @@ public class ActionsManager : MonoBehaviour
             switch (actions.Value[actions.Value.Count - 1].typeAction)
             {
                 case TypeAction.Attack:
+                    actions.Value[actions.Value.Count - 1].character.characterAnimations.MakeAnimation(actions.Value[actions.Value.Count - 1].character.characterAnimations.GetAnimationAttack());
                     await Awaitable.NextFrameAsync();
+                    while (true)
+                    {
+                        if (actions.Value[actions.Value.Count - 1].character.characterAnimations.currentAnimation.name == "Idle") break;
+                        await Awaitable.NextFrameAsync();
+                    }
+                    characterActions.Remove(actions.Value[actions.Value.Count - 1].character);
                     break;
                 case TypeAction.Special:
                     await Awaitable.NextFrameAsync();

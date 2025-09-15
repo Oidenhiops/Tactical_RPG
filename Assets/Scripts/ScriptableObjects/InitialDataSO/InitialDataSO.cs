@@ -53,4 +53,11 @@ public class InitialDataSO : ScriptableObject
 
         return clone;
     }
+    public enum TypeAnimation
+    {
+        None = 0,
+        General = 1,
+        Attack = 2,
+        Special = 3
+    }
 }

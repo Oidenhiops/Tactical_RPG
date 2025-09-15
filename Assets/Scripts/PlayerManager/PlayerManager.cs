@@ -13,6 +13,7 @@ public class PlayerManager : MonoBehaviour
     public MenuCharacterSelector menuCharacterSelector;
     public MenuGeneralActions menuGeneralActions;
     public MenuCharacterActions menuCharacterActions;
+    public MenuAttackCharacter menuAttackCharacter;
     public MenuAllCharacters menuAllCharacters;
     public MenuLiftCharacter menuLiftCharacter;
     public MenuCharacterInfo menuCharacterInfo;
@@ -168,7 +169,8 @@ public class PlayerManager : MonoBehaviour
                menuGeneralActions.menuGeneralActions.activeSelf ||
                menuAllCharacters.menuAllCharacters.activeSelf ||
                menuCharacterInfo.menuCharacterInfo.activeSelf ||
-               menuLiftCharacter.menuLiftCharacter.activeSelf;
+               menuLiftCharacter.menuLiftCharacter.activeSelf ||
+               menuAttackCharacter.menuAttackCharacter.activeSelf; 
     }
     void Update()
     {
@@ -305,5 +307,29 @@ public class PlayerManager : MonoBehaviour
     public void MovePointerToInstant(Vector3Int posToGo)
     {
         mouseDecal.transform.position = posToGo;
+
+        if (AStarPathFinding.Instance.characterSelected)
+        {
+            if (AStarPathFinding.Instance.characterSelected.positionInGrid != posToGo)
+            {
+                if (AStarPathFinding.Instance.characterSelected.positionInGrid.x == posToGo.x)
+                {
+                    AStarPathFinding.Instance.characterSelected.nextDirection.x = AStarPathFinding.Instance.characterSelected.positionInGrid.z < posToGo.z ? 1 : -1;
+                }
+                else
+                {
+                    AStarPathFinding.Instance.characterSelected.nextDirection.x = AStarPathFinding.Instance.characterSelected.positionInGrid.x < posToGo.x ? -1 : 1;
+                }
+                if (AStarPathFinding.Instance.characterSelected.positionInGrid.z == posToGo.z)
+                {
+                    AStarPathFinding.Instance.characterSelected.nextDirection.z = AStarPathFinding.Instance.characterSelected.positionInGrid.x < posToGo.x ? 1 : -1;
+                }
+                else
+                {
+                    AStarPathFinding.Instance.characterSelected.nextDirection.z = AStarPathFinding.Instance.characterSelected.positionInGrid.z < posToGo.z ? 1 : -1;
+                }
+            }
+        }
+
     } 
 }

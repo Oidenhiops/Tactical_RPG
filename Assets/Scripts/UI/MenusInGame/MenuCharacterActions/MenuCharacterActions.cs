@@ -40,15 +40,23 @@ public class MenuCharacterActions : MonoBehaviour
                     default:
                         for (int i = 1; i < Enum.GetValues(typeof(TypeButton)).Length; i++)
                         {
-                            if ((TypeButton)i != TypeButton.Lift)
+                            if ((TypeButton)i != TypeButton.Lift && (TypeButton)i != TypeButton.Attack)
                             {
                                 buttonsExepts.Add((TypeButton)i);
                             }
-                            else
+                            else if ((TypeButton)i != TypeButton.Attack)
+                            {
+                                if (AStarPathFinding.Instance.characterSelected.initialDataSO.isHumanoid && AStarPathFinding.Instance.GetPositionsToAttack(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions))
+                                {
+                                    buttonsExepts.Add(TypeButton.Attack);
+                                    SendCharactersToAttack(positions);
+                                }
+                            }
+                            else if ((TypeButton)i != TypeButton.Lift)
                             {
                                 buttons[TypeButton.Lift].gameObject.SetActive(true);
                                 buttons[TypeButton.Throw].gameObject.SetActive(false);
-                                if (AStarPathFinding.Instance.characterSelected.initialDataSO.isHumanoid && AStarPathFinding.Instance.GetArroundPos(AStarPathFinding.Instance.characterSelected.positionInGrid, out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions))
+                                if (AStarPathFinding.Instance.characterSelected.initialDataSO.isHumanoid && AStarPathFinding.Instance.GetPositionsToLift(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions))
                                 {
                                     buttonsExepts.Add(TypeButton.Lift);
                                     SendCharactersToLift(positions);
@@ -78,6 +86,15 @@ public class MenuCharacterActions : MonoBehaviour
             characters.Add(position.Value.hasCharacter);
         }
         playerManager.menuLiftCharacter.characters = characters.ToArray();
+    }
+    public void SendCharactersToAttack(SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> data)
+    {
+        List<Character> characters = new List<Character>();
+        foreach (KeyValuePair<Vector3Int, GenerateMap.WalkablePositionInfo> position in data)
+        {
+            characters.Add(position.Value.hasCharacter);
+        }
+        playerManager.menuAttackCharacter.characters = characters.ToArray();
     }
     public void BackToMenuWhitButton(TypeButton typeButton)
     {
@@ -115,7 +132,7 @@ public class MenuCharacterActions : MonoBehaviour
     }
     public void HandleAttack()
     {
-        if (isMenuActive) print("Attack");
+        if (isMenuActive) StartCoroutine(playerManager.menuAttackCharacter.EnableMenu());
     }
     public void HandleSpecial()
     {

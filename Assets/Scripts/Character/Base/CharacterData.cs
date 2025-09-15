@@ -45,11 +45,30 @@ public class CharacterData
     {
         return 4 + statistics[TypeStatistic.Spd].currentValue > 6 ? 6 : statistics[TypeStatistic.Spd].currentValue;
     }
-    [Serializable]
-    public class CharacterItems
+    public void GetCurrentWeapon(out CharacterItems weapon)
+    {
+        foreach (CharacterItems item in items)
+        {
+            if (item.typeObject != TypeObject.None || item.typeObject != TypeObject.Item)
+            {
+                weapon = item;
+                return;
+            }
+        }
+        weapon = new CharacterItems
+        {
+            id = 0,
+            animationName = "HandAttack",
+            statistics = new SerializedDictionary<TypeStatistic, Statistic>(),
+            typeObject = TypeObject.None
+        };
+    }
+    [Serializable] public class CharacterItems
     {
         public int id;
+        public string animationName;
         public SerializedDictionary<TypeStatistic, Statistic> statistics;
+        public TypeObject typeObject;
     }
     public enum TypeStatistic
     {
@@ -63,5 +82,18 @@ public class CharacterData
         Res = 7,
         Spd = 8,
         Exp = 9,
+    }
+    public enum TypeObject
+    {
+        None = 0,
+        Fist = 1,
+        Sword = 2,
+        Spear = 3,
+        Bow = 4,
+        Gun = 5,
+        Axe = 6,
+        Staff = 7,
+        Monster = 8,
+        Item = 9
     }
 }

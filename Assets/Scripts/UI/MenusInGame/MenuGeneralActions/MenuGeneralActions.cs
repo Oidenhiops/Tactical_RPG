@@ -20,11 +20,15 @@ public class MenuGeneralActions : MonoBehaviour
     {
         if (playerManager.actionsManager.isPlayerTurn && !menuGeneralActions.activeSelf && !playerManager.menuCharacterActions.menuCharacterActions.activeSelf && !playerManager.menuCharacterSelector.menuCharacterSelector.activeSelf)
         {
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(GetSelectedButton());
-            AStarPathFinding.Instance.DisableGrid();
-            menuGeneralActions.SetActive(true);
+            EnableMenu();
         }
+    }
+    public void EnableMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(GetSelectedButton());
+        AStarPathFinding.Instance.DisableGrid();
+        menuGeneralActions.SetActive(true);
     }
     public void BackToMenuWhitButton(GameObject button)
     {
@@ -56,13 +60,16 @@ public class MenuGeneralActions : MonoBehaviour
     }
     public async Task ExecuteAction()
     {
+        await Awaitable.NextFrameAsync();
+        menuGeneralActions.SetActive(false);
         PlayerManager.Instance.canShowGridAndDecal = false;
         PlayerManager.Instance.characterPlayerMakingActions = true;
         PlayerManager.Instance.DisableVisuals();
         await PlayerManager.Instance.actionsManager.MakeActions();
         PlayerManager.Instance.canShowGridAndDecal = true;
         PlayerManager.Instance.characterPlayerMakingActions = false;
-        PlayerManager.Instance.EnableVisuals();
+        EnableMenu();
+        PlayerManager.Instance.mouseDecal.decal.gameObject.SetActive(true);
     }
     public void EndTurnButton()
     {
