@@ -8,23 +8,11 @@ using UnityEngine;
 public class AStarPathFinding : MonoBehaviour
 {
     public static AStarPathFinding Instance { get; private set; }
-    public SerializedDictionary<Vector3Int ,GenerateMap.WalkablePositionInfo> _currentGrid = new SerializedDictionary<Vector3Int ,GenerateMap.WalkablePositionInfo>();
-    public Action<SerializedDictionary<Vector3Int ,GenerateMap.WalkablePositionInfo>> OnCurrentGridChange;
-    public SerializedDictionary<Vector3Int ,GenerateMap.WalkablePositionInfo> currentGrid
-    {
-        get => _currentGrid;
-        set
-        {
-            if (!_currentGrid.SequenceEqual(value))
-            {
-                _currentGrid = value;
-                if (_currentGrid.Count > 0) _ToggleGrid = StartCoroutine(ToggleGrid(_currentGrid));
-                else StopCoroutine(_ToggleGrid);
-                OnCurrentGridChange?.Invoke(_currentGrid);
-            }
-        }
-    }
+    public SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> currentGrid;
     public SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> grid = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
+    [SerializeField] private GameObject poolinGrid;
+    [SerializeField] private int poolSize = 50;
+    private Queue<GameObject> pool = new Queue<GameObject>();
     public Character characterSelected;
     public Vector2Int limitX = new Vector2Int(-10, 10), limitZ = new Vector2Int(-10, 10);
     Coroutine _ToggleGrid;
@@ -33,30 +21,62 @@ public class AStarPathFinding : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            for (int i = 0; i < poolSize; i++)
+            {
+                GameObject obj = Instantiate(poolinGrid);
+                obj.SetActive(false);
+                pool.Enqueue(obj);
+            }
         }
+    }
+    public GameObject GetPoolingGrid()
+    {
+        if (pool.Count > 0)
+        {
+            GameObject obj = pool.Dequeue();
+            obj.SetActive(true);
+            return obj;
+        }
+        else
+        {
+            GameObject obj = Instantiate(poolinGrid);
+            return obj;
+        }
+    }
+    public void ReturnPoolingGridToQueue(GameObject obj)
+    {
+        obj.SetActive(false);
+        pool.Enqueue(obj);
     }
     public void EnableGrid(SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> gridToEnable)
     {
+        if (_ToggleGrid != null)
+        {
+            StopCoroutine(_ToggleGrid);
+        }
         foreach (KeyValuePair<Vector3Int, GenerateMap.WalkablePositionInfo> cell in currentGrid)
         {
-            cell.Value.blockInfo.blockGrid.SetActive(false);
+            ReturnPoolingGridToQueue(cell.Value.blockInfo.poolingGrid);
+            cell.Value.blockInfo.poolingGrid = null;
         }
-        if (_ToggleGrid != null) StopCoroutine(_ToggleGrid);
+        foreach (KeyValuePair<Vector3Int, GenerateMap.WalkablePositionInfo> cell in gridToEnable)
+        {
+            cell.Value.blockInfo.poolingGrid = GetPoolingGrid();
+            cell.Value.blockInfo.poolingGrid.transform.position = cell.Value.blockInfo.transform.position + Vector3.up * 0.1f;
+        }
         currentGrid = gridToEnable;
-        foreach (KeyValuePair<Vector3Int, GenerateMap.WalkablePositionInfo> cell in currentGrid)
-        {
-            cell.Value.blockInfo.blockGrid.SetActive(true);
-        }
+        _ToggleGrid = StartCoroutine(ToggleGrid());
     }
     public void DisableGrid()
     {
         foreach (KeyValuePair<Vector3Int, GenerateMap.WalkablePositionInfo> cell in currentGrid)
         {
-            cell.Value.blockInfo.blockGrid.SetActive(false);
+            ReturnPoolingGridToQueue(cell.Value.blockInfo.poolingGrid);
+            cell.Value.blockInfo.poolingGrid = null;
         }
         currentGrid = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
     }
-    IEnumerator ToggleGrid(SerializedDictionary<Vector3Int ,GenerateMap.WalkablePositionInfo> grid)
+    IEnumerator ToggleGrid()
     {
         bool isShow = true;
         bool update = true;
@@ -68,18 +88,18 @@ public class AStarPathFinding : MonoBehaviour
             {
                 totalTime = 1f;
                 update = false;
-                foreach (KeyValuePair<Vector3Int ,GenerateMap.WalkablePositionInfo> blockGrid in grid)
+                foreach (KeyValuePair<Vector3Int, GenerateMap.WalkablePositionInfo> blockGrid in currentGrid)
                 {
-                    blockGrid.Value.blockInfo.blockGrid.SetActive(true);
+                    blockGrid.Value.blockInfo.poolingGrid.SetActive(true);
                 }
             }
             else if (!isShow && update)
             {
                 totalTime = 0.25f;
                 update = false;
-                foreach (var blockGrid in grid)
+                foreach (var blockGrid in currentGrid)
                 {
-                    blockGrid.Value.blockInfo.blockGrid.SetActive(false);
+                    blockGrid.Value.blockInfo.poolingGrid.SetActive(false);
                 }
             }
             elapsedTime += Time.deltaTime;
@@ -168,11 +188,11 @@ public class AStarPathFinding : MonoBehaviour
     }
     public bool LastCharacterActionPermitActions()
     {
-        return  characterSelected.lastAction != ActionsManager.TypeAction.Lift &&
+        return characterSelected.lastAction != ActionsManager.TypeAction.Lift &&
                 characterSelected.lastAction != ActionsManager.TypeAction.Attack &&
                 characterSelected.lastAction != ActionsManager.TypeAction.Defend &&
-                characterSelected.lastAction != ActionsManager.TypeAction.Item && 
-                characterSelected.lastAction != ActionsManager.TypeAction.EndTurn; 
+                characterSelected.lastAction != ActionsManager.TypeAction.Item &&
+                characterSelected.lastAction != ActionsManager.TypeAction.EndTurn;
     }
     public SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> GetWalkableTiles()
     {
@@ -186,7 +206,7 @@ public class AStarPathFinding : MonoBehaviour
             {
                 checkPos.x = startPos.x + x;
                 checkPos.y = startPos.y + z;
-                
+
                 if (Vector2Int.Distance(startPos, checkPos) <= radius &&
                     GetHighestBlockAt(checkPos.x, checkPos.y, out GenerateMap.WalkablePositionInfo block) &&
                     block.pos.y <= characterSelected.positionInGrid.y + characterSelected.characterData.GetMovementMaxHeight())
@@ -202,7 +222,7 @@ public class AStarPathFinding : MonoBehaviour
     }
     public bool GetHighestBlockAt(Vector3Int pos, out GenerateMap.WalkablePositionInfo block)
     {
-        Vector3Int posToValidate = new Vector3Int(); 
+        Vector3Int posToValidate = new Vector3Int();
         for (int i = 10; i >= 0; i--)
         {
             posToValidate.x = pos.x;
@@ -219,7 +239,7 @@ public class AStarPathFinding : MonoBehaviour
     }
     public bool GetHighestBlockAt(int x, int z, out GenerateMap.WalkablePositionInfo block)
     {
-        Vector3Int posToValidate = new Vector3Int(); 
+        Vector3Int posToValidate = new Vector3Int();
         for (int i = 10; i >= 0; i--)
         {
             posToValidate.x = x;
@@ -467,5 +487,11 @@ public class AStarPathFinding : MonoBehaviour
         {
             return (X, Y, Z).GetHashCode();
         }
+    }
+    [Serializable]
+    public class PoolingGridInfo
+    {
+        public Vector2Int pos;
+        public GameObject grid;
     }
 }

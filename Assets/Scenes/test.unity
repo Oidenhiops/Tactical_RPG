@@ -4733,7 +4733,7 @@ Transform:
   m_GameObject: {fileID: 695116822}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.1, z: 0}
+  m_LocalPosition: {x: 0, y: -0.2, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7745,6 +7745,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TestCube
+      objectReference: {fileID: 0}
+    - target: {fileID: 3654539373334881833, guid: e1ce28cf769e2b54c96c7292e8182135,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4979965488519511710, guid: e1ce28cf769e2b54c96c7292e8182135,
         type: 3}
@@ -12094,6 +12099,9 @@ MonoBehaviour:
     _serializedList: []
   grid:
     _serializedList: []
+  poolinGrid: {fileID: 894394564533644610, guid: 9ec3cae84d18c744eb89964d75844592,
+    type: 3}
+  poolSize: 50
   characterSelected: {fileID: 0}
   limitX: {x: -10, y: 10}
   limitZ: {x: -10, y: 10}

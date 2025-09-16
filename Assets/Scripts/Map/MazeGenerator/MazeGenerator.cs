@@ -109,7 +109,10 @@ public class MazeGenerator : MonoBehaviour
                         if (sizeCell <= 1)
                         {
                             Block block = Instantiate(blockPrefab, pos + new Vector3(-1, 0, -1), Quaternion.identity, transform).GetComponent<Block>();
-                            block.GetComponent<Renderer>().material.color = Color.red;
+                            foreach (KeyValuePair<Block.TypeNeighbors, Block.MeshesInfo> mesh in block.meshes)
+                            {
+                                mesh.Value.meshRenderer.material.color = Color.red;
+                            }
                             blocks.Add(block);
                         }
                         else
@@ -120,7 +123,10 @@ public class MazeGenerator : MonoBehaviour
                                 for (int i = 0; i < positions.Count; i++)
                                 {
                                     Block block = Instantiate(blockPrefab, (pos + new Vector3(-1, 0, -1)) * sizeCell + positions[i], Quaternion.identity, transform).GetComponent<Block>();
-                                    block.GetComponent<Renderer>().material.color = Color.red;
+                                    foreach (KeyValuePair<Block.TypeNeighbors, Block.MeshesInfo> mesh in block.meshes)
+                                    {
+                                        mesh.Value.meshRenderer.material.color = Color.red;
+                                    }
                                     blocks.Add(block);
                                     if (i == positions.Count - 1)
                                     {

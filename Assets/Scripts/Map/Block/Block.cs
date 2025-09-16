@@ -5,13 +5,12 @@ using UnityEngine;
 public class Block : MonoBehaviour
 {
     public TypeBlock typeBlock;
-    public GameObject blockGrid;
-    public MeshRenderer meshRenderer;
-    public Mesh originalMesh;
+    public SerializedDictionary<TypeNeighbors, MeshesInfo> meshes;
     public int bitMask;
     public SerializedDictionary<int, BlocksInfo> renderInfo;
     [SerializeField] List<TypeNeighbors> neighbors = new List<TypeNeighbors>();
     public SerializedDictionary<Vector3Int, TypeNeighbors> directions;
+    public GameObject poolingGrid;
     public enum TypeBlock
     {
         None = 0,
@@ -47,7 +46,23 @@ public class Block : MonoBehaviour
         if (renderInfo.TryGetValue(GetBitmask(), out BlocksInfo blockInfo))
         {
             bitMask = GetBitmask();
-            SetTextureFromAtlas(blockInfo.targetSprite);
+            List<TypeNeighbors> directions = new List<TypeNeighbors>()
+            {
+                TypeNeighbors.Forward,
+                TypeNeighbors.Back,
+                TypeNeighbors.Left,
+                TypeNeighbors.Right,
+                TypeNeighbors.Up,
+                TypeNeighbors.Down
+            };
+            for (int i = 0; i < directions.Count; i++)
+            {
+                if (!neighbors.Contains(directions[i]))
+                {
+                    meshes[directions[i]].meshRenderer.gameObject.SetActive(true);
+                    SetTextureFromAtlas(blockInfo.targetSprite, meshes[directions[i]]);
+                }
+            }
         }
         else if (BlockAddRuleManager.Instance && !BlockAddRuleManager.Instance.blockToAddRule.renderInfo.ContainsKey(GetBitmask())) BlockAddRuleManager.Instance.blockToAddRule.renderInfo.Add(GetBitmask(), new BlocksInfo { targetSprite = null, blockGeneratedRule = this });
     }
@@ -60,23 +75,28 @@ public class Block : MonoBehaviour
             diff.z == 0 ? 0 : (diff.z > 0 ? 1 : -1)
         );
     }
-    void SetTextureFromAtlas(Sprite spriteFromAtlas)
+    void SetTextureFromAtlas(Sprite spriteFromAtlas, MeshesInfo meshesInfo)
     {
-        Vector2[] uvs = originalMesh.uv;
+        Vector2[] uvs = meshesInfo.originalMesh.uv;
         Texture2D texture = spriteFromAtlas.texture;
-        meshRenderer.material.mainTexture = GenerateMap.Instance.currentAtlasMap.texture;
+        meshesInfo.meshRenderer.material.mainTexture = GenerateMap.Instance.currentAtlasMap.texture;
         Rect spriteRect = spriteFromAtlas.rect; 
         for (int i = 0; i < uvs.Length; i++)
         {
             uvs[i].x = Mathf.Lerp(spriteRect.x / texture.width, (spriteRect.x + spriteRect.width) / texture.width, uvs[i].x);
             uvs[i].y = Mathf.Lerp(spriteRect.y / texture.height, (spriteRect.y + spriteRect.height) / texture.height, uvs[i].y);
         }
-        meshRenderer.GetComponent<MeshFilter>().mesh.uv = uvs;
+        meshesInfo.meshRenderer.GetComponent<MeshFilter>().mesh.uv = uvs;
     }
     [System.Serializable] public class BlocksInfo
     {
         public Block blockGeneratedRule;
         public Sprite targetSprite;
+    }
+    [System.Serializable] public class MeshesInfo
+    {
+        public MeshRenderer meshRenderer;
+        public Mesh originalMesh;
     }
     public enum TypeNeighbors
     {
