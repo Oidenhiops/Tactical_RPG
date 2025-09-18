@@ -18,6 +18,7 @@ public class InitialDataSO : ScriptableObject
         public string linkAnimation;
         public SpritesInfo[] spritesInfoDown;
         public SpritesInfo[] spritesInfoUp;
+        public SerializedDictionary<CharacterAnimation.TypeAnimationsEffects, CharacterAnimation.AnimationEffectInfo> animationsEffects;
         public bool loop = false;
         public bool needInstance = false;
         public int frameToInstance = 0;

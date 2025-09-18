@@ -50,6 +50,7 @@ public class MenuCharacterActions : MonoBehaviour
                                 {
                                     buttonsExepts.Add(TypeButton.Attack);
                                     SendCharactersToAttack(positions);
+                                    playerManager.menuAttackCharacter.positionsToAttack = positions;
                                 }
                             }
                             else if ((TypeButton)i != TypeButton.Lift)
@@ -60,6 +61,7 @@ public class MenuCharacterActions : MonoBehaviour
                                 {
                                     buttonsExepts.Add(TypeButton.Lift);
                                     SendCharactersToLift(positions);
+                                    playerManager.menuLiftCharacter.positionsToLift = positions;
                                 }
                             }
                         }
@@ -100,13 +102,16 @@ public class MenuCharacterActions : MonoBehaviour
     {
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(buttons[typeButton].gameObject);
+        menuCharacterActions.SetActive(true);
+        playerManager.menuCharacterInfo.ReloadInfo(AStarPathFinding.Instance.characterSelected);
+        isMenuActive = true;
     }
-    public void DisableMenu(bool conservSelectedCharacter = false)
+    public void DisableMenu(bool conservSelectedCharacter = false, bool conservCharacterInfo = false)
     {
         menuCharacterActions.SetActive(false);
-        playerManager.menuCharacterInfo.menuCharacterInfo.SetActive(false);        
-        isMenuActive = false;
+        if (!conservCharacterInfo) playerManager.menuCharacterInfo.menuCharacterInfo.SetActive(false);        
         if (!conservSelectedCharacter) AStarPathFinding.Instance.characterSelected = null;
+        isMenuActive = false;
     }
     public GameObject GetFirtsButtonActive()
     {

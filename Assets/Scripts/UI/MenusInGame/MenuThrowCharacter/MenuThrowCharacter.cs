@@ -13,7 +13,7 @@ public class MenuThrowCharacter : MonoBehaviour
         menuThrowCharacter.SetActive(true);
         playerManager.menuCharacterActions.DisableMenu(true);
         playerManager.menuCharacterInfo.menuCharacterInfo.SetActive(false);
-        AStarPathFinding.Instance.EnableGrid(AStarPathFinding.Instance.GetTilesToThrow());
+        AStarPathFinding.Instance.EnableGrid(AStarPathFinding.Instance.GetTilesToThrow(), playerManager.menuLiftCharacter.gridColor);
         yield return null;
     }
     public void DisableMenuBack()

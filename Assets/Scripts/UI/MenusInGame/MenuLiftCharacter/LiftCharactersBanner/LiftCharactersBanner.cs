@@ -29,5 +29,6 @@ public class LiftCharactersBanner : MonoBehaviour, ISelectHandler
     public void OnSelect(BaseEventData eventData)
     {
         menuLiftCharacter.playerManager.MovePointerToInstant(Vector3Int.RoundToInt(character.transform.position));
+        menuLiftCharacter.playerManager.menuCharacterInfo.ReloadInfo(character);
     }
 }

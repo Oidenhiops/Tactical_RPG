@@ -17,6 +17,8 @@ public class MenuAttackCharacter : MonoBehaviour
     public ScrollRect ScrollRect;
     public RectTransform viewport;
     public Character[] characters;
+    public SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positionsToAttack;
+    public Color gridColor;
     public bool isMenuActive;
     public int index;
     public async Task SpawnBanners()
@@ -49,7 +51,6 @@ public class MenuAttackCharacter : MonoBehaviour
     }
     public void OnCharacterSelect(AttackCharacterBanner banner)
     {
-        menuAttackCharacter.SetActive(false);
         foreach (Transform child in containerBanners.transform)
         {
             Destroy(child.gameObject);
@@ -83,10 +84,12 @@ public class MenuAttackCharacter : MonoBehaviour
                 }
             );
         }
+        DisableMenuCharacterSelect();
     }
     public IEnumerator EnableMenu()
     {
         yield return SpawnBanners();
+        AStarPathFinding.Instance.EnableGrid(positionsToAttack, gridColor);
         index = 0;
         if (banners.Count > 0)
         {
@@ -96,23 +99,21 @@ public class MenuAttackCharacter : MonoBehaviour
                 index--;
             }
             EventSystem.current.SetSelectedGameObject(banners.ElementAt(index).Value.gameObject);
+            playerManager.menuCharacterInfo.ReloadInfo(banners.ElementAt(index).Value.character);
             banners.ElementAt(index).Value.onObjectSelect.ScrollTo(index);
             yield return null;
-            playerManager.menuCharacterInfo.ReloadInfo(banners.ElementAt(index).Value.character);
         }
         yield return null;
         isMenuActive = true;
-        playerManager.menuCharacterActions.DisableMenu(true);
-        playerManager.menuCharacterInfo.menuCharacterInfo.SetActive(false);
+        playerManager.menuCharacterActions.DisableMenu(true, true);
         menuAttackCharacter.SetActive(true);
         playerManager.MovePointerToInstant(Vector3Int.RoundToInt(banners.ElementAt(0).Key.transform.position));
     }
     public void DisableMenu()
     {
+        AStarPathFinding.Instance.DisableGrid();
         menuAttackCharacter.SetActive(false);
         isMenuActive = false;
-        playerManager.menuCharacterActions.menuCharacterActions.SetActive(true);
-        playerManager.menuCharacterInfo.menuCharacterInfo.SetActive(true);
         foreach (Transform child in containerBanners.transform)
         {
             Destroy(child.gameObject);
@@ -120,5 +121,19 @@ public class MenuAttackCharacter : MonoBehaviour
         banners = new SerializedDictionary<Character, AttackCharacterBanner>();
         playerManager.menuCharacterActions.BackToMenuWhitButton(MenuCharacterActions.TypeButton.Attack);
         playerManager.MovePointerToInstant(AStarPathFinding.Instance.characterSelected.positionInGrid);
+    }
+    public void DisableMenuCharacterSelect()
+    {
+        AStarPathFinding.Instance.DisableGrid();
+        menuAttackCharacter.SetActive(false);
+        playerManager.menuCharacterInfo.DisableMenu(true);
+        isMenuActive = false;
+        foreach (Transform child in containerBanners.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        banners = new SerializedDictionary<Character, AttackCharacterBanner>();
+        playerManager.MovePointerToInstant(AStarPathFinding.Instance.characterSelected.positionInGrid);
+        AStarPathFinding.Instance.characterSelected = null;
     }
 }

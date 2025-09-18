@@ -17,8 +17,9 @@ public class MenuCharacterSelector : MonoBehaviour
     public RectTransform viewport;
     public GameObject menuCharacterSelector;
     public TMP_Text amountCharactersText;
-    public int _amountCharacters;
-    public Action<int> OnAmountCharacterChange;
+    public int index;
+    int _amountCharacters;
+    Action<int> OnAmountCharacterChange;
     public bool isMenuActive;
     public int amountCharacters
     {
@@ -33,7 +34,6 @@ public class MenuCharacterSelector : MonoBehaviour
             }
         }
     }
-    public int index;
     void Start()
     {
         amountCharacters = 10;
@@ -66,7 +66,7 @@ public class MenuCharacterSelector : MonoBehaviour
         character.transform.position = Vector3.zero;
         AStarPathFinding.Instance.characterSelected = character;
         AStarPathFinding.Instance.grid[Vector3Int.zero].hasCharacter = character;
-        AStarPathFinding.Instance.EnableGrid(AStarPathFinding.Instance.GetWalkableTiles());
+        AStarPathFinding.Instance.EnableGrid(AStarPathFinding.Instance.GetWalkableTiles(), Color.magenta);
         DisableMenu();
     }
     public IEnumerator EnableMenu()

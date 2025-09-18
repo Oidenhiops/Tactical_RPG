@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4127872252404199057}
   - component: {fileID: 1391653729664499557}
   - component: {fileID: 7955934089534637660}
-  - component: {fileID: 8373534675266609738}
+  - component: {fileID: 6347534000215255953}
   m_Layer: 5
   m_Name: FloatingText
   m_TagString: Untagged
@@ -103,7 +103,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &8373534675266609738
+--- !u!114 &6347534000215255953
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -112,7 +112,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2459534110922450985}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54001748b26cdb840a82f0fa7788fd91, type: 3}
+  m_Script: {fileID: 11500000, guid: c336032e18050794384285a2908b214c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   label: {fileID: 8281966341926336037}
@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 8281966341926336037}
   - component: {fileID: 2818275745982486167}
   - component: {fileID: 7572182997001781915}
+  - component: {fileID: 5672824015096349030}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -187,15 +188,14 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 98e6d8ff5de617c4b97cf97024c7d54d, type: 2}
-  m_sharedMaterial: {fileID: 1986812973222885232, guid: 98e6d8ff5de617c4b97cf97024c7d54d,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 16777215
+    rgba: 4294967295
   m_fontColor: {r: 1, g: 1, b: 1, a: 0}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -272,7 +272,7 @@ MonoBehaviour:
   typewriterStartsAutomatically: 0
   animationLoop: 0
   timeScale: 0
-  _text: 1000
+  _text: 10
   useDynamicScaling: 1
   referenceFontSize: 10
   isResettingTimeOnNewText: 0
@@ -332,3 +332,16 @@ MonoBehaviour:
   useTypewriterWaitForDisappearances: 1
   disappearanceWaitTime: 0.015
   disappearanceSpeedMultiplier: 1
+--- !u!114 &5672824015096349030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4312572451842597898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a62d7b397d4428042ad074edfbcdca18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offsetRotation: {x: 0, y: 0, z: 0}

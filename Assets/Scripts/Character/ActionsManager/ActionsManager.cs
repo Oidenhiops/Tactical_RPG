@@ -83,7 +83,7 @@ public class ActionsManager : MonoBehaviour
             AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)].hasCharacter != null &&
             characterActions.TryGetValue(AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)].hasCharacter, out List<ActionInfo> actions))
         {
-            if (actions[actions.Count - 1].cantUndo) return;
+            if (actions.Count > 0 && actions[actions.Count - 1].cantUndo) return;
             switch (actions[actions.Count - 1].typeAction)
             {
                 case TypeAction.Move:
@@ -123,11 +123,6 @@ public class ActionsManager : MonoBehaviour
                         characterActions.Remove(actions[actions.Count - 1].character);
                     }
                     break;
-                case TypeAction.Defend:
-                    actions[actions.Count - 1].character.lastAction = TypeAction.None;
-                    actions.RemoveAt(actions.Count - 1);
-                    if (actions.Count == 0) characterActions.Remove(actions[actions.Count - 1].character);
-                    break;
                 case TypeAction.Lift:
                     if (!AStarPathFinding.Instance.grid[actions[actions.Count - 1].otherCharacterInfo[0].positionInGrid].hasCharacter)
                     {
@@ -140,6 +135,12 @@ public class ActionsManager : MonoBehaviour
                         actions.RemoveAt(actions.Count - 1);
                         if (actions.Count == 0) characterActions.Remove(actions[actions.Count - 1].character);
                     }
+                    break;
+                case TypeAction.Defend:
+                case TypeAction.Attack:
+                    actions[actions.Count - 1].character.lastAction = TypeAction.None;
+                    if (actions.Count - 1 == 0) characterActions.Remove(actions[actions.Count - 1].character);
+                    else actions.RemoveAt(actions.Count - 1);
                     break;
             }
         }
@@ -162,18 +163,38 @@ public class ActionsManager : MonoBehaviour
     {
         foreach (KeyValuePair<Character, List<ActionInfo>> actions in characterActions)
         {
-            actions.Key.lastAction = TypeAction.EndTurn;
             switch (actions.Value[actions.Value.Count - 1].typeAction)
             {
                 case TypeAction.Attack:
                     actions.Value[actions.Value.Count - 1].character.characterAnimations.MakeAnimation(actions.Value[actions.Value.Count - 1].character.characterAnimations.GetAnimationAttack());
                     await Awaitable.NextFrameAsync();
+                    bool makedDamage = false;
                     while (true)
                     {
+                        if (actions.Value[actions.Value.Count - 1].character.characterAnimations.currentAnimation.frameToInstance == actions.Value[actions.Value.Count - 1].character.characterAnimations.currentSpriteIndex && !makedDamage)
+                        {
+                            makedDamage = true;
+                            foreach (OtherCharacterInfo otherCharacter in actions.Value[actions.Value.Count - 1].otherCharacterInfo)
+                            {
+                                otherCharacter.character.TakeDamage(actions.Value[actions.Value.Count - 1].character, true);
+                            }
+                        }
                         if (actions.Value[actions.Value.Count - 1].character.characterAnimations.currentAnimation.name == "Idle") break;
                         await Awaitable.NextFrameAsync();
                     }
-                    characterActions.Remove(actions.Value[actions.Value.Count - 1].character);
+                    actions.Key.lastAction = TypeAction.EndTurn;
+                    while (true)
+                    {
+                        if (actions.Value[actions.Value.Count - 1].otherCharacterInfo[0].character.characterAnimations.currentAnimation.name == "Idle") break;
+                        await Awaitable.NextFrameAsync();
+                    }
+                    characterActions[actions.Key].Add(new ActionInfo()
+                    {
+                        cantUndo = false,
+                        positionInGrid = actions.Key.positionInGrid,
+                        typeAction = TypeAction.EndTurn
+                    });
+                    await Task.Delay(TimeSpan.FromSeconds(0.5f));
                     break;
                 case TypeAction.Special:
                     await Awaitable.NextFrameAsync();

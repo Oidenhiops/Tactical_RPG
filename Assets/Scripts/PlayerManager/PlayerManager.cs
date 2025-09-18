@@ -19,16 +19,13 @@ public class PlayerManager : MonoBehaviour
     public MenuCharacterInfo menuCharacterInfo;
     public MenuThrowCharacter menuThrowCharacter;
     public MouseDecalAnim mouseDecal;
-    public bool isDecalMovement;
-    public Vector3Int direction;
-    Vector3 camDirection;
-    public Vector3 movementDirection;
     public Vector3Int currentMousePos;
-    public bool cantRotateCamera;
-    public bool onRotateCamera;
     public Transform cameraRot;
-    public bool directionCamera;
+    public bool canShowGridAndDecal;
     public Character[] characters;
+    public Animator roundStateAnimator;
+    public ManagementLanguage roundStateLanguage;
+    public Transform charactersContainer;
     public bool _characterPlayerMakingActions;
     public Action<bool, bool> OnCharacterPlayerMakingActions;
     public bool characterPlayerMakingActions
@@ -43,9 +40,12 @@ public class PlayerManager : MonoBehaviour
             }
         }
     }
-    public bool canShowGridAndDecal;
-    public Animator roundStateAnimator;
-    public ManagementLanguage roundStateLanguage;
+    bool isDecalMovement;
+    Vector3Int direction;
+    Vector3 camDirection;
+    bool cantRotateCamera;
+    bool onRotateCamera;
+    bool directionCamera;
     void Awake()
     {
         if (Instance == null) Instance = this;
@@ -99,7 +99,7 @@ public class PlayerManager : MonoBehaviour
         {
             if (characterInfo.statistics[CharacterData.TypeStatistic.Hp].currentValue > 0)
             {
-                Character character = Instantiate(Resources.Load<GameObject>("Prefabs/Character/Character"), Vector3Int.down * 2, Quaternion.identity).GetComponent<Character>();
+                Character character = Instantiate(Resources.Load<GameObject>("Prefabs/GeneralCharacter/GeneralCharacter"), Vector3Int.down * 2, Quaternion.identity, charactersContainer).GetComponent<Character>();
                 character.characterData = characterInfo;
                 character.name = character.characterData.name;
                 charactersSpawned.Add(character);
@@ -128,7 +128,7 @@ public class PlayerManager : MonoBehaviour
     public void EnableVisuals()
     {
         mouseDecal.decal.gameObject.SetActive(true);
-        if (AStarPathFinding.Instance.characterSelected) AStarPathFinding.Instance.EnableGrid(AStarPathFinding.Instance.GetWalkableTiles());
+        if (AStarPathFinding.Instance.characterSelected) AStarPathFinding.Instance.EnableGrid(AStarPathFinding.Instance.GetWalkableTiles(), Color.magenta);
     }
     void HandleMovement(InputAction.CallbackContext context)
     {
@@ -179,12 +179,6 @@ public class PlayerManager : MonoBehaviour
             Vector3Int lastPos = currentMousePos;
             CameraInfo.Instance.CamDirection(out Vector3 camForward, out Vector3 camRight);
             camDirection = (direction.x * camRight + direction.z * camForward).normalized;
-            movementDirection = new Vector3
-            (
-                camDirection.x,
-                0,
-                camDirection.z
-            ).normalized;
             Vector3Int currentPos = new Vector3Int(Mathf.RoundToInt(mouseDecal.transform.position.x), Mathf.RoundToInt(mouseDecal.transform.position.y), Mathf.RoundToInt(mouseDecal.transform.position.z));
             currentMousePos = currentPos + new Vector3Int(Mathf.RoundToInt(camDirection.x), Mathf.RoundToInt(camDirection.y), Mathf.RoundToInt(camDirection.z));
             FixHeight(currentMousePos, out GenerateMap.WalkablePositionInfo blockFinded);
@@ -192,18 +186,17 @@ public class PlayerManager : MonoBehaviour
             isDecalMovement = true;
             if (AStarPathFinding.Instance.currentGrid.Count == 0)
             {
-                if (currentMousePos.x < AStarPathFinding.Instance.limitX.x || currentMousePos.x > AStarPathFinding.Instance.limitX.y || currentMousePos.z < AStarPathFinding.Instance.limitZ.x || currentMousePos.z > AStarPathFinding.Instance.limitZ.y)
+                if (currentMousePos.x < AStarPathFinding.Instance.limitX.x || currentMousePos.x > AStarPathFinding.Instance.limitX.y)
                 {
                     currentMousePos.x = Math.Clamp(currentMousePos.x, AStarPathFinding.Instance.limitX.x, AStarPathFinding.Instance.limitX.y);
-                    currentMousePos.z = Math.Clamp(currentMousePos.z, -AStarPathFinding.Instance.limitZ.x, AStarPathFinding.Instance.limitZ.y);
-                    AStarPathFinding.Instance.GetHighestBlockAt(currentMousePos, out GenerateMap.WalkablePositionInfo block);
-                    currentMousePos.y = block != null ? block.pos.y : 0;
-                    isDecalMovement = false;
                 }
-                else
+                if (currentMousePos.z < AStarPathFinding.Instance.limitZ.x || currentMousePos.z > AStarPathFinding.Instance.limitZ.y)
                 {
-                    StartCoroutine(MovePointerTo(currentMousePos));
+                    currentMousePos.z = Math.Clamp(currentMousePos.z, -AStarPathFinding.Instance.limitZ.x, AStarPathFinding.Instance.limitZ.y);
                 }
+                AStarPathFinding.Instance.GetHighestBlockAt(currentMousePos, out GenerateMap.WalkablePositionInfo block);
+                currentMousePos.y = block != null ? block.pos.y : 0;
+                StartCoroutine(MovePointerTo(currentMousePos));
             }
             else
             {

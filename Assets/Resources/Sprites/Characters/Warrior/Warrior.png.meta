@@ -610,8 +610,8 @@ TextureImporter:
       name: Warrior_22
       rect:
         serializedVersion: 2
-        x: 128
-        y: 320
+        x: 0
+        y: 256
         width: 64
         height: 64
       alignment: 0
@@ -632,8 +632,8 @@ TextureImporter:
       name: Warrior_23
       rect:
         serializedVersion: 2
-        x: 192
-        y: 320
+        x: 64
+        y: 256
         width: 64
         height: 64
       alignment: 0
@@ -655,7 +655,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 256
+        y: 192
         width: 64
         height: 64
       alignment: 0
@@ -677,7 +677,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 256
+        y: 192
         width: 64
         height: 64
       alignment: 0
@@ -698,8 +698,8 @@ TextureImporter:
       name: Warrior_26
       rect:
         serializedVersion: 2
-        x: 128
-        y: 256
+        x: 0
+        y: 128
         width: 64
         height: 64
       alignment: 0
@@ -720,8 +720,8 @@ TextureImporter:
       name: Warrior_27
       rect:
         serializedVersion: 2
-        x: 192
-        y: 256
+        x: 64
+        y: 128
         width: 64
         height: 64
       alignment: 0
@@ -742,8 +742,8 @@ TextureImporter:
       name: Warrior_28
       rect:
         serializedVersion: 2
-        x: 256
-        y: 256
+        x: 128
+        y: 128
         width: 64
         height: 64
       alignment: 0
@@ -764,8 +764,8 @@ TextureImporter:
       name: Warrior_29
       rect:
         serializedVersion: 2
-        x: 320
-        y: 256
+        x: 192
+        y: 128
         width: 64
         height: 64
       alignment: 0
@@ -786,8 +786,8 @@ TextureImporter:
       name: Warrior_30
       rect:
         serializedVersion: 2
-        x: 384
-        y: 256
+        x: 0
+        y: 64
         width: 64
         height: 64
       alignment: 0
@@ -808,8 +808,8 @@ TextureImporter:
       name: Warrior_31
       rect:
         serializedVersion: 2
-        x: 448
-        y: 256
+        x: 64
+        y: 64
         width: 64
         height: 64
       alignment: 0
@@ -830,8 +830,8 @@ TextureImporter:
       name: Warrior_32
       rect:
         serializedVersion: 2
-        x: 512
-        y: 256
+        x: 128
+        y: 64
         width: 64
         height: 64
       alignment: 0
@@ -852,8 +852,8 @@ TextureImporter:
       name: Warrior_33
       rect:
         serializedVersion: 2
-        x: 576
-        y: 256
+        x: 192
+        y: 64
         width: 64
         height: 64
       alignment: 0
@@ -874,8 +874,8 @@ TextureImporter:
       name: Warrior_34
       rect:
         serializedVersion: 2
-        x: 0
-        y: 192
+        x: 256
+        y: 64
         width: 64
         height: 64
       alignment: 0
@@ -896,8 +896,8 @@ TextureImporter:
       name: Warrior_35
       rect:
         serializedVersion: 2
-        x: 64
-        y: 192
+        x: 320
+        y: 64
         width: 64
         height: 64
       alignment: 0
@@ -918,8 +918,8 @@ TextureImporter:
       name: Warrior_36
       rect:
         serializedVersion: 2
-        x: 128
-        y: 192
+        x: 384
+        y: 64
         width: 64
         height: 64
       alignment: 0
@@ -940,8 +940,8 @@ TextureImporter:
       name: Warrior_37
       rect:
         serializedVersion: 2
-        x: 192
-        y: 192
+        x: 448
+        y: 64
         width: 64
         height: 64
       alignment: 0
@@ -962,8 +962,8 @@ TextureImporter:
       name: Warrior_38
       rect:
         serializedVersion: 2
-        x: 256
-        y: 192
+        x: 512
+        y: 64
         width: 64
         height: 64
       alignment: 0
@@ -984,8 +984,8 @@ TextureImporter:
       name: Warrior_39
       rect:
         serializedVersion: 2
-        x: 320
-        y: 192
+        x: 576
+        y: 64
         width: 64
         height: 64
       alignment: 0
@@ -1006,8 +1006,8 @@ TextureImporter:
       name: Warrior_40
       rect:
         serializedVersion: 2
-        x: 384
-        y: 192
+        x: 0
+        y: 0
         width: 64
         height: 64
       alignment: 0
@@ -1028,8 +1028,8 @@ TextureImporter:
       name: Warrior_41
       rect:
         serializedVersion: 2
-        x: 448
-        y: 192
+        x: 64
+        y: 0
         width: 64
         height: 64
       alignment: 0
@@ -1050,8 +1050,8 @@ TextureImporter:
       name: Warrior_42
       rect:
         serializedVersion: 2
-        x: 512
-        y: 192
+        x: 128
+        y: 0
         width: 64
         height: 64
       alignment: 0
@@ -1072,8 +1072,8 @@ TextureImporter:
       name: Warrior_43
       rect:
         serializedVersion: 2
-        x: 576
-        y: 192
+        x: 192
+        y: 0
         width: 64
         height: 64
       alignment: 0
@@ -1094,8 +1094,8 @@ TextureImporter:
       name: Warrior_44
       rect:
         serializedVersion: 2
-        x: 640
-        y: 192
+        x: 256
+        y: 0
         width: 64
         height: 64
       alignment: 0
@@ -1116,8 +1116,8 @@ TextureImporter:
       name: Warrior_45
       rect:
         serializedVersion: 2
-        x: 704
-        y: 192
+        x: 320
+        y: 0
         width: 64
         height: 64
       alignment: 0
@@ -1138,8 +1138,8 @@ TextureImporter:
       name: Warrior_46
       rect:
         serializedVersion: 2
-        x: 768
-        y: 192
+        x: 384
+        y: 0
         width: 64
         height: 64
       alignment: 0
@@ -1160,8 +1160,8 @@ TextureImporter:
       name: Warrior_47
       rect:
         serializedVersion: 2
-        x: 832
-        y: 192
+        x: 448
+        y: 0
         width: 64
         height: 64
       alignment: 0
@@ -1182,8 +1182,8 @@ TextureImporter:
       name: Warrior_48
       rect:
         serializedVersion: 2
-        x: 0
-        y: 128
+        x: 512
+        y: 0
         width: 64
         height: 64
       alignment: 0
@@ -1204,8 +1204,8 @@ TextureImporter:
       name: Warrior_49
       rect:
         serializedVersion: 2
-        x: 64
-        y: 128
+        x: 576
+        y: 0
         width: 64
         height: 64
       alignment: 0
@@ -1226,8 +1226,8 @@ TextureImporter:
       name: Warrior_50
       rect:
         serializedVersion: 2
-        x: 0
-        y: 64
+        x: 640
+        y: 0
         width: 64
         height: 64
       alignment: 0
@@ -1248,8 +1248,8 @@ TextureImporter:
       name: Warrior_51
       rect:
         serializedVersion: 2
-        x: 64
-        y: 64
+        x: 704
+        y: 0
         width: 64
         height: 64
       alignment: 0
@@ -1270,7 +1270,7 @@ TextureImporter:
       name: Warrior_52
       rect:
         serializedVersion: 2
-        x: 0
+        x: 768
         y: 0
         width: 64
         height: 64
@@ -1282,8 +1282,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: da4f1aabaa113b945965e71a8d750c5e
-      internalID: -1860626766
+      spriteID: 6f7f1672486ac4743ba227c3baff82ed
+      internalID: -1896143066
       vertices: []
       indices: 
       edges: []
@@ -1292,7 +1292,7 @@ TextureImporter:
       name: Warrior_53
       rect:
         serializedVersion: 2
-        x: 64
+        x: 832
         y: 0
         width: 64
         height: 64
@@ -1304,52 +1304,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0decfb6e8b30b1242a2c806f60eb3fac
-      internalID: 1349895332
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Warrior_54
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3c0e51360395d864984f31ede34638c6
-      internalID: 1185758404
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Warrior_55
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3e980176db524584089f81d5b5547275
-      internalID: 1057933585
+      spriteID: 70d5c53a48b4f1e42b806238f347ff5c
+      internalID: -99334190
       vertices: []
       indices: 
       edges: []
@@ -1416,10 +1372,8 @@ TextureImporter:
       Warrior_5: 1751723056
       Warrior_50: -1263324298
       Warrior_51: 259822986
-      Warrior_52: -1860626766
-      Warrior_53: 1349895332
-      Warrior_54: 1185758404
-      Warrior_55: 1057933585
+      Warrior_52: -1896143066
+      Warrior_53: -99334190
       Warrior_6: -819064214
       Warrior_7: -41787750
       Warrior_8: 155459562

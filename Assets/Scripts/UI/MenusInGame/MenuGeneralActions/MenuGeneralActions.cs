@@ -39,7 +39,7 @@ public class MenuGeneralActions : MonoBehaviour
     {
         if (menuGeneralActions.activeSelf)
         {
-            if (AStarPathFinding.Instance.characterSelected && AStarPathFinding.Instance.LastCharacterActionPermitActions()) AStarPathFinding.Instance.EnableGrid(AStarPathFinding.Instance.GetWalkableTiles());
+            if (AStarPathFinding.Instance.characterSelected && AStarPathFinding.Instance.LastCharacterActionPermitActions()) AStarPathFinding.Instance.EnableGrid(AStarPathFinding.Instance.GetWalkableTiles(), Color.magenta);
             executeButton.interactable = false;
             menuGeneralActions.SetActive(false);
         }
@@ -52,6 +52,7 @@ public class MenuGeneralActions : MonoBehaviour
             executeButton.interactable = true;
             return executeButton.gameObject;
         }
+        executeButton.interactable = false;
         return endTurnButton;
     }
     public void ExecuteButton()

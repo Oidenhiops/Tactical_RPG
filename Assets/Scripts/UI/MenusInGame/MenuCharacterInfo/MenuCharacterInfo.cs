@@ -31,9 +31,9 @@ public class MenuCharacterInfo : MonoBehaviour
         }
         menuCharacterInfo.SetActive(true);
     }
-    public void DisableMenu()
+    public void DisableMenu(bool conservCharacter = false)
     {
         menuCharacterInfo.SetActive(false);
-        AStarPathFinding.Instance.characterSelected = null;
+        if (!conservCharacter) AStarPathFinding.Instance.characterSelected = null;
     }
 }

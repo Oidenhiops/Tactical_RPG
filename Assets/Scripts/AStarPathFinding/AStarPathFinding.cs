@@ -10,11 +10,13 @@ public class AStarPathFinding : MonoBehaviour
     public static AStarPathFinding Instance { get; private set; }
     public SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> currentGrid;
     public SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> grid = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
-    [SerializeField] private GameObject poolinGrid;
+    [SerializeField] GameObject poolinGrid;
+    [SerializeField] Transform gridContainer;
     [SerializeField] private int poolSize = 50;
     private Queue<GameObject> pool = new Queue<GameObject>();
     public Character characterSelected;
     public Vector2Int limitX = new Vector2Int(-10, 10), limitZ = new Vector2Int(-10, 10);
+    public Material gridMaterial;
     Coroutine _ToggleGrid;
     void Awake()
     {
@@ -23,7 +25,7 @@ public class AStarPathFinding : MonoBehaviour
             Instance = this;
             for (int i = 0; i < poolSize; i++)
             {
-                GameObject obj = Instantiate(poolinGrid);
+                GameObject obj = Instantiate(poolinGrid, gridContainer);
                 obj.SetActive(false);
                 pool.Enqueue(obj);
             }
@@ -39,7 +41,7 @@ public class AStarPathFinding : MonoBehaviour
         }
         else
         {
-            GameObject obj = Instantiate(poolinGrid);
+            GameObject obj = Instantiate(poolinGrid, gridContainer);
             return obj;
         }
     }
@@ -48,7 +50,7 @@ public class AStarPathFinding : MonoBehaviour
         obj.SetActive(false);
         pool.Enqueue(obj);
     }
-    public void EnableGrid(SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> gridToEnable)
+    public void EnableGrid(SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> gridToEnable, Color gridColor)
     {
         if (_ToggleGrid != null)
         {
@@ -64,6 +66,7 @@ public class AStarPathFinding : MonoBehaviour
             cell.Value.blockInfo.poolingGrid = GetPoolingGrid();
             cell.Value.blockInfo.poolingGrid.transform.position = cell.Value.blockInfo.transform.position + Vector3.up * 0.1f;
         }
+        gridMaterial.color = gridColor;
         currentGrid = gridToEnable;
         _ToggleGrid = StartCoroutine(ToggleGrid());
     }
@@ -127,7 +130,7 @@ public class AStarPathFinding : MonoBehaviour
                         {
                             if (LastCharacterActionPermitActions())
                             {
-                                EnableGrid(GetWalkableTiles());
+                                EnableGrid(GetWalkableTiles(), Color.magenta);
                             }
                             else StartCoroutine(PlayerManager.Instance.menuCharacterActions.EnableMenu());
                         }
@@ -159,7 +162,7 @@ public class AStarPathFinding : MonoBehaviour
                         characterSelected = block.hasCharacter;
                         if (LastCharacterActionPermitActions())
                         {
-                            EnableGrid(GetWalkableTiles());
+                            EnableGrid(GetWalkableTiles(), Color.magenta);
                         }
                         else
                         {

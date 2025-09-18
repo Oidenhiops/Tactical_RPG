@@ -212,9 +212,33 @@ public class Character : MonoBehaviour
             yield return null;
         }
     }
-    public async Task MakeAttack()
+    public void TakeDamage(Character characterMakeDamage, bool isBasicAttack)
     {
-        await Awaitable.NextFrameAsync();
+        characterAnimations.MakeAnimation("TakeDamage");
+        FloatingText floatingText = Instantiate(Resources.Load<GameObject>("Prefabs/UI/FloatingText/FloatingText"), transform.position, Quaternion.identity).GetComponent<FloatingText>();
+        _ = floatingText.SendText(characterMakeDamage.characterData.statistics[CharacterData.TypeStatistic.Atk].currentValue.ToString(), Color.red, false);
+        if (characterData.statistics.TryGetValue(CharacterData.TypeStatistic.Hp, out CharacterData.Statistic characterTakedDamageStatistic))
+        {
+            if (isBasicAttack)
+            {
+                characterTakedDamageStatistic.currentValue -= characterMakeDamage.characterData.statistics[CharacterData.TypeStatistic.Atk].currentValue;
+            }
+            else
+            {
+
+            }
+        }
+        characterAnimations.MakeEffect(CharacterAnimation.TypeAnimationsEffects.Shake);
+        characterAnimations.MakeEffect(CharacterAnimation.TypeAnimationsEffects.Blink);
+        if (characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue <= 0) StartCoroutine(Die());
+    }
+    public IEnumerator Die()
+    {
+        yield return new WaitForSeconds(0.3f);
+        GameObject dieEffect = Instantiate(Resources.Load<GameObject>("Prefabs/Effects/DieEffect/DieEffect"), transform.position, Quaternion.identity);
+        characterModel.characterMeshRenderer.gameObject.SetActive(false);
+        yield return new WaitForSeconds(1);
+        Destroy(dieEffect);
     }
     public async Task MakeSpecial()
     {

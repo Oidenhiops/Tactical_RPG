@@ -610,8 +610,8 @@ TextureImporter:
       name: WarriorHands_22
       rect:
         serializedVersion: 2
-        x: 128
-        y: 320
+        x: 0
+        y: 256
         width: 64
         height: 64
       alignment: 0
@@ -632,8 +632,8 @@ TextureImporter:
       name: WarriorHands_23
       rect:
         serializedVersion: 2
-        x: 192
-        y: 320
+        x: 64
+        y: 256
         width: 64
         height: 64
       alignment: 0
@@ -655,7 +655,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 256
+        y: 192
         width: 64
         height: 64
       alignment: 0
@@ -677,7 +677,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 256
+        y: 192
         width: 64
         height: 64
       alignment: 0
@@ -698,8 +698,8 @@ TextureImporter:
       name: WarriorHands_26
       rect:
         serializedVersion: 2
-        x: 128
-        y: 256
+        x: 0
+        y: 128
         width: 64
         height: 64
       alignment: 0
@@ -720,8 +720,8 @@ TextureImporter:
       name: WarriorHands_27
       rect:
         serializedVersion: 2
-        x: 192
-        y: 256
+        x: 64
+        y: 128
         width: 64
         height: 64
       alignment: 0
@@ -742,8 +742,8 @@ TextureImporter:
       name: WarriorHands_28
       rect:
         serializedVersion: 2
-        x: 256
-        y: 256
+        x: 128
+        y: 128
         width: 64
         height: 64
       alignment: 0
@@ -764,8 +764,8 @@ TextureImporter:
       name: WarriorHands_29
       rect:
         serializedVersion: 2
-        x: 320
-        y: 256
+        x: 192
+        y: 128
         width: 64
         height: 64
       alignment: 0
@@ -786,8 +786,8 @@ TextureImporter:
       name: WarriorHands_30
       rect:
         serializedVersion: 2
-        x: 384
-        y: 256
+        x: 0
+        y: 64
         width: 64
         height: 64
       alignment: 0
@@ -808,8 +808,8 @@ TextureImporter:
       name: WarriorHands_31
       rect:
         serializedVersion: 2
-        x: 448
-        y: 256
+        x: 64
+        y: 64
         width: 64
         height: 64
       alignment: 0
@@ -830,8 +830,8 @@ TextureImporter:
       name: WarriorHands_32
       rect:
         serializedVersion: 2
-        x: 512
-        y: 256
+        x: 128
+        y: 64
         width: 64
         height: 64
       alignment: 0
@@ -852,8 +852,8 @@ TextureImporter:
       name: WarriorHands_33
       rect:
         serializedVersion: 2
-        x: 576
-        y: 256
+        x: 192
+        y: 64
         width: 64
         height: 64
       alignment: 0
@@ -874,8 +874,8 @@ TextureImporter:
       name: WarriorHands_34
       rect:
         serializedVersion: 2
-        x: 0
-        y: 192
+        x: 256
+        y: 64
         width: 64
         height: 64
       alignment: 0
@@ -896,8 +896,8 @@ TextureImporter:
       name: WarriorHands_35
       rect:
         serializedVersion: 2
-        x: 64
-        y: 192
+        x: 320
+        y: 64
         width: 64
         height: 64
       alignment: 0
@@ -918,8 +918,8 @@ TextureImporter:
       name: WarriorHands_36
       rect:
         serializedVersion: 2
-        x: 128
-        y: 192
+        x: 384
+        y: 64
         width: 64
         height: 64
       alignment: 0
@@ -940,8 +940,8 @@ TextureImporter:
       name: WarriorHands_37
       rect:
         serializedVersion: 2
-        x: 192
-        y: 192
+        x: 448
+        y: 64
         width: 64
         height: 64
       alignment: 0
@@ -962,8 +962,8 @@ TextureImporter:
       name: WarriorHands_38
       rect:
         serializedVersion: 2
-        x: 256
-        y: 192
+        x: 512
+        y: 64
         width: 64
         height: 64
       alignment: 0
@@ -984,8 +984,8 @@ TextureImporter:
       name: WarriorHands_39
       rect:
         serializedVersion: 2
-        x: 320
-        y: 192
+        x: 576
+        y: 64
         width: 64
         height: 64
       alignment: 0
@@ -1006,8 +1006,8 @@ TextureImporter:
       name: WarriorHands_40
       rect:
         serializedVersion: 2
-        x: 384
-        y: 192
+        x: 0
+        y: 0
         width: 64
         height: 64
       alignment: 0
@@ -1028,8 +1028,8 @@ TextureImporter:
       name: WarriorHands_41
       rect:
         serializedVersion: 2
-        x: 448
-        y: 192
+        x: 64
+        y: 0
         width: 64
         height: 64
       alignment: 0
@@ -1050,8 +1050,8 @@ TextureImporter:
       name: WarriorHands_42
       rect:
         serializedVersion: 2
-        x: 512
-        y: 192
+        x: 128
+        y: 0
         width: 64
         height: 64
       alignment: 0
@@ -1072,8 +1072,8 @@ TextureImporter:
       name: WarriorHands_43
       rect:
         serializedVersion: 2
-        x: 576
-        y: 192
+        x: 192
+        y: 0
         width: 64
         height: 64
       alignment: 0
@@ -1094,8 +1094,8 @@ TextureImporter:
       name: WarriorHands_44
       rect:
         serializedVersion: 2
-        x: 640
-        y: 192
+        x: 256
+        y: 0
         width: 64
         height: 64
       alignment: 0
@@ -1116,8 +1116,8 @@ TextureImporter:
       name: WarriorHands_45
       rect:
         serializedVersion: 2
-        x: 704
-        y: 192
+        x: 320
+        y: 0
         width: 64
         height: 64
       alignment: 0
@@ -1138,8 +1138,8 @@ TextureImporter:
       name: WarriorHands_46
       rect:
         serializedVersion: 2
-        x: 768
-        y: 192
+        x: 384
+        y: 0
         width: 64
         height: 64
       alignment: 0
@@ -1160,8 +1160,8 @@ TextureImporter:
       name: WarriorHands_47
       rect:
         serializedVersion: 2
-        x: 832
-        y: 192
+        x: 448
+        y: 0
         width: 64
         height: 64
       alignment: 0
@@ -1182,8 +1182,8 @@ TextureImporter:
       name: WarriorHands_48
       rect:
         serializedVersion: 2
-        x: 0
-        y: 128
+        x: 512
+        y: 0
         width: 64
         height: 64
       alignment: 0
@@ -1204,8 +1204,8 @@ TextureImporter:
       name: WarriorHands_49
       rect:
         serializedVersion: 2
-        x: 64
-        y: 128
+        x: 576
+        y: 0
         width: 64
         height: 64
       alignment: 0
@@ -1226,8 +1226,8 @@ TextureImporter:
       name: WarriorHands_50
       rect:
         serializedVersion: 2
-        x: 0
-        y: 64
+        x: 640
+        y: 0
         width: 64
         height: 64
       alignment: 0
@@ -1248,8 +1248,8 @@ TextureImporter:
       name: WarriorHands_51
       rect:
         serializedVersion: 2
-        x: 64
-        y: 64
+        x: 704
+        y: 0
         width: 64
         height: 64
       alignment: 0
@@ -1270,7 +1270,7 @@ TextureImporter:
       name: WarriorHands_52
       rect:
         serializedVersion: 2
-        x: 0
+        x: 768
         y: 0
         width: 64
         height: 64
@@ -1292,7 +1292,7 @@ TextureImporter:
       name: WarriorHands_53
       rect:
         serializedVersion: 2
-        x: 64
+        x: 832
         y: 0
         width: 64
         height: 64
@@ -1306,138 +1306,6 @@ TextureImporter:
       bones: []
       spriteID: afaae2e11a705014bb47afd78a09fe20
       internalID: 2011534324
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WarriorHands_54
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 65cd2cce64d4c614099205eb17b26199
-      internalID: -1795237895
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WarriorHands_55
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4300bf82e1f9a6a4b9a2174ab1ab3dbb
-      internalID: -136649650
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WarriorHands_56
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 00bc1447f90446b4ea4ec9a390a087bc
-      internalID: -1328702064
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WarriorHands_57
-      rect:
-        serializedVersion: 2
-        x: 320
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 58d3fd76aada1e3458777763581de0b1
-      internalID: 1100037735
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WarriorHands_58
-      rect:
-        serializedVersion: 2
-        x: 384
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 460cdde9769dab647abc4b597fcb83d2
-      internalID: -1498844217
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WarriorHands_59
-      rect:
-        serializedVersion: 2
-        x: 448
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8b991d6bbf23ab34b8bed4cec5cb933d
-      internalID: -1878520704
       vertices: []
       indices: 
       edges: []
@@ -1506,12 +1374,6 @@ TextureImporter:
       WarriorHands_51: 1994900450
       WarriorHands_52: -1056989775
       WarriorHands_53: 2011534324
-      WarriorHands_54: -1795237895
-      WarriorHands_55: -136649650
-      WarriorHands_56: -1328702064
-      WarriorHands_57: 1100037735
-      WarriorHands_58: -1498844217
-      WarriorHands_59: -1878520704
       WarriorHands_6: 1119474163
       WarriorHands_7: -1385839919
       WarriorHands_8: -616452168

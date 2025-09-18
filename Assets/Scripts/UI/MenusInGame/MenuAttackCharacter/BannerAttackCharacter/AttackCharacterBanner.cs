@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class AttackCharacterBanner : MonoBehaviour
+public class AttackCharacterBanner : MonoBehaviour, ISelectHandler
 {
     public OnObjectSelect onObjectSelect;
     public MenuAttackCharacter menuAttackCharacter;
@@ -29,5 +29,6 @@ public class AttackCharacterBanner : MonoBehaviour
     public void OnSelect(BaseEventData eventData)
     {
         menuAttackCharacter.playerManager.MovePointerToInstant(Vector3Int.RoundToInt(character.transform.position));
+        menuAttackCharacter.playerManager.menuCharacterInfo.ReloadInfo(character);
     }
 }

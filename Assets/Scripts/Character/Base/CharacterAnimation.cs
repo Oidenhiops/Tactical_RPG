@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class CharacterAnimation : MonoBehaviour
@@ -133,5 +135,65 @@ public class CharacterAnimation : MonoBehaviour
                     break;
             }
         }
+    }
+
+    public void MakeEffect(TypeAnimationsEffects typeEffect)
+    {
+        switch (typeEffect)
+        {
+            case TypeAnimationsEffects.Blink:
+                _ = Blink();
+                break;
+            case TypeAnimationsEffects.Shake:
+                _ = Shake();
+                break;
+        }
+    }
+    #region AnimationsEffects
+    async Awaitable Shake()
+    {
+        float tiempoTranscurrido = 0f;
+        Vector3 initialPos = character.characterModel.characterMeshRenderer.transform.localPosition;
+
+        while (tiempoTranscurrido < currentSpritePerTime * currentAnimation.spritesInfoUp.Length)
+        {
+            float desplazamientoX = Mathf.Sin(Time.time * currentAnimation.animationsEffects[TypeAnimationsEffects.Shake].frequency) * currentAnimation.animationsEffects[TypeAnimationsEffects.Shake].amplitude;
+            character.characterModel.characterMeshRenderer.transform.localPosition = initialPos + new Vector3(desplazamientoX, 0, 0);
+            tiempoTranscurrido += Time.deltaTime;
+            await Awaitable.NextFrameAsync();
+        }
+        initialPos.x = 0f;
+        character.characterModel.characterMeshRenderer.transform.localPosition = initialPos;
+    }
+    async Awaitable Blink()
+    {
+        float tiempoTranscurrido = 0f;
+        while (tiempoTranscurrido < currentSpritePerTime * currentAnimation.spritesInfoUp.Length)
+        {
+            if (character.characterModel.characterMeshRenderer.material.color == Color.white)
+            {
+                character.characterModel.characterMeshRenderer.material.SetColor("_Color", currentAnimation.animationsEffects[TypeAnimationsEffects.Blink].colorBlink);
+            }
+            else
+            {
+                character.characterModel.characterMeshRenderer.material.SetColor("_Color", Color.white);
+            }
+            tiempoTranscurrido += currentSpritePerTime;
+            await Task.Delay(TimeSpan.FromSeconds(currentSpritePerTime));
+        }
+        character.characterModel.characterMeshRenderer.material.SetColor("_Color", Color.white);
+    }
+    #endregion
+    [Serializable] public class AnimationEffectInfo
+    {
+        public float amplitude = 0;
+        public float frequency = 0;
+        public Color colorBlink = Color.white;
+    }
+    public enum TypeAnimationsEffects
+    {
+        None = 0,
+        Shake = 1,
+        Blink = 2
     }
 }
