@@ -11,6 +11,7 @@ public class AudioManager : MonoBehaviour
     public AudioMixer audioMixer;
     public AudioSource bgmSource;
     public SoundsDBSO soundsDB;
+    public GameObject audioBoxPrefab;
     public SerializedDictionary<string, InitialBGMSoundsConfigSO.BGMScenesData> BGMSceneData = new SerializedDictionary<string, InitialBGMSoundsConfigSO.BGMScenesData>();
     void Awake()
     {
@@ -26,14 +27,14 @@ public class AudioManager : MonoBehaviour
     }
     public void PlayASound(AudioClip audioClip)
     {
-        AudioSource audioBox = Instantiate(Resources.Load<GameObject>("Prefabs/AudioBox/AudioBox")).GetComponent<AudioSource>();
+        AudioSource audioBox = Instantiate(audioBoxPrefab).GetComponent<AudioSource>();
         audioBox.clip = audioClip;
         audioBox.Play();
         StartCoroutine(DestroyAudioBox(audioBox.gameObject, audioClip.length));
     }
     public void PlayASound(AudioClip audioClip, float initialPitch, bool randomPitch)
     {
-        AudioSource audioBox = Instantiate(Resources.Load<GameObject>("Prefabs/AudioBox/AudioBox")).GetComponent<AudioSource>();
+        AudioSource audioBox = Instantiate(audioBoxPrefab).GetComponent<AudioSource>();
         audioBox.clip = audioClip;
         audioBox.pitch = randomPitch ? UnityEngine.Random.Range(0.5f, 1.5f) : UnityEngine.Random.Range(initialPitch - 0.1f, initialPitch + 0.1f);
         audioBox.Play();
@@ -41,7 +42,7 @@ public class AudioManager : MonoBehaviour
     }
     public void PlayASound(AudioClip audioClip, float initialPitch, bool randomPitch, out GameObject audioBoxInstance)
     {
-        AudioSource audioBox = Instantiate(Resources.Load<GameObject>("Prefabs/AudioBox/AudioBox")).GetComponent<AudioSource>();
+        AudioSource audioBox = Instantiate(audioBoxPrefab).GetComponent<AudioSource>();
         audioBox.clip = audioClip;
         audioBox.pitch = randomPitch ? UnityEngine.Random.Range(0.5f, 1.5f) : UnityEngine.Random.Range(initialPitch - 0.1f, initialPitch + 0.1f);
         audioBox.Play();

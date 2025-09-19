@@ -15,6 +15,7 @@ public class MenuAllCharacters : MonoBehaviour
     public GameObject menuAllCharacters;
     public ScrollRect ScrollRect;
     public RectTransform viewport;
+    public GameObject allCharactersBannerPrefab;
     public int index;
     public async Task SpawnBanners()
     {
@@ -22,7 +23,7 @@ public class MenuAllCharacters : MonoBehaviour
 
         for (int i = 0; i < characters.Length; i++)
         {
-            AllCharactersBanner characterBanner = Instantiate(Resources.Load<GameObject>("Prefabs/UI/AllCharactersBanner/AllCharactersBanner"), containerBanners).GetComponent<AllCharactersBanner>();
+            AllCharactersBanner characterBanner = Instantiate(allCharactersBannerPrefab, containerBanners).GetComponent<AllCharactersBanner>();
             characterBanner.menuAllCharacters = this;
             characterBanner.onObjectSelect.container = containerBanners;
             characterBanner.onObjectSelect.scrollRect = ScrollRect;

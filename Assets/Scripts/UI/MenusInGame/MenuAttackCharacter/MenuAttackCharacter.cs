@@ -20,12 +20,13 @@ public class MenuAttackCharacter : MonoBehaviour
     public SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positionsToAttack;
     public Color gridColor;
     public bool isMenuActive;
+    public GameObject attackCharactersBannerPrefab;
     public int index;
     public async Task SpawnBanners()
     {
         for (int i = 0; i < characters.Length; i++)
         {
-            AttackCharacterBanner characterBanner = Instantiate(Resources.Load<GameObject>("Prefabs/UI/AttackCharactersBanner/AttackCharactersBanner"), containerBanners).GetComponent<AttackCharacterBanner>();
+            AttackCharacterBanner characterBanner = Instantiate(attackCharactersBannerPrefab, containerBanners).GetComponent<AttackCharacterBanner>();
             characterBanner.menuAttackCharacter = this;
             characterBanner.onObjectSelect.container = containerBanners;
             characterBanner.onObjectSelect.scrollRect = ScrollRect;

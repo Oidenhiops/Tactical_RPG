@@ -15,9 +15,12 @@ public class Character : MonoBehaviour
     public Vector3Int direction = new Vector3Int();
     public Vector3Int nextDirection;
     public CharacterAnimation characterAnimations;
+    public CharacterStatusEffect characterStatusEffect;
     public Vector3Int positionInGrid;
     public Vector3Int startPositionInGrid;
     public ActionsManager.TypeAction lastAction;
+    public GameObject floatingTextPrefab;
+    public GameObject dieEffectPrefab;
     public void OnEnable()
     {
         if (isInitialize) characterAnimations.MakeAnimation("Idle");
@@ -35,7 +38,7 @@ public class Character : MonoBehaviour
         try
         {
             await InitializeCharacterData();
-            await InitializeAnimations();
+            await InitializeAnimations();            
             isInitialize = true;
         }
         catch (Exception e)
@@ -215,7 +218,7 @@ public class Character : MonoBehaviour
     public void TakeDamage(Character characterMakeDamage, bool isBasicAttack)
     {
         characterAnimations.MakeAnimation("TakeDamage");
-        FloatingText floatingText = Instantiate(Resources.Load<GameObject>("Prefabs/UI/FloatingText/FloatingText"), transform.position, Quaternion.identity).GetComponent<FloatingText>();
+        FloatingText floatingText = Instantiate(floatingTextPrefab, transform.position, Quaternion.identity).GetComponent<FloatingText>();
         _ = floatingText.SendText(characterMakeDamage.characterData.statistics[CharacterData.TypeStatistic.Atk].currentValue.ToString(), Color.red, false);
         if (characterData.statistics.TryGetValue(CharacterData.TypeStatistic.Hp, out CharacterData.Statistic characterTakedDamageStatistic))
         {
@@ -235,7 +238,7 @@ public class Character : MonoBehaviour
     public IEnumerator Die()
     {
         yield return new WaitForSeconds(0.3f);
-        GameObject dieEffect = Instantiate(Resources.Load<GameObject>("Prefabs/Effects/DieEffect/DieEffect"), transform.position, Quaternion.identity);
+        GameObject dieEffect = Instantiate(dieEffectPrefab, transform.position, Quaternion.identity);
         characterModel.characterMeshRenderer.gameObject.SetActive(false);
         yield return new WaitForSeconds(1);
         Destroy(dieEffect);

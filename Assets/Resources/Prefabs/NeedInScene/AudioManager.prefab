@@ -49,6 +49,8 @@ MonoBehaviour:
   audioMixer: {fileID: 24100000, guid: 2c9f259d089c3da44bfb1f16bcbc0855, type: 2}
   bgmSource: {fileID: 6855568087044737239}
   soundsDB: {fileID: 11400000, guid: 3d6744a292f16cd44b3a3428b61ad6d4, type: 2}
+  audioBoxPrefab: {fileID: 154114293388215822, guid: 2c0e4d7963c547a4bab39fd6ffe6836f,
+    type: 3}
   BGMSceneData:
     _serializedList: []
 --- !u!81 &2030516378932504581

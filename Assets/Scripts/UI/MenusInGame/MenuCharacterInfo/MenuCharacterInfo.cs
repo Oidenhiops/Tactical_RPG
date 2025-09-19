@@ -7,11 +7,13 @@ using UnityEngine.UI;
 public class MenuCharacterInfo : MonoBehaviour
 {
     public GameObject menuCharacterInfo;
+    public Transform statusEffectsContainer;
     public Image characterSprite;
     public TMP_Text characterLevel;
     public TMP_Text characterMovementRadius;
     public TMP_Text characterMovementMaxHeight;
     public TMP_Text characterName;
+    public GameObject statusEffectBanner;
     public SerializedDictionary<CharacterData.TypeStatistic, UiInfo> uiInfo = new SerializedDictionary<CharacterData.TypeStatistic, UiInfo>();
     [System.Serializable]
     public class UiInfo
@@ -28,6 +30,15 @@ public class MenuCharacterInfo : MonoBehaviour
         foreach (KeyValuePair<CharacterData.TypeStatistic, UiInfo> statisticsUi in uiInfo)
         {
             statisticsUi.Value.characterStatistic.text = character.characterData.statistics[statisticsUi.Key].currentValue.ToString();
+        }
+        foreach (Transform child in statusEffectsContainer.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        foreach (KeyValuePair<StatusEffectBaseSO, CharacterStatusEffect.StatusEffectInfo> statusEffect in character.characterStatusEffect.statusEffects)
+        {
+            StatusEffectBanner banner = Instantiate(statusEffectBanner, statusEffectsContainer.transform).GetComponent<StatusEffectBanner>();
+            banner.SetData(statusEffect.Key, statusEffect.Value.amount);
         }
         menuCharacterInfo.SetActive(true);
     }

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65eee6c3c708b0944b8f44d8300ad963, type: 3}
+  m_Name: StatusEffectDefend
+  m_EditorClassIdentifier: 
+  icon: {fileID: -1321351296, guid: 91db74d8f8fc68a4fbce8adb870dd336, type: 3}
+  maxStats: 3
+  statusEffectStatistics:
+    _serializedList:
+    - Key: 6
+      Value:
+        baseValue: 50
+        itemValue: 0
+        buffValue:
+          _serializedList: []
+        currentValue: 0
+        maxValue: 0

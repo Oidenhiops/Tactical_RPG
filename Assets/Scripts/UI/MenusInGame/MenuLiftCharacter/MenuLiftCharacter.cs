@@ -20,12 +20,13 @@ public class MenuLiftCharacter : MonoBehaviour
     public SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positionsToLift;
     public Color gridColor;
     public bool isMenuActive;
+    public GameObject liftCharactersBannerPrefab;
     public int index;
     public async Task SpawnBanners()
     {
         for (int i = 0; i < characters.Length; i++)
         {
-            LiftCharactersBanner characterBanner = Instantiate(Resources.Load<GameObject>("Prefabs/UI/LiftCharactersBanner/LiftCharactersBanner"), containerBanners).GetComponent<LiftCharactersBanner>();
+            LiftCharactersBanner characterBanner = Instantiate(liftCharactersBannerPrefab, containerBanners).GetComponent<LiftCharactersBanner>();
             characterBanner.menuLiftCharacter = this;
             characterBanner.onObjectSelect.container = containerBanners;
             characterBanner.onObjectSelect.scrollRect = ScrollRect;

@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 1791299666810847271}
   - component: {fileID: 1430011315207952022}
   - component: {fileID: 3788326535341420580}
+  - component: {fileID: 3168936691978696117}
   m_Layer: 0
   m_Name: GeneralCharacter
   m_TagString: Untagged
@@ -77,11 +78,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecb83d02944e5c345aaff6222058a901, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isCharacterPlayer: 1
   isInitialize: 0
+  isCharacterPlayer: 1
+  typeCharacter: 0
+  initialDataSO: {fileID: 0}
   characterModel:
-    characterAnimations: {fileID: 11400000, guid: 14ef0526423443242b0d93701be0fa6f,
-      type: 2}
     characterMeshRenderer: {fileID: 372686384909317343}
     characterMeshRendererHand: {fileID: 5916377898712535349}
     leftHand: {fileID: 6365426573277852337}
@@ -89,78 +90,95 @@ MonoBehaviour:
     originalMesh: {fileID: 6622264641530768373, guid: 4385848d124d476478957ebbe044aec6,
       type: 3}
   characterData:
-    characterAnimationsId: 0
+    id: 0
+    level: 0
+    name: 
     statistics:
       _serializedList:
       - Key: 1
         Value:
           baseValue: 0
           itemValue: 0
-          buffValue: 0
-          maxValue: 0
+          buffValue:
+            _serializedList: []
           currentValue: 0
+          maxValue: 0
       - Key: 2
         Value:
           baseValue: 0
           itemValue: 0
-          buffValue: 0
-          maxValue: 0
+          buffValue:
+            _serializedList: []
           currentValue: 0
+          maxValue: 0
       - Key: 3
         Value:
           baseValue: 0
           itemValue: 0
-          buffValue: 0
-          maxValue: 0
+          buffValue:
+            _serializedList: []
           currentValue: 0
+          maxValue: 0
       - Key: 5
         Value:
           baseValue: 0
           itemValue: 0
-          buffValue: 0
-          maxValue: 0
+          buffValue:
+            _serializedList: []
           currentValue: 0
+          maxValue: 0
       - Key: 4
         Value:
           baseValue: 0
           itemValue: 0
-          buffValue: 0
-          maxValue: 0
+          buffValue:
+            _serializedList: []
           currentValue: 0
+          maxValue: 0
       - Key: 6
         Value:
           baseValue: 0
           itemValue: 0
-          buffValue: 0
-          maxValue: 0
+          buffValue:
+            _serializedList: []
           currentValue: 0
+          maxValue: 0
       - Key: 7
         Value:
           baseValue: 0
           itemValue: 0
-          buffValue: 0
-          maxValue: 0
+          buffValue:
+            _serializedList: []
           currentValue: 0
+          maxValue: 0
       - Key: 8
         Value:
           baseValue: 0
           itemValue: 0
-          buffValue: 0
-          maxValue: 0
+          buffValue:
+            _serializedList: []
           currentValue: 0
+          maxValue: 0
       - Key: 9
         Value:
           baseValue: 0
           itemValue: 0
-          buffValue: 0
-          maxValue: 0
+          buffValue:
+            _serializedList: []
           currentValue: 0
+          maxValue: 0
     items: []
-  _direction: {x: 0, y: 0, z: 0}
-  _nextDirection: {x: 1, y: 0, z: -1}
+  direction: {x: 0, y: 0, z: 0}
+  nextDirection: {x: 0, y: 0, z: 0}
   characterAnimations: {fileID: 3788326535341420580}
-  currentPositionInGrid: {x: 0, y: 0, z: 0}
-  lastPositionInGrid: {x: 0, y: 0, z: 0}
+  characterStatusEffect: {fileID: 3168936691978696117}
+  positionInGrid: {x: 0, y: 0, z: 0}
+  startPositionInGrid: {x: 0, y: 0, z: 0}
+  lastAction: 0
+  floatingTextPrefab: {fileID: 2459534110922450985, guid: 735e9d32137233f4492a6d557a6c2880,
+    type: 3}
+  dieEffectPrefab: {fileID: 3328385887415025661, guid: f5ddebed183a2d947bd7dfdbb72a5cc5,
+    type: 3}
 --- !u!114 &3788326535341420580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,9 +193,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   character: {fileID: 1430011315207952022}
   currentAnimation:
+    name: 
     linkAnimation: 
     spritesInfoDown: []
     spritesInfoUp: []
+    animationsEffects:
+      _serializedList: []
     loop: 0
     needInstance: 0
     frameToInstance: 0
@@ -185,6 +206,21 @@ MonoBehaviour:
     instance: {fileID: 0}
   currentSpriteIndex: 0
   currentSpritePerTime: 0.1
+--- !u!114 &3168936691978696117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2412411816279942414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1de40ac32139d3b4b9be53224ae86536, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 1430011315207952022}
+  statusEffects:
+    _serializedList: []
 --- !u!1 &2968497886100457924
 GameObject:
   m_ObjectHideFlags: 0

@@ -4630,6 +4630,66 @@ MonoBehaviour:
   dialogText: {fileID: 668521653}
   id: 19
   initByCode: 0
+--- !u!1 &684681724
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 684681725}
+  - component: {fileID: 684681726}
+  m_Layer: 0
+  m_Name: StatusEffectsContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &684681725
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 684681724}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 728879627}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 0, y: -11}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0}
+--- !u!114 &684681726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 684681724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 128, y: 64}
+  m_Spacing: {x: 29, y: 28}
+  m_Constraint: 0
+  m_ConstraintCount: 2
 --- !u!1 &695116822
 GameObject:
   m_ObjectHideFlags: 0
@@ -5059,6 +5119,8 @@ MonoBehaviour:
   roundStateLanguage: {fileID: 95383181}
   charactersContainer: {fileID: 768896738}
   _characterPlayerMakingActions: 0
+  generalCharacterPrefab: {fileID: 2412411816279942414, guid: 042fa333b810e3a4eb4cfa8834eaea0a,
+    type: 3}
 --- !u!224 &726234691
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5145,6 +5207,8 @@ MonoBehaviour:
   amountCharactersText: {fileID: 224115440}
   index: 0
   isMenuActive: 0
+  characterSelectorBannerPrefab: {fileID: 4111240189181967175, guid: 578c7c5f792e2144e94321380dc60f38,
+    type: 3}
 --- !u!114 &726234694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5269,11 +5333,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuCharacterInfo: {fileID: 1022798022}
+  statusEffectsContainer: {fileID: 684681725}
   characterSprite: {fileID: 994225986}
   characterLevel: {fileID: 920958572}
   characterMovementRadius: {fileID: 618012272}
   characterMovementMaxHeight: {fileID: 365924436}
   characterName: {fileID: 840747625}
+  statusEffectBanner: {fileID: 2483549682118453784, guid: 021f438743e7ae44a81444425bf507d3,
+    type: 3}
   uiInfo:
     _serializedList:
     - Key: 1
@@ -5322,6 +5389,8 @@ MonoBehaviour:
   menuAllCharacters: {fileID: 702006506}
   ScrollRect: {fileID: 1552757474}
   viewport: {fileID: 964982062}
+  allCharactersBannerPrefab: {fileID: 4111240189181967175, guid: 88b0aac8916d42c4686ee7ee83ce9b63,
+    type: 3}
   index: 0
 --- !u!114 &726234701
 MonoBehaviour:
@@ -5347,6 +5416,8 @@ MonoBehaviour:
     _serializedList: []
   gridColor: {r: 1, g: 0.6392083, b: 0.39215684, a: 1}
   isMenuActive: 0
+  liftCharactersBannerPrefab: {fileID: 4111240189181967175, guid: 601b7700956b32b408ff7c2fdbd72b39,
+    type: 3}
   index: 0
 --- !u!114 &726234702
 MonoBehaviour:
@@ -5362,6 +5433,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerManager: {fileID: 726234690}
   menuThrowCharacter: {fileID: 1875537047}
+  heightTextValue: {fileID: 873119510}
+  distanceTextValue: {fileID: 1275476805}
   isThrowingCharacter: 0
 --- !u!114 &726234703
 MonoBehaviour:
@@ -5387,6 +5460,8 @@ MonoBehaviour:
     _serializedList: []
   gridColor: {r: 1, g: 0.3820755, b: 0.3820755, a: 1}
   isMenuActive: 0
+  attackCharactersBannerPrefab: {fileID: 4111240189181967175, guid: a6611a0a44610d34b937b5cd1a39d6d7,
+    type: 3}
   index: 0
 --- !u!114 &726234704
 MonoBehaviour:
@@ -5443,6 +5518,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2019562947}
+  - {fileID: 684681725}
   m_Father: {fileID: 1022798023}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}

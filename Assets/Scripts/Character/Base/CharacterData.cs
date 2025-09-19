@@ -16,13 +16,18 @@ public class CharacterData
     {
         public int baseValue = 0;
         public int itemValue = 0;
-        public int buffValue = 0;
+        public SerializedDictionary<StatusEffectBaseSO, int> buffValue = new SerializedDictionary<StatusEffectBaseSO, int>();
         public int currentValue = 0;
         public int maxValue = 0;
         public void RefreshValue()
         {
             int baseWhitItem = baseValue + itemValue;
-            int baseWhitBuff = baseValue * buffValue / 100;
+            int totalBuffValue = 0;
+            foreach (KeyValuePair<StatusEffectBaseSO, int> buff in buffValue)
+            {
+                totalBuffValue += buff.Value;
+            }
+            int baseWhitBuff = baseValue * totalBuffValue / 100;
             int finalValue = Mathf.RoundToInt(baseWhitItem + baseWhitBuff);
             maxValue = Mathf.Clamp(finalValue, 1, 99999);
             if (currentValue > maxValue) currentValue = maxValue;

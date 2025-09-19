@@ -11,6 +11,7 @@ public class ActionsManager : MonoBehaviour
     public PlayerManager playerManager;
     public InputAction endTurnTest;
     public SerializedDictionary<Character, List<ActionInfo>> characterActions = new SerializedDictionary<Character, List<ActionInfo>>();
+    public Action OnEndTurn;
     public bool _isPlayerTurn;
     public bool isPlayerTurn
     {
@@ -201,10 +202,21 @@ public class ActionsManager : MonoBehaviour
                     break;
                 case TypeAction.Defend:
                     DefendAction(actions.Key);
+                    characterActions[actions.Key].Add(new ActionInfo()
+                    {
+                        cantUndo = false,
+                        positionInGrid = actions.Key.positionInGrid,
+                        typeAction = TypeAction.EndTurn
+                    });
                     await Awaitable.NextFrameAsync();
                     break;
             }
         }
+        await Awaitable.NextFrameAsync();
+    }
+    private async Task DiscountStatusEffects()
+    {
+        OnEndTurn?.Invoke();
         await Awaitable.NextFrameAsync();
     }
     public async Task EndTurn()
@@ -220,27 +232,34 @@ public class ActionsManager : MonoBehaviour
         }
         characterActions = new SerializedDictionary<Character, List<ActionInfo>>();
         await ChangeRoundState();
+        await DiscountStatusEffects();
     }
     public void DefendAction(Character character)
     {
-        character.characterData.statistics[CharacterData.TypeStatistic.Def].buffValue += 50;
-        character.characterData.statistics[CharacterData.TypeStatistic.Def].RefreshValue();
-        character.characterData.statistics[CharacterData.TypeStatistic.Def].SetMaxValue();
+        StatusEffectDefendSO statusEffectDefendSO = Resources.Load<StatusEffectDefendSO>("Prefabs/ScriptableObjects/StatusEffects/StatusEffectDefend");
+        if (character.characterStatusEffect.statusEffects.ContainsKey(statusEffectDefendSO))
+        {
+            statusEffectDefendSO.ReloadEffect(character);
+        }
+        else
+        {
+            character.characterStatusEffect.statusEffects.Add(statusEffectDefendSO, new CharacterStatusEffect.StatusEffectInfo());
+            statusEffectDefendSO.ApplyEffect(character);
+        }
     }
     public async Task ChangeRoundState()
     {
         await playerManager.ChangeRoundState(!isChangingTurn ? isPlayerTurn ? 21 : 22 : !isPlayerTurn ? 21 : 22);
         isChangingTurn = false;
     }
-    public void AttackOrSpecialActionExist(out bool attackActionExist, out bool specialActionExist)
+    public void ActionForExecuteExist(out bool actionExist)
     {
-        attackActionExist = false;
-        specialActionExist = false;
-
+        actionExist = false;
         foreach (KeyValuePair<Character, List<ActionInfo>> action in characterActions)
         {
-            if (action.Value[action.Value.Count - 1].typeAction == TypeAction.Attack) attackActionExist = true;
-            if (action.Value[action.Value.Count - 1].typeAction == TypeAction.Special) specialActionExist = true;
+            if (action.Value[action.Value.Count - 1].typeAction == TypeAction.Attack) actionExist = true;
+            if (action.Value[action.Value.Count - 1].typeAction == TypeAction.Special) actionExist = true;
+            if (action.Value[action.Value.Count - 1].typeAction == TypeAction.Defend) actionExist = true;
         }
     }
     [Serializable] public class ActionInfo

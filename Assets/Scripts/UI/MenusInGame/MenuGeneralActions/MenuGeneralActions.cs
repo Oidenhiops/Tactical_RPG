@@ -46,8 +46,8 @@ public class MenuGeneralActions : MonoBehaviour
     }
     public GameObject GetSelectedButton()
     {
-        playerManager.actionsManager.AttackOrSpecialActionExist(out bool attackActionExist, out bool specialActionExist);
-        if (attackActionExist || specialActionExist)
+        playerManager.actionsManager.ActionForExecuteExist(out bool actionExist);
+        if (actionExist)
         {
             executeButton.interactable = true;
             return executeButton.gameObject;

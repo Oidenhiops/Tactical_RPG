@@ -18,9 +18,10 @@ public class MenuCharacterSelector : MonoBehaviour
     public GameObject menuCharacterSelector;
     public TMP_Text amountCharactersText;
     public int index;
+    public bool isMenuActive;
+    public GameObject characterSelectorBannerPrefab;
     int _amountCharacters;
     Action<int> OnAmountCharacterChange;
-    public bool isMenuActive;
     public int amountCharacters
     {
         get => _amountCharacters;
@@ -46,7 +47,7 @@ public class MenuCharacterSelector : MonoBehaviour
         {
             if (!playerManager.characters[i].gameObject.activeSelf)
             {
-                CharacterSelectorBanner characterSelectorBanner = Instantiate(Resources.Load<GameObject>("Prefabs/UI/CharacterBannerSelect/CharacterSelectorBanner"), containerBanners).GetComponent<CharacterSelectorBanner>();
+                CharacterSelectorBanner characterSelectorBanner = Instantiate(characterSelectorBannerPrefab, containerBanners).GetComponent<CharacterSelectorBanner>();
                 characterSelectorBanner.menuCharacterSelector = this;
                 characterSelectorBanner.onObjectSelect.container = containerBanners;
                 characterSelectorBanner.onObjectSelect.scrollRect = ScrollRect;

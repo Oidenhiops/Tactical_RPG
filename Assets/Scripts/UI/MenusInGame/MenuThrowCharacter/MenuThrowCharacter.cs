@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,12 +8,16 @@ public class MenuThrowCharacter : MonoBehaviour
 {
     public PlayerManager playerManager;
     public GameObject menuThrowCharacter;
+    public TMP_Text heightTextValue;
+    public TMP_Text distanceTextValue;
     public bool isThrowingCharacter;
     public IEnumerator EnableMenu()
     {
         menuThrowCharacter.SetActive(true);
         playerManager.menuCharacterActions.DisableMenu(true);
         playerManager.menuCharacterInfo.menuCharacterInfo.SetActive(false);
+        heightTextValue.text = AStarPathFinding.Instance.characterSelected.characterData.GetMovementMaxHeight().ToString();
+        distanceTextValue.text = AStarPathFinding.Instance.characterSelected.characterData.GetThrowRadius().ToString();
         AStarPathFinding.Instance.EnableGrid(AStarPathFinding.Instance.GetTilesToThrow(), playerManager.menuLiftCharacter.gridColor);
         yield return null;
     }

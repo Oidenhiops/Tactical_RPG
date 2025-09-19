@@ -40,6 +40,7 @@ public class PlayerManager : MonoBehaviour
             }
         }
     }
+    public GameObject generalCharacterPrefab;
     bool isDecalMovement;
     Vector3Int direction;
     Vector3 camDirection;
@@ -99,7 +100,7 @@ public class PlayerManager : MonoBehaviour
         {
             if (characterInfo.statistics[CharacterData.TypeStatistic.Hp].currentValue > 0)
             {
-                Character character = Instantiate(Resources.Load<GameObject>("Prefabs/GeneralCharacter/GeneralCharacter"), Vector3Int.down * 2, Quaternion.identity, charactersContainer).GetComponent<Character>();
+                Character character = Instantiate(generalCharacterPrefab, Vector3Int.down * 2, Quaternion.identity, charactersContainer).GetComponent<Character>();
                 character.characterData = characterInfo;
                 character.name = character.characterData.name;
                 charactersSpawned.Add(character);
