@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c97b1e5660ddca345b132bd0101ce60a, type: 3}
+  m_Name: BroadSword
+  m_EditorClassIdentifier: 
+  id: 49
+  icon: {fileID: 938746929, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
+  typeObject: 1
+  animationName: SwordAttack
+  amountToAddId: 0
+  itemStatistics:
+    _serializedList:
+    - Key: 1
+      Value:
+        baseValue: 2
+        itemValue: 0
+        buffValue:
+          _serializedList: []
+        currentValue: 0
+        maxValue: 0
+    - Key: 3
+      Value:
+        baseValue: 5
+        itemValue: 0
+        buffValue:
+          _serializedList: []
+        currentValue: 0
+        maxValue: 0

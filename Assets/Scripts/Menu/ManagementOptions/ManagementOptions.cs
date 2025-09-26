@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class ManagementOptions : MonoBehaviour
+public class ManagementOptions : MonoBehaviour, GameManagerHelper.IGameManagerHelper
 {
     public TMP_Dropdown dropdownLanguage;
     public TMP_Dropdown dropdownResolution;
@@ -19,8 +19,10 @@ public class ManagementOptions : MonoBehaviour
     public GameObject muteCheck;
     public InputAction backButton;
     public GameManagerHelper gameManagerHelper;
+    public GameObject lastButtonSelected;
     void OnEnable()
     {
+        lastButtonSelected = EventSystem.current.currentSelectedGameObject;
         Time.timeScale = 0;
         GameManager.Instance.isPause = true;
         InitializeLanguageDropdown();
@@ -103,11 +105,11 @@ public class ManagementOptions : MonoBehaviour
                     {
                         EventSystem.current.SetSelectedGameObject
                         (
-                            GameManager.Instance.currentDevice == GameManager.TypeDevice.MOBILE ?                             
+                            GameManager.Instance.currentDevice == GameManager.TypeDevice.MOBILE ?
                             buttonsBackInfos[0].buttonsToSelect[1] : buttonsBackInfos[0].buttonsToSelect[0]
                         );
                     }
-                    else 
+                    else
                     {
                         EventSystem.current.SetSelectedGameObject(buttonsBackInfos[buttonId].buttonsToSelect[0]);
                     }
@@ -307,39 +309,51 @@ public class ManagementOptions : MonoBehaviour
             buttonsBackInfos[1].buttonToBack.Select();
         }
     }
-    [Serializable] public class SoundInfo
+
+    public GameObject GetLastButton()
+    {
+        return lastButtonSelected;
+    }
+
+    [Serializable]
+    public class SoundInfo
     {
         public AudioManager.TypeSound typeSound;
         public Slider slider;
     }
-    [Serializable] public class WindowModeButtonsInfo
+    [Serializable]
+    public class WindowModeButtonsInfo
     {
         public Sprite spriteOn;
         public Sprite spriteOff;
         public Image[] buttonsImage;
     }
-    [Serializable] public class FpsButtonsInfo
+    [Serializable]
+    public class FpsButtonsInfo
     {
         public Sprite spriteOn;
         public Sprite spriteOff;
         public FpsButton[] buttons;
     }
-    [Serializable] public class FpsButton
+    [Serializable]
+    public class FpsButton
     {
         public int id;
         public Image buttonImage;
     }
-    [Serializable] public class ControlsInfo
+    [Serializable]
+    public class ControlsInfo
     {
         public GameManager.TypeDevice typeDevice;
         public GameObject container;
     }
-    [Serializable] public class ButtonsBackInfo
+    [Serializable]
+    public class ButtonsBackInfo
     {
         public Button buttonToBack;
         public GameObject[] buttonsToSelect;
         public GameObject menu;
-        public int id;        
+        public int id;
     }
     [Serializable] public class ButtonBackInfo
     {

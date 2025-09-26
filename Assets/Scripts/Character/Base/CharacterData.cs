@@ -10,9 +10,14 @@ public class CharacterData
     public int level;
     public string name;
     public SerializedDictionary<TypeStatistic, Statistic> statistics = new SerializedDictionary<TypeStatistic, Statistic>();
-    public List<CharacterItems> items = new List<CharacterItems>();
-    [Serializable]
-    public class Statistic
+    public SerializedDictionary<int, CharacterItem> items = new SerializedDictionary<int, CharacterItem>
+    {
+        {0, null},
+        {1, null},
+        {2, null},
+        {3, null}
+    };
+    [Serializable] public class Statistic
     {
         public int baseValue = 0;
         public int itemValue = 0;
@@ -50,30 +55,23 @@ public class CharacterData
     {
         return 4 + statistics[TypeStatistic.Spd].currentValue > 6 ? 6 : statistics[TypeStatistic.Spd].currentValue;
     }
-    public void GetCurrentWeapon(out CharacterItems weapon)
+    public void GetCurrentWeapon(out CharacterItem weapon)
     {
-        foreach (CharacterItems item in items)
+        foreach (KeyValuePair<int, CharacterItem> item in items)
         {
-            if (item.typeObject != TypeObject.None || item.typeObject != TypeObject.Item)
+            if (item.Value.itemBaseSO && item.Value.itemBaseSO.typeObject == ItemBaseSO.TypeObject.Weapon)
             {
-                weapon = item;
+                weapon = item.Value;
                 return;
             }
         }
-        weapon = new CharacterItems
-        {
-            id = 0,
-            animationName = "HandAttack",
-            statistics = new SerializedDictionary<TypeStatistic, Statistic>(),
-            typeObject = TypeObject.None
-        };
+        weapon = null;
     }
-    [Serializable] public class CharacterItems
+    [Serializable]public class CharacterItem
     {
-        public int id;
-        public string animationName;
-        public SerializedDictionary<TypeStatistic, Statistic> statistics;
-        public TypeObject typeObject;
+        public int itemId;
+        public ItemBaseSO itemBaseSO;
+        public SerializedDictionary<TypeStatistic, Statistic> itemStatistics = new SerializedDictionary<TypeStatistic, Statistic>();
     }
     public enum TypeStatistic
     {
@@ -87,18 +85,5 @@ public class CharacterData
         Res = 7,
         Spd = 8,
         Exp = 9,
-    }
-    public enum TypeObject
-    {
-        None = 0,
-        Fist = 1,
-        Sword = 2,
-        Spear = 3,
-        Bow = 4,
-        Gun = 5,
-        Axe = 6,
-        Staff = 7,
-        Monster = 8,
-        Item = 9
     }
 }

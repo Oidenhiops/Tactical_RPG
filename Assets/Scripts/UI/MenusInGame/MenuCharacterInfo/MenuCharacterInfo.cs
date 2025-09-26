@@ -14,6 +14,7 @@ public class MenuCharacterInfo : MonoBehaviour
     public TMP_Text characterMovementMaxHeight;
     public TMP_Text characterName;
     public GameObject statusEffectBanner;
+    public SerializedDictionary<int, ItemInfo> itemsInfo = new SerializedDictionary<int, ItemInfo>();
     public SerializedDictionary<CharacterData.TypeStatistic, UiInfo> uiInfo = new SerializedDictionary<CharacterData.TypeStatistic, UiInfo>();
     [System.Serializable]
     public class UiInfo
@@ -40,11 +41,34 @@ public class MenuCharacterInfo : MonoBehaviour
             StatusEffectBanner banner = Instantiate(statusEffectBanner, statusEffectsContainer.transform).GetComponent<StatusEffectBanner>();
             banner.SetData(statusEffect.Key, statusEffect.Value.amount);
         }
+        foreach (KeyValuePair<int, CharacterData.CharacterItem> item in character.characterData.items)
+        {
+            if (item.Value.itemBaseSO)
+            {
+                itemsInfo[item.Key].disableBanner.SetActive(false);
+                itemsInfo[item.Key].enabledBanner.SetActive(true);
+                itemsInfo[item.Key].managementLanguage.id = item.Value.itemBaseSO.id;
+                itemsInfo[item.Key].managementLanguage.RefreshText();
+                itemsInfo[item.Key].itemSprite.sprite = item.Value.itemBaseSO.icon;
+            }
+            else
+            {
+                itemsInfo[item.Key].disableBanner.SetActive(true);
+                itemsInfo[item.Key].enabledBanner.SetActive(false);
+            }
+        }
         menuCharacterInfo.SetActive(true);
     }
     public void DisableMenu(bool conservCharacter = false)
     {
         menuCharacterInfo.SetActive(false);
         if (!conservCharacter) AStarPathFinding.Instance.characterSelected = null;
+    }
+    [System.Serializable] public class ItemInfo
+    {
+        public GameObject disableBanner;
+        public GameObject enabledBanner;
+        public Image itemSprite;
+        public ManagementLanguage managementLanguage;
     }
 }

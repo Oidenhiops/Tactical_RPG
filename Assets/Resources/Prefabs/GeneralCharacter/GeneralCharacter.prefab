@@ -167,7 +167,16 @@ MonoBehaviour:
             _serializedList: []
           currentValue: 0
           maxValue: 0
-    items: []
+    items:
+      _serializedList:
+      - Key: 0
+        Value: {fileID: 0}
+      - Key: 1
+        Value: {fileID: 0}
+      - Key: 2
+        Value: {fileID: 0}
+      - Key: 3
+        Value: {fileID: 0}
   direction: {x: 0, y: 0, z: 0}
   nextDirection: {x: 0, y: 0, z: 0}
   characterAnimations: {fileID: 3788326535341420580}

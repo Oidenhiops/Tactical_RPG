@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
@@ -19,11 +20,11 @@ public class GameManagerHelper : MonoBehaviour
     {
         GameData.Instance.SaveGameData();
     }
-    public void PlayASound(SoundsDBSO.TypeSound typeSound ,string soundId)
+    public void PlayASound(SoundsDBSO.TypeSound typeSound, string soundId)
     {
         AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(typeSound, soundId));
     }
-    public void PlayASound(SoundsDBSO.TypeSound typeSound ,string soundId, float initialRandomPitch)
+    public void PlayASound(SoundsDBSO.TypeSound typeSound, string soundId, float initialRandomPitch)
     {
         AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(typeSound, soundId), initialRandomPitch, false);
     }
@@ -63,7 +64,7 @@ public class GameManagerHelper : MonoBehaviour
     public void UnloadScene()
     {
         string sceneForUnload = ValidateScene();
-        _= UnloadSceneByName(sceneForUnload);
+        _ = UnloadSceneByName(sceneForUnload);
     }
     public string ValidateScene()
     {
@@ -101,6 +102,10 @@ public class GameManagerHelper : MonoBehaviour
                 GameManager.Instance.isPause = false;
             }
             await Task.Delay(TimeSpan.FromSeconds(0.25f));
+            if (TryGetComponent(out IGameManagerHelper component))
+            {
+                EventSystem.current.SetSelectedGameObject(component.GetLastButton());                
+            }
             _ = SceneManager.UnloadSceneAsync(sceneForUnload);
             await Task.Delay(TimeSpan.FromSeconds(0.05f));
         }
@@ -109,5 +114,9 @@ public class GameManagerHelper : MonoBehaviour
             Debug.LogError(e);
             await Task.Delay(TimeSpan.FromSeconds(0.05f));
         }
+    }
+    public interface IGameManagerHelper
+    {
+        public GameObject GetLastButton();
     }
 }

@@ -72,6 +72,8 @@ public class GameData : MonoBehaviour
         {
             TextAsset locsSystem = Resources.Load<TextAsset>("LOCS/LOC_System");
             locs.Add(TypeLOCS.System, TransformCSV(locsSystem));
+            TextAsset locsItems = Resources.Load<TextAsset>("LOCS/LOC_Items");
+            locs.Add(TypeLOCS.Items, TransformCSV(locsItems));
         }
         catch
         {

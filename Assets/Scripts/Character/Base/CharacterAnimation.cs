@@ -39,8 +39,12 @@ public class CharacterAnimation : MonoBehaviour
     }
     public string GetAnimationAttack()
     {
-        character.characterData.GetCurrentWeapon(out CharacterData.CharacterItems weapon);
-        return weapon.animationName;
+        character.characterData.GetCurrentWeapon(out CharacterData.CharacterItem weapon);
+        if (weapon != null)
+        {
+            return weapon.itemBaseSO.animationName;
+        }
+        return "HandAttack";
     }
     private InitialDataSO.AnimationsInfo GetAnimation(string animationName)
     {
