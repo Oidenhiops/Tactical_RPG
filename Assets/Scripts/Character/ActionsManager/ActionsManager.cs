@@ -43,7 +43,18 @@ public class ActionsManager : MonoBehaviour
     void OnUndoAction(InputAction.CallbackContext context)
     {
         if (!isPlayerTurn) return;
-        if (playerManager.menuAllCharacters.menuAllCharacters.activeSelf)
+        if (playerManager.menuItemsCharacter.menuItemCharacters.activeSelf)
+        {
+            if (playerManager.menuItemsCharacter.currentBagItem)
+            {
+                playerManager.menuItemsCharacter.BackToBagItems();
+            }
+            else
+            {
+                playerManager.menuItemsCharacter.DisableMenu();
+            }
+        }
+        else if (playerManager.menuAllCharacters.menuAllCharacters.activeSelf)
         {
             playerManager.menuAllCharacters.DisableMenu();
         }

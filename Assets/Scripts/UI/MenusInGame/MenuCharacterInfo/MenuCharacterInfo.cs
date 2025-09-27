@@ -14,6 +14,7 @@ public class MenuCharacterInfo : MonoBehaviour
     public TMP_Text characterMovementMaxHeight;
     public TMP_Text characterName;
     public GameObject statusEffectBanner;
+    public Transform itemsContainer;
     public SerializedDictionary<int, ItemInfo> itemsInfo = new SerializedDictionary<int, ItemInfo>();
     public SerializedDictionary<CharacterData.TypeStatistic, UiInfo> uiInfo = new SerializedDictionary<CharacterData.TypeStatistic, UiInfo>();
     [System.Serializable]
@@ -21,7 +22,7 @@ public class MenuCharacterInfo : MonoBehaviour
     {
         public TMP_Text characterStatistic;
     }
-    public void ReloadInfo(Character character)
+    public void ReloadInfo(Character character, bool disableItemsContainer = false)
     {
         characterSprite.sprite = character.initialDataSO.icon;
         characterName.text = character.characterData.name;
@@ -41,21 +42,29 @@ public class MenuCharacterInfo : MonoBehaviour
             StatusEffectBanner banner = Instantiate(statusEffectBanner, statusEffectsContainer.transform).GetComponent<StatusEffectBanner>();
             banner.SetData(statusEffect.Key, statusEffect.Value.amount);
         }
-        foreach (KeyValuePair<int, CharacterData.CharacterItem> item in character.characterData.items)
+        if (!disableItemsContainer)
         {
-            if (item.Value.itemBaseSO)
+            itemsContainer.gameObject.SetActive(true);
+            foreach (KeyValuePair<int, CharacterData.CharacterItem> item in character.characterData.items)
             {
-                itemsInfo[item.Key].disableBanner.SetActive(false);
-                itemsInfo[item.Key].enabledBanner.SetActive(true);
-                itemsInfo[item.Key].managementLanguage.id = item.Value.itemBaseSO.id;
-                itemsInfo[item.Key].managementLanguage.RefreshText();
-                itemsInfo[item.Key].itemSprite.sprite = item.Value.itemBaseSO.icon;
+                if (item.Value.itemBaseSO)
+                {
+                    itemsInfo[item.Key].disableBanner.SetActive(false);
+                    itemsInfo[item.Key].enabledBanner.SetActive(true);
+                    itemsInfo[item.Key].managementLanguage.id = item.Value.itemBaseSO.id;
+                    itemsInfo[item.Key].managementLanguage.RefreshText();
+                    itemsInfo[item.Key].itemSprite.sprite = item.Value.itemBaseSO.icon;
+                }
+                else
+                {
+                    itemsInfo[item.Key].disableBanner.SetActive(true);
+                    itemsInfo[item.Key].enabledBanner.SetActive(false);
+                }
             }
-            else
-            {
-                itemsInfo[item.Key].disableBanner.SetActive(true);
-                itemsInfo[item.Key].enabledBanner.SetActive(false);
-            }
+        }
+        else
+        {
+            itemsContainer.gameObject.SetActive(false);
         }
         menuCharacterInfo.SetActive(true);
     }

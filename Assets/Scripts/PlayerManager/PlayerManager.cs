@@ -18,6 +18,7 @@ public class PlayerManager : MonoBehaviour
     public MenuLiftCharacter menuLiftCharacter;
     public MenuCharacterInfo menuCharacterInfo;
     public MenuThrowCharacter menuThrowCharacter;
+    public MenuItemsCharacter menuItemsCharacter;
     public MouseDecalAnim mouseDecal;
     public Vector3Int currentMousePos;
     public Transform cameraRot;

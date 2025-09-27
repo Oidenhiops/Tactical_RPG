@@ -9,8 +9,8 @@ public class ItemBaseSO : ScriptableObject
     public string animationName;
     public int amountToAddId;
     public SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic> itemStatistics = new SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic>();
-    public virtual void EquipItem(Character character) { Debug.LogError("EquipItem not implemented"); }
-    public virtual void DesEquipItem(Character character) { Debug.LogError("DesEquipItem not implemented"); }
+    public virtual void EquipItem(Character character, CharacterData.CharacterItem characterItem) { Debug.LogError("EquipItem not implemented"); }
+    public virtual void DesEquipItem(Character character, CharacterData.CharacterItem characterItem) { Debug.LogError("DesEquipItem not implemented"); }
     [NaughtyAttributes.Button] public void AddToId()
     {
         id += amountToAddId;

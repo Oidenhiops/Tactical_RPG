@@ -10,7 +10,6 @@ public class AllCharactersBanner : MonoBehaviour, ISelectHandler
     public Character character;
     public Image characterImage;
     public TMP_Text characterName;
-    public Button button;
     public void SetBannerData(Character character)
     {
         characterImage.sprite = character.initialDataSO.icon;

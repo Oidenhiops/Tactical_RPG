@@ -172,6 +172,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 11348059}
   id: 33
+  initByCode: 0
 --- !u!114 &11348059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -361,6 +362,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 28715292}
   id: 29
+  initByCode: 0
 --- !u!114 &28715292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -678,6 +680,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 51145210}
   id: 16
+  initByCode: 0
 --- !u!1 &55306219
 GameObject:
   m_ObjectHideFlags: 0
@@ -915,6 +918,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 66757818}
   id: 25
+  initByCode: 0
 --- !u!114 &66757818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1068,6 +1072,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 67977020}
   id: 26
+  initByCode: 0
 --- !u!114 &67977020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1367,6 +1372,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 87807743}
   id: 31
+  initByCode: 0
 --- !u!114 &87807743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1520,6 +1526,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 99575004}
   id: 19
+  initByCode: 0
 --- !u!114 &99575004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3049,6 +3056,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 337416328}
   id: 25
+  initByCode: 0
 --- !u!114 &337416328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3615,6 +3623,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 413525491}
   id: 32
+  initByCode: 0
 --- !u!114 &413525491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3991,6 +4000,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 444232647}
   id: 33
+  initByCode: 0
 --- !u!114 &444232647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4577,6 +4587,7 @@ MonoBehaviour:
       m_Flags: 0
     m_Flags: 0
   gameManagerHelper: {fileID: 473639350}
+  lastButtonSelected: {fileID: 0}
 --- !u!114 &473639350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4643,6 +4654,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 476152455}
   id: 19
+  initByCode: 0
 --- !u!114 &476152455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4947,6 +4959,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 500001727}
   id: 24
+  initByCode: 0
 --- !u!114 &500001727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5100,6 +5113,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 500171698}
   id: 22
+  initByCode: 0
 --- !u!114 &500171698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5390,6 +5404,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 549113409}
   id: 28
+  initByCode: 0
 --- !u!114 &549113409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5543,6 +5558,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 572423122}
   id: 30
+  initByCode: 0
 --- !u!114 &572423122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5833,6 +5849,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 609393658}
   id: 26
+  initByCode: 0
 --- !u!114 &609393658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6651,6 +6668,7 @@ GameObject:
   m_Component:
   - component: {fileID: 712159086}
   - component: {fileID: 712159087}
+  - component: {fileID: 712159088}
   m_Layer: 5
   m_Name: MasterSlider
   m_TagString: Untagged
@@ -6730,31 +6748,48 @@ MonoBehaviour:
   m_Value: 50
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 473639349}
-        m_TargetAssemblyTypeName: ManagementOptions, Assembly-CSharp
-        m_MethodName: SetSoundValue
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 712159087}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Slider, UnityEngine.UI
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 473639350}
-        m_TargetAssemblyTypeName: GameManagerHelper, Assembly-CSharp
-        m_MethodName: PlayASoundButtonUniqueInstance
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: SliderButton
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+--- !u!114 &712159088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 712159085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 8
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 473639349}
+          m_TargetAssemblyTypeName: ManagementOptions, Assembly-CSharp
+          m_MethodName: SetSoundValue
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 712159087}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Slider, UnityEngine.UI
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 473639350}
+          m_TargetAssemblyTypeName: GameManagerHelper, Assembly-CSharp
+          m_MethodName: PlayASoundButtonUniqueInstance
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: SliderButton
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &737374814
 GameObject:
   m_ObjectHideFlags: 0
@@ -6908,6 +6943,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 737374816}
   id: 14
+  initByCode: 0
 --- !u!1 &753508223
 GameObject:
   m_ObjectHideFlags: 0
@@ -7119,6 +7155,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 773126558}
   id: 28
+  initByCode: 0
 --- !u!114 &773126558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7478,6 +7515,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 775995369}
   id: 10
+  initByCode: 0
 --- !u!114 &775995372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7957,6 +7995,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 847305129}
   id: 21
+  initByCode: 0
 --- !u!114 &847305129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8588,6 +8627,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 933599430}
   id: 32
+  initByCode: 0
 --- !u!1 &933672602
 GameObject:
   m_ObjectHideFlags: 0
@@ -9344,6 +9384,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 1041265452}
   id: 27
+  initByCode: 0
 --- !u!114 &1041265452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9497,6 +9538,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 1045300957}
   id: 24
+  initByCode: 0
 --- !u!114 &1045300957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10183,6 +10225,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 1101625750}
   id: 13
+  initByCode: 0
 --- !u!1 &1118155021
 GameObject:
   m_ObjectHideFlags: 0
@@ -10311,6 +10354,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 1122562505}
   id: 22
+  initByCode: 0
 --- !u!114 &1122562505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10614,6 +10658,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 1144183824}
   id: 31
+  initByCode: 0
 --- !u!114 &1144183824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10767,6 +10812,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 1147589828}
   id: 20
+  initByCode: 0
 --- !u!114 &1147589828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11505,6 +11551,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 1218109532}
   id: 1
+  initByCode: 0
 --- !u!114 &1218109535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11873,6 +11920,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 1264178113}
   id: 20
+  initByCode: 0
 --- !u!114 &1264178113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12918,6 +12966,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 1348538071}
   id: 2
+  initByCode: 0
 --- !u!114 &1348538074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13210,6 +13259,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 1386217942}
   id: 23
+  initByCode: 0
 --- !u!114 &1386217942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14670,6 +14720,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 1490315386}
   id: 12
+  initByCode: 0
 --- !u!1 &1517401211
 GameObject:
   m_ObjectHideFlags: 0
@@ -15029,6 +15080,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1542053736}
   - component: {fileID: 1542053737}
+  - component: {fileID: 1542053738}
   m_Layer: 5
   m_Name: SfxSlider
   m_TagString: Untagged
@@ -15108,31 +15160,48 @@ MonoBehaviour:
   m_Value: 50
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 473639349}
-        m_TargetAssemblyTypeName: ManagementOptions, Assembly-CSharp
-        m_MethodName: SetSoundValue
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1542053737}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Slider, UnityEngine.UI
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 473639350}
-        m_TargetAssemblyTypeName: GameManagerHelper, Assembly-CSharp
-        m_MethodName: PlayASoundButtonUniqueInstance
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: SliderButton
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+--- !u!114 &1542053738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542053735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 8
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 473639349}
+          m_TargetAssemblyTypeName: ManagementOptions, Assembly-CSharp
+          m_MethodName: SetSoundValue
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1542053737}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Slider, UnityEngine.UI
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 473639350}
+          m_TargetAssemblyTypeName: GameManagerHelper, Assembly-CSharp
+          m_MethodName: PlayASoundButtonUniqueInstance
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: SliderButton
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1560968256
 GameObject:
   m_ObjectHideFlags: 0
@@ -15679,6 +15748,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1636126344}
   - component: {fileID: 1636126345}
+  - component: {fileID: 1636126346}
   m_Layer: 5
   m_Name: BgmSlider
   m_TagString: Untagged
@@ -15758,31 +15828,48 @@ MonoBehaviour:
   m_Value: 50
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 473639349}
-        m_TargetAssemblyTypeName: ManagementOptions, Assembly-CSharp
-        m_MethodName: SetSoundValue
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1636126345}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Slider, UnityEngine.UI
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 473639350}
-        m_TargetAssemblyTypeName: GameManagerHelper, Assembly-CSharp
-        m_MethodName: PlayASoundButtonUniqueInstance
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: SliderButton
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+--- !u!114 &1636126346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1636126343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 8
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 473639349}
+          m_TargetAssemblyTypeName: ManagementOptions, Assembly-CSharp
+          m_MethodName: SetSoundValue
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1636126345}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Slider, UnityEngine.UI
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 473639350}
+          m_TargetAssemblyTypeName: GameManagerHelper, Assembly-CSharp
+          m_MethodName: PlayASoundButtonUniqueInstance
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: SliderButton
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1647210348
 GameObject:
   m_ObjectHideFlags: 0
@@ -16081,6 +16168,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 1658224242}
   id: 30
+  initByCode: 0
 --- !u!114 &1658224242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17412,6 +17500,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 1847896158}
   id: 17
+  initByCode: 0
 --- !u!1 &1854705204
 GameObject:
   m_ObjectHideFlags: 0
@@ -17872,6 +17961,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 1868101348}
   id: 8
+  initByCode: 0
 --- !u!1 &1884092535
 GameObject:
   m_ObjectHideFlags: 0
@@ -18098,6 +18188,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 1918194011}
   id: 23
+  initByCode: 0
 --- !u!114 &1918194011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18299,10 +18390,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDropDown: 1
-  toggle: {fileID: 1933826244}
-  dropdown: {fileID: 1012343394}
   dropdownSelected: {fileID: 1012343397}
-  marginToDetect: 5
   scrollByCode: 0
   item: {fileID: 1933826243}
   viewport: {fileID: 970931716}
@@ -18841,6 +18929,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 1955986664}
   id: 9
+  initByCode: 0
 --- !u!114 &1955986667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19139,6 +19228,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 1967347350}
   id: 27
+  initByCode: 0
 --- !u!114 &1967347350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19292,6 +19382,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 1976000274}
   id: 21
+  initByCode: 0
 --- !u!114 &1976000274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19832,6 +19923,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 2001342658}
   id: 18
+  initByCode: 0
 --- !u!1 &2005541127
 GameObject:
   m_ObjectHideFlags: 0
@@ -20227,10 +20319,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDropDown: 1
-  toggle: {fileID: 2019250782}
-  dropdown: {fileID: 1600073118}
   dropdownSelected: {fileID: 1600073121}
-  marginToDetect: 5
   scrollByCode: 0
   item: {fileID: 2019250781}
   viewport: {fileID: 1373310079}
@@ -20389,6 +20478,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 2025820601}
   id: 15
+  initByCode: 0
 --- !u!1 &2042981514
 GameObject:
   m_ObjectHideFlags: 0
@@ -21030,6 +21120,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 2096515483}
   id: 11
+  initByCode: 0
 --- !u!114 &2096515486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21232,6 +21323,7 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 2113701444}
   id: 29
+  initByCode: 0
 --- !u!114 &2113701444
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -13,6 +13,7 @@ public class GameData : MonoBehaviour
     public SystemData systemData = new SystemData();
     public InitialBGMSoundsConfigSO initialBGMSoundsConfigSO;
     public CharacterDataDBSO charactersDataDBSO;
+    public ItemsDBSO itemsDBSO;
     public Dictionary<TypeLOCS, List<string[]>> locs = new Dictionary<TypeLOCS, List<string[]>>();
     void Awake()
     {
@@ -38,6 +39,8 @@ public class GameData : MonoBehaviour
             LoadLOCS();
             InitializeResolutionData();
             InitializeBGM();
+            InitializeBagItems();
+            InitializeCharacterItems();
             Application.targetFrameRate = saveData.configurationsInfo.FpsLimit;
             await InitializeAudioMixerData();
             saveData.configurationsInfo.canShowFps = true;
@@ -56,7 +59,29 @@ public class GameData : MonoBehaviour
             AudioManager.Instance.ChangeBGM(bgmScenesData);
         }
     }
-
+    void InitializeCharacterItems()
+    {
+        foreach (CharacterData characterData in saveData.characters)
+        {
+            foreach (KeyValuePair<int, CharacterData.CharacterItem> item in characterData.items)
+            {
+                if (item.Value.itemId != 0)
+                {
+                    item.Value.itemBaseSO = itemsDBSO.data[item.Value.itemId];
+                }
+            }
+        }
+    }
+    void InitializeBagItems()
+    {
+        foreach (KeyValuePair<int, CharacterData.CharacterItem> item in saveData.bagItems)
+        {
+            if (item.Value.itemId != 0)
+            {
+                item.Value.itemBaseSO = itemsDBSO.data[item.Value.itemId];
+            }
+        }
+    }
     private void GetAllResolutions()
     {
         Resolution[] resolutions = Screen.resolutions;
@@ -169,6 +194,25 @@ public class GameData : MonoBehaviour
         SetStartingDataSound(ref dataInfo);
         GetInitialConfigBGMS(ref dataInfo);
         SetStartingCharacter(ref dataInfo);
+        dataInfo.bagItems = new SerializedDictionary<int, CharacterData.CharacterItem>()
+        {
+            {0, null},
+            {1, null},
+            {2, null},
+            {3, null},
+            {4, null},
+            {5, null},
+            {6, null},
+            {7, null},
+            {8, null},
+            {9, null},
+            {10, null},
+            {11, null},
+            {12, null},
+            {13, null},
+            {14, null},
+            {15, null},
+        };
         GetAllResolutions();
         if (GameManager.Instance.currentDevice == GameManager.TypeDevice.PC) SetStartingResolution(ref dataInfo);
         saveData = dataInfo;
@@ -260,6 +304,7 @@ public class GameData : MonoBehaviour
     [Serializable] public class SaveData
     {
         public List<CharacterData> characters = new List<CharacterData>();
+        public SerializedDictionary<int, CharacterData.CharacterItem> bagItems = new SerializedDictionary<int, CharacterData.CharacterItem>();
         public ConfigurationsInfo configurationsInfo = new ConfigurationsInfo();
         public SerializedDictionary<string, InitialBGMSoundsConfigSO.BGMScenesData> bgmSceneData = new SerializedDictionary<string, InitialBGMSoundsConfigSO.BGMScenesData>();
     }

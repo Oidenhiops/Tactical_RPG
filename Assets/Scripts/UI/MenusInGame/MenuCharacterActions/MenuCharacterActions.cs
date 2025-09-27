@@ -184,8 +184,8 @@ public class MenuCharacterActions : MonoBehaviour
         }
     }
     public void HandleItem()
-    {        
-        if (isMenuActive) print("Item");
+    {
+        if (isMenuActive) StartCoroutine(playerManager.menuItemsCharacter.EnableMenu());
     }
     public void HandleStatus()
     {
