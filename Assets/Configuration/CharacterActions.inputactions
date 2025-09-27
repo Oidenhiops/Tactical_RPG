@@ -723,10 +723,21 @@
                 {
                     "name": "",
                     "id": "78449718-9a11-4a54-aa8c-3957f59a144b",
-                    "path": "*/{Cancel}",
+                    "path": "<Keyboard>/c",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse;Gamepad;Touch;Joystick;XR",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b6144f21-9ea6-4f7b-9cc6-93bc00db08bd",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "Cancel",
                     "isComposite": false,
                     "isPartOfComposite": false

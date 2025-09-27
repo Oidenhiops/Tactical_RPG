@@ -42,6 +42,7 @@ public class ActionsManager : MonoBehaviour
     }
     void OnUndoAction(InputAction.CallbackContext context)
     {
+        if (GameManager.Instance.isPause) return;
         if (!isPlayerTurn) return;
         if (playerManager.menuItemsCharacter.menuItemCharacters.activeSelf)
         {

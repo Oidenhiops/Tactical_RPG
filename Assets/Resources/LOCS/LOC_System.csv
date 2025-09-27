@@ -1,38 +1,38 @@
-﻿ID;Descripción;English;Español
-1;GeneralButton: HomeButton;Home;Inicio
-2;GeneralButton: BackButton;Back;Atras
-3;GameOverMenu: ResetButton;Reset;Reiniciar
-4;HomeButton: Play Button;Play;Jugar
-5;HomeButton: Options Button;Options;Opciones
-6;HomeButton: Credits Button; Credits;Creditos
-7;HomeButton: Exit Button;Exit;Salir
-8;OptionsText: TitleOptions;Settings;Opciones
-9;OptionsButtonText: DisplayButton;Display;Pantalla
-10;OptionsButtonText: VolumeButton;Volume;Volumen
-11;OptionsButtonText: ControlsButton;Controls;Controles
-12;OptionsDisplayButtonText: ResolutionButton;Resolution;Resolución
-13;OptionsDisplayButtonText: WindowModeButton;Window Mode;Tipo de ventana
-14;OptionsDisplayButtonText: FullScreenText;Full screen;Pantalla completa
-15;OptionsDisplayButtonText: WindowText;Window;Ventana
-16;OptionsDisplayButtonText: FpsLimitButton;Fps Limit;Limite de Fps
-17;OptionsDisplayButtonText: LanguageButton;Language;Lenguaje
-18;OptionsDisplayButtonText: MuteButton;Mute;Silenciar
-19;MenuSelectCharacter: CharactersToDispatch;to dispatch;por selecionar
-20;GamePlayText: RoundState;Battle start!;¡Comienza la batalla!
-21;MenuSelectCharacter: CharactersToDispatch;Player turn!;¡Turno del jugador!
-22;MenuSelectCharacter: CharactersToDispatch;Enemy turn!;¡Turno del enemigo!
-23;MenuCharacterActions: CharacterActions;Attack;Atacar
-24;MenuCharacterActions: CharacterActions;Special;Especial
-25;MenuCharacterActions: CharacterActions;Defend;Defender
-26;MenuCharacterActions: CharacterActions;Lift;Levantar
-27;MenuCharacterActions: CharacterActions;Throw;Lanzar
-28;MenuCharacterActions: CharacterActions;Item;Objeto
-29;MenuCharacterActions: CharacterActions;Status;Estado
-30;MenuGeneralActions: GeneralActions;Execute;Ejecutar
-31;MenuGeneralActions: GeneralActions;End turn;Terminar turno
-32;MenuGeneralActions: GeneralActions;Characters;Personajes
-33;MenuGeneralActions: GeneralActions;Bonus;Bonificación
-34;MenuAllCharacters: AllCharacters;Characters;Personajes
-35;MenuLiftCharacters: LiftCharacters;Characters;Personajes
-36;MenuItemsGearCharacter;Gear;Equipado
-37;MenuItemsBagCharacter;Bag;Bolsa
+﻿ID;Descripción;English;Español;
+1;GeneralButton: HomeButton;Home;Inicio;
+2;GeneralButton: BackButton;Back;Atras;
+3;GameOverMenu: ResetButton;Reset;Reiniciar;
+4;HomeButton: Play Button;Play;Jugar;
+5;HomeButton: Options Button;Options;Opciones;
+6;HomeButton: Credits Button; Credits;Creditos;
+7;HomeButton: Exit Button;Exit;Salir;
+8;OptionsText: TitleOptions;Settings;Opciones;
+9;OptionsButtonText: DisplayButton;Display;Pantalla;
+10;OptionsButtonText: VolumeButton;Volume;Volumen;
+11;OptionsButtonText: ControlsButton;Controls;Controles;
+12;OptionsDisplayButtonText: ResolutionButton;Resolution;Resolución;
+13;OptionsDisplayButtonText: WindowModeButton;Window Mode;Tipo de ventana;
+14;OptionsDisplayButtonText: FullScreenText;Full screen;Pantalla completa;
+15;OptionsDisplayButtonText: WindowText;Window;Ventana;
+16;OptionsDisplayButtonText: FpsLimitButton;Fps Limit;Limite de Fps;
+17;OptionsDisplayButtonText: LanguageButton;Language;Lenguaje;
+18;OptionsDisplayButtonText: MuteButton;Mute;Silenciar;
+19;MenuSelectCharacter: CharactersToDispatch;to dispatch;por selecionar;
+20;GamePlayText: RoundState;Battle start!;¡Comienza la batalla!;
+21;MenuSelectCharacter: CharactersToDispatch;Player turn!;¡Turno del jugador!;
+22;MenuSelectCharacter: CharactersToDispatch;Enemy turn!;¡Turno del enemigo!;
+23;MenuCharacterActions: CharacterActions;Attack;Atacar;
+24;MenuCharacterActions: CharacterActions;Special;Especial;
+25;MenuCharacterActions: CharacterActions;Defend;Defender;
+26;MenuCharacterActions: CharacterActions;Lift;Levantar;
+27;MenuCharacterActions: CharacterActions;Throw;Lanzar;
+28;MenuCharacterActions: CharacterActions;Item;Objeto;
+29;MenuCharacterActions: CharacterActions;Status;Estado;
+30;MenuGeneralActions: GeneralActions;Execute;Ejecutar;
+31;MenuGeneralActions: GeneralActions;End turn;Terminar turno;
+32;MenuGeneralActions: GeneralActions;Characters;Personajes;
+33;MenuGeneralActions: GeneralActions;Bonus;Bonificación;
+34;MenuAllCharacters: AllCharacters;Characters;Personajes;
+35;MenuLiftCharacters: LiftCharacters;Characters;Personajes;
+36;MenuItemsGearCharacter;Gear;Equipado;
+37;MenuItemsBagCharacter;Bag;Bolsa;
