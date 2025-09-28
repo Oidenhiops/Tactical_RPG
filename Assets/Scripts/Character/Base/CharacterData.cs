@@ -44,8 +44,8 @@ public class CharacterData
     }
     public int GetMovementMaxHeight()
     {
-        //return 2 + statistics[TypeStatistic.Spd].currentValue > 6 ? 6 : statistics[TypeStatistic.Spd].currentValue;
-        return 0;
+        return 2 + statistics[TypeStatistic.Spd].currentValue > 6 ? 6 : statistics[TypeStatistic.Spd].currentValue;
+        //return 0;
     }
     public int GetMovementRadius()
     {

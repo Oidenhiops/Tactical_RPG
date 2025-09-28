@@ -311,7 +311,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   typeBlock: 2
-  blockGrid: {fileID: 2271076077844795279}
   meshes:
     _serializedList:
     - Key: 5
@@ -1331,6 +1330,31 @@ MonoBehaviour:
         blockGeneratedRule: {fileID: 0}
         targetSprite: {fileID: 329845053, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
+    - Key: 38
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: 1005503913, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 102
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: 1005503913, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 131102
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: 1005503913, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 65638
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: 1005503913, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 86
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: 1005503913, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
   neighbors: 
   directions:
     _serializedList:
@@ -1354,6 +1378,7 @@ MonoBehaviour:
       Value: 18
     - Key: {x: -1, y: 0, z: -1}
       Value: 17
+  poolingGrid: {fileID: 0}
 --- !u!1 &5598061572674127749
 GameObject:
   m_ObjectHideFlags: 0
@@ -1688,12 +1713,6 @@ PrefabInstance:
 --- !u!4 &1499605236340479285 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a6b313210ede9bb47b25ffe8047d9ea0,
-    type: 3}
-  m_PrefabInstance: {fileID: 1388536371448034014}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &2271076077844795279 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a6b313210ede9bb47b25ffe8047d9ea0,
     type: 3}
   m_PrefabInstance: {fileID: 1388536371448034014}
   m_PrefabAsset: {fileID: 0}
