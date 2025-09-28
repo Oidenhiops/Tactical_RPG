@@ -56,17 +56,10 @@ public class MenuItemsCharacter : MonoBehaviour
     public void OnItemBagSelect(BannerItemsCharacter bagItem)
     {
         currentBagItem = bagItem;
-
-        // Cambiar selección primero
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(gearBanners.ElementAt(gearIndex).Value.gameObject);
-
-        // Luego desactivar el botón
-        var button = bagItem.GetComponentInChildren<Button>();
-        if (button != null)
-        {
-            button.interactable = false;
-        }
+        bagItem.GetComponentInChildren<Button>().interactable = false;
+        TogglePanels(true);
     }
     public void OnItemSelect(BannerItemsCharacter gearItem)
     {
@@ -174,15 +167,21 @@ public class MenuItemsCharacter : MonoBehaviour
         {
             statistics.Value.RefreshValue();
         }
+        TogglePanels(false);
         StartCoroutine(ReloadItems());
         BackToBagItems();
+    }
+    public void TogglePanels(bool panelBagIsActive)
+    {
+        panelBag.SetActive(panelBagIsActive);
+        panelGear.SetActive(!panelBagIsActive);
     }
     public bool ContainsOtherWeapon(out CharacterData.CharacterItem weapon)
     {
         foreach (KeyValuePair<CharacterData.CharacterItemInfo, CharacterData.CharacterItem> item in AStarPathFinding.Instance.characterSelected.characterData.items)
         {
             if (item.Value.itemBaseSO)
-            {                
+            {
                 if (item.Value.itemBaseSO.typeObject == ItemBaseSO.TypeObject.Weapon ||
                     item.Value.itemBaseSO.typeObject == ItemBaseSO.TypeObject.Weapon)
                 {
@@ -196,6 +195,7 @@ public class MenuItemsCharacter : MonoBehaviour
     }
     public void BackToBagItems()
     {
+        TogglePanels(false);
         bagBanners.ElementAt(bagIndex).Value.gameObject.GetComponent<Button>().interactable = true;
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(bagBanners.ElementAt(bagIndex).Value.gameObject);
@@ -228,6 +228,7 @@ public class MenuItemsCharacter : MonoBehaviour
         }
         playerManager.menuCharacterActions.menuCharacterActions.SetActive(false);
         menuItemCharacters.SetActive(true);
+        TogglePanels(false);
     }
     public void DisableMenu()
     {
