@@ -19621,7 +19621,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 825f8ddb353aec44b997183550d4eb69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentAtlasMap: {fileID: 1137728938, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
+  currentAtlasMap: {fileID: -1002281485, guid: 2641a5bacb6fe0b408d3ff42df0b1e44, type: 3}
   blocks:
   - {fileID: 0}
   - {fileID: 0}

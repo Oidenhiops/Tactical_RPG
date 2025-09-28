@@ -75,75 +75,57 @@ public class MenuItemsCharacter : MonoBehaviour
             itemBaseSO = currentBagItem.item.itemBaseSO,
             itemStatistics = currentBagItem.item.itemStatistics
         };
-        if (itemToGear.itemBaseSO && itemToGear.itemBaseSO.typeObject == ItemBaseSO.TypeObject.Weapon ||
-            itemToGear.itemBaseSO && itemToGear.itemBaseSO.typeObject == ItemBaseSO.TypeObject.Monster)
+
+        if (gearBanners[gearIndex].bannerInfo.typeCharacterItem == CharacterData.TypeCharacterItem.Weapon)
         {
-            if (gearBanners[gearIndex].bannerInfo.typeCharacterItem == CharacterData.TypeCharacterItem.Weapon)
+            if (!itemToGear.itemBaseSO)
             {
-                if (itemToGear.itemBaseSO.typeObject == ItemBaseSO.TypeObject.Weapon)
+                SetItemData(itemToBag, itemToGear);
+            }
+            else
+            {
+                if (itemToGear.itemBaseSO.typeObject == ItemBaseSO.TypeObject.Weapon || itemToGear.itemBaseSO.typeObject == ItemBaseSO.TypeObject.Monster)
                 {
-                    if (AStarPathFinding.Instance.characterSelected.initialDataSO.isHumanoid)
+                    if (AStarPathFinding.Instance.characterSelected.characterData.items.ElementAt(0).Value.itemBaseSO)
                     {
-                        if (ContainsOtherWeapon(out CharacterData.CharacterItem weapon))
+                        if (AStarPathFinding.Instance.characterSelected.initialDataSO.isHumanoid)
                         {
-                            if (itemToBag.itemBaseSO && weapon.itemBaseSO && itemToBag.itemBaseSO.typeObject == weapon.itemBaseSO.typeObject)
+                            if (itemToGear.itemBaseSO.typeObject == ItemBaseSO.TypeObject.Weapon)
                             {
-                                SetItemData(itemToBag, itemToGear, gearItem);
+                                SetItemData(itemToBag, itemToGear);
                             }
                         }
                         else
                         {
-                            SetItemData(itemToBag, itemToGear, gearItem);
+                            if (itemToGear.itemBaseSO.typeObject == ItemBaseSO.TypeObject.Monster)
+                            {
+                                SetItemData(itemToBag, itemToGear);
+                            }
                         }
                     }
-                }
-                else if (itemToGear.itemBaseSO.typeObject == ItemBaseSO.TypeObject.Monster)
-                {
-                    if (!AStarPathFinding.Instance.characterSelected.initialDataSO.isHumanoid)
+                    else
                     {
-                        if (ContainsOtherWeapon(out CharacterData.CharacterItem weapon))
-                        {
-                            if (itemToBag.itemBaseSO.typeObject == weapon.itemBaseSO.typeObject)
-                            {
-                                SetItemData(itemToBag, itemToGear, gearItem);
-                            }
-                        }
-                        else
-                        {
-                            SetItemData(itemToBag, itemToGear, gearItem);
-                        }
+                        SetItemData(itemToBag, itemToGear);
                     }
                 }
             }
         }
         else
         {
-            if (gearBanners[gearIndex].bannerInfo.typeCharacterItem != CharacterData.TypeCharacterItem.Weapon)
+            if (!itemToGear.itemBaseSO)
             {
-                SetItemData(itemToBag, itemToGear, gearItem);
+                SetItemData(itemToBag, itemToGear);
             }
-            else if (gearBanners[gearIndex].bannerInfo.typeCharacterItem == CharacterData.TypeCharacterItem.Weapon)
+            else
             {
-                if (itemToGear.itemBaseSO && itemToBag.itemBaseSO)
+                if (itemToGear.itemBaseSO.typeObject != ItemBaseSO.TypeObject.Weapon || itemToGear.itemBaseSO.typeObject != ItemBaseSO.TypeObject.Monster)
                 {
-
+                    SetItemData(itemToBag, itemToGear);
                 }
-                else if (itemToGear.itemBaseSO)
-                {
-
-                }
-                else if (itemToBag.itemBaseSO)
-                {
-                    
-                }
-            }
-            else if (itemToBag.itemBaseSO && !itemToGear.itemBaseSO || !itemToBag.itemBaseSO && itemToGear.itemBaseSO)
-            {
-                SetItemData(itemToBag, itemToGear, gearItem);
             }
         }
     }
-    public void SetItemData(CharacterData.CharacterItem itemToBag, CharacterData.CharacterItem itemToGear, BannerItemsCharacter gearItem)
+    public void SetItemData(CharacterData.CharacterItem itemToBag, CharacterData.CharacterItem itemToGear)
     {
         if (itemToBag.itemBaseSO)
         {
@@ -175,23 +157,6 @@ public class MenuItemsCharacter : MonoBehaviour
     {
         panelBag.SetActive(panelBagIsActive);
         panelGear.SetActive(!panelBagIsActive);
-    }
-    public bool ContainsOtherWeapon(out CharacterData.CharacterItem weapon)
-    {
-        foreach (KeyValuePair<CharacterData.CharacterItemInfo, CharacterData.CharacterItem> item in AStarPathFinding.Instance.characterSelected.characterData.items)
-        {
-            if (item.Value.itemBaseSO)
-            {
-                if (item.Value.itemBaseSO.typeObject == ItemBaseSO.TypeObject.Weapon ||
-                    item.Value.itemBaseSO.typeObject == ItemBaseSO.TypeObject.Weapon)
-                {
-                    weapon = item.Value;
-                    return true;
-                }
-            }
-        }
-        weapon = null;
-        return false;
     }
     public void BackToBagItems()
     {
