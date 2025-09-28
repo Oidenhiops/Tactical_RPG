@@ -63,10 +63,10 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         SetInitialDevice();
-        OnDeviceChanged += ValidateActiveMouse;
         openCloseScene.OnFinishOpenAnimation += () => { startGame = true; };
-        ValidateActiveMouse(principalDevice,currentDevice);
     }
     void LateUpdate()
     {
@@ -129,17 +129,6 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogError(e);
             await Task.Delay(TimeSpan.FromSeconds(0.05));
-        }
-    }
-    public void ValidateActiveMouse(TypeDevice principalDevice, TypeDevice typeDevice)
-    {
-        if (principalDevice == TypeDevice.PC)
-        {
-            Cursor.visible = true;
-        }
-        else
-        {
-            Cursor.visible = false;
         }
     }
     public void SetInitialDevice()

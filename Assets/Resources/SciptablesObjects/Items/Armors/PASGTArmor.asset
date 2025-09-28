@@ -18,4 +18,28 @@ MonoBehaviour:
   animationName: 
   amountToAddId: 40
   itemStatistics:
-    _serializedList: []
+    _serializedList:
+    - Key: 1
+      Value:
+        baseValue: 10
+        itemValue: 0
+        buffValue:
+          _serializedList: []
+        currentValue: 0
+        maxValue: 0
+    - Key: 6
+      Value:
+        baseValue: 5
+        itemValue: 0
+        buffValue:
+          _serializedList: []
+        currentValue: 0
+        maxValue: 0
+    - Key: 7
+      Value:
+        baseValue: 5
+        itemValue: 0
+        buffValue:
+          _serializedList: []
+        currentValue: 0
+        maxValue: 0

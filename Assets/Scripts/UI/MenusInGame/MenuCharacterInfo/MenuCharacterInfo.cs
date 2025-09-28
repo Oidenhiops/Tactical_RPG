@@ -45,20 +45,20 @@ public class MenuCharacterInfo : MonoBehaviour
         if (!disableItemsContainer)
         {
             itemsContainer.gameObject.SetActive(true);
-            foreach (KeyValuePair<int, CharacterData.CharacterItem> item in character.characterData.items)
+            foreach (KeyValuePair<CharacterData.CharacterItemInfo, CharacterData.CharacterItem> item in character.characterData.items)
             {
                 if (item.Value.itemBaseSO)
                 {
-                    itemsInfo[item.Key].disableBanner.SetActive(false);
-                    itemsInfo[item.Key].enabledBanner.SetActive(true);
-                    itemsInfo[item.Key].managementLanguage.id = item.Value.itemBaseSO.id;
-                    itemsInfo[item.Key].managementLanguage.RefreshText();
-                    itemsInfo[item.Key].itemSprite.sprite = item.Value.itemBaseSO.icon;
+                    itemsInfo[item.Key.index].disableBanner.SetActive(false);
+                    itemsInfo[item.Key.index].enabledBanner.SetActive(true);
+                    itemsInfo[item.Key.index].managementLanguage.id = item.Value.itemBaseSO.id;
+                    itemsInfo[item.Key.index].managementLanguage.RefreshText();
+                    itemsInfo[item.Key.index].itemSprite.sprite = item.Value.itemBaseSO.icon;
                 }
                 else
                 {
-                    itemsInfo[item.Key].disableBanner.SetActive(true);
-                    itemsInfo[item.Key].enabledBanner.SetActive(false);
+                    itemsInfo[item.Key.index].disableBanner.SetActive(true);
+                    itemsInfo[item.Key.index].enabledBanner.SetActive(false);
                 }
             }
         }

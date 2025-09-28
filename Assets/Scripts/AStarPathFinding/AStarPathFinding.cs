@@ -314,15 +314,15 @@ public class AStarPathFinding : MonoBehaviour
         positions = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
         Vector3Int[] directions = new Vector3Int[0];
         characterSelected.characterData.GetCurrentWeapon(out CharacterData.CharacterItem weapon);
-        // if (!weapon || weapon.typeObject == ItemBaseSO.TypeObject.Fist || weapon.typeObject == ItemBaseSO.TypeObject.Staff)
-        // {
-        //     directions = new Vector3Int[]{
-        //         Vector3Int.forward,
-        //         Vector3Int.back,
-        //         Vector3Int.left,
-        //         Vector3Int.right,
-        //     };
-        // }
+        if (weapon == null)
+        {
+            directions = new Vector3Int[]{
+                Vector3Int.forward,
+                Vector3Int.back,
+                Vector3Int.left,
+                Vector3Int.right,
+            };
+        }
         if (directions.Length > 0)
         {
             foreach (var directionFounded in directions)

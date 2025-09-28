@@ -34,7 +34,6 @@ public class ManagementOptions : MonoBehaviour, GameManagerHelper.IGameManagerHe
         GameManager.Instance.OnDeviceChanged += ChangeMenuButtons;
         backButton.started += BackHandle;
         backButton.Enable();
-        if (GameManager.Instance.currentDevice == GameManager.TypeDevice.PC) Cursor.visible = true;
         ChangeMenuButtons(GameManager.Instance.principalDevice, GameManager.Instance.currentDevice);
         muteCheck.SetActive(GameData.Instance.saveData.configurationsInfo.soundConfiguration.isMute);
         if (SceneManager.GetSceneByName("HomeScene").isLoaded) homeButton.SetActive(false);

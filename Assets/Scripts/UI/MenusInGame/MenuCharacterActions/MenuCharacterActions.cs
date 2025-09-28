@@ -38,7 +38,7 @@ public class MenuCharacterActions : MonoBehaviour
                         buttonsExepts.Add(TypeButton.Status);
                         break;
                     default:
-                        for (int i = 1; i < Enum.GetValues(typeof(TypeButton)).Length; i++)
+                        for (int i = 0; i < Enum.GetValues(typeof(TypeButton)).Length; i++)
                         {
                             if ((TypeButton)i != TypeButton.Lift && (TypeButton)i != TypeButton.Attack)
                             {

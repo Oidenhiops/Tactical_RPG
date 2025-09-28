@@ -2,9 +2,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class BannerItemsCharacter : MonoBehaviour, ISubmitHandler, ISelectHandler
+public class BannerItemsCharacter : MonoBehaviour, ISubmitHandler, ISelectHandler, IPointerClickHandler
 {
-    public int index;
+    public CharacterData.CharacterItemInfo bannerInfo;
     public OnObjectSelect onObjectSelect;
     public MenuItemsCharacter menuItemsCharacter;
     public ManagementLanguage managementLanguage;
@@ -43,6 +43,19 @@ public class BannerItemsCharacter : MonoBehaviour, ISubmitHandler, ISelectHandle
     }
     public void OnSelect(BaseEventData eventData)
     {
-        if (isBagItem) menuItemsCharacter.index = index;
+        if (isBagItem) menuItemsCharacter.bagIndex = bannerInfo.index;
+        else menuItemsCharacter.gearIndex = bannerInfo.index;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (isBagItem)
+        {
+            menuItemsCharacter.OnItemBagSelect(this);
+        }
+        else
+        {
+            menuItemsCharacter.OnItemSelect(this);
+        }
     }
 }

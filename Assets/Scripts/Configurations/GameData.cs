@@ -63,7 +63,7 @@ public class GameData : MonoBehaviour
     {
         foreach (CharacterData characterData in saveData.characters)
         {
-            foreach (KeyValuePair<int, CharacterData.CharacterItem> item in characterData.items)
+            foreach (KeyValuePair<CharacterData.CharacterItemInfo, CharacterData.CharacterItem> item in characterData.items)
             {
                 if (item.Value.itemId != 0)
                 {

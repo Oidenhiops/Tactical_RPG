@@ -381,7 +381,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7704509094041647364}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -6993839252308721755}
+        m_TargetAssemblyTypeName: BannerItemsCharacter, Assembly-CSharp
+        m_MethodName: SelectItem
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1057442076856761001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,11 +425,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ecbca6f2135e274cb7c15d1357b1a7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  index: 0
+  bannerInfo:
+    index: 0
+    typeCharacterItem: 0
   onObjectSelect: {fileID: 0}
   menuItemsCharacter: {fileID: 0}
   managementLanguage: {fileID: 4484929051877040103}
-  itemBaseSO: {fileID: 0}
+  item:
+    itemId: 0
+    itemBaseSO: {fileID: 0}
+    itemStatistics:
+      _serializedList: []
   itemSprite: {fileID: 6525806518853063808}
   disableItemBanner: {fileID: 116235886516608431}
   enableItemBanner: {fileID: 277736542384393472}

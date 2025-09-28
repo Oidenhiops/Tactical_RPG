@@ -10,12 +10,12 @@ public class CharacterData
     public int level;
     public string name;
     public SerializedDictionary<TypeStatistic, Statistic> statistics = new SerializedDictionary<TypeStatistic, Statistic>();
-    public SerializedDictionary<int, CharacterItem> items = new SerializedDictionary<int, CharacterItem>
+    public SerializedDictionary<CharacterItemInfo, CharacterItem> items = new SerializedDictionary<CharacterItemInfo, CharacterItem>
     {
-        {0, null},
-        {1, null},
-        {2, null},
-        {3, null}
+        {new CharacterItemInfo{index = 0, typeCharacterItem = TypeCharacterItem.Weapon}, null},
+        {new CharacterItemInfo{index = 1, typeCharacterItem = TypeCharacterItem.Object1}, null},
+        {new CharacterItemInfo{index = 2, typeCharacterItem = TypeCharacterItem.Object2}, null},
+        {new CharacterItemInfo{index = 3, typeCharacterItem = TypeCharacterItem.Object3}, null}
     };
     [Serializable] public class Statistic
     {
@@ -57,7 +57,7 @@ public class CharacterData
     }
     public void GetCurrentWeapon(out CharacterItem weapon)
     {
-        foreach (KeyValuePair<int, CharacterItem> item in items)
+        foreach (KeyValuePair<CharacterItemInfo, CharacterItem> item in items)
         {
             if (item.Value.itemBaseSO && item.Value.itemBaseSO.typeObject == ItemBaseSO.TypeObject.Weapon)
             {
@@ -72,6 +72,19 @@ public class CharacterData
         public int itemId;
         public ItemBaseSO itemBaseSO;
         public SerializedDictionary<TypeStatistic, Statistic> itemStatistics = new SerializedDictionary<TypeStatistic, Statistic>();
+    }
+    [Serializable] public class CharacterItemInfo
+    {
+        public int index;
+        public TypeCharacterItem typeCharacterItem;
+    }
+    public enum TypeCharacterItem
+    {
+        None = 0,
+        Weapon = 1,
+        Object1 = 2,
+        Object2 = 3,
+        Object3 = 4,    
     }
     public enum TypeStatistic
     {

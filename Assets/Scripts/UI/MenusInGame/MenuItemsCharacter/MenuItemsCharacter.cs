@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
@@ -10,26 +9,29 @@ using UnityEngine.UI;
 
 public class MenuItemsCharacter : MonoBehaviour
 {
+    public GameObject panelGear;
+    public GameObject panelBag;
     public PlayerManager playerManager;
     public GameObject menuItemCharacters;
-    public int index;
+    public int bagIndex;
+    public int gearIndex;
     public SerializedDictionary<int, BannerItemsCharacter> gearBanners = new SerializedDictionary<int, BannerItemsCharacter>();
     public SerializedDictionary<int, BannerItemsCharacter> bagBanners = new SerializedDictionary<int, BannerItemsCharacter>();
     public BannerItemsCharacter currentBagItem;
     public async Task ReloadGearBanners()
     {
         var character = AStarPathFinding.Instance.characterSelected;
-        for (int i = 0; i < gearBanners.Count; i++)
+        foreach (KeyValuePair<CharacterData.CharacterItemInfo, CharacterData.CharacterItem> item in character.characterData.items)
         {
-            if (character.characterData.items[i].itemBaseSO)
+            if (item.Value.itemBaseSO)
             {
-                gearBanners[i].SetBannerData(character.characterData.items[i]);
-                gearBanners[i].EnableBanner();
+                gearBanners[item.Key.index].SetBannerData(character.characterData.items[item.Key]);
+                gearBanners[item.Key.index].EnableBanner();
             }
             else
             {
-                gearBanners[i].item = new CharacterData.CharacterItem();
-                gearBanners[i].DisableBanner();
+                gearBanners[item.Key.index].item = new CharacterData.CharacterItem();
+                gearBanners[item.Key.index].DisableBanner();
             }
         }
         await Awaitable.NextFrameAsync();
@@ -53,10 +55,18 @@ public class MenuItemsCharacter : MonoBehaviour
     }
     public void OnItemBagSelect(BannerItemsCharacter bagItem)
     {
-        bagItem.GetComponent<Button>().interactable = false;
         currentBagItem = bagItem;
+
+        // Cambiar selección primero
         EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(gearBanners.ElementAt(0).Value.gameObject);
+        EventSystem.current.SetSelectedGameObject(gearBanners.ElementAt(gearIndex).Value.gameObject);
+
+        // Luego desactivar el botón
+        var button = bagItem.GetComponentInChildren<Button>();
+        if (button != null)
+        {
+            button.interactable = false;
+        }
     }
     public void OnItemSelect(BannerItemsCharacter gearItem)
     {
@@ -75,48 +85,69 @@ public class MenuItemsCharacter : MonoBehaviour
         if (itemToGear.itemBaseSO && itemToGear.itemBaseSO.typeObject == ItemBaseSO.TypeObject.Weapon ||
             itemToGear.itemBaseSO && itemToGear.itemBaseSO.typeObject == ItemBaseSO.TypeObject.Monster)
         {
-            if (itemToGear.itemBaseSO.typeObject == ItemBaseSO.TypeObject.Weapon)
+            if (gearBanners[gearIndex].bannerInfo.typeCharacterItem == CharacterData.TypeCharacterItem.Weapon)
             {
-                if (AStarPathFinding.Instance.characterSelected.initialDataSO.isHumanoid)
+                if (itemToGear.itemBaseSO.typeObject == ItemBaseSO.TypeObject.Weapon)
                 {
-                    if (ContainsOtherWeapon(out CharacterData.CharacterItem weapon))
+                    if (AStarPathFinding.Instance.characterSelected.initialDataSO.isHumanoid)
                     {
-                        if (itemToBag.itemBaseSO && weapon.itemBaseSO && itemToBag.itemBaseSO.typeObject == weapon.itemBaseSO.typeObject)
+                        if (ContainsOtherWeapon(out CharacterData.CharacterItem weapon))
+                        {
+                            if (itemToBag.itemBaseSO && weapon.itemBaseSO && itemToBag.itemBaseSO.typeObject == weapon.itemBaseSO.typeObject)
+                            {
+                                SetItemData(itemToBag, itemToGear, gearItem);
+                            }
+                        }
+                        else
                         {
                             SetItemData(itemToBag, itemToGear, gearItem);
                         }
                     }
-                    else
-                    {
-                        SetItemData(itemToBag, itemToGear, gearItem);
-                    }
                 }
-            }
-            else if (itemToGear.itemBaseSO.typeObject == ItemBaseSO.TypeObject.Monster)
-            {
-                if (!AStarPathFinding.Instance.characterSelected.initialDataSO.isHumanoid)
+                else if (itemToGear.itemBaseSO.typeObject == ItemBaseSO.TypeObject.Monster)
                 {
-                    if (ContainsOtherWeapon(out CharacterData.CharacterItem weapon))
+                    if (!AStarPathFinding.Instance.characterSelected.initialDataSO.isHumanoid)
                     {
-                        if (itemToBag.itemBaseSO.typeObject == weapon.itemBaseSO.typeObject)
+                        if (ContainsOtherWeapon(out CharacterData.CharacterItem weapon))
+                        {
+                            if (itemToBag.itemBaseSO.typeObject == weapon.itemBaseSO.typeObject)
+                            {
+                                SetItemData(itemToBag, itemToGear, gearItem);
+                            }
+                        }
+                        else
                         {
                             SetItemData(itemToBag, itemToGear, gearItem);
                         }
                     }
-                    else
-                    {
-                        SetItemData(itemToBag, itemToGear, gearItem);
-                    }
                 }
-            }
-            else
-            {
-                SetItemData(itemToBag, itemToGear, gearItem);
             }
         }
         else
         {
-            SetItemData(itemToBag, itemToGear, gearItem);
+            if (gearBanners[gearIndex].bannerInfo.typeCharacterItem != CharacterData.TypeCharacterItem.Weapon)
+            {
+                SetItemData(itemToBag, itemToGear, gearItem);
+            }
+            else if (gearBanners[gearIndex].bannerInfo.typeCharacterItem == CharacterData.TypeCharacterItem.Weapon)
+            {
+                if (itemToGear.itemBaseSO && itemToBag.itemBaseSO)
+                {
+
+                }
+                else if (itemToGear.itemBaseSO)
+                {
+
+                }
+                else if (itemToBag.itemBaseSO)
+                {
+                    
+                }
+            }
+            else if (itemToBag.itemBaseSO && !itemToGear.itemBaseSO || !itemToBag.itemBaseSO && itemToGear.itemBaseSO)
+            {
+                SetItemData(itemToBag, itemToGear, gearItem);
+            }
         }
     }
     public void SetItemData(CharacterData.CharacterItem itemToBag, CharacterData.CharacterItem itemToGear, BannerItemsCharacter gearItem)
@@ -129,8 +160,15 @@ public class MenuItemsCharacter : MonoBehaviour
         {
             itemToGear.itemBaseSO.EquipItem(AStarPathFinding.Instance.characterSelected, itemToGear);
         }
-        AStarPathFinding.Instance.characterSelected.characterData.items[gearItem.index] = itemToGear;
-        GameData.Instance.saveData.bagItems[currentBagItem.index] = itemToBag;
+        foreach (KeyValuePair<CharacterData.CharacterItemInfo, CharacterData.CharacterItem> item in AStarPathFinding.Instance.characterSelected.characterData.items)
+        {
+            if (item.Key.index == gearIndex)
+            {
+                AStarPathFinding.Instance.characterSelected.characterData.items[item.Key] = itemToGear;
+                break;
+            }
+        }
+        GameData.Instance.saveData.bagItems[currentBagItem.bannerInfo.index] = itemToBag;
         currentBagItem = null;
         foreach (var statistics in AStarPathFinding.Instance.characterSelected.characterData.statistics)
         {
@@ -141,7 +179,7 @@ public class MenuItemsCharacter : MonoBehaviour
     }
     public bool ContainsOtherWeapon(out CharacterData.CharacterItem weapon)
     {
-        foreach (KeyValuePair<int, CharacterData.CharacterItem> item in AStarPathFinding.Instance.characterSelected.characterData.items)
+        foreach (KeyValuePair<CharacterData.CharacterItemInfo, CharacterData.CharacterItem> item in AStarPathFinding.Instance.characterSelected.characterData.items)
         {
             if (item.Value.itemBaseSO)
             {                
@@ -158,10 +196,10 @@ public class MenuItemsCharacter : MonoBehaviour
     }
     public void BackToBagItems()
     {
-        bagBanners.ElementAt(index).Value.gameObject.GetComponent<Button>().interactable = true;
+        bagBanners.ElementAt(bagIndex).Value.gameObject.GetComponent<Button>().interactable = true;
         EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(bagBanners.ElementAt(index).Value.gameObject);
-        bagBanners.ElementAt(index).Value.onObjectSelect.ScrollTo(index);
+        EventSystem.current.SetSelectedGameObject(bagBanners.ElementAt(bagIndex).Value.gameObject);
+        bagBanners.ElementAt(bagIndex).Value.onObjectSelect.ScrollTo(bagIndex);
     }
     public IEnumerator ReloadItems()
     {
@@ -174,16 +212,16 @@ public class MenuItemsCharacter : MonoBehaviour
     {
         yield return ReloadGearBanners();
         yield return ReloadBagBanners();
-        index = 0;
+        bagIndex = 0;
         if (bagBanners.Count > 0)
         {
-            if (index > bagBanners.Count - 1)
+            if (bagIndex > bagBanners.Count - 1)
             {
-                index--;
+                bagIndex--;
             }
             EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(bagBanners.ElementAt(index).Value.gameObject);
-            bagBanners.ElementAt(index).Value.onObjectSelect.ScrollTo(index);
+            EventSystem.current.SetSelectedGameObject(bagBanners.ElementAt(bagIndex).Value.gameObject);
+            bagBanners.ElementAt(bagIndex).Value.onObjectSelect.ScrollTo(bagIndex);
             yield return null;
             playerManager.menuCharacterInfo.ReloadInfo(AStarPathFinding.Instance.characterSelected, true);
             playerManager.menuCharacterInfo.menuCharacterInfo.SetActive(true);
@@ -194,6 +232,8 @@ public class MenuItemsCharacter : MonoBehaviour
     public void DisableMenu()
     {
         menuItemCharacters.SetActive(false);
+        gearIndex = 0;
+        bagIndex = 0;
         playerManager.menuCharacterActions.BackToMenuWhitButton(MenuCharacterActions.TypeButton.Item);
     }
 }
