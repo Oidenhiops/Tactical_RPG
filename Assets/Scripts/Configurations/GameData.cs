@@ -220,17 +220,29 @@ public class GameData : MonoBehaviour
     }
     public void SetStartingCharacter(ref SaveData dataInfo)
     {
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < 11; i++)
         {
             CharacterData character = new CharacterData
             {
                 id = 0,
                 name = "Oiden " + i,
                 level = 1,
+                mastery = new SerializedDictionary<CharacterData.TypeMastery, CharacterData.CharacterMasteryInfo>()
             };
+            for (int m = 1; m < Enum.GetValues(typeof(CharacterData.MasteryRange)).Length; m++)
+            {
+                character.mastery.Add((CharacterData.TypeMastery)m, new CharacterData.CharacterMasteryInfo()
+                {
+                    masteryRange = CharacterData.MasteryRange.F,
+                    masteryLevel = i,
+                    currentXp = i,
+                    maxXp = 10
+                });
+            }
             character.statistics = charactersDataDBSO.data[character.id].CloneStatistics();
             foreach (KeyValuePair<CharacterData.TypeStatistic, CharacterData.Statistic> statistic in character.statistics)
             {
+                statistic.Value.aptitudeValue = 100 + i;
                 statistic.Value.baseValue = i;
                 statistic.Value.RefreshValue();
                 statistic.Value.SetMaxValue();

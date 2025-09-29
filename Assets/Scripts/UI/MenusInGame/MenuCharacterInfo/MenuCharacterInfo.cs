@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
 using TMPro;
@@ -16,12 +17,14 @@ public class MenuCharacterInfo : MonoBehaviour
     public GameObject statusEffectBanner;
     public Transform itemsContainer;
     public SerializedDictionary<int, ItemInfo> itemsInfo = new SerializedDictionary<int, ItemInfo>();
+    public SubMenuInfo[] subMenusInfo;
     public SerializedDictionary<CharacterData.TypeStatistic, UiInfo> uiInfo = new SerializedDictionary<CharacterData.TypeStatistic, UiInfo>();
-    [System.Serializable]
-    public class UiInfo
-    {
-        public TMP_Text characterStatistic;
-    }
+    public SerializedDictionary<CharacterData.TypeStatistic, TMP_Text> aptitudes = new SerializedDictionary<CharacterData.TypeStatistic, TMP_Text>();
+    public SerializedDictionary<CharacterData.TypeMastery, MasteryInfo> masteries = new SerializedDictionary<CharacterData.TypeMastery, MasteryInfo>();
+    public bool isMenuActive;
+    public Color subMenuSelected;
+    public Color subMenuDeselected;
+    public int subMenuIndex = 0;
     public void ReloadInfo(Character character, bool disableItemsContainer = false)
     {
         characterSprite.sprite = character.initialDataSO.icon;
@@ -66,18 +69,76 @@ public class MenuCharacterInfo : MonoBehaviour
         {
             itemsContainer.gameObject.SetActive(false);
         }
+        foreach (KeyValuePair<CharacterData.TypeStatistic, TMP_Text> aptitude in aptitudes)
+        {
+            aptitude.Value.text = character.characterData.statistics[aptitude.Key].aptitudeValue + "%";
+        }
+        foreach (KeyValuePair<CharacterData.TypeMastery, MasteryInfo> mastery in masteries)
+        {
+            mastery.Value.masteryRange.text = character.characterData.mastery[mastery.Key].masteryRange.ToString();
+            mastery.Value.masteryLevel.text = character.characterData.mastery[mastery.Key].masteryLevel.ToString();
+            mastery.Value.masteryLevelFill.fillAmount = (float)character.characterData.mastery[mastery.Key].currentXp / (float)character.characterData.mastery[mastery.Key].maxXp;
+        }
+        EnableSubMenu(0);
         menuCharacterInfo.SetActive(true);
+        isMenuActive = true;
+    }
+    public void ChangeSubMenu()
+    {
+        subMenuIndex += 1;
+        if (subMenuIndex > 2)
+        {
+            subMenuIndex = 0;
+        }
+        EnableSubMenu(subMenuIndex);
+    }
+    public void EnableSubMenu(int indexMenu)
+    {
+        subMenuIndex = indexMenu;
+        for (int i = 0; i < subMenusInfo.Length; i++)
+        {
+            if (i == indexMenu)
+            {
+                subMenusInfo[i].buttonSprite.color = subMenuSelected;
+                subMenusInfo[i].subMenuContainer.SetActive(true);
+            }
+            else
+            {
+                subMenusInfo[i].buttonSprite.color = subMenuDeselected;
+                subMenusInfo[i].subMenuContainer.SetActive(false);
+            }
+        }
     }
     public void DisableMenu(bool conservCharacter = false)
     {
         menuCharacterInfo.SetActive(false);
+        isMenuActive = false;
         if (!conservCharacter) AStarPathFinding.Instance.characterSelected = null;
     }
-    [System.Serializable] public class ItemInfo
+    [Serializable]
+    public class ItemInfo
     {
         public GameObject disableBanner;
         public GameObject enabledBanner;
         public Image itemSprite;
         public ManagementLanguage managementLanguage;
+    }
+    [Serializable]
+    public class SubMenuInfo
+    {
+        public Image buttonSprite;
+        public GameObject subMenuContainer;
+    }
+    [Serializable]
+    public class UiInfo
+    {
+        public TMP_Text characterStatistic;
+    }
+    [Serializable]
+    public class MasteryInfo
+    {
+        public TMP_Text masteryRange;
+        public TMP_Text masteryLevel;
+        public Image masteryLevelFill;
     }
 }

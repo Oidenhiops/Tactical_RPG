@@ -63,6 +63,8 @@ public class PlayerManager : MonoBehaviour
         characterActions.CharacterInputs.Interact.performed -= HandleAction;
         characterActions.CharacterInputs.Interact.performed -= menuThrowCharacter.OnHandleTrow;
         characterActions.CharacterInputs.RotateCamera.performed -= HandleRotateCamera;
+        characterActions.CharacterInputs.ChangeSubMenu.performed -= HandleChangeSubMenu;
+        characterActions.CharacterInputs.ActiveGeneralActions.performed -= HandleMenuGeneralActions;
         OnCharacterPlayerMakingActions -= OnToggleCharacterPlayerMove;
         GameManager.Instance.openCloseScene.OnFinishOpenAnimation -= OnFinishOpenAnimation;
     }
@@ -73,6 +75,8 @@ public class PlayerManager : MonoBehaviour
         characterActions.CharacterInputs.Interact.performed += HandleAction;
         characterActions.CharacterInputs.Interact.performed += menuThrowCharacter.OnHandleTrow;
         characterActions.CharacterInputs.RotateCamera.started += HandleRotateCamera;
+        characterActions.CharacterInputs.ChangeSubMenu.performed += HandleChangeSubMenu;
+        characterActions.CharacterInputs.ActiveGeneralActions.performed += HandleMenuGeneralActions;
         OnCharacterPlayerMakingActions += OnToggleCharacterPlayerMove;
         GameManager.Instance.openCloseScene.OnFinishOpenAnimation += OnFinishOpenAnimation;
     }
@@ -156,12 +160,26 @@ public class PlayerManager : MonoBehaviour
     }
     void HandleRotateCamera(InputAction.CallbackContext context)
     {
-        if (actionsManager.isPlayerTurn && !characterPlayerMakingActions && !actionsManager.isChangingTurn && !cantRotateCamera && !onRotateCamera)
+        if (actionsManager.isPlayerTurn && !characterPlayerMakingActions && !actionsManager.isChangingTurn && !cantRotateCamera && !onRotateCamera && !AnyMenuIsActive())
         {
             cantRotateCamera = true;
             onRotateCamera = true;
             directionCamera = context.ReadValue<float>() > 0 ? false : true;
             StartCoroutine(RotateCamera());
+        }
+    }
+    void HandleMenuGeneralActions(InputAction.CallbackContext callbackContext)
+    {
+        if (actionsManager.isPlayerTurn && !AnyMenuIsActive())
+        {
+            menuGeneralActions.EnableMenu();
+        }
+    }
+    void HandleChangeSubMenu(InputAction.CallbackContext context)
+    {
+        if (menuCharacterInfo.isMenuActive)
+        {
+            menuCharacterInfo.ChangeSubMenu();
         }
     }
     public bool AnyMenuIsActive()
@@ -172,7 +190,8 @@ public class PlayerManager : MonoBehaviour
                menuAllCharacters.menuAllCharacters.activeSelf ||
                menuCharacterInfo.menuCharacterInfo.activeSelf ||
                menuLiftCharacter.menuLiftCharacter.activeSelf ||
-               menuAttackCharacter.menuAttackCharacter.activeSelf; 
+               menuAttackCharacter.menuAttackCharacter.activeSelf ||
+               menuItemsCharacter.menuItemCharacters.activeSelf;
     }
     void Update()
     {

@@ -36,3 +36,8 @@
 35;MenuLiftCharacters: LiftCharacters;Characters;Personajes;
 36;MenuItemsGearCharacter;Gear;Equipado;
 37;MenuItemsBagCharacter;Bag;Bolsa;
+38;MenuThrowCharacterHeight;Height;Altura;
+39;MenuThrowCharacterDistance;Distance;Distancia;
+40;MenuCharacterInfoAptitude;Aptitude;Aptitud;
+41;MenuCharacterInfoMastery;Mastery;Maestría;
+42;MenuCharacterInfoSpecial;Skills;Habilidades;

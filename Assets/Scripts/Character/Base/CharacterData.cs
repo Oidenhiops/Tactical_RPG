@@ -17,8 +17,19 @@ public class CharacterData
         {new CharacterItemInfo{index = 2, typeCharacterItem = TypeCharacterItem.Object2}, null},
         {new CharacterItemInfo{index = 3, typeCharacterItem = TypeCharacterItem.Object3}, null}
     };
+    public SerializedDictionary<TypeMastery, CharacterMasteryInfo> mastery = new SerializedDictionary<TypeMastery, CharacterMasteryInfo>()
+    {
+        {TypeMastery.Fist, new CharacterMasteryInfo{masteryRange = MasteryRange.N, masteryLevel = 0}},
+        {TypeMastery.Sword, new CharacterMasteryInfo{masteryRange = MasteryRange.N, masteryLevel = 0}},
+        {TypeMastery.Spear, new CharacterMasteryInfo{masteryRange = MasteryRange.N, masteryLevel = 0}},
+        {TypeMastery.Bow, new CharacterMasteryInfo{masteryRange = MasteryRange.N, masteryLevel = 0}},
+        {TypeMastery.Gun, new CharacterMasteryInfo{masteryRange = MasteryRange.N, masteryLevel = 0}},
+        {TypeMastery.Axe, new CharacterMasteryInfo{masteryRange = MasteryRange.N, masteryLevel = 0}},
+        {TypeMastery.Staff, new CharacterMasteryInfo{masteryRange = MasteryRange.N, masteryLevel = 0}}
+    };
     [Serializable] public class Statistic
     {
+        public int aptitudeValue = 0;
         public int baseValue = 0;
         public int itemValue = 0;
         public SerializedDictionary<StatusEffectBaseSO, int> buffValue = new SerializedDictionary<StatusEffectBaseSO, int>();
@@ -28,13 +39,11 @@ public class CharacterData
         {
             int baseWhitItem = baseValue + itemValue;
             int totalBuffValue = 0;
-            foreach (KeyValuePair<StatusEffectBaseSO, int> buff in buffValue)
-            {
-                totalBuffValue += buff.Value;
-            }
+            foreach (KeyValuePair<StatusEffectBaseSO, int> buff in buffValue) totalBuffValue += buff.Value;
             int baseWhitBuff = baseValue * totalBuffValue / 100;
             int finalValue = Mathf.RoundToInt(baseWhitItem + baseWhitBuff);
-            maxValue = Mathf.Clamp(finalValue, 1, 99999);
+            int whitAptitude = Mathf.RoundToInt(finalValue * (aptitudeValue / 100f));
+            maxValue = Mathf.Clamp(whitAptitude, 1, 99999);
             if (currentValue > maxValue) currentValue = maxValue;
         }
         public void SetMaxValue()
@@ -67,7 +76,12 @@ public class CharacterData
         }
         weapon = null;
     }
-    [Serializable]public class CharacterItem
+    public void UpdateMastery(TypeMastery typeMastery, int amount)
+    {
+        mastery[typeMastery].currentXp += amount;
+    }
+    [Serializable]
+    public class CharacterItem
     {
         public int itemId;
         public ItemBaseSO itemBaseSO;
@@ -78,13 +92,43 @@ public class CharacterData
         public int index;
         public TypeCharacterItem typeCharacterItem;
     }
+    [Serializable]
+    public class CharacterMasteryInfo
+    {
+        public MasteryRange masteryRange;
+        public int masteryLevel;
+        public int currentXp;
+        public int maxXp;
+    }
+    public enum TypeMastery
+    {
+        None = 0,
+        Fist = 1,
+        Sword = 2,
+        Spear = 3,
+        Bow = 4,
+        Gun = 5,
+        Axe = 6,
+        Staff = 7
+    }
+    public enum MasteryRange
+    {
+        N = 0,
+        F = 1,
+        E = 2,
+        D = 3,
+        C = 4,
+        B = 5,
+        A = 6,
+        S = 7
+    }
     public enum TypeCharacterItem
     {
         None = 0,
         Weapon = 1,
         Object1 = 2,
         Object2 = 3,
-        Object3 = 4,    
+        Object3 = 4,
     }
     public enum TypeStatistic
     {

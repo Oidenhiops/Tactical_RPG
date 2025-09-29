@@ -235,6 +235,14 @@ public class Character : MonoBehaviour
         characterAnimations.MakeEffect(CharacterAnimation.TypeAnimationsEffects.Blink);
         if (characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue <= 0) StartCoroutine(Die());
     }
+    [NaughtyAttributes.Button]
+    public void RefreshStatistics()
+    {
+        foreach (KeyValuePair<CharacterData.TypeStatistic, CharacterData.Statistic> statistic in characterData.statistics)
+        {
+            statistic.Value.RefreshValue();
+        }
+    }
     public IEnumerator Die()
     {
         yield return new WaitForSeconds(0.3f);

@@ -29,13 +29,11 @@ public class MenuCharacterActions : MonoBehaviour
                     case ActionsManager.TypeAction.Special:
                     case ActionsManager.TypeAction.Defend:
                     case ActionsManager.TypeAction.Item:
-                        buttonsExepts.Add(TypeButton.Status);
                         break;
                     case ActionsManager.TypeAction.Lift:
                         buttons[TypeButton.Lift].gameObject.SetActive(false);
                         buttons[TypeButton.Throw].gameObject.SetActive(true);
                         buttonsExepts.Add(TypeButton.Throw);
-                        buttonsExepts.Add(TypeButton.Status);
                         break;
                     default:
                         for (int i = 0; i < Enum.GetValues(typeof(TypeButton)).Length; i++)
@@ -67,10 +65,6 @@ public class MenuCharacterActions : MonoBehaviour
                         }
                         break;
                 }
-            }
-            else
-            {
-                buttonsExepts.Add(TypeButton.Status);
             }
             DisableButtonsExept();
             EventSystem.current.SetSelectedGameObject(null);
@@ -187,10 +181,6 @@ public class MenuCharacterActions : MonoBehaviour
     {
         if (isMenuActive) StartCoroutine(playerManager.menuItemsCharacter.EnableMenu());
     }
-    public void HandleStatus()
-    {
-        if (isMenuActive) print("Item");
-    }
     public enum TypeButton
     {
         None = 0,
@@ -200,6 +190,5 @@ public class MenuCharacterActions : MonoBehaviour
         Lift = 4,
         Throw = 5,
         Item = 6,
-        Status = 7,
     }
 }

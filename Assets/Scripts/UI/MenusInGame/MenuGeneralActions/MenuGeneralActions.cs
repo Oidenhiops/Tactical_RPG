@@ -12,17 +12,6 @@ public class MenuGeneralActions : MonoBehaviour
     public Button executeButton;
     public GameObject charactersButton;
     public GameObject endTurnButton;
-    void Start()
-    {
-        playerManager.characterActions.CharacterInputs.ActiveGeneralActions.performed += OnActiveMenu;
-    }
-    public void OnActiveMenu(InputAction.CallbackContext context)
-    {
-        if (playerManager.actionsManager.isPlayerTurn && !menuGeneralActions.activeSelf && !playerManager.menuCharacterActions.menuCharacterActions.activeSelf && !playerManager.menuCharacterSelector.menuCharacterSelector.activeSelf)
-        {
-            EnableMenu();
-        }
-    }
     public void EnableMenu()
     {
         EventSystem.current.SetSelectedGameObject(null);

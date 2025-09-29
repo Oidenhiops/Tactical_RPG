@@ -144,6 +144,15 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ChangeSubMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""212bc874-4f9c-43c1-93c9-d77cf1ddaf11"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -408,6 +417,28 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ActiveGeneralActions"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8db78f5e-8523-4354-829f-061dcea1c880"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeSubMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""14534dbc-d57a-4247-aad8-08fad85cf8e8"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeSubMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -775,17 +806,6 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""15d7c027-711e-45a9-aadf-791b3b1874ce"",
-                    ""path"": ""*/{Submit}"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse;Gamepad;Touch;Joystick;XR"",
-                    ""action"": ""Submit"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""d40835b3-e5c9-4a2b-a5eb-f894affb777c"",
                     ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
@@ -973,6 +993,7 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
         m_CharacterInputs_RotateCamera = m_CharacterInputs.FindAction("RotateCamera", throwIfNotFound: true);
         m_CharacterInputs_Back = m_CharacterInputs.FindAction("Back", throwIfNotFound: true);
         m_CharacterInputs_ActiveGeneralActions = m_CharacterInputs.FindAction("ActiveGeneralActions", throwIfNotFound: true);
+        m_CharacterInputs_ChangeSubMenu = m_CharacterInputs.FindAction("ChangeSubMenu", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1072,6 +1093,7 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_CharacterInputs_RotateCamera;
     private readonly InputAction m_CharacterInputs_Back;
     private readonly InputAction m_CharacterInputs_ActiveGeneralActions;
+    private readonly InputAction m_CharacterInputs_ChangeSubMenu;
     /// <summary>
     /// Provides access to input actions defined in input action map "CharacterInputs".
     /// </summary>
@@ -1107,6 +1129,10 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "CharacterInputs/ActiveGeneralActions".
         /// </summary>
         public InputAction @ActiveGeneralActions => m_Wrapper.m_CharacterInputs_ActiveGeneralActions;
+        /// <summary>
+        /// Provides access to the underlying input action "CharacterInputs/ChangeSubMenu".
+        /// </summary>
+        public InputAction @ChangeSubMenu => m_Wrapper.m_CharacterInputs_ChangeSubMenu;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1151,6 +1177,9 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
             @ActiveGeneralActions.started += instance.OnActiveGeneralActions;
             @ActiveGeneralActions.performed += instance.OnActiveGeneralActions;
             @ActiveGeneralActions.canceled += instance.OnActiveGeneralActions;
+            @ChangeSubMenu.started += instance.OnChangeSubMenu;
+            @ChangeSubMenu.performed += instance.OnChangeSubMenu;
+            @ChangeSubMenu.canceled += instance.OnChangeSubMenu;
         }
 
         /// <summary>
@@ -1180,6 +1209,9 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
             @ActiveGeneralActions.started -= instance.OnActiveGeneralActions;
             @ActiveGeneralActions.performed -= instance.OnActiveGeneralActions;
             @ActiveGeneralActions.canceled -= instance.OnActiveGeneralActions;
+            @ChangeSubMenu.started -= instance.OnChangeSubMenu;
+            @ChangeSubMenu.performed -= instance.OnChangeSubMenu;
+            @ChangeSubMenu.canceled -= instance.OnChangeSubMenu;
         }
 
         /// <summary>
@@ -1457,6 +1489,13 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnActiveGeneralActions(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ChangeSubMenu" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnChangeSubMenu(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
