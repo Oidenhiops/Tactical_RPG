@@ -4,6 +4,7 @@ using System.IO;
 using System;
 using AYellowpaper.SerializedCollections;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class GameData : MonoBehaviour
 {
@@ -194,25 +195,7 @@ public class GameData : MonoBehaviour
         SetStartingDataSound(ref dataInfo);
         GetInitialConfigBGMS(ref dataInfo);
         SetStartingCharacter(ref dataInfo);
-        dataInfo.bagItems = new SerializedDictionary<int, CharacterData.CharacterItem>()
-        {
-            {0, null},
-            {1, null},
-            {2, null},
-            {3, null},
-            {4, null},
-            {5, null},
-            {6, null},
-            {7, null},
-            {8, null},
-            {9, null},
-            {10, null},
-            {11, null},
-            {12, null},
-            {13, null},
-            {14, null},
-            {15, null},
-        };
+        SetStartingItems(ref dataInfo);
         GetAllResolutions();
         if (GameManager.Instance.currentDevice == GameManager.TypeDevice.PC) SetStartingResolution(ref dataInfo);
         saveData = dataInfo;
@@ -249,6 +232,52 @@ public class GameData : MonoBehaviour
             }
             dataInfo.characters.Add(character);
         }
+    }
+    void SetStartingItems(ref SaveData dataInfo)
+    {
+        dataInfo.bagItems = new SerializedDictionary<int, CharacterData.CharacterItem>()
+        {
+            {0, new CharacterData.CharacterItem()},
+            {1, new CharacterData.CharacterItem()},
+            {2, new CharacterData.CharacterItem()},
+            {3, new CharacterData.CharacterItem()},
+            {4, new CharacterData.CharacterItem()},
+            {5, new CharacterData.CharacterItem()},
+            {6, new CharacterData.CharacterItem()},
+            {7, new CharacterData.CharacterItem()},
+            {8, new CharacterData.CharacterItem()},
+            {9, new CharacterData.CharacterItem()},
+            {10, new CharacterData.CharacterItem()},
+            {11, new CharacterData.CharacterItem()},
+            {12, new CharacterData.CharacterItem()},
+            {13, new CharacterData.CharacterItem()},
+            {14, new CharacterData.CharacterItem()},
+            {15, new CharacterData.CharacterItem()},
+        };
+
+        dataInfo.bagItems[0].itemId = itemsDBSO.data[1].id;
+        dataInfo.bagItems[0].itemBaseSO = itemsDBSO.data[1];
+        dataInfo.bagItems[0].itemStatistics = itemsDBSO.data[1].itemStatistics;
+
+        dataInfo.bagItems[1].itemId = itemsDBSO.data[2].id;
+        dataInfo.bagItems[1].itemBaseSO = itemsDBSO.data[2];
+        dataInfo.bagItems[1].itemStatistics = itemsDBSO.data[2].itemStatistics;
+
+        dataInfo.bagItems[2].itemId = itemsDBSO.data[321].id;
+        dataInfo.bagItems[2].itemBaseSO = itemsDBSO.data[321];
+        dataInfo.bagItems[2].itemStatistics = itemsDBSO.data[321].itemStatistics;
+
+        dataInfo.bagItems[3].itemId = itemsDBSO.data[322].id;
+        dataInfo.bagItems[3].itemBaseSO = itemsDBSO.data[322];
+        dataInfo.bagItems[3].itemStatistics = itemsDBSO.data[322].itemStatistics;
+
+        dataInfo.bagItems[4].itemId = itemsDBSO.data[323].id;
+        dataInfo.bagItems[4].itemBaseSO = itemsDBSO.data[323];
+        dataInfo.bagItems[4].itemStatistics = itemsDBSO.data[323].itemStatistics;
+
+        dataInfo.bagItems[5].itemId = itemsDBSO.data[324].id;
+        dataInfo.bagItems[5].itemBaseSO = itemsDBSO.data[324];
+        dataInfo.bagItems[5].itemStatistics = itemsDBSO.data[324].itemStatistics;
     }
     private void GetInitialConfigBGMS(ref SaveData dataInfo)
     {

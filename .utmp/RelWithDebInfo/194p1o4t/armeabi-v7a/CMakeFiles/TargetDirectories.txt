@@ -1,0 +1,5 @@
+C:/Users/Oiden/OneDrive/Documentos/ProyectosUnity/Tactical_RPG/.utmp/RelWithDebInfo/194p1o4t/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/Oiden/OneDrive/Documentos/ProyectosUnity/Tactical_RPG/.utmp/RelWithDebInfo/194p1o4t/armeabi-v7a/CMakeFiles/rebuild_cache.dir
+C:/Users/Oiden/OneDrive/Documentos/ProyectosUnity/Tactical_RPG/.utmp/RelWithDebInfo/194p1o4t/armeabi-v7a/FramePacing/CMakeFiles/swappywrapper.dir
+C:/Users/Oiden/OneDrive/Documentos/ProyectosUnity/Tactical_RPG/.utmp/RelWithDebInfo/194p1o4t/armeabi-v7a/FramePacing/CMakeFiles/edit_cache.dir
+C:/Users/Oiden/OneDrive/Documentos/ProyectosUnity/Tactical_RPG/.utmp/RelWithDebInfo/194p1o4t/armeabi-v7a/FramePacing/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,1 @@
+C:\Users\Oiden\OneDrive\Documentos\ProyectosUnity\Tactical_RPG\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\build\intermediates\cxx\RelWithDebInfo\194p1o4t\obj\armeabi-v7a

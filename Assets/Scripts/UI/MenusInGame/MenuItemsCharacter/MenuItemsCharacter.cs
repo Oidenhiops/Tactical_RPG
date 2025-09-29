@@ -118,7 +118,7 @@ public class MenuItemsCharacter : MonoBehaviour
             }
             else
             {
-                if (itemToGear.itemBaseSO.typeObject != ItemBaseSO.TypeObject.Weapon || itemToGear.itemBaseSO.typeObject != ItemBaseSO.TypeObject.Monster)
+                if (itemToGear.itemBaseSO.typeObject != ItemBaseSO.TypeObject.Weapon && itemToGear.itemBaseSO.typeObject != ItemBaseSO.TypeObject.Monster)
                 {
                     SetItemData(itemToBag, itemToGear);
                 }

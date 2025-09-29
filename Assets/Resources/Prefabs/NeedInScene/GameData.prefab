@@ -45,6 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   saveData:
+    characters: []
+    bagItems:
+      _serializedList: []
     configurationsInfo:
       _currentLanguage: 0
       _canShowFps: 0
@@ -59,10 +62,11 @@ MonoBehaviour:
         MASTERValue: 0
         BGMalue: 0
         SFXalue: 0
-    bgmSceneInfo:
-      BGMSceneData:
-        _serializedList: []
+    bgmSceneData:
+      _serializedList: []
   systemData:
     allResolutions: []
   initialBGMSoundsConfigSO: {fileID: 11400000, guid: e0794015d6e098949a0ed3bcec3c4570,
     type: 2}
+  charactersDataDBSO: {fileID: 11400000, guid: 531313ff13345ad4fa1312acb11008c2, type: 2}
+  itemsDBSO: {fileID: 11400000, guid: 68c84c9b952137347842bd55f2920dbe, type: 2}

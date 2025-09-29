@@ -29,8 +29,8 @@ public class CharacterData
     };
     [Serializable] public class Statistic
     {
-        public int aptitudeValue = 0;
         public int baseValue = 0;
+        public int aptitudeValue = 0;
         public int itemValue = 0;
         public SerializedDictionary<StatusEffectBaseSO, int> buffValue = new SerializedDictionary<StatusEffectBaseSO, int>();
         public int currentValue = 0;

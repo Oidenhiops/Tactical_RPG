@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviour
     public bool _startGame;
     public Action<bool> OnStartGame;
     public InputAction pauseButton;
+    public TMP_Text fpsText;
     public string currentScene;
     string[] _excludedScenesForPause = { "CreditsScene", "HomeScene", "OptionsScene" };
     public bool startGame
@@ -65,11 +67,13 @@ public class GameManager : MonoBehaviour
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        SetInitialDevice();
+        currentDevice = principalDevice;
         openCloseScene.OnFinishOpenAnimation += () => { startGame = true; };
     }
     void LateUpdate()
     {
+        float fps = 1.0f / Time.deltaTime;
+        fpsText.text = Mathf.RoundToInt(fps).ToString();
         CheckCurrentDevice();
     }
     public void PauseHandle(InputAction.CallbackContext context)
@@ -129,34 +133,6 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogError(e);
             await Task.Delay(TimeSpan.FromSeconds(0.05));
-        }
-    }
-    public void SetInitialDevice()
-    {
-        if (!isWebGlBuild)
-        {
-            if (Gamepad.current != null)
-            {
-                principalDevice = TypeDevice.PC;
-                currentDevice = TypeDevice.GAMEPAD;
-            }
-            else if (Touchscreen.current != null)
-            {
-                principalDevice = TypeDevice.MOBILE;
-                currentDevice = TypeDevice.MOBILE;
-            }
-            else if (Application.platform == RuntimePlatform.WindowsEditor ||
-                Application.platform == RuntimePlatform.WindowsPlayer ||
-                 Application.platform == RuntimePlatform.OSXPlayer ||
-                 Application.platform == RuntimePlatform.LinuxPlayer)
-            {
-                principalDevice = TypeDevice.PC;
-                currentDevice = TypeDevice.PC;
-            }
-        }
-        else
-        {
-            currentDevice = TypeDevice.PC;
         }
     }
     void CheckCurrentDevice()
