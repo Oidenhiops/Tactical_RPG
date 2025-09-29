@@ -195,6 +195,7 @@ public class PlayerManager : MonoBehaviour
     }
     void Update()
     {
+        print(Screen.width + "x" + Screen.height);
         if (direction != Vector3Int.zero && !isDecalMovement)
         {
             Vector3Int lastPos = currentMousePos;
