@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManagerHelper : MonoBehaviour
 {
-    [SerializeField] Animator _unloadAnimator;
+    public Animator _unloadAnimator;
     GameObject audioBoxInstance;
     public void ChangeScene(int typeScene)
     {

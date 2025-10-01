@@ -84,20 +84,20 @@ public class MenuItemsCharacter : MonoBehaviour
             }
             else
             {
-                if (itemToGear.itemBaseSO.typeObject == ItemBaseSO.TypeObject.Weapon || itemToGear.itemBaseSO.typeObject == ItemBaseSO.TypeObject.Monster)
+                if (itemToGear.itemBaseSO.typeObject == ItemBaseSO.TypeObject.Weapon)
                 {
                     if (AStarPathFinding.Instance.characterSelected.characterData.items.ElementAt(0).Value.itemBaseSO)
                     {
                         if (AStarPathFinding.Instance.characterSelected.initialDataSO.isHumanoid)
                         {
-                            if (itemToGear.itemBaseSO.typeObject == ItemBaseSO.TypeObject.Weapon)
+                            if (itemToGear.itemBaseSO.typeWeapon != ItemBaseSO.TypeWeapon.Monster)
                             {
                                 SetItemData(itemToBag, itemToGear);
                             }
                         }
                         else
                         {
-                            if (itemToGear.itemBaseSO.typeObject == ItemBaseSO.TypeObject.Monster)
+                            if (itemToGear.itemBaseSO.typeWeapon == ItemBaseSO.TypeWeapon.Monster)
                             {
                                 SetItemData(itemToBag, itemToGear);
                             }
@@ -118,7 +118,7 @@ public class MenuItemsCharacter : MonoBehaviour
             }
             else
             {
-                if (itemToGear.itemBaseSO.typeObject != ItemBaseSO.TypeObject.Weapon && itemToGear.itemBaseSO.typeObject != ItemBaseSO.TypeObject.Monster)
+                if (itemToGear.itemBaseSO.typeObject != ItemBaseSO.TypeObject.Weapon)
                 {
                     SetItemData(itemToBag, itemToGear);
                 }
@@ -149,6 +149,8 @@ public class MenuItemsCharacter : MonoBehaviour
         {
             statistics.Value.RefreshValue();
         }
+        AStarPathFinding.Instance.GetPositionsToAttack(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions);
+        playerManager.menuCharacterActions.SendCharactersToAttack(positions);
         TogglePanels(false);
         StartCoroutine(ReloadItems());
         BackToBagItems();
@@ -161,6 +163,7 @@ public class MenuItemsCharacter : MonoBehaviour
     public void BackToBagItems()
     {
         TogglePanels(false);
+        currentBagItem = null;
         bagBanners.ElementAt(bagIndex).Value.gameObject.GetComponent<Button>().interactable = true;
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(bagBanners.ElementAt(bagIndex).Value.gameObject);

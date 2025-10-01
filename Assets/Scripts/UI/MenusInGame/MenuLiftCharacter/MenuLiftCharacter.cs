@@ -22,6 +22,7 @@ public class MenuLiftCharacter : MonoBehaviour
     public bool isMenuActive;
     public GameObject liftCharactersBannerPrefab;
     public int index;
+    public StatusEffectBaseSO statusEffectLiftSO;
     public async Task SpawnBanners()
     {
         for (int i = 0; i < characters.Length; i++)
@@ -68,6 +69,15 @@ public class MenuLiftCharacter : MonoBehaviour
                     new ActionsManager.OtherCharacterInfo(banner.character, Vector3Int.RoundToInt(banner.character.transform.position))
                 }
             });
+            playerManager.actionsManager.characterFinalActions.Add(AStarPathFinding.Instance.characterSelected, new ActionsManager.ActionInfo
+            {
+                character = AStarPathFinding.Instance.characterSelected,
+                typeAction = ActionsManager.TypeAction.Lift,
+                otherCharacterInfo = new List<ActionsManager.OtherCharacterInfo>
+                {
+                    new ActionsManager.OtherCharacterInfo(banner.character, Vector3Int.RoundToInt(banner.character.transform.position))
+                }
+            });
         }
         else
         {
@@ -84,12 +94,22 @@ public class MenuLiftCharacter : MonoBehaviour
                     }
                 }
             );
+            playerManager.actionsManager.characterFinalActions.Add(AStarPathFinding.Instance.characterSelected, new ActionsManager.ActionInfo
+            {
+                character = AStarPathFinding.Instance.characterSelected,
+                typeAction = ActionsManager.TypeAction.Lift,
+                otherCharacterInfo = new List<ActionsManager.OtherCharacterInfo>
+                {
+                    new ActionsManager.OtherCharacterInfo(banner.character, Vector3Int.RoundToInt(banner.character.transform.position))
+                }
+            });
         }
         if (banner.character.characterAnimations.currentAnimation.name != "Lift")
         {
             banner.character.characterAnimations.MakeAnimation("Lifted");
         }
         AStarPathFinding.Instance.characterSelected.characterAnimations.MakeAnimation("Lift");
+        AStarPathFinding.Instance.characterSelected.characterStatusEffect.statusEffects.Add(statusEffectLiftSO, 0);
         AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(banner.character.transform.position)].hasCharacter = null;
         if (playerManager.actionsManager.characterActions.TryGetValue(AStarPathFinding.Instance.characterSelected, out List<ActionsManager.ActionInfo> actionsFinded))
         {

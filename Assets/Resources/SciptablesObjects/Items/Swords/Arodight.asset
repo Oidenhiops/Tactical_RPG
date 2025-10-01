@@ -15,6 +15,20 @@ MonoBehaviour:
   id: 77
   icon: {fileID: 938746929, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
   typeObject: 1
+  typeWeapon: 2
+  positionsToAttack:
+  - {x: -1, y: 0, z: 0}
+  - {x: -2, y: 0, z: 0}
+  - {x: -1, y: 0, z: 1}
+  - {x: 0, y: 0, z: 2}
+  - {x: 0, y: 0, z: 1}
+  - {x: 1, y: 0, z: 1}
+  - {x: 2, y: 0, z: 0}
+  - {x: 1, y: 0, z: 0}
+  - {x: 1, y: 0, z: -1}
+  - {x: 0, y: 0, z: -2}
+  - {x: 0, y: 0, z: -1}
+  - {x: -1, y: 0, z: -1}
   animationName: SwordAttack
   amountToAddId: 0
   itemStatistics:
@@ -22,6 +36,7 @@ MonoBehaviour:
     - Key: 1
       Value:
         baseValue: 2
+        aptitudeValue: 0
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -30,6 +45,7 @@ MonoBehaviour:
     - Key: 3
       Value:
         baseValue: 5
+        aptitudeValue: 0
         itemValue: 0
         buffValue:
           _serializedList: []

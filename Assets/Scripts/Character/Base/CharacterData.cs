@@ -41,8 +41,8 @@ public class CharacterData
             int totalBuffValue = 0;
             foreach (KeyValuePair<StatusEffectBaseSO, int> buff in buffValue) totalBuffValue += buff.Value;
             int baseWhitBuff = baseValue * totalBuffValue / 100;
-            int finalValue = Mathf.RoundToInt(baseWhitItem + baseWhitBuff);
-            int whitAptitude = Mathf.RoundToInt(finalValue * (aptitudeValue / 100f));
+            int finalValue = Mathf.CeilToInt(baseWhitItem + baseWhitBuff);
+            int whitAptitude = Mathf.CeilToInt(finalValue * (aptitudeValue / 100f));
             maxValue = Mathf.Clamp(whitAptitude, 1, 99999);
             if (currentValue > maxValue) currentValue = maxValue;
         }
@@ -78,7 +78,7 @@ public class CharacterData
     }
     public void UpdateMastery(TypeMastery typeMastery, int amount)
     {
-        mastery[typeMastery].currentXp += amount;
+        mastery[typeMastery].currentExp += amount;
     }
     [Serializable]
     public class CharacterItem
@@ -97,8 +97,8 @@ public class CharacterData
     {
         public MasteryRange masteryRange;
         public int masteryLevel;
-        public int currentXp;
-        public int maxXp;
+        public int currentExp;
+        public int maxExp;
     }
     public enum TypeMastery
     {

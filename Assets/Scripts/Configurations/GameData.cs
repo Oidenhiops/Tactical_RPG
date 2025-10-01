@@ -4,7 +4,6 @@ using System.IO;
 using System;
 using AYellowpaper.SerializedCollections;
 using UnityEngine.SceneManagement;
-using Unity.VisualScripting;
 
 public class GameData : MonoBehaviour
 {
@@ -62,9 +61,9 @@ public class GameData : MonoBehaviour
     }
     void InitializeCharacterItems()
     {
-        foreach (CharacterData characterData in saveData.characters)
+        foreach (KeyValuePair<string, CharacterData> characterData in saveData.characters)
         {
-            foreach (KeyValuePair<CharacterData.CharacterItemInfo, CharacterData.CharacterItem> item in characterData.items)
+            foreach (KeyValuePair<CharacterData.CharacterItemInfo, CharacterData.CharacterItem> item in characterData.Value.items)
             {
                 if (item.Value.itemId != 0)
                 {
@@ -218,19 +217,28 @@ public class GameData : MonoBehaviour
                 {
                     masteryRange = CharacterData.MasteryRange.F,
                     masteryLevel = i,
-                    currentXp = i,
-                    maxXp = 10
+                    currentExp = i,
+                    maxExp = 15
                 });
             }
             character.statistics = charactersDataDBSO.data[character.id].CloneStatistics();
             foreach (KeyValuePair<CharacterData.TypeStatistic, CharacterData.Statistic> statistic in character.statistics)
             {
-                statistic.Value.aptitudeValue = 100 + i;
-                statistic.Value.baseValue = i;
-                statistic.Value.RefreshValue();
-                statistic.Value.SetMaxValue();
+                if (statistic.Key != CharacterData.TypeStatistic.Exp)
+                {
+                    statistic.Value.aptitudeValue = 100 + i;
+                    statistic.Value.baseValue = i;
+                    statistic.Value.RefreshValue();
+                    statistic.Value.SetMaxValue();
+                }
+                else
+                {
+                    statistic.Value.aptitudeValue = 100;
+                    statistic.Value.baseValue = 15;
+                    statistic.Value.RefreshValue();
+                }
             }
-            dataInfo.characters.Add(character);
+            dataInfo.characters.Add(character.name, character);
         }
     }
     void SetStartingItems(ref SaveData dataInfo)
@@ -344,7 +352,8 @@ public class GameData : MonoBehaviour
     }
     [Serializable] public class SaveData
     {
-        public List<CharacterData> characters = new List<CharacterData>();
+        public SerializedDictionary<string, CharacterData> characters = new SerializedDictionary<string, CharacterData>();
+        public SerializedDictionary<string, CharacterData> dieCharacters = new SerializedDictionary<string, CharacterData>();
         public SerializedDictionary<int, CharacterData.CharacterItem> bagItems = new SerializedDictionary<int, CharacterData.CharacterItem>();
         public ConfigurationsInfo configurationsInfo = new ConfigurationsInfo();
         public SerializedDictionary<string, InitialBGMSoundsConfigSO.BGMScenesData> bgmSceneData = new SerializedDictionary<string, InitialBGMSoundsConfigSO.BGMScenesData>();

@@ -5,6 +5,7 @@ public class StatusEffectBaseSO : ScriptableObject
 {
     public Sprite icon;
     public int maxStats;
+    public bool isPermanent;
     public SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic> statusEffectStatistics;
     public virtual void ApplyEffect(Character character) { Debug.LogError("ApplyEffect no implemented"); }
     public virtual void ReApplyEffect(Character character) { Debug.LogError("ReApplyEffect no implemented"); }

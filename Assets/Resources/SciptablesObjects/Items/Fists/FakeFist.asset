@@ -15,7 +15,13 @@ MonoBehaviour:
   id: 9
   icon: {fileID: -737092281, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
   typeObject: 1
-  animationName: 
+  typeWeapon: 1
+  positionsToAttack:
+  - {x: -1, y: 0, z: 0}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: -1}
+  - {x: 1, y: 0, z: 0}
+  animationName: FistAttack
   amountToAddId: 0
   itemStatistics:
     _serializedList: []

@@ -9,6 +9,13 @@ public class StatusEffectBanner : MonoBehaviour
     public void SetData(StatusEffectBaseSO statusEffectBaseSO, int amount)
     {
         statusEffectSprite.sprite = statusEffectBaseSO.icon;
-        statusEffectAmount.text = amount.ToString();
+        if (statusEffectBaseSO.isPermanent)
+        {
+            statusEffectAmount.gameObject.SetActive(false);
+        }
+        else
+        {
+            statusEffectAmount.text = amount.ToString();
+        }
     }
 }

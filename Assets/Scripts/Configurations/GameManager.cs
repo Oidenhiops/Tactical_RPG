@@ -80,7 +80,18 @@ public class GameManager : MonoBehaviour
     {
         if (!_excludedScenesForPause.Contains(SceneManager.GetActiveScene().name) && startGame)
         {
-            ChangeSceneSelector(TypeScene.OptionsScene);
+            if (!SceneManager.GetSceneByName("OptionsScene").isLoaded)
+            {
+                ChangeSceneSelector(TypeScene.OptionsScene);
+            }
+            else
+            {
+                ManagementOptions managementOptions = GameObject.FindWithTag("ManagementOptions").GetComponent<ManagementOptions>();
+                if (managementOptions.gameManagerHelper._unloadAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
+                {
+                    managementOptions.gameManagerHelper.UnloadScene();
+                }
+            }
         }
     }
     public void ChangeSceneSelector(TypeScene typeScene)

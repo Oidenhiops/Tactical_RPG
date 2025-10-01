@@ -11,8 +11,23 @@ public class InitialDataSO : ScriptableObject
     public Sprite icon;
     public SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic> initialStats = new SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic>();
     public SerializedDictionary<string, AnimationsInfo> animations = new SerializedDictionary<string, AnimationsInfo>();
-    [Serializable]
-    public class AnimationsInfo
+    public AnimationsInfo animation;
+    [NaughtyAttributes.Button] public void NewAnimation()
+    {
+        animations.Add(animation.name, animation);
+    }
+    [NaughtyAttributes.Button] public void EditAnimation()
+    {
+        if (animations.ContainsKey(animation.name))
+        {
+            animations[animation.name] = animation;
+        }
+        else
+        {
+            Debug.Log("No se encontro la animación, comprueba el nombre");
+        }
+    }
+    [Serializable] public class AnimationsInfo
     {
         public string name;
         public string linkAnimation;
@@ -25,8 +40,7 @@ public class InitialDataSO : ScriptableObject
         public GameObject instanceObj;
         public GameObject instance;
     }
-    [Serializable]
-    public class SpritesInfo
+    [Serializable] public class SpritesInfo
     {
         public Sprite characterSprite;
         public Vector3 leftHandPosDL;

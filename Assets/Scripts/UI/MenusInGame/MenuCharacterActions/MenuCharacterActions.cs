@@ -44,22 +44,20 @@ public class MenuCharacterActions : MonoBehaviour
                             }
                             else if ((TypeButton)i != TypeButton.Attack)
                             {
-                                if (AStarPathFinding.Instance.characterSelected.initialDataSO.isHumanoid && AStarPathFinding.Instance.GetPositionsToAttack(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions))
+                                if (AStarPathFinding.Instance.GetPositionsToAttack(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions))
                                 {
                                     buttonsExepts.Add(TypeButton.Attack);
                                     SendCharactersToAttack(positions);
-                                    playerManager.menuAttackCharacter.positionsToAttack = positions;
                                 }
                             }
                             else if ((TypeButton)i != TypeButton.Lift)
                             {
                                 buttons[TypeButton.Lift].gameObject.SetActive(true);
                                 buttons[TypeButton.Throw].gameObject.SetActive(false);
-                                if (AStarPathFinding.Instance.characterSelected.initialDataSO.isHumanoid && AStarPathFinding.Instance.GetPositionsToLift(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions))
+                                if (AStarPathFinding.Instance.GetPositionsToLift(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions))
                                 {
                                     buttonsExepts.Add(TypeButton.Lift);
-                                    SendCharactersToLift(positions);
-                                    playerManager.menuLiftCharacter.positionsToLift = positions;
+                                    SendCharactersToLift(positions);                                    
                                 }
                             }
                         }
@@ -82,6 +80,7 @@ public class MenuCharacterActions : MonoBehaviour
             characters.Add(position.Value.hasCharacter);
         }
         playerManager.menuLiftCharacter.characters = characters.ToArray();
+        playerManager.menuLiftCharacter.positionsToLift = data;
     }
     public void SendCharactersToAttack(SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> data)
     {
@@ -91,9 +90,15 @@ public class MenuCharacterActions : MonoBehaviour
             characters.Add(position.Value.hasCharacter);
         }
         playerManager.menuAttackCharacter.characters = characters.ToArray();
+        playerManager.menuAttackCharacter.positionsToAttack = data;
     }
     public void BackToMenuWhitButton(TypeButton typeButton)
     {
+        if (AStarPathFinding.Instance.GetPositionsToAttack(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions))
+        {
+            buttonsExepts.Add(TypeButton.Attack);
+            SendCharactersToAttack(positions);
+        }
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(buttons[typeButton].gameObject);
         menuCharacterActions.SetActive(true);
@@ -103,6 +108,8 @@ public class MenuCharacterActions : MonoBehaviour
     public void DisableMenu(bool conservSelectedCharacter = false, bool conservCharacterInfo = false)
     {
         menuCharacterActions.SetActive(false);
+        playerManager.menuAttackCharacter.positionsToAttack = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
+        playerManager.menuAttackCharacter.characters = new Character[0];
         if (!conservCharacterInfo) playerManager.menuCharacterInfo.menuCharacterInfo.SetActive(false);        
         if (!conservSelectedCharacter) AStarPathFinding.Instance.characterSelected = null;
         isMenuActive = false;
@@ -149,6 +156,11 @@ public class MenuCharacterActions : MonoBehaviour
                     character = AStarPathFinding.Instance.characterSelected,
                     typeAction = ActionsManager.TypeAction.Defend,
                 });
+                playerManager.actionsManager.characterFinalActions.Add(AStarPathFinding.Instance.characterSelected, new ActionsManager.ActionInfo
+                {
+                    character = AStarPathFinding.Instance.characterSelected,
+                    typeAction = ActionsManager.TypeAction.Defend,
+                });
             }
             else
             {
@@ -161,6 +173,11 @@ public class MenuCharacterActions : MonoBehaviour
                         typeAction = ActionsManager.TypeAction.Defend
                         }
                     }
+                });
+                playerManager.actionsManager.characterFinalActions.Add(AStarPathFinding.Instance.characterSelected, new ActionsManager.ActionInfo
+                {
+                    character = AStarPathFinding.Instance.characterSelected,
+                    typeAction = ActionsManager.TypeAction.Defend,
                 });
             }
             DisableMenu();

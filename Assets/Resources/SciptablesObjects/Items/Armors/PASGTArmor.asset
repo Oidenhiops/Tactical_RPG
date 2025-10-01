@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 323
   icon: {fileID: -1766122817, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
-  typeObject: 3
+  typeObject: 2
+  typeWeapon: 0
+  positionsToAttack: []
   animationName: 
   amountToAddId: 40
   itemStatistics:
@@ -22,6 +24,7 @@ MonoBehaviour:
     - Key: 1
       Value:
         baseValue: 10
+        aptitudeValue: 0
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -30,6 +33,7 @@ MonoBehaviour:
     - Key: 6
       Value:
         baseValue: 5
+        aptitudeValue: 0
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -38,6 +42,7 @@ MonoBehaviour:
     - Key: 7
       Value:
         baseValue: 5
+        aptitudeValue: 0
         itemValue: 0
         buffValue:
           _serializedList: []

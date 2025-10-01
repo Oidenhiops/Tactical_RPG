@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -40,6 +41,11 @@ public class MenuThrowCharacter : MonoBehaviour
             {
                 isThrowingCharacter = false;
                 StartCoroutine(ThrowCharacterToPosition(AStarPathFinding.Instance.characterSelected.positionInGrid + Vector3.up, playerManager.currentMousePos, actions[actions.Count - 1].otherCharacterInfo[0].character, 1));
+            }
+            else
+            {
+                isThrowingCharacter = false;
+                StartCoroutine(ThrowCharacterToPosition(AStarPathFinding.Instance.characterSelected.positionInGrid + Vector3.up, playerManager.currentMousePos, AStarPathFinding.Instance.characterSelected.transform.GetChild(1).GetComponent<Character>(), 1));
             }
         }
     }
@@ -85,6 +91,33 @@ public class MenuThrowCharacter : MonoBehaviour
             AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(endPos)].hasCharacter = actions[actions.Count - 1].otherCharacterInfo[0].character;
             actions[actions.Count - 1].otherCharacterInfo[0].character.transform.SetParent(null);
         }
+        else
+        {
+            if (AStarPathFinding.Instance.characterSelected.transform.GetChild(1).TryGetComponent(out Character component))
+            {
+                component.startPositionInGrid = Vector3Int.RoundToInt(endPos);
+                component.positionInGrid = Vector3Int.RoundToInt(endPos);
+                AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(endPos)].hasCharacter = component;
+                component.transform.SetParent(AStarPathFinding.Instance.characterSelected.transform.parent);
+            }
+        }
+        if (playerManager.actionsManager.characterFinalActions.ContainsKey(AStarPathFinding.Instance.characterSelected))
+        {
+            playerManager.actionsManager.characterFinalActions[AStarPathFinding.Instance.characterSelected] = new ActionsManager.ActionInfo()
+            {
+                character = AStarPathFinding.Instance.characterSelected,
+                typeAction = ActionsManager.TypeAction.Lift
+            };
+        }
+        else
+        {
+            playerManager.actionsManager.characterFinalActions.Add(AStarPathFinding.Instance.characterSelected, new ActionsManager.ActionInfo()
+            {
+                character = AStarPathFinding.Instance.characterSelected,
+                typeAction = ActionsManager.TypeAction.Lift
+            });
+        }
+        AStarPathFinding.Instance.characterSelected.characterStatusEffect.statusEffects.Remove(playerManager.menuLiftCharacter.statusEffectLiftSO);
         CancelCharacterActions(AStarPathFinding.Instance.characterSelected);
         isThrowingCharacter = false;
         DisableMenuActive();

@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 347
   icon: {fileID: -1391148665, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
-  typeObject: 3
+  typeObject: 2
+  typeWeapon: 0
+  positionsToAttack: []
   animationName: 
   amountToAddId: 40
   itemStatistics:

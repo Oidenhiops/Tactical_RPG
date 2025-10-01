@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a4cc3775d699414ba40683c39aa1612, type: 3}
+  m_Name: StatusEffectLift
+  m_EditorClassIdentifier: 
+  icon: {fileID: -1195920586, guid: 91db74d8f8fc68a4fbce8adb870dd336, type: 3}
+  maxStats: 0
+  isPermanent: 1
+  statusEffectStatistics:
+    _serializedList:
+    - Key: 1
+      Value:
+        baseValue: 10
+        aptitudeValue: 0
+        itemValue: 0
+        buffValue:
+          _serializedList: []
+        currentValue: 0
+        maxValue: 0

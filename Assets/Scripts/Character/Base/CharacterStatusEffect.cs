@@ -6,34 +6,44 @@ using UnityEngine;
 public class CharacterStatusEffect : MonoBehaviour
 {
     public Character character;
-    public SerializedDictionary<StatusEffectBaseSO, StatusEffectInfo> statusEffects = new SerializedDictionary<StatusEffectBaseSO, StatusEffectInfo>();
+    public SerializedDictionary<StatusEffectBaseSO, int> statusEffects = new SerializedDictionary<StatusEffectBaseSO, int>();
     public void Start()
     {
-        PlayerManager.Instance.actionsManager.OnEndTurn += DiscountStatusEffects;
+        if(PlayerManager.Instance) PlayerManager.Instance.actionsManager.OnEndTurn += DiscountStatusEffects;
     }
     public void OnDestroy()
     {
-        PlayerManager.Instance.actionsManager.OnEndTurn -= DiscountStatusEffects;
+        if(PlayerManager.Instance) PlayerManager.Instance.actionsManager.OnEndTurn -= DiscountStatusEffects;
     }
     public void DiscountStatusEffects()
     {
         if (character.isCharacterPlayer && PlayerManager.Instance.actionsManager.isPlayerTurn)
         {
-            foreach (KeyValuePair<StatusEffectBaseSO, StatusEffectInfo> statusEffect in statusEffects)
+            foreach (KeyValuePair<StatusEffectBaseSO, int> statusEffect in statusEffects)
             {
-                statusEffect.Key.DiscountEffect(character);
+                if (!statusEffect.Key.isPermanent)
+                {
+                    statusEffect.Key.DiscountEffect(character);
+                }
+                else
+                {
+                    statusEffect.Key.ReApplyEffect(character);
+                }
             }
         }
         else if (!character.isCharacterPlayer && !PlayerManager.Instance.actionsManager.isPlayerTurn)
         {
-            foreach (KeyValuePair<StatusEffectBaseSO, StatusEffectInfo> statusEffect in statusEffects)
+            foreach (KeyValuePair<StatusEffectBaseSO, int> statusEffect in statusEffects)
             {
-                statusEffect.Key.DiscountEffect(character);
+                if (!statusEffect.Key.isPermanent)
+                {
+                    statusEffect.Key.DiscountEffect(character);
+                }
+                else
+                {
+                    statusEffect.Key.ReApplyEffect(character);
+                }
             }
         }
-    }
-    [Serializable] public class StatusEffectInfo
-    {
-        public int amount;
     }
 }

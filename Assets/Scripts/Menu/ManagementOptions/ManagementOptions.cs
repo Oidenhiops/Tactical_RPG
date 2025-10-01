@@ -31,10 +31,8 @@ public class ManagementOptions : MonoBehaviour, GameManagerHelper.IGameManagerHe
         SetFpsLimitButtonsSprite();
         SetVolumeSliders();
         buttonsBackInfos[0].buttonToBack.Select();
-        GameManager.Instance.OnDeviceChanged += ChangeMenuButtons;
         backButton.started += BackHandle;
         backButton.Enable();
-        ChangeMenuButtons(GameManager.Instance.principalDevice, GameManager.Instance.currentDevice);
         muteCheck.SetActive(GameData.Instance.saveData.configurationsInfo.soundConfiguration.isMute);
         if (SceneManager.GetSceneByName("HomeScene").isLoaded) homeButton.SetActive(false);
     }
@@ -51,7 +49,6 @@ public class ManagementOptions : MonoBehaviour, GameManagerHelper.IGameManagerHe
                 menuHelper.SelectButton();
             }
         }
-        GameManager.Instance.OnDeviceChanged -= ChangeMenuButtons;
         Time.timeScale = 1;
         GameManager.Instance.isPause = false;
     }
@@ -79,6 +76,7 @@ public class ManagementOptions : MonoBehaviour, GameManagerHelper.IGameManagerHe
     {
         if (buttonBackInfo.button)
         {
+            buttonBackInfo.button.interactable = true;
             buttonBackInfo.button.Select();
             buttonBackInfo.menu.SetActive(false);
             buttonBackInfo = new ButtonBackInfo();
@@ -96,6 +94,7 @@ public class ManagementOptions : MonoBehaviour, GameManagerHelper.IGameManagerHe
         {
             if (buttonsBack.id == buttonId)
             {
+                buttonsBackInfos[buttonId].buttonToBack.interactable = false;
                 buttonBackInfo.button = buttonsBack.buttonToBack;
                 buttonBackInfo.menu = buttonsBack.menu;
                 if (buttonsBack.buttonsToSelect.Length > 0)
@@ -117,7 +116,10 @@ public class ManagementOptions : MonoBehaviour, GameManagerHelper.IGameManagerHe
                 {
                     EventSystem.current.SetSelectedGameObject(null);
                 }
-                break;
+            }
+            else
+            {
+                buttonsBack.buttonToBack.interactable = true;
             }
         }
     }
@@ -289,31 +291,10 @@ public class ManagementOptions : MonoBehaviour, GameManagerHelper.IGameManagerHe
         int height = int.Parse(resolution.ToString().Substring(index + 1));
         return new GameData.ResolutionsInfo(width, height);
     }
-    public void ChangeMenuButtons(GameManager.TypeDevice principalDevice, GameManager.TypeDevice typeDevice)
-    {
-        ChangeNavigationButtons();
-    }
-    public void ChangeNavigationButtons()
-    {
-        var navVolume = buttonsBackInfos[1].buttonToBack.navigation;
-        navVolume.selectOnDown = buttonsBackInfos[2].buttonToBack.gameObject.activeSelf ? buttonsBackInfos[2].buttonToBack : buttonsBackInfos[3].buttonToBack;
-        buttonsBackInfos[1].buttonToBack.navigation = navVolume;
-
-        var navBack = buttonsBackInfos[3].buttonToBack.navigation;
-        navBack.selectOnUp = buttonsBackInfos[2].buttonToBack.gameObject.activeSelf ? buttonsBackInfos[2].buttonToBack : buttonsBackInfos[1].buttonToBack;
-        buttonsBackInfos[3].buttonToBack.navigation = navBack;
-
-        if (!buttonsBackInfos[2].buttonToBack.gameObject.activeSelf && EventSystem.current.currentSelectedGameObject == buttonsBackInfos[2].buttonToBack.gameObject)
-        {
-            buttonsBackInfos[1].buttonToBack.Select();
-        }
-    }
-
     public GameObject GetLastButton()
     {
         return lastButtonSelected;
     }
-
     [Serializable]
     public class SoundInfo
     {

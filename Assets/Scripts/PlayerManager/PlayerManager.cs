@@ -101,12 +101,12 @@ public class PlayerManager : MonoBehaviour
     public async Task InitializeCharacterData()
     {
         List<Character> charactersSpawned = new List<Character>();
-        foreach (CharacterData characterInfo in GameData.Instance.saveData.characters)
+        foreach (KeyValuePair<string, CharacterData> characterInfo in GameData.Instance.saveData.characters)
         {
-            if (characterInfo.statistics[CharacterData.TypeStatistic.Hp].currentValue > 0)
+            if (characterInfo.Value.statistics[CharacterData.TypeStatistic.Hp].currentValue > 0)
             {
                 Character character = Instantiate(generalCharacterPrefab, Vector3Int.down * 2, Quaternion.identity, charactersContainer).GetComponent<Character>();
-                character.characterData = characterInfo;
+                character.characterData = characterInfo.Value;
                 character.name = character.characterData.name;
                 charactersSpawned.Add(character);
                 await character.InitializeCharacter();
@@ -153,14 +153,14 @@ public class PlayerManager : MonoBehaviour
     }
     void HandleAction(InputAction.CallbackContext context)
     {
-        if (actionsManager.isPlayerTurn && !characterPlayerMakingActions && !actionsManager.isChangingTurn && !cantRotateCamera && !AnyMenuIsActive() && !menuThrowCharacter.menuThrowCharacter.activeSelf)
+        if (actionsManager.isPlayerTurn && !characterPlayerMakingActions && !actionsManager.isChangingTurn && !cantRotateCamera && !AnyMenuIsActive() && !menuThrowCharacter.menuThrowCharacter.activeSelf && !GameManager.Instance.isPause)
         {
             AStarPathFinding.Instance.ValidateAction(new Vector3Int(Mathf.RoundToInt(mouseDecal.transform.position.x), Mathf.RoundToInt(mouseDecal.transform.position.y), Mathf.RoundToInt(mouseDecal.transform.position.z)));
         }
     }
     void HandleRotateCamera(InputAction.CallbackContext context)
     {
-        if (actionsManager.isPlayerTurn && !characterPlayerMakingActions && !actionsManager.isChangingTurn && !cantRotateCamera && !onRotateCamera && !AnyMenuIsActive())
+        if (actionsManager.isPlayerTurn && !characterPlayerMakingActions && !actionsManager.isChangingTurn && !cantRotateCamera && !onRotateCamera && !AnyMenuIsActive() && !GameManager.Instance.isPause)
         {
             cantRotateCamera = true;
             onRotateCamera = true;
@@ -170,14 +170,14 @@ public class PlayerManager : MonoBehaviour
     }
     void HandleMenuGeneralActions(InputAction.CallbackContext callbackContext)
     {
-        if (actionsManager.isPlayerTurn && !AnyMenuIsActive())
+        if (actionsManager.isPlayerTurn && !AnyMenuIsActive() && !GameManager.Instance.isPause)
         {
             menuGeneralActions.EnableMenu();
         }
     }
     void HandleChangeSubMenu(InputAction.CallbackContext context)
     {
-        if (menuCharacterInfo.isMenuActive)
+        if (menuCharacterInfo.isMenuActive && !GameManager.Instance.isPause)
         {
             menuCharacterInfo.ChangeSubMenu();
         }
@@ -213,7 +213,7 @@ public class PlayerManager : MonoBehaviour
                 }
                 if (currentMousePos.z < AStarPathFinding.Instance.limitZ.x || currentMousePos.z > AStarPathFinding.Instance.limitZ.y)
                 {
-                    currentMousePos.z = Math.Clamp(currentMousePos.z, -AStarPathFinding.Instance.limitZ.x, AStarPathFinding.Instance.limitZ.y);
+                    currentMousePos.z = Math.Clamp(currentMousePos.z, AStarPathFinding.Instance.limitZ.x, AStarPathFinding.Instance.limitZ.y);
                 }
                 AStarPathFinding.Instance.GetHighestBlockAt(currentMousePos, out GenerateMap.WalkablePositionInfo block);
                 currentMousePos.y = block != null ? block.pos.y : 0;

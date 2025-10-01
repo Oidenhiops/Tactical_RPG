@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Character : MonoBehaviour
@@ -21,17 +22,25 @@ public class Character : MonoBehaviour
     public ActionsManager.TypeAction lastAction;
     public GameObject floatingTextPrefab;
     public GameObject dieEffectPrefab;
+    public bool autoInit;
     public void OnEnable()
     {
         if (isInitialize) characterAnimations.MakeAnimation("Idle");
     }
+    public void Awake()
+    {
+        if (autoInit) _= InitializeCharacter();
+    }
     void LateUpdate()
     {
-        CameraInfo.Instance.CamDirection(out Vector3 camForward, out Vector3 camRight);
-        Vector3 camRelativeDir = (nextDirection.x * camRight + nextDirection.z * camForward).normalized;
-        Vector3 movementDirection = new Vector3(camRelativeDir.x, 0, camRelativeDir.z).normalized;
-        direction = new Vector3Int(Mathf.RoundToInt(movementDirection.x), Mathf.RoundToInt(movementDirection.y), Mathf.RoundToInt(movementDirection.z));
-        ChangeDirectionModel();
+        if (CameraInfo.Instance)
+        {
+            CameraInfo.Instance.CamDirection(out Vector3 camForward, out Vector3 camRight);
+            Vector3 camRelativeDir = (nextDirection.x * camRight + nextDirection.z * camForward).normalized;
+            Vector3 movementDirection = new Vector3(camRelativeDir.x, 0, camRelativeDir.z).normalized;
+            direction = new Vector3Int(Mathf.RoundToInt(movementDirection.x), Mathf.RoundToInt(movementDirection.y), Mathf.RoundToInt(movementDirection.z));
+            ChangeDirectionModel();
+        }
     }
     public async Awaitable InitializeCharacter()
     {
@@ -215,41 +224,73 @@ public class Character : MonoBehaviour
             yield return null;
         }
     }
-    public void TakeDamage(Character characterMakeDamage, bool isBasicAttack)
+    public void TakeDamage(Character characterMakeDamage, int damage, string otherAnimation = "")
     {
         characterAnimations.MakeAnimation("TakeDamage");
+        characterAnimations.animationAfterEnd = otherAnimation;
         FloatingText floatingText = Instantiate(floatingTextPrefab, transform.position, Quaternion.identity).GetComponent<FloatingText>();
-        _ = floatingText.SendText(characterMakeDamage.characterData.statistics[CharacterData.TypeStatistic.Atk].currentValue.ToString(), Color.red, false);
+        _ = floatingText.SendText(damage.ToString(), Color.red, false);
         if (characterData.statistics.TryGetValue(CharacterData.TypeStatistic.Hp, out CharacterData.Statistic characterTakedDamageStatistic))
         {
-            if (isBasicAttack)
-            {
-                characterTakedDamageStatistic.currentValue -= characterMakeDamage.characterData.statistics[CharacterData.TypeStatistic.Atk].currentValue;
-            }
-            else
-            {
-
-            }
+            characterTakedDamageStatistic.currentValue -= damage;
         }
         characterAnimations.MakeEffect(CharacterAnimation.TypeAnimationsEffects.Shake);
         characterAnimations.MakeEffect(CharacterAnimation.TypeAnimationsEffects.Blink);
-        if (characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue <= 0) StartCoroutine(Die());
+        if (characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue <= 0) StartCoroutine(Die(characterMakeDamage));
     }
-    [NaughtyAttributes.Button]
-    public void RefreshStatistics()
+    [NaughtyAttributes.Button] public void RefreshStatistics()
     {
         foreach (KeyValuePair<CharacterData.TypeStatistic, CharacterData.Statistic> statistic in characterData.statistics)
         {
             statistic.Value.RefreshValue();
         }
     }
-    public IEnumerator Die()
+    public IEnumerator Die(Character characterMakeDamage)
     {
         yield return new WaitForSeconds(0.3f);
         GameObject dieEffect = Instantiate(dieEffectPrefab, transform.position, Quaternion.identity);
         characterModel.characterMeshRenderer.gameObject.SetActive(false);
+        if (characterAnimations.currentAnimation.name == "Lift" || characterAnimations.animationAfterEnd == "Lift")
+        {
+            if (transform.GetChild(1).gameObject.TryGetComponent(out CharacterAnimation component))
+            {
+                if (component.currentAnimation.name != "Lift")
+                {
+                    component.MakeAnimation("Idle");
+                }
+                AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(gameObject.transform.position)].hasCharacter = component.character;
+                component.transform.position = transform.position;
+                component.character.positionInGrid = positionInGrid;
+                component.character.startPositionInGrid = startPositionInGrid;
+            }
+            transform.GetChild(1).gameObject.transform.SetParent(transform.parent);
+        }
+        else
+        {
+            AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(gameObject.transform.position)].hasCharacter = null;
+        }
         yield return new WaitForSeconds(1);
         Destroy(dieEffect);
+        gameObject.transform.position = Vector3.zero + Vector3.down;
+        if (characterMakeDamage)
+        {
+            characterMakeDamage.TakeExp(this);
+        }
+        characterStatusEffect.statusEffects = new AYellowpaper.SerializedCollections.SerializedDictionary<StatusEffectBaseSO, int>();
+        GameData.Instance.saveData.dieCharacters.Add(characterData.name, characterData);
+        GameData.Instance.saveData.characters.Remove(characterData.name);
+    }
+    public void TakeExp(Character characterDie)
+    {
+        int amount = Mathf.CeilToInt(characterDie.characterData.statistics[CharacterData.TypeStatistic.Exp].maxValue * 0.1f);
+        characterData.statistics[CharacterData.TypeStatistic.Exp].currentValue += amount;
+        while (characterData.statistics[CharacterData.TypeStatistic.Exp].currentValue > characterData.statistics[CharacterData.TypeStatistic.Exp].maxValue)
+        {
+            int spare = Mathf.CeilToInt(characterData.statistics[CharacterData.TypeStatistic.Exp].currentValue - characterData.statistics[CharacterData.TypeStatistic.Exp].maxValue);
+            characterData.statistics[CharacterData.TypeStatistic.Exp].baseValue = Mathf.CeilToInt(characterData.statistics[CharacterData.TypeStatistic.Exp].maxValue * 2.2f);
+            characterData.statistics[CharacterData.TypeStatistic.Exp].maxValue = characterData.statistics[CharacterData.TypeStatistic.Exp].baseValue;
+            characterData.statistics[CharacterData.TypeStatistic.Exp].currentValue = spare;
+        }
     }
     public async Task MakeSpecial()
     {

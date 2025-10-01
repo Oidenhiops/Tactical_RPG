@@ -9,6 +9,7 @@ public class CharacterAnimation : MonoBehaviour
     public InitialDataSO.AnimationsInfo currentAnimation = new InitialDataSO.AnimationsInfo();
     public int currentSpriteIndex;
     public float currentSpritePerTime = 0.1f;
+    public string animationAfterEnd;
     bool isUp = false;
 
     public void SetInitialData(ref InitialDataSO animationsData)
@@ -88,7 +89,15 @@ public class CharacterAnimation : MonoBehaviour
                     }
                     else
                     {
-                        MakeAnimation("Idle");
+                        if (animationAfterEnd != "")
+                        {
+                            MakeAnimation(animationAfterEnd);
+                            animationAfterEnd = "";
+                        }
+                        else
+                        {
+                            MakeAnimation("Idle");
+                        }
                     }
                 }
             }

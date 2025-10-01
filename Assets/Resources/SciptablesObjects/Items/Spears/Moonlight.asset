@@ -15,6 +15,32 @@ MonoBehaviour:
   id: 96
   icon: {fileID: 34959680, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
   typeObject: 1
+  typeWeapon: 3
+  positionsToAttack:
+  - {x: -3, y: 0, z: 0}
+  - {x: -2, y: 0, z: 0}
+  - {x: -1, y: 0, z: 0}
+  - {x: -2, y: 0, z: 1}
+  - {x: -1, y: 0, z: 2}
+  - {x: 0, y: 0, z: 3}
+  - {x: 0, y: 0, z: 2}
+  - {x: 0, y: 0, z: 1}
+  - {x: -1, y: 0, z: 1}
+  - {x: 2, y: 0, z: 1}
+  - {x: 1, y: 0, z: 2}
+  - {x: 3, y: 0, z: 0}
+  - {x: 2, y: 0, z: 0}
+  - {x: 1, y: 0, z: 0}
+  - {x: 1, y: 0, z: 1}
+  - {x: 0, y: 0, z: -1}
+  - {x: 0, y: 0, z: -2}
+  - {x: 0, y: 0, z: -3}
+  - {x: 1, y: 0, z: -2}
+  - {x: 2, y: 0, z: -1}
+  - {x: 1, y: 0, z: -1}
+  - {x: -1, y: 0, z: -1}
+  - {x: -2, y: 0, z: -1}
+  - {x: -1, y: 0, z: -2}
   animationName: 
   amountToAddId: 80
   itemStatistics:

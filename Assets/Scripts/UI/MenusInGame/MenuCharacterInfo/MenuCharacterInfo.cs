@@ -34,16 +34,23 @@ public class MenuCharacterInfo : MonoBehaviour
         characterMovementRadius.text = character.characterData.GetMovementRadius().ToString();
         foreach (KeyValuePair<CharacterData.TypeStatistic, UiInfo> statisticsUi in uiInfo)
         {
-            statisticsUi.Value.characterStatistic.text = character.characterData.statistics[statisticsUi.Key].currentValue.ToString();
+            if (statisticsUi.Key != CharacterData.TypeStatistic.None)
+            {
+                statisticsUi.Value.characterStatistic.text = character.characterData.statistics[statisticsUi.Key].currentValue.ToString();
+            }
+            else
+            {
+                statisticsUi.Value.characterStatistic.text = (character.characterData.statistics[CharacterData.TypeStatistic.Exp].maxValue - character.characterData.statistics[CharacterData.TypeStatistic.Exp].currentValue).ToString();
+            }
         }
         foreach (Transform child in statusEffectsContainer.transform)
         {
             Destroy(child.gameObject);
         }
-        foreach (KeyValuePair<StatusEffectBaseSO, CharacterStatusEffect.StatusEffectInfo> statusEffect in character.characterStatusEffect.statusEffects)
+        foreach (KeyValuePair<StatusEffectBaseSO, int> statusEffect in character.characterStatusEffect.statusEffects)
         {
             StatusEffectBanner banner = Instantiate(statusEffectBanner, statusEffectsContainer.transform).GetComponent<StatusEffectBanner>();
-            banner.SetData(statusEffect.Key, statusEffect.Value.amount);
+            banner.SetData(statusEffect.Key, statusEffect.Value);
         }
         if (!disableItemsContainer)
         {
@@ -77,7 +84,7 @@ public class MenuCharacterInfo : MonoBehaviour
         {
             mastery.Value.masteryRange.text = character.characterData.mastery[mastery.Key].masteryRange.ToString();
             mastery.Value.masteryLevel.text = character.characterData.mastery[mastery.Key].masteryLevel.ToString();
-            mastery.Value.masteryLevelFill.fillAmount = (float)character.characterData.mastery[mastery.Key].currentXp / (float)character.characterData.mastery[mastery.Key].maxXp;
+            mastery.Value.masteryLevelFill.fillAmount = character.characterData.mastery[mastery.Key].currentExp / (float)character.characterData.mastery[mastery.Key].maxExp;
         }
         EnableSubMenu(0);
         menuCharacterInfo.SetActive(true);

@@ -4,9 +4,7 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Chunk
-  - listener
-  - Object
+  - ManagementOptions
   layers:
   - Default
   - TransparentFX

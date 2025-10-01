@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AYellowpaper.SerializedCollections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,6 +10,7 @@ public class ActionsManager : MonoBehaviour
     public PlayerManager playerManager;
     public InputAction endTurnTest;
     public SerializedDictionary<Character, List<ActionInfo>> characterActions = new SerializedDictionary<Character, List<ActionInfo>>();
+    public SerializedDictionary<Character, ActionInfo> characterFinalActions = new SerializedDictionary<Character, ActionInfo>();
     public Action OnEndTurn;
     public bool _isPlayerTurn;
     public bool isPlayerTurn
@@ -141,6 +141,7 @@ public class ActionsManager : MonoBehaviour
                     {
                         actions[actions.Count - 1].character.lastAction = TypeAction.None;
                         actions[actions.Count - 1].character.characterAnimations.MakeAnimation("Idle");
+                        actions[actions.Count - 1].character.characterStatusEffect.statusEffects.Remove(playerManager.menuLiftCharacter.statusEffectLiftSO);
                         actions[actions.Count - 1].otherCharacterInfo[0].character.transform.SetParent(null);
                         if (actions[actions.Count - 1].otherCharacterInfo[0].character.characterAnimations.currentAnimation.name != "Lift") actions[actions.Count - 1].otherCharacterInfo[0].character.characterAnimations.MakeAnimation("Idle");
                         actions[actions.Count - 1].otherCharacterInfo[0].character.transform.position = actions[actions.Count - 1].otherCharacterInfo[0].positionInGrid;
@@ -151,7 +152,9 @@ public class ActionsManager : MonoBehaviour
                     break;
                 case TypeAction.Defend:
                 case TypeAction.Attack:
+                case TypeAction.Special:
                     actions[actions.Count - 1].character.lastAction = TypeAction.None;
+                    characterFinalActions.Remove(actions[actions.Count - 1].character);
                     if (actions.Count - 1 == 0) characterActions.Remove(actions[actions.Count - 1].character);
                     else actions.RemoveAt(actions.Count - 1);
                     break;
@@ -174,56 +177,59 @@ public class ActionsManager : MonoBehaviour
     }
     public async Task MakeActions()
     {
-        foreach (KeyValuePair<Character, List<ActionInfo>> actions in characterActions)
-        {
-            switch (actions.Value[actions.Value.Count - 1].typeAction)
+       foreach (KeyValuePair<Character, ActionInfo> actions in characterFinalActions)
             {
-                case TypeAction.Attack:
-                    actions.Value[actions.Value.Count - 1].character.characterAnimations.MakeAnimation(actions.Value[actions.Value.Count - 1].character.characterAnimations.GetAnimationAttack());
-                    await Awaitable.NextFrameAsync();
-                    bool makedDamage = false;
-                    while (true)
+                if (actions.Value.character.characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue > 0)
+                {
+                    switch (actions.Value.typeAction)
                     {
-                        if (actions.Value[actions.Value.Count - 1].character.characterAnimations.currentAnimation.frameToInstance == actions.Value[actions.Value.Count - 1].character.characterAnimations.currentSpriteIndex && !makedDamage)
-                        {
-                            makedDamage = true;
-                            foreach (OtherCharacterInfo otherCharacter in actions.Value[actions.Value.Count - 1].otherCharacterInfo)
+                        case TypeAction.Attack:
+                            actions.Value.character.characterAnimations.MakeAnimation(actions.Value.character.characterAnimations.GetAnimationAttack());
+                            await Awaitable.NextFrameAsync();
+                            bool makedDamage = false;
+                            while (true)
                             {
-                                otherCharacter.character.TakeDamage(actions.Value[actions.Value.Count - 1].character, true);
+                                if (actions.Value.character.characterAnimations.currentAnimation.frameToInstance == actions.Value.character.characterAnimations.currentSpriteIndex && !makedDamage)
+                                {
+                                    makedDamage = true;
+                                    foreach (OtherCharacterInfo otherCharacter in actions.Value.otherCharacterInfo)
+                                    {
+                                        if (otherCharacter.character.characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue > 0)
+                                        {
+                                            otherCharacter.character.TakeDamage(actions.Value.character, actions.Value.character.characterData.statistics[CharacterData.TypeStatistic.Atk].currentValue);
+                                        }
+                                    }
+                                }
+                                if (actions.Value.character.characterAnimations.currentAnimation.name == "Idle") break;
+                                await Awaitable.NextFrameAsync();
                             }
-                        }
-                        if (actions.Value[actions.Value.Count - 1].character.characterAnimations.currentAnimation.name == "Idle") break;
-                        await Awaitable.NextFrameAsync();
+                            actions.Key.lastAction = TypeAction.EndTurn;
+                            await Task.Delay(TimeSpan.FromSeconds(0.25f));
+                            characterActions[actions.Key].Add(new ActionInfo()
+                            {
+                                cantUndo = false,
+                                positionInGrid = actions.Key.positionInGrid,
+                                typeAction = TypeAction.EndTurn
+                            });
+                            await Task.Delay(TimeSpan.FromSeconds(0.5f));
+                            break;
+                        case TypeAction.Special:
+                            await Awaitable.NextFrameAsync();
+                            break;
+                        case TypeAction.Defend:
+                            await DefendAction(actions.Key);
+                            characterActions[actions.Key].Add(new ActionInfo()
+                            {
+                                cantUndo = false,
+                                positionInGrid = actions.Key.positionInGrid,
+                                typeAction = TypeAction.EndTurn
+                            });
+                            await Awaitable.NextFrameAsync();
+                            break;
                     }
-                    actions.Key.lastAction = TypeAction.EndTurn;
-                    while (true)
-                    {
-                        if (actions.Value[actions.Value.Count - 1].otherCharacterInfo[0].character.characterAnimations.currentAnimation.name == "Idle") break;
-                        await Awaitable.NextFrameAsync();
-                    }
-                    characterActions[actions.Key].Add(new ActionInfo()
-                    {
-                        cantUndo = false,
-                        positionInGrid = actions.Key.positionInGrid,
-                        typeAction = TypeAction.EndTurn
-                    });
-                    await Task.Delay(TimeSpan.FromSeconds(0.5f));
-                    break;
-                case TypeAction.Special:
-                    await Awaitable.NextFrameAsync();
-                    break;
-                case TypeAction.Defend:
-                    DefendAction(actions.Key);
-                    characterActions[actions.Key].Add(new ActionInfo()
-                    {
-                        cantUndo = false,
-                        positionInGrid = actions.Key.positionInGrid,
-                        typeAction = TypeAction.EndTurn
-                    });
-                    await Awaitable.NextFrameAsync();
-                    break;
+                }
             }
-        }
+        characterFinalActions = new SerializedDictionary<Character, ActionInfo>();
         await Awaitable.NextFrameAsync();
     }
     private async Task DiscountStatusEffects()
@@ -243,10 +249,11 @@ public class ActionsManager : MonoBehaviour
             actions.Key.lastAction = TypeAction.None;
         }
         characterActions = new SerializedDictionary<Character, List<ActionInfo>>();
+        characterFinalActions = new SerializedDictionary<Character, ActionInfo>();
         await ChangeRoundState();
         await DiscountStatusEffects();
     }
-    public void DefendAction(Character character)
+    public async Task DefendAction(Character character)
     {
         StatusEffectDefendSO statusEffectDefendSO = Resources.Load<StatusEffectDefendSO>("Prefabs/ScriptableObjects/StatusEffects/StatusEffectDefend");
         if (character.characterStatusEffect.statusEffects.ContainsKey(statusEffectDefendSO))
@@ -255,9 +262,17 @@ public class ActionsManager : MonoBehaviour
         }
         else
         {
-            character.characterStatusEffect.statusEffects.Add(statusEffectDefendSO, new CharacterStatusEffect.StatusEffectInfo());
+            character.characterStatusEffect.statusEffects.Add(statusEffectDefendSO, 0);
             statusEffectDefendSO.ApplyEffect(character);
         }
+        character.characterAnimations.MakeAnimation("Defend");
+        await Awaitable.NextFrameAsync();
+        while (true)
+        {
+            if (character.characterAnimations.currentAnimation.name == "Idle") break;
+            await Awaitable.NextFrameAsync();
+        }
+        await Awaitable.NextFrameAsync();
     }
     public async Task ChangeRoundState()
     {
@@ -274,7 +289,8 @@ public class ActionsManager : MonoBehaviour
             if (action.Value[action.Value.Count - 1].typeAction == TypeAction.Defend) actionExist = true;
         }
     }
-    [Serializable] public class ActionInfo
+    [Serializable]
+    public class ActionInfo
     {
         public bool cantUndo;
         public Character character;
@@ -289,7 +305,8 @@ public class ActionsManager : MonoBehaviour
             this.positionInGrid = positionInGrid;
         }
     }
-    [Serializable] public class OtherCharacterInfo
+    [Serializable]
+    public class OtherCharacterInfo
     {
         public Character character;
         public Vector3Int positionInGrid;

@@ -17,17 +17,21 @@ public class AStarPathFinding : MonoBehaviour
     public Character characterSelected;
     public Vector2Int limitX = new Vector2Int(-10, 10), limitZ = new Vector2Int(-10, 10);
     public Material gridMaterial;
+    public bool onlyForMap;
     Coroutine _ToggleGrid;
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            for (int i = 0; i < poolSize; i++)
-            {
-                GameObject obj = Instantiate(poolinGrid, gridContainer);
-                obj.SetActive(false);
-                pool.Enqueue(obj);
+            if (!onlyForMap)
+            {                
+                for (int i = 0; i < poolSize; i++)
+                {
+                    GameObject obj = Instantiate(poolinGrid, gridContainer);
+                    obj.SetActive(false);
+                    pool.Enqueue(obj);
+                }
             }
         }
     }
@@ -312,7 +316,7 @@ public class AStarPathFinding : MonoBehaviour
     public bool GetPositionsToAttack(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions)
     {
         positions = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
-        Vector3Int[] directions = new Vector3Int[0];
+        Vector3Int[] directions;
         characterSelected.characterData.GetCurrentWeapon(out CharacterData.CharacterItem weapon);
         if (weapon == null)
         {
@@ -322,6 +326,10 @@ public class AStarPathFinding : MonoBehaviour
                 Vector3Int.left,
                 Vector3Int.right,
             };
+        }
+        else
+        {
+            directions = weapon.itemBaseSO.positionsToAttack;
         }
         if (directions.Length > 0)
         {

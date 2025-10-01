@@ -68,6 +68,15 @@ public class MenuAttackCharacter : MonoBehaviour
                     new ActionsManager.OtherCharacterInfo(banner.character, Vector3Int.RoundToInt(banner.character.transform.position))
                 }
             });
+            playerManager.actionsManager.characterFinalActions.Add(AStarPathFinding.Instance.characterSelected, new ActionsManager.ActionInfo
+            {
+                character = AStarPathFinding.Instance.characterSelected,
+                typeAction = ActionsManager.TypeAction.Attack,
+                otherCharacterInfo = new List<ActionsManager.OtherCharacterInfo>
+                {
+                    new ActionsManager.OtherCharacterInfo(banner.character, Vector3Int.RoundToInt(banner.character.transform.position))
+                }
+            });
         }
         else
         {
@@ -84,6 +93,15 @@ public class MenuAttackCharacter : MonoBehaviour
                     }
                 }
             );
+            playerManager.actionsManager.characterFinalActions.Add(AStarPathFinding.Instance.characterSelected, new ActionsManager.ActionInfo
+            {
+                character = AStarPathFinding.Instance.characterSelected,
+                typeAction = ActionsManager.TypeAction.Attack,
+                otherCharacterInfo = new List<ActionsManager.OtherCharacterInfo>
+                {
+                    new ActionsManager.OtherCharacterInfo(banner.character, Vector3Int.RoundToInt(banner.character.transform.position))
+                }
+            });
         }
         DisableMenuCharacterSelect();
     }
