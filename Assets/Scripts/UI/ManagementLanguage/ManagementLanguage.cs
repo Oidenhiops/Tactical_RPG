@@ -16,11 +16,11 @@ public class ManagementLanguage : MonoBehaviour
     }
     void OnDestroy()
     {
-        GameData.Instance.saveData.configurationsInfo.OnLanguageChange -= RefreshText;
+        GameData.Instance.systemDataInfo.configurationsInfo.OnLanguageChange -= RefreshText;
     }
     void Awake()
     {
-        GameData.Instance.saveData.configurationsInfo.OnLanguageChange += RefreshText;
+        GameData.Instance.systemDataInfo.configurationsInfo.OnLanguageChange += RefreshText;
         if (!initByCode) RefreshText();
     }
     public void RefreshText(GameData.TypeLanguage language = GameData.TypeLanguage.English)

@@ -11,6 +11,7 @@ public class ActionsManager : MonoBehaviour
     public InputAction endTurnTest;
     public SerializedDictionary<Character, List<ActionInfo>> characterActions = new SerializedDictionary<Character, List<ActionInfo>>();
     public SerializedDictionary<Character, ActionInfo> characterFinalActions = new SerializedDictionary<Character, ActionInfo>();
+    public GameObject[] mobileInputs;
     public Action OnEndTurn;
     public bool _isPlayerTurn;
     public bool isPlayerTurn
@@ -25,6 +26,7 @@ public class ActionsManager : MonoBehaviour
                 {
                     playerManager.canShowGridAndDecal = true;
                     playerManager.EnableVisuals();
+                    EnableMobileInputs();
                 }
             }
         }
@@ -43,7 +45,11 @@ public class ActionsManager : MonoBehaviour
     void OnUndoAction(InputAction.CallbackContext context)
     {
         if (GameManager.Instance.isPause) return;
-        if (!isPlayerTurn) return;
+        if (!isPlayerTurn)
+        {
+            _= EndTurn();
+            return;
+        }
         if (playerManager.menuItemsCharacter.menuItemCharacters.activeSelf)
         {
             if (playerManager.menuItemsCharacter.currentBagItem)
@@ -140,6 +146,7 @@ public class ActionsManager : MonoBehaviour
                     if (!AStarPathFinding.Instance.grid[actions[actions.Count - 1].otherCharacterInfo[0].positionInGrid].hasCharacter)
                     {
                         actions[actions.Count - 1].character.lastAction = TypeAction.None;
+                        characterFinalActions.Remove(actions[actions.Count - 1].character);
                         actions[actions.Count - 1].character.characterAnimations.MakeAnimation("Idle");
                         actions[actions.Count - 1].character.characterStatusEffect.statusEffects.Remove(playerManager.menuLiftCharacter.statusEffectLiftSO);
                         actions[actions.Count - 1].otherCharacterInfo[0].character.transform.SetParent(null);
@@ -242,12 +249,6 @@ public class ActionsManager : MonoBehaviour
         isChangingTurn = true;
         AStarPathFinding.Instance.characterSelected = null;
         await MakeActions();
-        foreach (KeyValuePair<Character, List<ActionInfo>> actions in characterActions)
-        {
-            actions.Key.startPositionInGrid = actions.Key.positionInGrid;
-            actions.Key.lastAction = TypeAction.None;
-            actions.Key.lastAction = TypeAction.None;
-        }
         characterActions = new SerializedDictionary<Character, List<ActionInfo>>();
         characterFinalActions = new SerializedDictionary<Character, ActionInfo>();
         await ChangeRoundState();
@@ -287,6 +288,20 @@ public class ActionsManager : MonoBehaviour
             if (action.Value[action.Value.Count - 1].typeAction == TypeAction.Attack) actionExist = true;
             if (action.Value[action.Value.Count - 1].typeAction == TypeAction.Special) actionExist = true;
             if (action.Value[action.Value.Count - 1].typeAction == TypeAction.Defend) actionExist = true;
+        }
+    }
+    public void EnableMobileInputs()
+    {
+        foreach (GameObject button in mobileInputs)
+        {
+            button.SetActive(true);
+        }
+    }
+    public void DisableMobileInputs()
+    {
+        foreach (GameObject button in mobileInputs)
+        {
+            button.SetActive(false);
         }
     }
     [Serializable]

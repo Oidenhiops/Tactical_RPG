@@ -121,7 +121,7 @@ public class GameManager : MonoBehaviour
             openCloseScene.openCloseSceneAnimator.SetBool("Out", true);
             OnChangeScene?.Invoke();
             await AudioManager.Instance.FadeOut();
-            AudioManager.Instance.ChangeBGM(GameData.Instance.saveData.bgmSceneData[currentScene]);
+            AudioManager.Instance.ChangeBGM(GameData.Instance.systemDataInfo.bgmSceneData[currentScene]);
             while (!openCloseScene.openCloseSceneAnimator.GetCurrentAnimatorStateInfo(0).IsName("OpenCloseSceneIdle")) await Task.Delay(TimeSpan.FromSeconds(0.01)); ;
             if (typeScene == TypeScene.Reload)
             {

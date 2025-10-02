@@ -32,6 +32,7 @@ public class MenuThrowCharacter : MonoBehaviour
     {
         menuThrowCharacter.SetActive(false);
         AStarPathFinding.Instance.characterSelected = null;
+        playerManager.actionsManager.EnableMobileInputs();
     }
     public void OnHandleTrow(InputAction.CallbackContext context)
     {
@@ -89,7 +90,7 @@ public class MenuThrowCharacter : MonoBehaviour
             actions[actions.Count - 1].otherCharacterInfo[0].character.startPositionInGrid = Vector3Int.RoundToInt(endPos);
             actions[actions.Count - 1].otherCharacterInfo[0].character.positionInGrid = Vector3Int.RoundToInt(endPos);
             AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(endPos)].hasCharacter = actions[actions.Count - 1].otherCharacterInfo[0].character;
-            actions[actions.Count - 1].otherCharacterInfo[0].character.transform.SetParent(null);
+            actions[actions.Count - 1].otherCharacterInfo[0].character.transform.SetParent(AStarPathFinding.Instance.characterSelected.transform.parent);
         }
         else
         {

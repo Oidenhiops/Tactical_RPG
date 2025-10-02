@@ -742,8 +742,8 @@ TextureImporter:
       name: Warrior_28
       rect:
         serializedVersion: 2
-        x: 128
-        y: 192
+        x: 0
+        y: 128
         width: 64
         height: 64
       alignment: 0
@@ -764,8 +764,8 @@ TextureImporter:
       name: Warrior_29
       rect:
         serializedVersion: 2
-        x: 192
-        y: 192
+        x: 64
+        y: 128
         width: 64
         height: 64
       alignment: 0
@@ -786,7 +786,7 @@ TextureImporter:
       name: Warrior_30
       rect:
         serializedVersion: 2
-        x: 0
+        x: 128
         y: 128
         width: 64
         height: 64
@@ -808,7 +808,7 @@ TextureImporter:
       name: Warrior_31
       rect:
         serializedVersion: 2
-        x: 64
+        x: 192
         y: 128
         width: 64
         height: 64

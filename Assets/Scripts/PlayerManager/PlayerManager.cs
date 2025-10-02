@@ -101,7 +101,7 @@ public class PlayerManager : MonoBehaviour
     public async Task InitializeCharacterData()
     {
         List<Character> charactersSpawned = new List<Character>();
-        foreach (KeyValuePair<string, CharacterData> characterInfo in GameData.Instance.saveData.characters)
+        foreach (KeyValuePair<string, CharacterData> characterInfo in GameData.Instance.gameDataInfo.characters)
         {
             if (characterInfo.Value.statistics[CharacterData.TypeStatistic.Hp].currentValue > 0)
             {

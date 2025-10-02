@@ -14,6 +14,7 @@ public class MenuGeneralActions : MonoBehaviour
     public GameObject endTurnButton;
     public void EnableMenu()
     {
+        playerManager.actionsManager.DisableMobileInputs();
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(GetSelectedButton());
         AStarPathFinding.Instance.DisableGrid();
@@ -26,12 +27,10 @@ public class MenuGeneralActions : MonoBehaviour
     }
     public void DisableMenu()
     {
-        if (menuGeneralActions.activeSelf)
-        {
-            if (AStarPathFinding.Instance.characterSelected && AStarPathFinding.Instance.LastCharacterActionPermitActions()) AStarPathFinding.Instance.EnableGrid(AStarPathFinding.Instance.GetWalkableTiles(), Color.magenta);
-            executeButton.interactable = false;
-            menuGeneralActions.SetActive(false);
-        }
+        playerManager.actionsManager.EnableMobileInputs();
+        if (AStarPathFinding.Instance.characterSelected && AStarPathFinding.Instance.LastCharacterActionPermitActions()) AStarPathFinding.Instance.EnableGrid(AStarPathFinding.Instance.GetWalkableTiles(), Color.magenta);
+        executeButton.interactable = false;
+        menuGeneralActions.SetActive(false);
     }
     public GameObject GetSelectedButton()
     {

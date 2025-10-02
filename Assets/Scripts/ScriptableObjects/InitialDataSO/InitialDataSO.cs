@@ -12,15 +12,18 @@ public class InitialDataSO : ScriptableObject
     public SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic> initialStats = new SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic>();
     public SerializedDictionary<string, AnimationsInfo> animations = new SerializedDictionary<string, AnimationsInfo>();
     public AnimationsInfo animation;
-    [NaughtyAttributes.Button] public void NewAnimation()
+    [NaughtyAttributes.Button]
+    public void NewAnimation()
     {
         animations.Add(animation.name, animation);
+        animation = new AnimationsInfo();
     }
     [NaughtyAttributes.Button] public void EditAnimation()
     {
         if (animations.ContainsKey(animation.name))
         {
             animations[animation.name] = animation;
+            animation = new AnimationsInfo();
         }
         else
         {
@@ -59,6 +62,7 @@ public class InitialDataSO : ScriptableObject
             clone[kvp.Key] = new CharacterData.Statistic
             {
                 baseValue = kvp.Value.baseValue,
+                aptitudeValue = kvp.Value.aptitudeValue,
                 itemValue = kvp.Value.itemValue,
                 buffValue = kvp.Value.buffValue,
                 maxValue = kvp.Value.maxValue,

@@ -40,9 +40,9 @@ public class MenuItemsCharacter : MonoBehaviour
     {
         for (int i = 0; i < bagBanners.Count; i++)
         {
-            if (GameData.Instance.saveData.bagItems[i].itemBaseSO)
+            if (GameData.Instance.gameDataInfo.bagItems[i].itemBaseSO)
             {
-                bagBanners[i].SetBannerData(GameData.Instance.saveData.bagItems[i]);
+                bagBanners[i].SetBannerData(GameData.Instance.gameDataInfo.bagItems[i]);
                 bagBanners[i].EnableBanner();
             }
             else
@@ -86,26 +86,19 @@ public class MenuItemsCharacter : MonoBehaviour
             {
                 if (itemToGear.itemBaseSO.typeObject == ItemBaseSO.TypeObject.Weapon)
                 {
-                    if (AStarPathFinding.Instance.characterSelected.characterData.items.ElementAt(0).Value.itemBaseSO)
+                    if (AStarPathFinding.Instance.characterSelected.initialDataSO.isHumanoid)
                     {
-                        if (AStarPathFinding.Instance.characterSelected.initialDataSO.isHumanoid)
+                        if (itemToGear.itemBaseSO.typeWeapon != ItemBaseSO.TypeWeapon.Monster)
                         {
-                            if (itemToGear.itemBaseSO.typeWeapon != ItemBaseSO.TypeWeapon.Monster)
-                            {
-                                SetItemData(itemToBag, itemToGear);
-                            }
-                        }
-                        else
-                        {
-                            if (itemToGear.itemBaseSO.typeWeapon == ItemBaseSO.TypeWeapon.Monster)
-                            {
-                                SetItemData(itemToBag, itemToGear);
-                            }
+                            SetItemData(itemToBag, itemToGear);
                         }
                     }
                     else
                     {
-                        SetItemData(itemToBag, itemToGear);
+                        if (itemToGear.itemBaseSO.typeWeapon == ItemBaseSO.TypeWeapon.Monster)
+                        {
+                            SetItemData(itemToBag, itemToGear);
+                        }
                     }
                 }
             }
@@ -143,7 +136,7 @@ public class MenuItemsCharacter : MonoBehaviour
                 break;
             }
         }
-        GameData.Instance.saveData.bagItems[currentBagItem.bannerInfo.index] = itemToBag;
+        GameData.Instance.gameDataInfo.bagItems[currentBagItem.bannerInfo.index] = itemToBag;
         currentBagItem = null;
         foreach (var statistics in AStarPathFinding.Instance.characterSelected.characterData.statistics)
         {

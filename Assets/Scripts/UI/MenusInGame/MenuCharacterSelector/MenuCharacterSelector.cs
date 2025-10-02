@@ -73,6 +73,7 @@ public class MenuCharacterSelector : MonoBehaviour
     public IEnumerator EnableMenu()
     {
         SpawnBanners();
+        playerManager.actionsManager.DisableMobileInputs();
         menuCharacterSelector.SetActive(true);
         if (banners.Count > 0)
         {
@@ -89,6 +90,7 @@ public class MenuCharacterSelector : MonoBehaviour
     }
     public void DisableMenu()
     {
+        playerManager.actionsManager.EnableMobileInputs();
         menuCharacterSelector.SetActive(false);
         isMenuActive = false;
         foreach (Transform child in containerBanners.transform)

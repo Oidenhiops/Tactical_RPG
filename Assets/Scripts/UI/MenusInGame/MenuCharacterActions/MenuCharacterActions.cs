@@ -15,6 +15,7 @@ public class MenuCharacterActions : MonoBehaviour
     public bool isMenuActive;
     public IEnumerator EnableMenu()
     {
+        playerManager.actionsManager.DisableMobileInputs();
         if (!playerManager.AnyMenuIsActive())
         {
             playerManager.menuCharacterInfo.ReloadInfo(AStarPathFinding.Instance.characterSelected);
@@ -57,7 +58,7 @@ public class MenuCharacterActions : MonoBehaviour
                                 if (AStarPathFinding.Instance.GetPositionsToLift(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions))
                                 {
                                     buttonsExepts.Add(TypeButton.Lift);
-                                    SendCharactersToLift(positions);                                    
+                                    SendCharactersToLift(positions);
                                 }
                             }
                         }
@@ -110,7 +111,11 @@ public class MenuCharacterActions : MonoBehaviour
         menuCharacterActions.SetActive(false);
         playerManager.menuAttackCharacter.positionsToAttack = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
         playerManager.menuAttackCharacter.characters = new Character[0];
-        if (!conservCharacterInfo) playerManager.menuCharacterInfo.menuCharacterInfo.SetActive(false);        
+        if (!conservCharacterInfo)
+        {
+            playerManager.actionsManager.EnableMobileInputs();
+            playerManager.menuCharacterInfo.menuCharacterInfo.SetActive(false);
+        }
         if (!conservSelectedCharacter) AStarPathFinding.Instance.characterSelected = null;
         isMenuActive = false;
     }

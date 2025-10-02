@@ -59,9 +59,9 @@ public class AudioManager : MonoBehaviour
     {
         try
         {
-            if (!GameData.Instance.saveData.configurationsInfo.soundConfiguration.isMute)
+            if (!GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.isMute)
             {
-                float targetDecibels = 20 * Mathf.Log10(GameData.Instance.saveData.configurationsInfo.soundConfiguration.MASTERValue / 100);
+                float targetDecibels = 20 * Mathf.Log10(GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.MASTERValue / 100);
                 float currentVolume;
 
                 if (!audioMixer.GetFloat(TypeSound.Master.ToString(), out currentVolume))
@@ -93,12 +93,12 @@ public class AudioManager : MonoBehaviour
     {
         try
         {
-            if (!GameData.Instance.saveData.configurationsInfo.soundConfiguration.isMute)
+            if (!GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.isMute)
             {
                 float currentVolume;
                 if (!audioMixer.GetFloat(TypeSound.Master.ToString(), out currentVolume))
                 {
-                    currentVolume = 20 * Mathf.Log10(GameData.Instance.saveData.configurationsInfo.soundConfiguration.MASTERValue / 100);
+                    currentVolume = 20 * Mathf.Log10(GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.MASTERValue / 100);
                 }
                 float targetVolume = -80f;
                 float duration = 1f;
@@ -136,16 +136,16 @@ public class AudioManager : MonoBehaviour
     }
     public void SetAudioMixerData()
     {
-        float decibelsMaster = 20 * Mathf.Log10(GameData.Instance.saveData.configurationsInfo.soundConfiguration.MASTERValue / 100);
-        float decibelsBGM = 20 * Mathf.Log10(GameData.Instance.saveData.configurationsInfo.soundConfiguration.BGMalue / 100);
-        float decibelsSFX = 20 * Mathf.Log10(GameData.Instance.saveData.configurationsInfo.soundConfiguration.SFXalue / 100);
-        if (GameData.Instance.saveData.configurationsInfo.soundConfiguration.MASTERValue == 0) decibelsMaster = -80;
-        if (GameData.Instance.saveData.configurationsInfo.soundConfiguration.BGMalue == 0) decibelsBGM = -80;
-        if (GameData.Instance.saveData.configurationsInfo.soundConfiguration.SFXalue == 0) decibelsSFX = -80;
+        float decibelsMaster = 20 * Mathf.Log10(GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.MASTERValue / 100);
+        float decibelsBGM = 20 * Mathf.Log10(GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.BGMalue / 100);
+        float decibelsSFX = 20 * Mathf.Log10(GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.SFXalue / 100);
+        if (GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.MASTERValue == 0) decibelsMaster = -80;
+        if (GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.BGMalue == 0) decibelsBGM = -80;
+        if (GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.SFXalue == 0) decibelsSFX = -80;
         audioMixer.SetFloat(TypeSound.BGM.ToString(), decibelsBGM);
         audioMixer.SetFloat(TypeSound.SFX.ToString(), decibelsSFX);
-        audioMixer.SetFloat(TypeSound.Master.ToString(), GameData.Instance.saveData.configurationsInfo.soundConfiguration.isMute ? -80 : decibelsMaster);
-        GameData.Instance.SaveGameData();
+        audioMixer.SetFloat(TypeSound.Master.ToString(), GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.isMute ? -80 : decibelsMaster);
+        GameData.Instance.SaveSystemData();
     }
     IEnumerator DestroyAudioBox(GameObject audioBox, float timeToDestroy)
     {

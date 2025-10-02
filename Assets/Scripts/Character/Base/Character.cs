@@ -30,6 +30,19 @@ public class Character : MonoBehaviour
     public void Awake()
     {
         if (autoInit) _= InitializeCharacter();
+        if (PlayerManager.Instance) PlayerManager.Instance.actionsManager.OnEndTurn += OnEndTurn;
+    }
+    void OnDestroy()
+    {
+        if (PlayerManager.Instance) PlayerManager.Instance.actionsManager.OnEndTurn -= OnEndTurn;
+    }
+    void OnEndTurn()
+    {
+        if (lastAction == ActionsManager.TypeAction.EndTurn)
+        {
+            lastAction = ActionsManager.TypeAction.None;
+        }
+        startPositionInGrid = positionInGrid;
     }
     void LateUpdate()
     {
@@ -277,8 +290,8 @@ public class Character : MonoBehaviour
             characterMakeDamage.TakeExp(this);
         }
         characterStatusEffect.statusEffects = new AYellowpaper.SerializedCollections.SerializedDictionary<StatusEffectBaseSO, int>();
-        GameData.Instance.saveData.dieCharacters.Add(characterData.name, characterData);
-        GameData.Instance.saveData.characters.Remove(characterData.name);
+        GameData.Instance.gameDataInfo.dieCharacters.Add(characterData.name, characterData);
+        GameData.Instance.gameDataInfo.characters.Remove(characterData.name);
     }
     public void TakeExp(Character characterDie)
     {

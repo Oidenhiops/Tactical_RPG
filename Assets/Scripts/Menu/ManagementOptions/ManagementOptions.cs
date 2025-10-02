@@ -33,7 +33,7 @@ public class ManagementOptions : MonoBehaviour, GameManagerHelper.IGameManagerHe
         buttonsBackInfos[0].buttonToBack.Select();
         backButton.started += BackHandle;
         backButton.Enable();
-        muteCheck.SetActive(GameData.Instance.saveData.configurationsInfo.soundConfiguration.isMute);
+        muteCheck.SetActive(GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.isMute);
         if (SceneManager.GetSceneByName("HomeScene").isLoaded) homeButton.SetActive(false);
     }
     void OnDestroy()
@@ -65,7 +65,7 @@ public class ManagementOptions : MonoBehaviour, GameManagerHelper.IGameManagerHe
         }
         for (int i = 0; i < dropdownLanguage.options.Count; i++)
         {
-            if (dropdownLanguage.options[i].text == GameData.Instance.saveData.configurationsInfo.currentLanguage.ToString())
+            if (dropdownLanguage.options[i].text == GameData.Instance.systemDataInfo.configurationsInfo.currentLanguage.ToString())
             {
                 dropdownLanguage.value = i;
                 break;
@@ -127,11 +127,12 @@ public class ManagementOptions : MonoBehaviour, GameManagerHelper.IGameManagerHe
     {
         GameData.TypeLanguage language = (GameData.TypeLanguage)dropdownLanguage.value;
         GameData.Instance.ChangeLanguage(language);
+        GameData.Instance.SaveSystemData();
     }
     public void InitializeResolutionDropdown()
     {
         dropdownResolution.options.Clear();
-        foreach (var resolution in GameData.Instance.systemData.allResolutions)
+        foreach (var resolution in GameData.Instance.allResolutions)
         {
             TMP_Dropdown.OptionData option = new TMP_Dropdown.OptionData
             {
@@ -142,8 +143,8 @@ public class ManagementOptions : MonoBehaviour, GameManagerHelper.IGameManagerHe
         for (int i = 0; i < dropdownResolution.options.Count; i++)
         {
             GameData.ResolutionsInfo resolutionsInfo = GetCurrentResolution(dropdownResolution.options[i].text);
-            if (resolutionsInfo.width == GameData.Instance.saveData.configurationsInfo.resolutionConfiguration.currentResolution.width &&
-                resolutionsInfo.height == GameData.Instance.saveData.configurationsInfo.resolutionConfiguration.currentResolution.height)
+            if (resolutionsInfo.width == GameData.Instance.systemDataInfo.configurationsInfo.resolutionConfiguration.currentResolution.width &&
+                resolutionsInfo.height == GameData.Instance.systemDataInfo.configurationsInfo.resolutionConfiguration.currentResolution.height)
             {
                 dropdownResolution.value = i;
                 break;
@@ -152,9 +153,9 @@ public class ManagementOptions : MonoBehaviour, GameManagerHelper.IGameManagerHe
     }
     public void SetVolumeSliders()
     {
-        FindSoundInfo(AudioManager.TypeSound.Master).slider.value = GameData.Instance.saveData.configurationsInfo.soundConfiguration.MASTERValue;
-        FindSoundInfo(AudioManager.TypeSound.BGM).slider.value = GameData.Instance.saveData.configurationsInfo.soundConfiguration.BGMalue;
-        FindSoundInfo(AudioManager.TypeSound.SFX).slider.value = GameData.Instance.saveData.configurationsInfo.soundConfiguration.SFXalue;
+        FindSoundInfo(AudioManager.TypeSound.Master).slider.value = GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.MASTERValue;
+        FindSoundInfo(AudioManager.TypeSound.BGM).slider.value = GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.BGMalue;
+        FindSoundInfo(AudioManager.TypeSound.SFX).slider.value = GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.SFXalue;
     }
     public SoundInfo FindSoundInfo(AudioManager.TypeSound typeSound)
     {
@@ -190,15 +191,15 @@ public class ManagementOptions : MonoBehaviour, GameManagerHelper.IGameManagerHe
         {
             case AudioManager.TypeSound.Master:
                 soundInfo.slider.value += amount;
-                GameData.Instance.saveData.configurationsInfo.soundConfiguration.MASTERValue = soundInfo.slider.value;
+                GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.MASTERValue = soundInfo.slider.value;
                 break;
             case AudioManager.TypeSound.BGM:
                 soundInfo.slider.value += amount;
-                GameData.Instance.saveData.configurationsInfo.soundConfiguration.BGMalue = soundInfo.slider.value;
+                GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.BGMalue = soundInfo.slider.value;
                 break;
             case AudioManager.TypeSound.SFX:
                 soundInfo.slider.value += amount;
-                GameData.Instance.saveData.configurationsInfo.soundConfiguration.SFXalue = soundInfo.slider.value;
+                GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.SFXalue = soundInfo.slider.value;
                 break;
         }
         SetVolumeSliders();
@@ -209,13 +210,13 @@ public class ManagementOptions : MonoBehaviour, GameManagerHelper.IGameManagerHe
         switch (FindSoundInfo(slider).typeSound)
         {
             case AudioManager.TypeSound.Master:
-                GameData.Instance.saveData.configurationsInfo.soundConfiguration.MASTERValue = slider.value;
+                GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.MASTERValue = slider.value;
                 break;
             case AudioManager.TypeSound.BGM:
-                GameData.Instance.saveData.configurationsInfo.soundConfiguration.BGMalue = slider.value;
+                GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.BGMalue = slider.value;
                 break;
             case AudioManager.TypeSound.SFX:
-                GameData.Instance.saveData.configurationsInfo.soundConfiguration.SFXalue = slider.value;
+                GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.SFXalue = slider.value;
                 break;
         }
         SetVolumeSliders();
@@ -231,24 +232,23 @@ public class ManagementOptions : MonoBehaviour, GameManagerHelper.IGameManagerHe
     }
     public void SetMute()
     {
-        GameData.Instance.saveData.configurationsInfo.soundConfiguration.isMute = !GameData.Instance.saveData.configurationsInfo.soundConfiguration.isMute;
-        muteCheck.SetActive(GameData.Instance.saveData.configurationsInfo.soundConfiguration.isMute);
+        GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.isMute = !GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.isMute;
+        muteCheck.SetActive(GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.isMute);
         SetMixerValues();
-        GameData.Instance.SaveGameData();
     }
     public void SetFullScreen(bool isFullScreen)
     {
-        GameData.Instance.saveData.configurationsInfo.resolutionConfiguration.isFullScreen = isFullScreen;
+        GameData.Instance.systemDataInfo.configurationsInfo.resolutionConfiguration.isFullScreen = isFullScreen;
         SetFullScreenButtonsSprite();
         Screen.SetResolution(
-            GameData.Instance.saveData.configurationsInfo.resolutionConfiguration.currentResolution.width,
-            GameData.Instance.saveData.configurationsInfo.resolutionConfiguration.currentResolution.height,
-            GameData.Instance.saveData.configurationsInfo.resolutionConfiguration.isFullScreen);
-        GameData.Instance.SaveGameData();
+            GameData.Instance.systemDataInfo.configurationsInfo.resolutionConfiguration.currentResolution.width,
+            GameData.Instance.systemDataInfo.configurationsInfo.resolutionConfiguration.currentResolution.height,
+            GameData.Instance.systemDataInfo.configurationsInfo.resolutionConfiguration.isFullScreen);
+        GameData.Instance.SaveSystemData();
     }
     public void SetFullScreenButtonsSprite()
     {
-        bool isFullScreen = GameData.Instance.saveData.configurationsInfo.resolutionConfiguration.isFullScreen;
+        bool isFullScreen = GameData.Instance.systemDataInfo.configurationsInfo.resolutionConfiguration.isFullScreen;
         if (isFullScreen)
         {
             windowModeButtonsInfo.buttonsImage[0].sprite = windowModeButtonsInfo.spriteOn;
@@ -261,28 +261,28 @@ public class ManagementOptions : MonoBehaviour, GameManagerHelper.IGameManagerHe
     public void SetFpsLimit(int id)
     {
         int fps = id * 30;
-        GameData.Instance.saveData.configurationsInfo.FpsLimit = fps;
+        GameData.Instance.systemDataInfo.configurationsInfo.FpsLimit = fps;
         Application.targetFrameRate = fps;
         SetFpsLimitButtonsSprite();
-        GameData.Instance.SaveGameData();
+        GameData.Instance.SaveSystemData();
     }
     public void SetFpsLimitButtonsSprite()
     {
         foreach (FpsButton fpsButton in fpsButtonsInfo.buttons)
         {
-            bool isSelected = fpsButton.id == GameData.Instance.saveData.configurationsInfo.FpsLimit;
+            bool isSelected = fpsButton.id == GameData.Instance.systemDataInfo.configurationsInfo.FpsLimit;
             fpsButton.buttonImage.sprite = isSelected ? fpsButtonsInfo.spriteOn : fpsButtonsInfo.spriteOff;
         }
     }
     public void ChangeResolution()
     {
         GameData.ResolutionsInfo currentResolution = GetCurrentResolution(dropdownResolution.options[dropdownResolution.value].text);
-        GameData.Instance.saveData.configurationsInfo.resolutionConfiguration.currentResolution = currentResolution;
+        GameData.Instance.systemDataInfo.configurationsInfo.resolutionConfiguration.currentResolution = currentResolution;
         Screen.SetResolution(
             currentResolution.width,
             currentResolution.height,
-            GameData.Instance.saveData.configurationsInfo.resolutionConfiguration.isFullScreen);
-        GameData.Instance.SaveGameData();
+            GameData.Instance.systemDataInfo.configurationsInfo.resolutionConfiguration.isFullScreen);
+        GameData.Instance.SaveSystemData();
     }
     public GameData.ResolutionsInfo GetCurrentResolution(string resolution)
     {

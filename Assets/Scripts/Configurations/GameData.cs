@@ -8,9 +8,9 @@ using UnityEngine.SceneManagement;
 public class GameData : MonoBehaviour
 {
     public static GameData Instance { get; private set; }
-    string nameSaveData = "SaveData.json";
-    public SaveData saveData = new SaveData();
-    public SystemData systemData = new SystemData();
+    public GameDataInfo gameDataInfo = new GameDataInfo();
+    public SystemDataInfo systemDataInfo = new SystemDataInfo();
+    public List<ResolutionsInfo> allResolutions = new List<ResolutionsInfo>();
     public InitialBGMSoundsConfigSO initialBGMSoundsConfigSO;
     public CharacterDataDBSO charactersDataDBSO;
     public ItemsDBSO itemsDBSO;
@@ -34,16 +34,17 @@ public class GameData : MonoBehaviour
         try
         {
             GetAllResolutions();
-            CheckFileExistance(DataPath());
-            saveData = ReadDataFromJson();
+            CheckFileExistance();
+            gameDataInfo = ReadGameDataFromJson();
+            systemDataInfo = ReadSystemDataFromJson();
             LoadLOCS();
             InitializeResolutionData();
             InitializeBGM();
             InitializeBagItems();
             InitializeCharacterItems();
-            Application.targetFrameRate = saveData.configurationsInfo.FpsLimit;
+            Application.targetFrameRate = systemDataInfo.configurationsInfo.FpsLimit;
             await InitializeAudioMixerData();
-            saveData.configurationsInfo.canShowFps = true;
+            systemDataInfo.configurationsInfo.canShowFps = true;
         }
         catch (Exception e)
         {
@@ -54,14 +55,14 @@ public class GameData : MonoBehaviour
 
     private void InitializeBGM()
     {
-        if (saveData.bgmSceneData.TryGetValue(SceneManager.GetActiveScene().name, out InitialBGMSoundsConfigSO.BGMScenesData bgmScenesData))
+        if (systemDataInfo.bgmSceneData.TryGetValue(SceneManager.GetActiveScene().name, out InitialBGMSoundsConfigSO.BGMScenesData bgmScenesData))
         {
             AudioManager.Instance.ChangeBGM(bgmScenesData);
         }
     }
     void InitializeCharacterItems()
     {
-        foreach (KeyValuePair<string, CharacterData> characterData in saveData.characters)
+        foreach (KeyValuePair<string, CharacterData> characterData in gameDataInfo.characters)
         {
             foreach (KeyValuePair<CharacterData.CharacterItemInfo, CharacterData.CharacterItem> item in characterData.Value.items)
             {
@@ -74,7 +75,7 @@ public class GameData : MonoBehaviour
     }
     void InitializeBagItems()
     {
-        foreach (KeyValuePair<int, CharacterData.CharacterItem> item in saveData.bagItems)
+        foreach (KeyValuePair<int, CharacterData.CharacterItem> item in gameDataInfo.bagItems)
         {
             if (item.Value.itemId != 0)
             {
@@ -88,7 +89,7 @@ public class GameData : MonoBehaviour
         Array.Reverse(resolutions);
         foreach (Resolution res in resolutions)
         {
-            systemData.allResolutions.Add(new ResolutionsInfo(res.width, res.height));
+            allResolutions.Add(new ResolutionsInfo(res.width, res.height));
         }
     }
     void LoadLOCS()
@@ -123,7 +124,7 @@ public class GameData : MonoBehaviour
             int languageIndex = 0;
             for (int i = 0; i < dialogs[0].Length; i++)
             {
-                if (dialogs[0][i] == saveData.configurationsInfo.currentLanguage.ToString())
+                if (dialogs[0][i] == systemDataInfo.configurationsInfo.currentLanguage.ToString())
                 {
                     languageIndex = i;
                     break;
@@ -138,7 +139,7 @@ public class GameData : MonoBehaviour
     }
     public void ChangeLanguage(TypeLanguage language)
     {
-        saveData.configurationsInfo.currentLanguage = language;
+        systemDataInfo.configurationsInfo.currentLanguage = language;
         SaveGameData();
     }
     void InitializeResolutionData()
@@ -146,9 +147,9 @@ public class GameData : MonoBehaviour
         if (GameManager.Instance.currentDevice == GameManager.TypeDevice.PC)
         {
             Screen.SetResolution(
-                saveData.configurationsInfo.resolutionConfiguration.currentResolution.width,
-                saveData.configurationsInfo.resolutionConfiguration.currentResolution.height,
-                saveData.configurationsInfo.resolutionConfiguration.isFullScreen
+                systemDataInfo.configurationsInfo.resolutionConfiguration.currentResolution.width,
+                systemDataInfo.configurationsInfo.resolutionConfiguration.currentResolution.height,
+                systemDataInfo.configurationsInfo.resolutionConfiguration.isFullScreen
             );
         }
         else
@@ -165,13 +166,13 @@ public class GameData : MonoBehaviour
         try
         {
             await Awaitable.NextFrameAsync();
-            float decibelsBGM = 20 * Mathf.Log10(saveData.configurationsInfo.soundConfiguration.BGMalue / 100);
-            float decibelsSFX = 20 * Mathf.Log10(saveData.configurationsInfo.soundConfiguration.SFXalue / 100);
-            if (saveData.configurationsInfo.soundConfiguration.BGMalue == 0) decibelsBGM = -80;
-            if (saveData.configurationsInfo.soundConfiguration.SFXalue == 0) decibelsSFX = -80;
+            float decibelsBGM = 20 * Mathf.Log10(systemDataInfo.configurationsInfo.soundConfiguration.BGMalue / 100);
+            float decibelsSFX = 20 * Mathf.Log10(systemDataInfo.configurationsInfo.soundConfiguration.SFXalue / 100);
+            if (systemDataInfo.configurationsInfo.soundConfiguration.BGMalue == 0) decibelsBGM = -80;
+            if (systemDataInfo.configurationsInfo.soundConfiguration.SFXalue == 0) decibelsSFX = -80;
             AudioManager.Instance.audioMixer.SetFloat(AudioManager.TypeSound.BGM.ToString(), decibelsBGM);
             AudioManager.Instance.audioMixer.SetFloat(AudioManager.TypeSound.SFX.ToString(), decibelsSFX);
-            if (saveData.configurationsInfo.soundConfiguration.isMute)
+            if (systemDataInfo.configurationsInfo.soundConfiguration.isMute)
             {
                 AudioManager.Instance.audioMixer.SetFloat(AudioManager.TypeSound.Master.ToString(), -80f);
             }
@@ -189,18 +190,19 @@ public class GameData : MonoBehaviour
     }
     public void SetStartingData()
     {
-        SaveData dataInfo = new SaveData();
-        dataInfo.configurationsInfo.currentLanguage = TypeLanguage.English;
-        SetStartingDataSound(ref dataInfo);
-        GetInitialConfigBGMS(ref dataInfo);
-        SetStartingCharacter(ref dataInfo);
-        SetStartingItems(ref dataInfo);
-        GetAllResolutions();
-        if (GameManager.Instance.currentDevice == GameManager.TypeDevice.PC) SetStartingResolution(ref dataInfo);
-        saveData = dataInfo;
+        GameDataInfo gameData = new GameDataInfo();
+        SystemDataInfo systemData = new SystemDataInfo();
+        systemDataInfo.configurationsInfo.currentLanguage = TypeLanguage.English;
+        SetStartingDataSound(ref systemData);
+        GetInitialConfigBGMS(ref systemData);
+        SetStartingCharacter(ref gameData);
+        SetStartingItems(ref gameData);
+        if (GameManager.Instance.currentDevice == GameManager.TypeDevice.PC) SetStartingResolution(ref systemData);
+        gameDataInfo = gameData;
+        systemDataInfo = systemData;
         SaveGameData();
     }
-    public void SetStartingCharacter(ref SaveData dataInfo)
+    public void SetStartingCharacter(ref GameDataInfo dataInfo)
     {
         for (int i = 0; i < 11; i++)
         {
@@ -226,14 +228,11 @@ public class GameData : MonoBehaviour
             {
                 if (statistic.Key != CharacterData.TypeStatistic.Exp)
                 {
-                    statistic.Value.aptitudeValue = 100 + i;
-                    statistic.Value.baseValue = i;
                     statistic.Value.RefreshValue();
                     statistic.Value.SetMaxValue();
                 }
                 else
                 {
-                    statistic.Value.aptitudeValue = 100;
                     statistic.Value.baseValue = 15;
                     statistic.Value.RefreshValue();
                 }
@@ -241,7 +240,7 @@ public class GameData : MonoBehaviour
             dataInfo.characters.Add(character.name, character);
         }
     }
-    void SetStartingItems(ref SaveData dataInfo)
+    void SetStartingItems(ref GameDataInfo dataInfo)
     {
         dataInfo.bagItems = new SerializedDictionary<int, CharacterData.CharacterItem>()
         {
@@ -287,78 +286,90 @@ public class GameData : MonoBehaviour
         dataInfo.bagItems[5].itemBaseSO = itemsDBSO.data[324];
         dataInfo.bagItems[5].itemStatistics = itemsDBSO.data[324].itemStatistics;
     }
-    private void GetInitialConfigBGMS(ref SaveData dataInfo)
+    private void GetInitialConfigBGMS(ref SystemDataInfo dataInfo)
     {
         dataInfo.bgmSceneData = initialBGMSoundsConfigSO.Clone();
     }
 
-    void SetStartingDataSound(ref SaveData dataInfo)
+    void SetStartingDataSound(ref SystemDataInfo dataInfo)
     {
         dataInfo.configurationsInfo.soundConfiguration.MASTERValue = 25;
         dataInfo.configurationsInfo.soundConfiguration.BGMalue = 25;
         dataInfo.configurationsInfo.soundConfiguration.SFXalue = 25;
     }
-    void SetStartingResolution(ref SaveData dataInfo)
+    void SetStartingResolution(ref SystemDataInfo dataInfo)
     {
-        Screen.SetResolution(systemData.allResolutions[0].width, systemData.allResolutions[0].height, true);
+        Screen.SetResolution(allResolutions[0].width, allResolutions[0].height, true);
         dataInfo.configurationsInfo.resolutionConfiguration.isFullScreen = true;
-        dataInfo.configurationsInfo.resolutionConfiguration.currentResolution = new ResolutionsInfo(
-            systemData.allResolutions[0].width,
-            systemData.allResolutions[0].height);
+        dataInfo.configurationsInfo.resolutionConfiguration.currentResolution = new ResolutionsInfo(allResolutions[0].width, allResolutions[0].height);
     }
     [NaughtyAttributes.Button]
     public void SaveGameData()
     {
-        WriteDataToJson();
+        WriteGameDataToJson();
     }
-    void CheckFileExistance(string filePath)
+    [NaughtyAttributes.Button]
+    public void SaveSystemData()
     {
-        if (!File.Exists(filePath))
+        WriteSystemDataToJson();
+    }
+    void CheckFileExistance()
+    {
+        if (!File.Exists(DataPath(TypeSaveData.SystemDataInfo)))
         {
-            File.Create(filePath).Close();
+            File.Create(DataPath(TypeSaveData.SystemDataInfo)).Close();
             SetStartingData();
-            string dataString = JsonUtility.ToJson(saveData);
-            File.WriteAllText(filePath, dataString);
+            string gameDataString = JsonUtility.ToJson(gameDataInfo);
+            string systemDataString = JsonUtility.ToJson(systemDataInfo);
+            File.WriteAllText(DataPath(TypeSaveData.SystemDataInfo), gameDataString);
+            File.WriteAllText(DataPath(TypeSaveData.SystemDataInfo), systemDataString);
         }
     }
-    SaveData ReadDataFromJson()
+    GameDataInfo ReadGameDataFromJson()
     {
         string dataString;
-        string jsonFilePath = DataPath();
+        string jsonFilePath = DataPath(TypeSaveData.GameDataInfo);
         dataString = File.ReadAllText(jsonFilePath);
-        saveData = JsonUtility.FromJson<SaveData>(dataString);
-        return saveData;
+        gameDataInfo = JsonUtility.FromJson<GameDataInfo>(dataString);
+        return gameDataInfo;
     }
-    public void WriteDataToJson()
+    SystemDataInfo ReadSystemDataFromJson()
     {
-        try
-        {
-            string jsonFilePath = DataPath();
-            string dataString = JsonUtility.ToJson(saveData);
-            File.WriteAllText(jsonFilePath, dataString);
-        }
-        catch (Exception e)
-        {
-            print(e);
-        }
+        string dataString;
+        string jsonFilePath = DataPath(TypeSaveData.SystemDataInfo);
+        dataString = File.ReadAllText(jsonFilePath);
+        systemDataInfo = JsonUtility.FromJson<SystemDataInfo>(dataString);
+        return systemDataInfo;
     }
-    string DataPath()
+    public void WriteGameDataToJson()
+    {
+        string jsonFilePath = DataPath(TypeSaveData.GameDataInfo);
+        string dataString = JsonUtility.ToJson(gameDataInfo);
+        File.WriteAllText(jsonFilePath, dataString);
+    }
+    public void WriteSystemDataToJson()
+    {
+        string jsonFilePath = DataPath(TypeSaveData.SystemDataInfo);
+        string dataString = JsonUtility.ToJson(systemDataInfo);
+        File.WriteAllText(jsonFilePath, dataString);
+    }
+    string DataPath(TypeSaveData typeSaveData)
     {
         if (Directory.Exists(Application.persistentDataPath))
         {
-            return Path.Combine(Application.persistentDataPath, nameSaveData);
+            return Path.Combine(Application.persistentDataPath, typeSaveData + ".json");
         }
-        return Path.Combine(Application.streamingAssetsPath, nameSaveData);
+        return Path.Combine(Application.streamingAssetsPath, typeSaveData + ".json");
     }
-    [Serializable] public class SaveData
+    [Serializable]
+    public class GameDataInfo
     {
         public SerializedDictionary<string, CharacterData> characters = new SerializedDictionary<string, CharacterData>();
         public SerializedDictionary<string, CharacterData> dieCharacters = new SerializedDictionary<string, CharacterData>();
         public SerializedDictionary<int, CharacterData.CharacterItem> bagItems = new SerializedDictionary<int, CharacterData.CharacterItem>();
-        public ConfigurationsInfo configurationsInfo = new ConfigurationsInfo();
-        public SerializedDictionary<string, InitialBGMSoundsConfigSO.BGMScenesData> bgmSceneData = new SerializedDictionary<string, InitialBGMSoundsConfigSO.BGMScenesData>();
     }
-    [Serializable] public class ConfigurationsInfo
+    [Serializable]
+    public class ConfigurationsInfo
     {
         public TypeLanguage _currentLanguage;
         public Action<TypeLanguage> OnLanguageChange;
@@ -392,19 +403,22 @@ public class GameData : MonoBehaviour
         public ResolutionConfiguration resolutionConfiguration = new ResolutionConfiguration();
         public SoundConfiguration soundConfiguration = new SoundConfiguration();
     }
-    [Serializable] public class SoundConfiguration
+    [Serializable]
+    public class SoundConfiguration
     {
         public bool isMute = false;
         public float MASTERValue;
         public float BGMalue;
         public float SFXalue;
     }
-    [Serializable] public class ResolutionConfiguration
+    [Serializable]
+    public class ResolutionConfiguration
     {
         public bool isFullScreen = false;
         public ResolutionsInfo currentResolution;
     }
-    [Serializable] public class ResolutionsInfo
+    [Serializable]
+    public class ResolutionsInfo
     {
         public int width = 0;
         public int height = 0;
@@ -414,9 +428,11 @@ public class GameData : MonoBehaviour
             this.height = height;
         }
     }
-    [Serializable] public class SystemData
+    [Serializable]
+    public class SystemDataInfo
     {
-        public List<ResolutionsInfo> allResolutions = new List<ResolutionsInfo>();
+        public ConfigurationsInfo configurationsInfo = new ConfigurationsInfo();
+        public SerializedDictionary<string, InitialBGMSoundsConfigSO.BGMScenesData> bgmSceneData = new SerializedDictionary<string, InitialBGMSoundsConfigSO.BGMScenesData>();
     }
     public enum TypeLanguage
     {
@@ -429,5 +445,11 @@ public class GameData : MonoBehaviour
         System = 1,
         Dialogs = 2,
         Items = 3
+    }
+    public enum TypeSaveData
+    {
+        None = 0,
+        GameDataInfo = 1,
+        SystemDataInfo = 2
     }
 }

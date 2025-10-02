@@ -98,6 +98,7 @@ MonoBehaviour:
       - Key: 1
         Value:
           baseValue: 0
+          aptitudeValue: 0
           itemValue: 0
           buffValue:
             _serializedList: []
@@ -106,6 +107,7 @@ MonoBehaviour:
       - Key: 2
         Value:
           baseValue: 0
+          aptitudeValue: 0
           itemValue: 0
           buffValue:
             _serializedList: []
@@ -114,6 +116,7 @@ MonoBehaviour:
       - Key: 3
         Value:
           baseValue: 0
+          aptitudeValue: 0
           itemValue: 0
           buffValue:
             _serializedList: []
@@ -122,6 +125,7 @@ MonoBehaviour:
       - Key: 5
         Value:
           baseValue: 0
+          aptitudeValue: 0
           itemValue: 0
           buffValue:
             _serializedList: []
@@ -130,6 +134,7 @@ MonoBehaviour:
       - Key: 4
         Value:
           baseValue: 0
+          aptitudeValue: 0
           itemValue: 0
           buffValue:
             _serializedList: []
@@ -138,6 +143,7 @@ MonoBehaviour:
       - Key: 6
         Value:
           baseValue: 0
+          aptitudeValue: 0
           itemValue: 0
           buffValue:
             _serializedList: []
@@ -146,6 +152,7 @@ MonoBehaviour:
       - Key: 7
         Value:
           baseValue: 0
+          aptitudeValue: 0
           itemValue: 0
           buffValue:
             _serializedList: []
@@ -154,6 +161,7 @@ MonoBehaviour:
       - Key: 8
         Value:
           baseValue: 0
+          aptitudeValue: 0
           itemValue: 0
           buffValue:
             _serializedList: []
@@ -162,6 +170,7 @@ MonoBehaviour:
       - Key: 9
         Value:
           baseValue: 0
+          aptitudeValue: 0
           itemValue: 0
           buffValue:
             _serializedList: []
@@ -169,14 +178,82 @@ MonoBehaviour:
           maxValue: 0
     items:
       _serializedList:
-      - Key: 0
-        Value: {fileID: 0}
+      - Key:
+          index: 0
+          typeCharacterItem: 1
+        Value:
+          itemId: 0
+          itemBaseSO: {fileID: 0}
+          itemStatistics:
+            _serializedList: []
+      - Key:
+          index: 1
+          typeCharacterItem: 2
+        Value:
+          itemId: 0
+          itemBaseSO: {fileID: 0}
+          itemStatistics:
+            _serializedList: []
+      - Key:
+          index: 2
+          typeCharacterItem: 3
+        Value:
+          itemId: 0
+          itemBaseSO: {fileID: 0}
+          itemStatistics:
+            _serializedList: []
+      - Key:
+          index: 3
+          typeCharacterItem: 4
+        Value:
+          itemId: 0
+          itemBaseSO: {fileID: 0}
+          itemStatistics:
+            _serializedList: []
+    mastery:
+      _serializedList:
       - Key: 1
-        Value: {fileID: 0}
+        Value:
+          masteryRange: 0
+          masteryLevel: 0
+          currentExp: 0
+          maxExp: 0
       - Key: 2
-        Value: {fileID: 0}
+        Value:
+          masteryRange: 0
+          masteryLevel: 0
+          currentExp: 0
+          maxExp: 0
       - Key: 3
-        Value: {fileID: 0}
+        Value:
+          masteryRange: 0
+          masteryLevel: 0
+          currentExp: 0
+          maxExp: 0
+      - Key: 4
+        Value:
+          masteryRange: 0
+          masteryLevel: 0
+          currentExp: 0
+          maxExp: 0
+      - Key: 5
+        Value:
+          masteryRange: 0
+          masteryLevel: 0
+          currentExp: 0
+          maxExp: 0
+      - Key: 6
+        Value:
+          masteryRange: 0
+          masteryLevel: 0
+          currentExp: 0
+          maxExp: 0
+      - Key: 7
+        Value:
+          masteryRange: 0
+          masteryLevel: 0
+          currentExp: 0
+          maxExp: 0
   direction: {x: 0, y: 0, z: 0}
   nextDirection: {x: 0, y: 0, z: 0}
   characterAnimations: {fileID: 3788326535341420580}
@@ -188,6 +265,7 @@ MonoBehaviour:
     type: 3}
   dieEffectPrefab: {fileID: 3328385887415025661, guid: f5ddebed183a2d947bd7dfdbb72a5cc5,
     type: 3}
+  autoInit: 0
 --- !u!114 &3788326535341420580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,6 +293,7 @@ MonoBehaviour:
     instance: {fileID: 0}
   currentSpriteIndex: 0
   currentSpritePerTime: 0.1
+  animationAfterEnd: 
 --- !u!114 &3168936691978696117
 MonoBehaviour:
   m_ObjectHideFlags: 0

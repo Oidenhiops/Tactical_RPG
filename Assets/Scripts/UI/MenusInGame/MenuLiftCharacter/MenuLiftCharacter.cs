@@ -165,6 +165,7 @@ public class MenuLiftCharacter : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+        playerManager.actionsManager.EnableMobileInputs();
         banners = new SerializedDictionary<Character, LiftCharactersBanner>();
         playerManager.MovePointerToInstant(AStarPathFinding.Instance.characterSelected.positionInGrid);
         AStarPathFinding.Instance.characterSelected = null;
