@@ -849,7 +849,7 @@ MonoBehaviour:
   isPause: 0
   isWebGlBuild: 0
   lockDevice: 0
-  principalDevice: 3
+  principalDevice: 1
   _currentDevice: 0
   _startGame: 0
   pauseButton:

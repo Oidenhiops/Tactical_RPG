@@ -61,7 +61,7 @@ public class MenuCharacterInfo : MonoBehaviour
                 {
                     itemsInfo[item.Key.index].disableBanner.SetActive(false);
                     itemsInfo[item.Key.index].enabledBanner.SetActive(true);
-                    itemsInfo[item.Key.index].managementLanguage.id = item.Value.itemBaseSO.id;
+                    itemsInfo[item.Key.index].managementLanguage.id = item.Value.itemBaseSO.idText;
                     itemsInfo[item.Key.index].managementLanguage.RefreshText();
                     itemsInfo[item.Key.index].itemSprite.sprite = item.Value.itemBaseSO.icon;
                 }

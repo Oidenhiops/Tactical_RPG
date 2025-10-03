@@ -1,17 +1,18 @@
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class MenuHelper : MonoBehaviour
 {
     public Button lastButtonSelected;
-    public CinemachineCamera cinemachineCamera;
-    public void SelectButton()
+    public InputAction handleBack;
+    void Awake()
     {
-        lastButtonSelected.Select();
+        handleBack.Enable();
     }
-    public void ChangeLastButtonSelected(Button button)
+    void OnDestroy()
     {
-        lastButtonSelected = button;
+        handleBack.Disable();
     }
 }

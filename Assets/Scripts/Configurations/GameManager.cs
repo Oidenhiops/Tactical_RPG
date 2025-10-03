@@ -127,6 +127,11 @@ public class GameManager : MonoBehaviour
             {
                 SceneManager.LoadScene(SceneManager.GetSceneAt(0).name);
             }
+            else if (typeScene == TypeScene.HomeScene)
+            {
+                SceneManager.LoadScene(typeScene.ToString());
+                GameData.Instance.LoadGameDataInfo();
+            }
             else if (typeScene == TypeScene.Exit)
             {
                 Application.Quit();

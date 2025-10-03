@@ -679,7 +679,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeLOCS: 1
   dialogText: {fileID: 51145210}
-  id: 16
+  id: options_scene_menu_display_fps_limit
   initByCode: 0
 --- !u!1 &55306219
 GameObject:
@@ -6946,7 +6946,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeLOCS: 1
   dialogText: {fileID: 737374816}
-  id: 14
+  id: options_scene_menu_display_full_screen
   initByCode: 0
 --- !u!1 &753508223
 GameObject:
@@ -7518,7 +7518,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeLOCS: 1
   dialogText: {fileID: 775995369}
-  id: 10
+  id: options_scene_button_volume
   initByCode: 0
 --- !u!114 &775995372
 MonoBehaviour:
@@ -10228,7 +10228,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeLOCS: 1
   dialogText: {fileID: 1101625750}
-  id: 13
+  id: options_scene_menu_display_window_mode
   initByCode: 0
 --- !u!1 &1118155021
 GameObject:
@@ -11554,7 +11554,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeLOCS: 1
   dialogText: {fileID: 1218109532}
-  id: 1
+  id: options_scene_button_home
   initByCode: 0
 --- !u!114 &1218109535
 MonoBehaviour:
@@ -12969,7 +12969,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeLOCS: 1
   dialogText: {fileID: 1348538071}
-  id: 2
+  id: options_scene_button_back
   initByCode: 0
 --- !u!114 &1348538074
 MonoBehaviour:
@@ -14743,7 +14743,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeLOCS: 1
   dialogText: {fileID: 1490315386}
-  id: 12
+  id: options_scene_menu_display_resolution
   initByCode: 0
 --- !u!1 &1517401211
 GameObject:
@@ -17523,7 +17523,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeLOCS: 1
   dialogText: {fileID: 1847896158}
-  id: 17
+  id: options_scene_menu_display_language
   initByCode: 0
 --- !u!1 &1854705204
 GameObject:
@@ -17984,7 +17984,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeLOCS: 1
   dialogText: {fileID: 1868101348}
-  id: 8
+  id: options_scene_title
   initByCode: 0
 --- !u!1 &1884092535
 GameObject:
@@ -18952,7 +18952,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeLOCS: 1
   dialogText: {fileID: 1955986664}
-  id: 9
+  id: options_scene_button_display
   initByCode: 0
 --- !u!114 &1955986667
 MonoBehaviour:
@@ -19946,7 +19946,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeLOCS: 1
   dialogText: {fileID: 2001342658}
-  id: 18
+  id: options_scene_menu_display_mute
   initByCode: 0
 --- !u!1 &2005541127
 GameObject:
@@ -20501,7 +20501,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeLOCS: 1
   dialogText: {fileID: 2025820601}
-  id: 15
+  id: options_scene_menu_display_window
   initByCode: 0
 --- !u!1 &2042981514
 GameObject:
@@ -21143,7 +21143,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeLOCS: 1
   dialogText: {fileID: 2096515483}
-  id: 11
+  id: options_scene_button_controls
   initByCode: 0
 --- !u!114 &2096515486
 MonoBehaviour:

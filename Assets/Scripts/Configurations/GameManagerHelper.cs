@@ -11,14 +11,19 @@ public class GameManagerHelper : MonoBehaviour
 {
     public Animator _unloadAnimator;
     GameObject audioBoxInstance;
+    [NonSerialized] public GameObject lastButtonSelected;
     public void ChangeScene(int typeScene)
     {
         GameManager.TypeScene scene = (GameManager.TypeScene)typeScene;
         GameManager.Instance.ChangeSceneSelector(scene);
     }
-    public void SaveGame()
+    public void SaveGameData()
     {
         GameData.Instance.SaveGameData();
+    }
+    public void SaveSystemData()
+    {
+        GameData.Instance.SaveSystemData();
     }
     public void PlayASound(SoundsDBSO.TypeSound typeSound, string soundId)
     {
@@ -88,23 +93,16 @@ public class GameManagerHelper : MonoBehaviour
                 await Task.Delay(TimeSpan.FromSeconds(0.05));
             }
             Scene scene = SceneManager.GetSceneByName("HomeScene");
-            if (scene.IsValid() && scene.isLoaded)
-            {
-                MenuHelper menuHelper = FindAnyObjectByType<MenuHelper>();
-                if (menuHelper != null)
-                {
-                    menuHelper.SelectButton();
-                }
-            }
             if (sceneForUnload == "OptionsScene")
             {
                 Time.timeScale = 1;
                 GameManager.Instance.isPause = false;
             }
             await Task.Delay(TimeSpan.FromSeconds(0.25f));
-            if (TryGetComponent(out IGameManagerHelper component))
+            if (lastButtonSelected)
             {
-                EventSystem.current.SetSelectedGameObject(component.GetLastButton());                
+                EventSystem.current.SetSelectedGameObject(null);
+                EventSystem.current.SetSelectedGameObject(lastButtonSelected);
             }
             _ = SceneManager.UnloadSceneAsync(sceneForUnload);
             await Task.Delay(TimeSpan.FromSeconds(0.05f));
@@ -114,9 +112,5 @@ public class GameManagerHelper : MonoBehaviour
             Debug.LogError(e);
             await Task.Delay(TimeSpan.FromSeconds(0.05f));
         }
-    }
-    public interface IGameManagerHelper
-    {
-        public GameObject GetLastButton();
     }
 }

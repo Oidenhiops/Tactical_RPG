@@ -5,11 +5,23 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "InitialData", menuName = "ScriptableObjects/Character/InitialDataSO", order = 1)]
 public class InitialDataSO : ScriptableObject
 {
+    public int id;
+    public int subId;
     public bool isHumanoid;
     public Texture2D atlas;
     public Texture2D atlasHands;
     public Sprite icon;
     public SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic> initialStats = new SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic>();
+    public SerializedDictionary<CharacterData.TypeMastery, CharacterData.CharacterMasteryInfo> mastery = new SerializedDictionary<CharacterData.TypeMastery, CharacterData.CharacterMasteryInfo>()
+    {
+        {CharacterData.TypeMastery.Fist, new CharacterData.CharacterMasteryInfo{masteryRange = CharacterData.MasteryRange.N, masteryLevel = 0}},
+        {CharacterData.TypeMastery.Sword, new CharacterData.CharacterMasteryInfo{masteryRange = CharacterData.MasteryRange.N, masteryLevel = 0}},
+        {CharacterData.TypeMastery.Spear, new CharacterData.CharacterMasteryInfo{masteryRange = CharacterData.MasteryRange.N, masteryLevel = 0}},
+        {CharacterData.TypeMastery.Bow, new CharacterData.CharacterMasteryInfo{masteryRange = CharacterData.MasteryRange.N, masteryLevel = 0}},
+        {CharacterData.TypeMastery.Gun, new CharacterData.CharacterMasteryInfo{masteryRange = CharacterData.MasteryRange.N, masteryLevel = 0}},
+        {CharacterData.TypeMastery.Axe, new CharacterData.CharacterMasteryInfo{masteryRange = CharacterData.MasteryRange.N, masteryLevel = 0}},
+        {CharacterData.TypeMastery.Staff, new CharacterData.CharacterMasteryInfo{masteryRange = CharacterData.MasteryRange.N, masteryLevel = 0}}
+    };
     public SerializedDictionary<string, AnimationsInfo> animations = new SerializedDictionary<string, AnimationsInfo>();
     public AnimationsInfo animation;
     [NaughtyAttributes.Button]
@@ -67,6 +79,23 @@ public class InitialDataSO : ScriptableObject
                 buffValue = kvp.Value.buffValue,
                 maxValue = kvp.Value.maxValue,
                 currentValue = kvp.Value.currentValue
+            };
+        }
+
+        return clone;
+    }
+    public SerializedDictionary<CharacterData.TypeMastery, CharacterData.CharacterMasteryInfo> CloneMastery()
+    {
+        var clone = new SerializedDictionary<CharacterData.TypeMastery, CharacterData.CharacterMasteryInfo>();
+
+        foreach (var kvp in mastery)
+        {
+            clone[kvp.Key] = new CharacterData.CharacterMasteryInfo
+            {
+                currentExp = 0,
+                masteryLevel = 0,
+                masteryRange = kvp.Value.masteryRange,
+                maxExp = kvp.Value.maxExp
             };
         }
 

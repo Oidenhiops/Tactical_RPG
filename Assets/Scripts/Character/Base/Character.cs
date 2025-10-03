@@ -71,7 +71,7 @@ public class Character : MonoBehaviour
     }
     async Awaitable InitializeCharacterData()
     {
-        initialDataSO = GameData.Instance.charactersDataDBSO.data[characterData.id];
+        initialDataSO = GameData.Instance.charactersDataDBSO.data[characterData.id][characterData.subId].initialDataSO;
         await Awaitable.NextFrameAsync();
     }
     async Awaitable InitializeAnimations()
@@ -290,8 +290,8 @@ public class Character : MonoBehaviour
             characterMakeDamage.TakeExp(this);
         }
         characterStatusEffect.statusEffects = new AYellowpaper.SerializedCollections.SerializedDictionary<StatusEffectBaseSO, int>();
-        GameData.Instance.gameDataInfo.dieCharacters.Add(characterData.name, characterData);
-        GameData.Instance.gameDataInfo.characters.Remove(characterData.name);
+        GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].dieCharacters.Add(characterData.name, characterData);
+        GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].characters.Remove(characterData.name);
     }
     public void TakeExp(Character characterDie)
     {

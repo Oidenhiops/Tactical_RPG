@@ -277,7 +277,7 @@ public class ActionsManager : MonoBehaviour
     }
     public async Task ChangeRoundState()
     {
-        await playerManager.ChangeRoundState(!isChangingTurn ? isPlayerTurn ? 21 : 22 : !isPlayerTurn ? 21 : 22);
+        await playerManager.ChangeRoundState(!isChangingTurn ? isPlayerTurn ? "game_scene_menu_round_state_player_turn" : "game_scene_menu_round_state_enemy_turn" : !isPlayerTurn ? "game_scene_menu_round_state_player_turn" : "game_scene_menu_round_state_enemy_turn");
         isChangingTurn = false;
     }
     public void ActionForExecuteExist(out bool actionExist)

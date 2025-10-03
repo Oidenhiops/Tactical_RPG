@@ -99,6 +99,50 @@ MonoBehaviour:
           _serializedList: []
         currentValue: 0
         maxValue: 0
+  mastery:
+    _serializedList:
+    - Key: 1
+      Value:
+        masteryRange: 5
+        masteryLevel: 0
+        currentExp: 0
+        maxExp: 0
+    - Key: 2
+      Value:
+        masteryRange: 6
+        masteryLevel: 0
+        currentExp: 0
+        maxExp: 0
+    - Key: 3
+      Value:
+        masteryRange: 4
+        masteryLevel: 0
+        currentExp: 0
+        maxExp: 0
+    - Key: 4
+      Value:
+        masteryRange: 4
+        masteryLevel: 0
+        currentExp: 0
+        maxExp: 0
+    - Key: 5
+      Value:
+        masteryRange: 1
+        masteryLevel: 0
+        currentExp: 0
+        maxExp: 0
+    - Key: 6
+      Value:
+        masteryRange: 5
+        masteryLevel: 0
+        currentExp: 0
+        maxExp: 0
+    - Key: 7
+      Value:
+        masteryRange: 1
+        masteryLevel: 0
+        currentExp: 0
+        maxExp: 0
   animations:
     _serializedList:
     - Key: Idle

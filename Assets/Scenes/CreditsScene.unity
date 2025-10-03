@@ -912,7 +912,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeLOCS: 1
   dialogText: {fileID: 831593738}
-  id: 36
+  id: credits_scene_role_lead_artist
+  initByCode: 0
 --- !u!1 &915751492
 GameObject:
   m_ObjectHideFlags: 0
@@ -1353,7 +1354,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeLOCS: 1
   dialogText: {fileID: 1177616070}
-  id: 35
+  id: credits_scene_role_game_director
+  initByCode: 0
 --- !u!1 &1245983216
 GameObject:
   m_ObjectHideFlags: 0
@@ -1506,7 +1508,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeLOCS: 1
   dialogText: {fileID: 1245983218}
-  id: 37
+  id: credits_scene_role_lead_programmer
+  initByCode: 0
 --- !u!1 &1294689527
 GameObject:
   m_ObjectHideFlags: 0
@@ -1659,7 +1662,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeLOCS: 1
   dialogText: {fileID: 1294689529}
-  id: 34
+  id: credits_scene_team
+  initByCode: 0
 --- !u!1 &1487486703
 GameObject:
   m_ObjectHideFlags: 0
@@ -1675,6 +1679,7 @@ GameObject:
   - component: {fileID: 1487486709}
   - component: {fileID: 1487486710}
   - component: {fileID: 1487486711}
+  - component: {fileID: 1487486712}
   m_Layer: 5
   m_Name: CreditsMenuBG
   m_TagString: Untagged
@@ -1830,8 +1835,36 @@ MonoBehaviour:
       m_Groups: 
       m_Action: Back Button
       m_Flags: 0
+    - m_Name: 
+      m_Id: 95e67f3b-c07f-486e-a687-609a271e592a
+      m_Path: <Keyboard>/c
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Back Button
+      m_Flags: 0
     m_Flags: 0
   gameManagerHelper: {fileID: 1487486710}
+  lastButtonSelected: {fileID: 0}
+--- !u!114 &1487486712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487486703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec48b1f5b91b05c4f994a9b285a07d5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttons:
+    _serializedList:
+    - Key:
+        principalDevice: 3
+        possibleDevices: 03000000
+      Value:
+      - {fileID: 1511376275}
 --- !u!1 &1511376275
 GameObject:
   m_ObjectHideFlags: 0
@@ -1928,10 +1961,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1487486710}
-        m_TargetAssemblyTypeName: GameManagerHelper, Assembly-CSharp
-        m_MethodName: PlayASoundButton
-        m_Mode: 5
+      - m_Target: {fileID: 1487486711}
+        m_TargetAssemblyTypeName: CreditsHelper, Assembly-CSharp
+        m_MethodName: UnloadScene
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2054,7 +2087,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeLOCS: 1
   dialogText: {fileID: 1511376278}
-  id: 2
+  id: credits_scene_button_back
+  initByCode: 0
 --- !u!114 &1511376281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2627,7 +2661,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeLOCS: 1
   dialogText: {fileID: 2118601893}
-  id: 6
+  id: credits_scene_title
+  initByCode: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
