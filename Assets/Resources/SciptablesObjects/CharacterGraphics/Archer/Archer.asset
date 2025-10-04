@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1d773741b1771804f9162c2f66581841, type: 3}
-  m_Name: Clerig(M)
+  m_Name: Archer
   m_EditorClassIdentifier: 
-  id: 2
+  id: 0
   subId: 0
   isHumanoid: 1
-  atlas: {fileID: 2800000, guid: cf5617fe2deeb7645bb997b5d684dcec, type: 3}
-  atlasHands: {fileID: 2800000, guid: be64ab223c6f65543a661d5ac197e511, type: 3}
-  icon: {fileID: -172297506, guid: 5ad2e935482f278468588df16e4f60b8, type: 3}
+  atlas: {fileID: 2800000, guid: 5557c4d2217701447bae7f9f38274fd4, type: 3}
+  atlasHands: {fileID: 2800000, guid: 0468e53e820f17a4b9c7ab65f50c28eb, type: 3}
+  icon: {fileID: -1537528301, guid: 5ad2e935482f278468588df16e4f60b8, type: 3}
   initialStats:
     _serializedList:
     - Key: 1
       Value:
-        baseValue: 12
+        baseValue: 13
         aptitudeValue: 70
         itemValue: 0
         buffValue:
@@ -31,8 +31,8 @@ MonoBehaviour:
         maxValue: 0
     - Key: 2
       Value:
-        baseValue: 12
-        aptitudeValue: 100
+        baseValue: 7
+        aptitudeValue: 70
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -40,8 +40,8 @@ MonoBehaviour:
         maxValue: 0
     - Key: 3
       Value:
-        baseValue: 10
-        aptitudeValue: 80
+        baseValue: 11
+        aptitudeValue: 100
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -49,8 +49,8 @@ MonoBehaviour:
         maxValue: 0
     - Key: 4
       Value:
-        baseValue: 11
-        aptitudeValue: 80
+        baseValue: 14
+        aptitudeValue: 110
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -58,8 +58,8 @@ MonoBehaviour:
         maxValue: 0
     - Key: 5
       Value:
-        baseValue: 12
-        aptitudeValue: 100
+        baseValue: 9
+        aptitudeValue: 70
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -67,8 +67,8 @@ MonoBehaviour:
         maxValue: 0
     - Key: 6
       Value:
-        baseValue: 4
-        aptitudeValue: 60
+        baseValue: 7
+        aptitudeValue: 70
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -76,8 +76,8 @@ MonoBehaviour:
         maxValue: 0
     - Key: 7
       Value:
-        baseValue: 11
-        aptitudeValue: 100
+        baseValue: 8
+        aptitudeValue: 70
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -86,7 +86,7 @@ MonoBehaviour:
     - Key: 8
       Value:
         baseValue: 12
-        aptitudeValue: 100
+        aptitudeValue: 10
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -152,7 +152,7 @@ MonoBehaviour:
         name: Idle
         linkAnimation: 
         spritesInfoDown:
-        - characterSprite: {fileID: -15396290, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: 1417011767, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -160,7 +160,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: 1200891693, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -879150290, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -168,7 +168,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -785136320, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: 871264076, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -176,23 +176,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -87259544, guid: cf5617fe2deeb7645bb997b5d684dcec,
-            type: 3}
-          leftHandPosDL: {x: 0, y: 0, z: 0}
-          leftHandPosDR: {x: 0, y: 0, z: 0}
-          leftHandRotation: {x: 0, y: 0, z: 0, w: 0}
-          rightHandPosDL: {x: 0, y: 0, z: 0}
-          rightHandPosDR: {x: 0, y: 0, z: 0}
-          rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -1487262577, guid: cf5617fe2deeb7645bb997b5d684dcec,
-            type: 3}
-          leftHandPosDL: {x: 0, y: 0, z: 0}
-          leftHandPosDR: {x: 0, y: 0, z: 0}
-          leftHandRotation: {x: 0, y: 0, z: 0, w: 0}
-          rightHandPosDL: {x: 0, y: 0, z: 0}
-          rightHandPosDR: {x: 0, y: 0, z: 0}
-          rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -1854785473, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -822184431, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -201,7 +185,7 @@ MonoBehaviour:
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
         spritesInfoUp:
-        - characterSprite: {fileID: 1653789626, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -199144730, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -209,7 +193,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -1213168672, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: 1870937955, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -217,7 +201,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -1941025143, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -1549435977, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -225,23 +209,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -235794656, guid: cf5617fe2deeb7645bb997b5d684dcec,
-            type: 3}
-          leftHandPosDL: {x: 0, y: 0, z: 0}
-          leftHandPosDR: {x: 0, y: 0, z: 0}
-          leftHandRotation: {x: 0, y: 0, z: 0, w: 0}
-          rightHandPosDL: {x: 0, y: 0, z: 0}
-          rightHandPosDR: {x: 0, y: 0, z: 0}
-          rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: 746068018, guid: cf5617fe2deeb7645bb997b5d684dcec,
-            type: 3}
-          leftHandPosDL: {x: 0, y: 0, z: 0}
-          leftHandPosDR: {x: 0, y: 0, z: 0}
-          leftHandRotation: {x: 0, y: 0, z: 0, w: 0}
-          rightHandPosDL: {x: 0, y: 0, z: 0}
-          rightHandPosDR: {x: 0, y: 0, z: 0}
-          rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -496829605, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -1766115405, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -261,7 +229,7 @@ MonoBehaviour:
         name: Walk
         linkAnimation: 
         spritesInfoDown:
-        - characterSprite: {fileID: 2128641204, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: 987976204, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -269,7 +237,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: 1226810345, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: 1480062590, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -277,7 +245,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -1456796459, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -1559453851, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -285,7 +253,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: 552114066, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -1271868472, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -293,7 +261,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: 691663633, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -256164870, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -301,7 +269,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: 950477531, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -258764682, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -310,7 +278,7 @@ MonoBehaviour:
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
         spritesInfoUp:
-        - characterSprite: {fileID: 590608108, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -1710243491, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -318,7 +286,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: 250977453, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -1568293584, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -326,7 +294,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -165441667, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -297069756, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -334,7 +302,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: 1116125778, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: 1095528043, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -342,7 +310,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: 2021879082, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -699591474, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -350,7 +318,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -801891912, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -1808563465, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -370,7 +338,7 @@ MonoBehaviour:
         name: TakeDamage
         linkAnimation: 
         spritesInfoDown:
-        - characterSprite: {fileID: -1035211884, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -2104398629, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -378,7 +346,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -1035211884, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -2104398629, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -386,7 +354,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -1035211884, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -2104398629, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -394,7 +362,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -1035211884, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -2104398629, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -402,7 +370,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -1035211884, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -2104398629, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -410,7 +378,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -1035211884, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -2104398629, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -419,7 +387,7 @@ MonoBehaviour:
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
         spritesInfoUp:
-        - characterSprite: {fileID: 2044683538, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -1436455179, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -427,7 +395,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: 2044683538, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -1436455179, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -435,7 +403,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: 2044683538, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -1436455179, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -443,7 +411,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: 2044683538, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -1436455179, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -451,7 +419,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: 2044683538, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -1436455179, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -459,7 +427,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: 2044683538, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -1436455179, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -489,7 +457,7 @@ MonoBehaviour:
         name: Defend
         linkAnimation: 
         spritesInfoDown:
-        - characterSprite: {fileID: -478499050, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -662934801, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -497,7 +465,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -478499050, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -662934801, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -505,7 +473,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -478499050, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -662934801, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -513,7 +481,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -478499050, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -662934801, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -521,7 +489,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -478499050, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -662934801, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -529,7 +497,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -478499050, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -662934801, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -538,7 +506,7 @@ MonoBehaviour:
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
         spritesInfoUp:
-        - characterSprite: {fileID: 1513950249, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -102945148, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -546,7 +514,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: 1513950249, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -102945148, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -554,7 +522,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: 1513950249, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -102945148, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -562,7 +530,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: 1513950249, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -102945148, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -570,7 +538,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: 1513950249, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -102945148, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -578,7 +546,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: 1513950249, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -102945148, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -598,7 +566,7 @@ MonoBehaviour:
         name: Lifted
         linkAnimation: 
         spritesInfoDown:
-        - characterSprite: {fileID: -178129902, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -1248112395, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -607,7 +575,7 @@ MonoBehaviour:
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
         spritesInfoUp:
-        - characterSprite: {fileID: 153590381, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: 2079302635, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -627,7 +595,7 @@ MonoBehaviour:
         name: Lift
         linkAnimation: 
         spritesInfoDown:
-        - characterSprite: {fileID: 80910688, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: 456373794, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -636,7 +604,7 @@ MonoBehaviour:
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
         spritesInfoUp:
-        - characterSprite: {fileID: 509024628, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: 351379598, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -656,7 +624,7 @@ MonoBehaviour:
         name: Throw
         linkAnimation: 
         spritesInfoDown:
-        - characterSprite: {fileID: -1825812097, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -1931284128, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -664,7 +632,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -2067059708, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -1623930350, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -673,7 +641,7 @@ MonoBehaviour:
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
         spritesInfoUp:
-        - characterSprite: {fileID: 556066124, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -755151733, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -681,7 +649,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -1359121502, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -1236163734, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -701,7 +669,7 @@ MonoBehaviour:
         name: FistAttack
         linkAnimation: 
         spritesInfoDown:
-        - characterSprite: {fileID: -125677628, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: 1821619737, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -709,7 +677,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: 291428361, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: 1998230510, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -717,7 +685,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: 775073944, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -373248573, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -725,7 +693,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: 487552918, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: 774363122, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -733,7 +701,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -1405785067, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: 551178474, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -742,7 +710,7 @@ MonoBehaviour:
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
         spritesInfoUp:
-        - characterSprite: {fileID: 1727267293, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -283205436, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -750,7 +718,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: 422504939, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: 1666064392, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -758,7 +726,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -1856510000, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -652862557, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -766,7 +734,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: 1617755332, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: 1293587557, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -774,7 +742,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -423619459, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -674020454, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -794,7 +762,7 @@ MonoBehaviour:
         name: SwordAttack
         linkAnimation: 
         spritesInfoDown:
-        - characterSprite: {fileID: -1520594686, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -1839480555, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -802,7 +770,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -711036705, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -1210508019, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -810,7 +778,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: 79011594, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -178059996, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -818,7 +786,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: 1498174533, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -572269893, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -826,7 +794,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -1757087067, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -1326896770, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -834,7 +802,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: 199064134, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: 798278473, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -842,7 +810,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -236236504, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: 132304351, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -851,7 +819,7 @@ MonoBehaviour:
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
         spritesInfoUp:
-        - characterSprite: {fileID: -492610907, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -2082521296, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -859,7 +827,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -370042281, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: 1640965768, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -867,7 +835,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: 1595667520, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: -1763084943, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -875,7 +843,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -1062405073, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: 742512125, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -883,7 +851,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -1963634017, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: 600498641, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -891,7 +859,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: 435134042, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: 740481404, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -899,7 +867,7 @@ MonoBehaviour:
           rightHandPosDL: {x: 0, y: 0, z: 0}
           rightHandPosDR: {x: 0, y: 0, z: 0}
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
-        - characterSprite: {fileID: -1594756927, guid: cf5617fe2deeb7645bb997b5d684dcec,
+        - characterSprite: {fileID: 230691762, guid: 5557c4d2217701447bae7f9f38274fd4,
             type: 3}
           leftHandPosDL: {x: 0, y: 0, z: 0}
           leftHandPosDR: {x: 0, y: 0, z: 0}
@@ -927,7 +895,7 @@ MonoBehaviour:
     instanceObj: {fileID: 0}
     instance: {fileID: 0}
   generateAllAnimations:
-    baseSprite: {fileID: -15396290, guid: cf5617fe2deeb7645bb997b5d684dcec, type: 3}
-    atlas: {fileID: 2800000, guid: cf5617fe2deeb7645bb997b5d684dcec, type: 3}
-    atlasHands: {fileID: 2800000, guid: be64ab223c6f65543a661d5ac197e511, type: 3}
-    icon: {fileID: -172297506, guid: 5ad2e935482f278468588df16e4f60b8, type: 3}
+    baseSprite: {fileID: 1417011767, guid: 0468e53e820f17a4b9c7ab65f50c28eb, type: 3}
+    atlas: {fileID: 2800000, guid: 5557c4d2217701447bae7f9f38274fd4, type: 3}
+    atlasHands: {fileID: 2800000, guid: 0468e53e820f17a4b9c7ab65f50c28eb, type: 3}
+    icon: {fileID: -1537528301, guid: 5ad2e935482f278468588df16e4f60b8, type: 3}

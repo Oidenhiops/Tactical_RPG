@@ -22,6 +22,7 @@ public class MenuCreateCharacter : MonoBehaviour
     public GameObject menuCharacterSetName;
     public InitialDataSO characterSelected;
     public TMP_InputField inputField;
+    public MenuCharacterInfo menuCharacterInfo;
     public bool isMenuActive;
     void OnEnable()
     {
@@ -47,6 +48,7 @@ public class MenuCreateCharacter : MonoBehaviour
             Destroy(child.gameObject);
         }
         characters = new SerializedDictionary<int, List<GameObject>>();
+        menuCharacterInfo.DisableMenu();
     }
     public IEnumerator EnableMenu()
     {
@@ -87,6 +89,7 @@ public class MenuCreateCharacter : MonoBehaviour
         AddCharactersToInfiniteLoop();
         yield return null;
         isMenuActive = true;
+        menuCharacterInfo.ReloadInfo(characters[index.x][index.y].GetComponent<Character>());
     }
     public void AddCharactersToInfiniteLoop()
     {
@@ -149,6 +152,7 @@ public class MenuCreateCharacter : MonoBehaviour
             index.y = characters[index.x].Count - 1;
         }
         gridCellMouse.transform.localPosition = new Vector3(index.y, 0, index.x);
+        menuCharacterInfo.ReloadInfo(characters[index.x][index.y].GetComponent<Character>());
     }
     void UnloadMenuCreateCharacter(InputAction.CallbackContext context)
     {

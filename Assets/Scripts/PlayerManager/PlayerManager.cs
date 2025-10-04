@@ -103,16 +103,14 @@ public class PlayerManager : MonoBehaviour
         List<Character> charactersSpawned = new List<Character>();
         foreach (KeyValuePair<string, CharacterData> characterInfo in GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].characters)
         {
-            if (characterInfo.Value.statistics[CharacterData.TypeStatistic.Hp].currentValue > 0)
-            {
-                Character character = Instantiate(generalCharacterPrefab, Vector3Int.down * 2, Quaternion.identity, charactersContainer).GetComponent<Character>();
-                character.isCharacterPlayer = true;
-                character.characterData = characterInfo.Value;
-                character.name = character.characterData.name;
-                charactersSpawned.Add(character);
-                await character.InitializeCharacter();
-                character.gameObject.SetActive(false);
-            }
+            Character character = Instantiate(generalCharacterPrefab, Vector3Int.down * 2, Quaternion.identity, charactersContainer).GetComponent<Character>();
+            character.initialDataSO = GameData.Instance.charactersDataDBSO.data[characterInfo.Value.id][characterInfo.Value.subId].initialDataSO;
+            character.isCharacterPlayer = true;
+            character.characterData = characterInfo.Value;
+            character.name = character.characterData.name;
+            charactersSpawned.Add(character);
+            await character.InitializeCharacter();
+            character.gameObject.SetActive(false);
         }
         characters = charactersSpawned.ToArray();
     }

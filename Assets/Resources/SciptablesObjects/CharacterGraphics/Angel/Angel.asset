@@ -19,7 +19,88 @@ MonoBehaviour:
   atlasHands: {fileID: 2800000, guid: 07aad0b38543ecb4aa8979a63a8681ad, type: 3}
   icon: {fileID: 945636314, guid: 5ad2e935482f278468588df16e4f60b8, type: 3}
   initialStats:
-    _serializedList: []
+    _serializedList:
+    - Key: 1
+      Value:
+        baseValue: 18
+        aptitudeValue: 100
+        itemValue: 0
+        buffValue:
+          _serializedList: []
+        currentValue: 0
+        maxValue: 0
+    - Key: 2
+      Value:
+        baseValue: 11
+        aptitudeValue: 100
+        itemValue: 0
+        buffValue:
+          _serializedList: []
+        currentValue: 0
+        maxValue: 0
+    - Key: 3
+      Value:
+        baseValue: 13
+        aptitudeValue: 100
+        itemValue: 0
+        buffValue:
+          _serializedList: []
+        currentValue: 0
+        maxValue: 0
+    - Key: 4
+      Value:
+        baseValue: 11
+        aptitudeValue: 100
+        itemValue: 0
+        buffValue:
+          _serializedList: []
+        currentValue: 0
+        maxValue: 0
+    - Key: 5
+      Value:
+        baseValue: 12
+        aptitudeValue: 100
+        itemValue: 0
+        buffValue:
+          _serializedList: []
+        currentValue: 0
+        maxValue: 0
+    - Key: 6
+      Value:
+        baseValue: 9
+        aptitudeValue: 100
+        itemValue: 0
+        buffValue:
+          _serializedList: []
+        currentValue: 0
+        maxValue: 0
+    - Key: 7
+      Value:
+        baseValue: 14
+        aptitudeValue: 100
+        itemValue: 0
+        buffValue:
+          _serializedList: []
+        currentValue: 0
+        maxValue: 0
+    - Key: 8
+      Value:
+        baseValue: 11
+        aptitudeValue: 100
+        itemValue: 0
+        buffValue:
+          _serializedList: []
+        currentValue: 0
+        maxValue: 0
+    - Key: 9
+      Value:
+        baseValue: 15
+        aptitudeValue: 100
+        itemValue: 0
+        buffValue:
+          _serializedList: []
+        currentValue: 0
+        maxValue: 0
   mastery:
     _serializedList:
     - Key: 1
@@ -247,7 +328,7 @@ MonoBehaviour:
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
         animationsEffects:
           _serializedList: []
-        loop: 0
+        loop: 1
         needInstance: 0
         frameToInstance: 0
         instanceObj: {fileID: 0}

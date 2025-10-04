@@ -266,6 +266,7 @@ MonoBehaviour:
     type: 3}
   dieEffectPrefab: {fileID: 3328385887415025661, guid: f5ddebed183a2d947bd7dfdbb72a5cc5,
     type: 3}
+  setDataWhitInitialValues: 1
   autoInit: 0
 --- !u!114 &3788326535341420580
 MonoBehaviour:

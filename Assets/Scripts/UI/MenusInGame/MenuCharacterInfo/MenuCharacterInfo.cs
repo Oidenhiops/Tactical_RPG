@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class MenuCharacterInfo : MonoBehaviour
@@ -25,6 +26,16 @@ public class MenuCharacterInfo : MonoBehaviour
     public Color subMenuSelected;
     public Color subMenuDeselected;
     public int subMenuIndex = 0;
+    public InputAction changeSubMenuInput;
+    void Awake()
+    {
+        changeSubMenuInput.Enable();
+        changeSubMenuInput.started += OnHandleChangeSubMenu;
+    }
+    void OnDestroy()
+    {
+        changeSubMenuInput.started -= OnHandleChangeSubMenu;
+    }
     public void ReloadInfo(Character character, bool disableItemsContainer = false)
     {
         characterSprite.sprite = character.initialDataSO.icon;
@@ -99,6 +110,10 @@ public class MenuCharacterInfo : MonoBehaviour
         }
         EnableSubMenu(subMenuIndex);
     }
+    void OnHandleChangeSubMenu(InputAction.CallbackContext context)
+    {
+        if (isMenuActive) ChangeSubMenu();
+    }
     public void EnableSubMenu(int indexMenu)
     {
         subMenuIndex = indexMenu;
@@ -120,7 +135,7 @@ public class MenuCharacterInfo : MonoBehaviour
     {
         menuCharacterInfo.SetActive(false);
         isMenuActive = false;
-        if (!conservCharacter) AStarPathFinding.Instance.characterSelected = null;
+        if (!conservCharacter && AStarPathFinding.Instance) AStarPathFinding.Instance.characterSelected = null;
     }
     [Serializable]
     public class ItemInfo

@@ -22,6 +22,7 @@ public class Character : MonoBehaviour
     public ActionsManager.TypeAction lastAction;
     public GameObject floatingTextPrefab;
     public GameObject dieEffectPrefab;
+    public bool setDataWhitInitialValues;
     public bool autoInit;
     public void OnEnable()
     {
@@ -59,6 +60,7 @@ public class Character : MonoBehaviour
     {
         try
         {
+            if (setDataWhitInitialValues) await InitializeDataWhitInitialValues();
             await InitializeAnimations();
             isInitialize = true;
         }
@@ -80,6 +82,16 @@ public class Character : MonoBehaviour
             Debug.LogError(e);
             await Awaitable.NextFrameAsync();
         }
+    }
+    async Awaitable InitializeDataWhitInitialValues()
+    {
+        characterData.statistics = initialDataSO.CloneStatistics();
+        foreach (var statistic in characterData.statistics)
+        {
+            statistic.Value.RefreshValue();
+            statistic.Value.SetMaxValue();
+        }
+        await Awaitable.NextFrameAsync();
     }
     public void MoveCharacter(Vector3Int targetPosition)
     {

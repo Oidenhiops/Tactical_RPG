@@ -1,8 +1,11 @@
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
-using UnityEditor;
 using UnityEngine;
 [CreateAssetMenu(fileName = "InitialData", menuName = "ScriptableObjects/Character/InitialDataSO", order = 1)]
 public class InitialDataSO : ScriptableObject
@@ -47,6 +50,8 @@ public class InitialDataSO : ScriptableObject
             Debug.Log("No se encontro la animación, comprueba el nombre");
         }
     }
+
+#if UNITY_EDITOR
     [NaughtyAttributes.Button]
     public void GenerateAllCharacterAnimations()
     {
@@ -126,6 +131,7 @@ public class InitialDataSO : ScriptableObject
                     animations[animationName].spritesInfoUp = spritesUp.ToArray();
                     break;
                 case "Idle":
+                case "Walk":
                 case "Lifted":
                 case "Lift":
                     animations[animationName].loop = true;
@@ -160,6 +166,8 @@ public class InitialDataSO : ScriptableObject
         atlasHands = generateAllAnimations.atlasHands;
         icon = generateAllAnimations.icon;
     }
+#endif
+
     public SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic> CloneStatistics()
     {
         var clone = new SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic>();

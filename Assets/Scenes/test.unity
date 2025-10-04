@@ -12691,6 +12691,15 @@ MonoBehaviour:
   subMenuSelected: {r: 1, g: 0.8745098, b: 0, a: 1}
   subMenuDeselected: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
   subMenuIndex: 0
+  changeSubMenuInput:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 8b684bf9-ff3c-4d99-a8fb-10a5dd91fb70
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
 --- !u!114 &726234700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22004,7 +22013,7 @@ PrefabInstance:
     - target: {fileID: 9091504262032546078, guid: ad2cda2a82dbe0c44af4de318af09bee,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
