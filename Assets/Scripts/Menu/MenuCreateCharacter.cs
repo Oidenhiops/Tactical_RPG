@@ -213,6 +213,8 @@ public class MenuCreateCharacter : MonoBehaviour
             }
             GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].characters.Add(character.name, character);
             inputField.text = "";
+            GameData.Instance.SaveGameData();
+            GameData.Instance.LoadGameDataInfo();
             menuCharacterSetName.SetActive(false);
             otherMenu.SetActive(true);
             gameObject.SetActive(false);

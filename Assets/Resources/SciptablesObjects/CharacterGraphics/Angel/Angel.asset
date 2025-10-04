@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d773741b1771804f9162c2f66581841, type: 3}
   m_Name: Angel
   m_EditorClassIdentifier: 
-  id: 0
+  id: 5
   subId: 0
   isHumanoid: 1
   atlas: {fileID: 2800000, guid: 9966ab3212d68594dae8ed0f33172a25, type: 3}
