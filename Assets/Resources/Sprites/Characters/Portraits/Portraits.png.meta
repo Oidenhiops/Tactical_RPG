@@ -123,7 +123,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: WarriorPortrait
+      name: Portraits_0
       rect:
         serializedVersion: 2
         x: 0
@@ -131,15 +131,37 @@ TextureImporter:
         width: 40
         height: 40
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6b1bc2c2cad672449981b39daf5156a0
-      internalID: 998277421
+      spriteID: 76073197a5575e64cad24c8f14286893
+      internalID: 1760192908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Portraits_1
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 0
+        width: 40
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3e54ec0187d6964db4caa2c7b99e38c
+      internalID: -1451923115
       vertices: []
       indices: 
       edges: []
@@ -158,7 +180,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      WarriorPortrait: 998277421
+      Portraits_0: 1760192908
+      Portraits_1: -1451923115
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using AYellowpaper.SerializedCollections;
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "InitialData", menuName = "ScriptableObjects/Character/InitialDataSO", order = 1)]
@@ -23,47 +26,80 @@ public class InitialDataSO : ScriptableObject
         {CharacterData.TypeMastery.Staff, new CharacterData.CharacterMasteryInfo{masteryRange = CharacterData.MasteryRange.N, masteryLevel = 0}}
     };
     public SerializedDictionary<string, AnimationsInfo> animations = new SerializedDictionary<string, AnimationsInfo>();
-    public AnimationsInfo animation;
+    public AnimationsInfo newOrEditAnimation;
+    public GenerateAllAnimations generateAllAnimations;
     [NaughtyAttributes.Button]
     public void NewAnimation()
     {
-        animations.Add(animation.name, animation);
-        animation = new AnimationsInfo();
+        animations.Add(newOrEditAnimation.name, newOrEditAnimation);
+        newOrEditAnimation = new AnimationsInfo();
     }
-    [NaughtyAttributes.Button] public void EditAnimation()
+    [NaughtyAttributes.Button]
+    public void EditAnimation()
     {
-        if (animations.ContainsKey(animation.name))
+        if (animations.ContainsKey(newOrEditAnimation.name))
         {
-            animations[animation.name] = animation;
-            animation = new AnimationsInfo();
+            animations[newOrEditAnimation.name] = newOrEditAnimation;
+            newOrEditAnimation = new AnimationsInfo();
         }
         else
         {
             Debug.Log("No se encontro la animación, comprueba el nombre");
         }
     }
-    [Serializable] public class AnimationsInfo
+    [NaughtyAttributes.Button]
+    public void GenerateAllCharacterAnimations()
     {
-        public string name;
-        public string linkAnimation;
-        public SpritesInfo[] spritesInfoDown;
-        public SpritesInfo[] spritesInfoUp;
-        public SerializedDictionary<CharacterAnimation.TypeAnimationsEffects, CharacterAnimation.AnimationEffectInfo> animationsEffects;
-        public bool loop = false;
-        public bool needInstance = false;
-        public int frameToInstance = 0;
-        public GameObject instanceObj;
-        public GameObject instance;
-    }
-    [Serializable] public class SpritesInfo
-    {
-        public Sprite characterSprite;
-        public Vector3 leftHandPosDL;
-        public Vector3 leftHandPosDR;
-        public Quaternion leftHandRotation;
-        public Vector3 rightHandPosDL;
-        public Vector3 rightHandPosDR;
-        public Quaternion rightHandRotation;
+        if (generateAllAnimations.atlas == null || generateAllAnimations.baseSprite == null) return;
+
+        Sprite[] allSprites = AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(atlas)).OfType<Sprite>().ToArray();
+        int spriteW = Mathf.RoundToInt(generateAllAnimations.baseSprite.rect.width);
+        int indexSpriteForEvaluate = 0;
+        int nameIndex = 0;
+        int middleIndex;
+        animations.Clear();
+        while (true)
+        {
+            List<Sprite> row = new List<Sprite>();
+            for (int i = 0; i < atlas.width / spriteW; i++)
+            {
+                if (allSprites[i + indexSpriteForEvaluate].rect.y != allSprites[indexSpriteForEvaluate].rect.y)
+                {
+                    break;
+                }
+                row.Add(allSprites[i + indexSpriteForEvaluate]);
+            }
+            middleIndex = row.Count / 2;
+            AnimationsInfo animationInfo = new AnimationsInfo
+            {
+                name = nameIndex.ToString(),
+                spritesInfoDown = new SpritesInfo[middleIndex],
+                spritesInfoUp = new SpritesInfo[middleIndex],
+            };
+            for (int i = 0; i < row.Count; i++)
+            {
+                if (i < middleIndex)
+                {
+                    animationInfo.spritesInfoDown[i] = new SpritesInfo();
+                    animationInfo.spritesInfoDown[i].characterSprite = row[i];
+                }
+                else
+                {
+                    animationInfo.spritesInfoUp[i - middleIndex] = new SpritesInfo();
+                    animationInfo.spritesInfoUp[i - middleIndex].characterSprite = row[i];
+                }
+            }
+            animations.Add(nameIndex.ToString(), animationInfo);
+            nameIndex++;
+            indexSpriteForEvaluate += row.Count;
+            if (nameIndex >= atlas.height / spriteW)
+            {
+                break;
+            }
+        }
+        atlas = generateAllAnimations.atlas;
+        atlasHands = generateAllAnimations.atlasHands;
+        icon = generateAllAnimations.icon;
     }
     public SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic> CloneStatistics()
     {
@@ -101,11 +137,37 @@ public class InitialDataSO : ScriptableObject
 
         return clone;
     }
-    public enum TypeAnimation
+    [Serializable]
+    public class AnimationsInfo
     {
-        None = 0,
-        General = 1,
-        Attack = 2,
-        Special = 3
+        public string name;
+        public string linkAnimation;
+        public SpritesInfo[] spritesInfoDown;
+        public SpritesInfo[] spritesInfoUp;
+        public SerializedDictionary<CharacterAnimation.TypeAnimationsEffects, CharacterAnimation.AnimationEffectInfo> animationsEffects;
+        public bool loop = false;
+        public bool needInstance = false;
+        public int frameToInstance = 0;
+        public GameObject instanceObj;
+        public GameObject instance;
+    }
+    [Serializable]
+    public class SpritesInfo
+    {
+        public Sprite characterSprite;
+        public Vector3 leftHandPosDL;
+        public Vector3 leftHandPosDR;
+        public Quaternion leftHandRotation;
+        public Vector3 rightHandPosDL;
+        public Vector3 rightHandPosDR;
+        public Quaternion rightHandRotation;
+    }
+    [Serializable]
+    public class GenerateAllAnimations
+    {
+        public Sprite baseSprite;
+        public Texture2D atlas;
+        public Texture2D atlasHands;
+        public Sprite icon;
     }
 }
