@@ -127,7 +127,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 246
         width: 40
         height: 40
       alignment: 0
@@ -148,8 +148,8 @@ TextureImporter:
       name: Portraits_1
       rect:
         serializedVersion: 2
-        x: 41
-        y: 0
+        x: 0
+        y: 205
         width: 40
         height: 40
       alignment: 0
@@ -162,6 +162,116 @@ TextureImporter:
       bones: []
       spriteID: a3e54ec0187d6964db4caa2c7b99e38c
       internalID: -1451923115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Portraits_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 164
+        width: 40
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7aa97251eff7c14b8b2c9c2e48d70fa
+      internalID: -172297506
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Portraits_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 123
+        width: 40
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f8134b6f39778640870358a00289316
+      internalID: -330576728
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Portraits_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 82
+        width: 40
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bad4d96d196dda344b0042230fedcb01
+      internalID: -1120103654
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Portraits_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 41
+        width: 40
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84c2f18b60ea17343a778e20ba9d8f60
+      internalID: 945636314
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Portraits_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 40
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0bcc62d71c296ff44ac7922461dd2888
+      internalID: -1537528301
       vertices: []
       indices: 
       edges: []
@@ -182,6 +292,11 @@ TextureImporter:
     nameFileIdTable:
       Portraits_0: 1760192908
       Portraits_1: -1451923115
+      Portraits_2: -172297506
+      Portraits_3: -330576728
+      Portraits_4: -1120103654
+      Portraits_5: 945636314
+      Portraits_6: -1537528301
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

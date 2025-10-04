@@ -102,7 +102,7 @@ public class MenuCreateCharacter : MonoBehaviour
             }
         }
         int finalPosRight = -1;
-        for (int x = characters.Count - 1; x > characters.Count - 5; x--)
+        for (int x = characters.Count - 1; x > characters.Count - 6; x--)
         {
             for (int y = 0; y < characters[x].Count; y++)
             {

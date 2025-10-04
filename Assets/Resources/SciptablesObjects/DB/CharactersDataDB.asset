@@ -19,12 +19,28 @@ MonoBehaviour:
       - isUnlocked: 1
         initialDataSO: {fileID: 11400000, guid: 14ef0526423443242b0d93701be0fa6f,
           type: 2}
+    - Key: 1
+      Value:
       - isUnlocked: 1
-        initialDataSO: {fileID: 11400000, guid: 3eb0d1514a0663144a4620406a3ca8b4,
+        initialDataSO: {fileID: 11400000, guid: 14c5fdb52332b1e438089fdc6ffc3dbb,
           type: 2}
+    - Key: 2
+      Value:
       - isUnlocked: 1
-        initialDataSO: {fileID: 11400000, guid: d84c46917f26dd44b80128b9d410fe02,
+        initialDataSO: {fileID: 11400000, guid: dc8c981fa1df9d5459a0bcbc8a4c666e,
           type: 2}
+    - Key: 3
+      Value:
       - isUnlocked: 1
-        initialDataSO: {fileID: 11400000, guid: 5122392f47f45bf4abd2571cc237c18f,
+        initialDataSO: {fileID: 11400000, guid: 7be7b62dd03868b47808e8aa759c79c8,
+          type: 2}
+    - Key: 4
+      Value:
+      - isUnlocked: 1
+        initialDataSO: {fileID: 11400000, guid: 48f8a5f4fb85f1f4e8e5f873e72590c6,
+          type: 2}
+    - Key: 5
+      Value:
+      - isUnlocked: 1
+        initialDataSO: {fileID: 11400000, guid: 9ba369b4b97a4e048be1bddfbeda5e49,
           type: 2}
