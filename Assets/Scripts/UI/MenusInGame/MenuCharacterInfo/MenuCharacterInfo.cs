@@ -16,7 +16,7 @@ public class MenuCharacterInfo : MonoBehaviour
     public TMP_Text characterMovementMaxHeight;
     public TMP_Text characterName;
     public GameObject statusEffectBanner;
-    public Transform itemsContainer;
+    public Button itemsButton;
     public SerializedDictionary<int, ItemInfo> itemsInfo = new SerializedDictionary<int, ItemInfo>();
     public SubMenuInfo[] subMenusInfo;
     public SerializedDictionary<CharacterData.TypeStatistic, UiInfo> uiInfo = new SerializedDictionary<CharacterData.TypeStatistic, UiInfo>();
@@ -65,7 +65,7 @@ public class MenuCharacterInfo : MonoBehaviour
         }
         if (!disableItemsContainer)
         {
-            itemsContainer.gameObject.SetActive(true);
+            itemsButton.interactable = true;
             foreach (KeyValuePair<CharacterData.CharacterItemInfo, CharacterData.CharacterItem> item in character.characterData.items)
             {
                 if (item.Value.itemBaseSO)
@@ -85,7 +85,7 @@ public class MenuCharacterInfo : MonoBehaviour
         }
         else
         {
-            itemsContainer.gameObject.SetActive(false);
+            itemsButton.interactable = false;
         }
         foreach (KeyValuePair<CharacterData.TypeStatistic, TMP_Text> aptitude in aptitudes)
         {
@@ -103,8 +103,9 @@ public class MenuCharacterInfo : MonoBehaviour
     }
     public void ChangeSubMenu()
     {
+        int discount = itemsButton.IsInteractable() ? 0 : 1;
         subMenuIndex += 1;
-        if (subMenuIndex > 2)
+        if (subMenuIndex > 2 - discount)
         {
             subMenuIndex = 0;
         }

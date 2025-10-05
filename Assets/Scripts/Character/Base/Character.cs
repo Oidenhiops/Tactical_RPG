@@ -91,6 +91,7 @@ public class Character : MonoBehaviour
             statistic.Value.RefreshValue();
             statistic.Value.SetMaxValue();
         }
+        characterData.mastery = initialDataSO.CloneMastery();
         await Awaitable.NextFrameAsync();
     }
     public void MoveCharacter(Vector3Int targetPosition)

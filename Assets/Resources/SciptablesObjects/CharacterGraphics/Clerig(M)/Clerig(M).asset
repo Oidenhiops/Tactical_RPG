@@ -17,7 +17,7 @@ MonoBehaviour:
   isHumanoid: 1
   atlas: {fileID: 2800000, guid: cf5617fe2deeb7645bb997b5d684dcec, type: 3}
   atlasHands: {fileID: 2800000, guid: be64ab223c6f65543a661d5ac197e511, type: 3}
-  icon: {fileID: -172297506, guid: 5ad2e935482f278468588df16e4f60b8, type: 3}
+  icon: {fileID: -664206351, guid: 5ad2e935482f278468588df16e4f60b8, type: 3}
   initialStats:
     _serializedList:
     - Key: 1
@@ -108,43 +108,43 @@ MonoBehaviour:
         masteryRange: 0
         masteryLevel: 0
         currentExp: 0
-        maxExp: 0
+        maxExp: 15
     - Key: 2
       Value:
         masteryRange: 0
         masteryLevel: 0
         currentExp: 0
-        maxExp: 0
+        maxExp: 15
     - Key: 3
       Value:
         masteryRange: 0
         masteryLevel: 0
         currentExp: 0
-        maxExp: 0
+        maxExp: 15
     - Key: 4
       Value:
         masteryRange: 0
         masteryLevel: 0
         currentExp: 0
-        maxExp: 0
+        maxExp: 15
     - Key: 5
       Value:
         masteryRange: 0
         masteryLevel: 0
         currentExp: 0
-        maxExp: 0
+        maxExp: 15
     - Key: 6
       Value:
         masteryRange: 0
         masteryLevel: 0
         currentExp: 0
-        maxExp: 0
+        maxExp: 15
     - Key: 7
       Value:
         masteryRange: 0
         masteryLevel: 0
         currentExp: 0
-        maxExp: 0
+        maxExp: 15
   animations:
     _serializedList:
     - Key: Idle

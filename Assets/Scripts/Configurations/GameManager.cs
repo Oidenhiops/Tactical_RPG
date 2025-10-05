@@ -63,6 +63,10 @@ public class GameManager : MonoBehaviour
         pauseButton.started += PauseHandle;
         pauseButton.Enable();
     }
+    void OnDestroy()
+    {
+        pauseButton.started -= PauseHandle;
+    }
     void Start()
     {
         Cursor.visible = false;

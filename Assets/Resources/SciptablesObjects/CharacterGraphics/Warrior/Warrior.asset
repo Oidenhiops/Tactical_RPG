@@ -108,43 +108,43 @@ MonoBehaviour:
         masteryRange: 5
         masteryLevel: 0
         currentExp: 0
-        maxExp: 0
+        maxExp: 15
     - Key: 2
       Value:
         masteryRange: 6
         masteryLevel: 0
         currentExp: 0
-        maxExp: 0
+        maxExp: 15
     - Key: 3
       Value:
         masteryRange: 4
         masteryLevel: 0
         currentExp: 0
-        maxExp: 0
+        maxExp: 15
     - Key: 4
       Value:
         masteryRange: 4
         masteryLevel: 0
         currentExp: 0
-        maxExp: 0
+        maxExp: 15
     - Key: 5
       Value:
         masteryRange: 1
         masteryLevel: 0
         currentExp: 0
-        maxExp: 0
+        maxExp: 15
     - Key: 6
       Value:
         masteryRange: 5
         masteryLevel: 0
         currentExp: 0
-        maxExp: 0
+        maxExp: 15
     - Key: 7
       Value:
         masteryRange: 1
         masteryLevel: 0
         currentExp: 0
-        maxExp: 0
+        maxExp: 15
   animations:
     _serializedList:
     - Key: Idle

@@ -35,8 +35,14 @@ public class ActionsManager : MonoBehaviour
     void Start()
     {
         playerManager.characterActions.CharacterInputs.Back.started += OnUndoAction;
-        endTurnTest.Enable();
         endTurnTest.started += OnEndTurnTest;
+        endTurnTest.Enable();
+    }
+    void OnDestroy()
+    {
+        endTurnTest.started -= OnEndTurnTest;
+        playerManager.characterActions.CharacterInputs.Back.started -= OnUndoAction;
+        
     }
     public void OnEndTurnTest(InputAction.CallbackContext context)
     {

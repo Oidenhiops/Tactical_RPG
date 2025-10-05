@@ -19,6 +19,10 @@ public class MenuSlotsHelper : MonoBehaviour
         backButton.Enable();
         EnableMenu();
     }
+    void OnDisable()
+    {
+        backButton.started -= UnloadSlotsMenu;
+    }
     public void SetButton()
     {
         EventSystem.current.SetSelectedGameObject(null);
@@ -71,10 +75,6 @@ public class MenuSlotsHelper : MonoBehaviour
             return gameDataSlot.dieCharacters[gameDataSlot.principalCharacterName].level.ToString();
         }
         return "1";
-    }
-    void OnDisable()
-    {
-        backButton.started -= UnloadSlotsMenu;
     }
     void UnloadSlotsMenu(InputAction.CallbackContext context)
     {

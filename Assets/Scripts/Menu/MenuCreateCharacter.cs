@@ -42,6 +42,7 @@ public class MenuCreateCharacter : MonoBehaviour
     {
         backButton.started -= UnloadMenuCreateCharacter;
         movementButton.started -= ChangeIndex;
+        selectButton.started -= SelectCharacter;
         index = Vector2Int.zero;
         foreach (Transform child in charactersContainer.transform)
         {
