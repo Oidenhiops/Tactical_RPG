@@ -3,7 +3,6 @@ using UnityEditor;
 #endif
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
@@ -29,27 +28,7 @@ public class InitialDataSO : ScriptableObject
     };
     public SerializedDictionary<string, AnimationsInfo> animations = new SerializedDictionary<string, AnimationsInfo>();
     private string[] defaultNames = { "Idle", "Walk", "TakeDamage", "Defend", "Lifted", "Lift", "Throw", "FistAttack", "SwordAttack", "SpearAttack", "BowAttack", "GunAttack", "AxeAttack", "StaffAttack" };
-    public AnimationsInfo newOrEditAnimation;
     public GenerateAllAnimations generateAllAnimations;
-    [NaughtyAttributes.Button]
-    public void NewAnimation()
-    {
-        animations.Add(newOrEditAnimation.name, newOrEditAnimation);
-        newOrEditAnimation = new AnimationsInfo();
-    }
-    [NaughtyAttributes.Button]
-    public void EditAnimation()
-    {
-        if (animations.ContainsKey(newOrEditAnimation.name))
-        {
-            animations[newOrEditAnimation.name] = newOrEditAnimation;
-            newOrEditAnimation = new AnimationsInfo();
-        }
-        else
-        {
-            Debug.Log("No se encontro la animación, comprueba el nombre");
-        }
-    }
 
 #if UNITY_EDITOR
     [NaughtyAttributes.Button]
