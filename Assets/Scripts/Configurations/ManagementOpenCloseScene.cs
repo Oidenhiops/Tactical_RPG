@@ -71,15 +71,6 @@ public class ManagementOpenCloseScene : MonoBehaviour
             {
                 await Task.Delay(TimeSpan.FromSeconds(0.05));
             }
-            Scene scene = SceneManager.GetSceneByName("HomeScene");
-            if (scene.IsValid() && scene.isLoaded)
-            {
-                MenuHelper menuHelper = FindAnyObjectByType<MenuHelper>();
-                if (menuHelper != null)
-                {
-                    menuHelper.SelectButton();
-                }
-            }
             openCloseSceneAnimator.SetBool("Out", false);
             while (true)
             {

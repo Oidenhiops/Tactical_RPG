@@ -11,10 +11,10 @@ public class GameData : MonoBehaviour
     public GameDataInfo gameDataInfo = new GameDataInfo();
     public SystemDataInfo systemDataInfo = new SystemDataInfo();
     public List<ResolutionsInfo> allResolutions = new List<ResolutionsInfo>();
+    public Dictionary<TypeLOCS, Dictionary<string, string[]>> locs = new Dictionary<TypeLOCS, Dictionary<string, string[]>>();
     public InitialBGMSoundsConfigSO initialBGMSoundsConfigSO;
     public CharacterDataDBSO charactersDataDBSO;
     public ItemsDBSO itemsDBSO;
-    public Dictionary<TypeLOCS, List<string[]>> locs = new Dictionary<TypeLOCS, List<string[]>>();
     void Awake()
     {
         if (Instance == null)
@@ -35,8 +35,8 @@ public class GameData : MonoBehaviour
         {
             GetAllResolutions();
             CheckFileExistance();
-            gameDataInfo = ReadGameDataFromJson();
-            systemDataInfo = ReadSystemDataFromJson();
+            LoadGameDataInfo();
+            LoadSystemDataInfo();
             LoadLOCS();
             InitializeResolutionData();
             InitializeBGM();
@@ -52,7 +52,14 @@ public class GameData : MonoBehaviour
             await Awaitable.NextFrameAsync();
         }
     }
-
+    public void LoadGameDataInfo()
+    {
+        gameDataInfo = ReadGameDataFromJson();
+    }
+    public void LoadSystemDataInfo()
+    {
+        systemDataInfo = ReadSystemDataFromJson();
+    }
     private void InitializeBGM()
     {
         if (systemDataInfo.bgmSceneData.TryGetValue(SceneManager.GetActiveScene().name, out InitialBGMSoundsConfigSO.BGMScenesData bgmScenesData))
@@ -62,24 +69,30 @@ public class GameData : MonoBehaviour
     }
     void InitializeCharacterItems()
     {
-        foreach (KeyValuePair<string, CharacterData> characterData in gameDataInfo.characters)
+        foreach (GameDataSlot gameDataSlot in gameDataInfo.gameDataSlots)
         {
-            foreach (KeyValuePair<CharacterData.CharacterItemInfo, CharacterData.CharacterItem> item in characterData.Value.items)
+            foreach (KeyValuePair<string, CharacterData> characterData in gameDataSlot.characters)
             {
-                if (item.Value.itemId != 0)
+                foreach (KeyValuePair<CharacterData.CharacterItemInfo, CharacterData.CharacterItem> item in characterData.Value.items)
                 {
-                    item.Value.itemBaseSO = itemsDBSO.data[item.Value.itemId];
+                    if (item.Value.itemId != 0)
+                    {
+                        item.Value.itemBaseSO = itemsDBSO.data[item.Value.itemId];
+                    }
                 }
             }
         }
     }
     void InitializeBagItems()
     {
-        foreach (KeyValuePair<int, CharacterData.CharacterItem> item in gameDataInfo.bagItems)
+        foreach (GameDataSlot gameDataSlot in gameDataInfo.gameDataSlots)
         {
-            if (item.Value.itemId != 0)
+            foreach (KeyValuePair<int, CharacterData.CharacterItem> item in gameDataSlot.bagItems)
             {
-                item.Value.itemBaseSO = itemsDBSO.data[item.Value.itemId];
+                if (item.Value.itemId != 0)
+                {
+                    item.Value.itemBaseSO = itemsDBSO.data[item.Value.itemId];
+                }
             }
         }
     }
@@ -106,7 +119,7 @@ public class GameData : MonoBehaviour
             Debug.LogError("No se encontro el archivo LOC_System");
         }
     }
-    List<string[]> TransformCSV(TextAsset textAsset)
+    Dictionary<string, string[]> TransformCSV(TextAsset textAsset)
     {
         string[] lines = textAsset.text.Split('\n');
         List<string[]> textData = new List<string[]>();
@@ -115,16 +128,21 @@ public class GameData : MonoBehaviour
             string[] columns = line.Split(';');
             textData.Add(columns);
         }
-        return textData;
+        Dictionary<string, string[]> data = new Dictionary<string, string[]>();
+        foreach (string[] text in textData)
+        {
+            data.Add(text[0], text);
+        }
+        return data;
     }
-    public string GetDialog(int id, TypeLOCS typeLOCS)
+    public string GetDialog(string id, TypeLOCS typeLOCS)
     {
-        if (locs.TryGetValue(typeLOCS, out List<string[]> dialogs))
+        if (locs.TryGetValue(typeLOCS, out Dictionary<string, string[]> dialogs))
         {
             int languageIndex = 0;
-            for (int i = 0; i < dialogs[0].Length; i++)
+            for (int i = 0; i < dialogs["ID"].Length; i++)
             {
-                if (dialogs[0][i] == systemDataInfo.configurationsInfo.currentLanguage.ToString())
+                if (dialogs["ID"][i] == systemDataInfo.configurationsInfo.currentLanguage.ToString())
                 {
                     languageIndex = i;
                     break;
@@ -191,58 +209,25 @@ public class GameData : MonoBehaviour
     public void SetStartingData()
     {
         GameDataInfo gameData = new GameDataInfo();
+        gameData.gameDataSlots = new List<GameDataSlot>()
+        {
+            new GameDataSlot(),
+            new GameDataSlot(),
+            new GameDataSlot()
+        };
         SystemDataInfo systemData = new SystemDataInfo();
         systemDataInfo.configurationsInfo.currentLanguage = TypeLanguage.English;
         SetStartingDataSound(ref systemData);
         GetInitialConfigBGMS(ref systemData);
-        SetStartingCharacter(ref gameData);
         SetStartingItems(ref gameData);
         if (GameManager.Instance.currentDevice == GameManager.TypeDevice.PC) SetStartingResolution(ref systemData);
         gameDataInfo = gameData;
         systemDataInfo = systemData;
         SaveGameData();
     }
-    public void SetStartingCharacter(ref GameDataInfo dataInfo)
-    {
-        for (int i = 0; i < 11; i++)
-        {
-            CharacterData character = new CharacterData
-            {
-                id = 0,
-                name = "Oiden " + i,
-                level = 1,
-                mastery = new SerializedDictionary<CharacterData.TypeMastery, CharacterData.CharacterMasteryInfo>()
-            };
-            for (int m = 1; m < Enum.GetValues(typeof(CharacterData.MasteryRange)).Length; m++)
-            {
-                character.mastery.Add((CharacterData.TypeMastery)m, new CharacterData.CharacterMasteryInfo()
-                {
-                    masteryRange = CharacterData.MasteryRange.F,
-                    masteryLevel = i,
-                    currentExp = i,
-                    maxExp = 15
-                });
-            }
-            character.statistics = charactersDataDBSO.data[character.id].CloneStatistics();
-            foreach (KeyValuePair<CharacterData.TypeStatistic, CharacterData.Statistic> statistic in character.statistics)
-            {
-                if (statistic.Key != CharacterData.TypeStatistic.Exp)
-                {
-                    statistic.Value.RefreshValue();
-                    statistic.Value.SetMaxValue();
-                }
-                else
-                {
-                    statistic.Value.baseValue = 15;
-                    statistic.Value.RefreshValue();
-                }
-            }
-            dataInfo.characters.Add(character.name, character);
-        }
-    }
     void SetStartingItems(ref GameDataInfo dataInfo)
     {
-        dataInfo.bagItems = new SerializedDictionary<int, CharacterData.CharacterItem>()
+        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems = new SerializedDictionary<int, CharacterData.CharacterItem>()
         {
             {0, new CharacterData.CharacterItem()},
             {1, new CharacterData.CharacterItem()},
@@ -262,29 +247,24 @@ public class GameData : MonoBehaviour
             {15, new CharacterData.CharacterItem()},
         };
 
-        dataInfo.bagItems[0].itemId = itemsDBSO.data[1].id;
-        dataInfo.bagItems[0].itemBaseSO = itemsDBSO.data[1];
-        dataInfo.bagItems[0].itemStatistics = itemsDBSO.data[1].itemStatistics;
-
-        dataInfo.bagItems[1].itemId = itemsDBSO.data[2].id;
-        dataInfo.bagItems[1].itemBaseSO = itemsDBSO.data[2];
-        dataInfo.bagItems[1].itemStatistics = itemsDBSO.data[2].itemStatistics;
-
-        dataInfo.bagItems[2].itemId = itemsDBSO.data[321].id;
-        dataInfo.bagItems[2].itemBaseSO = itemsDBSO.data[321];
-        dataInfo.bagItems[2].itemStatistics = itemsDBSO.data[321].itemStatistics;
-
-        dataInfo.bagItems[3].itemId = itemsDBSO.data[322].id;
-        dataInfo.bagItems[3].itemBaseSO = itemsDBSO.data[322];
-        dataInfo.bagItems[3].itemStatistics = itemsDBSO.data[322].itemStatistics;
-
-        dataInfo.bagItems[4].itemId = itemsDBSO.data[323].id;
-        dataInfo.bagItems[4].itemBaseSO = itemsDBSO.data[323];
-        dataInfo.bagItems[4].itemStatistics = itemsDBSO.data[323].itemStatistics;
-
-        dataInfo.bagItems[5].itemId = itemsDBSO.data[324].id;
-        dataInfo.bagItems[5].itemBaseSO = itemsDBSO.data[324];
-        dataInfo.bagItems[5].itemStatistics = itemsDBSO.data[324].itemStatistics;
+        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[0].itemId = itemsDBSO.data[1].id;
+        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[0].itemBaseSO = itemsDBSO.data[1];
+        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[0].itemStatistics = itemsDBSO.data[1].itemStatistics;
+        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[1].itemId = itemsDBSO.data[2].id;
+        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[1].itemBaseSO = itemsDBSO.data[2];
+        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[1].itemStatistics = itemsDBSO.data[2].itemStatistics;
+        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[2].itemId = itemsDBSO.data[321].id;
+        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[2].itemBaseSO = itemsDBSO.data[321];
+        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[2].itemStatistics = itemsDBSO.data[321].itemStatistics;
+        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[3].itemId = itemsDBSO.data[322].id;
+        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[3].itemBaseSO = itemsDBSO.data[322];
+        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[3].itemStatistics = itemsDBSO.data[322].itemStatistics;
+        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[4].itemId = itemsDBSO.data[323].id;
+        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[4].itemBaseSO = itemsDBSO.data[323];
+        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[4].itemStatistics = itemsDBSO.data[323].itemStatistics;
+        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[5].itemId = itemsDBSO.data[324].id;
+        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[5].itemBaseSO = itemsDBSO.data[324];
+        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[5].itemStatistics = itemsDBSO.data[324].itemStatistics;
     }
     private void GetInitialConfigBGMS(ref SystemDataInfo dataInfo)
     {
@@ -364,6 +344,16 @@ public class GameData : MonoBehaviour
     [Serializable]
     public class GameDataInfo
     {
+        public List<GameDataSlot> gameDataSlots = new List<GameDataSlot>();
+    }
+    [Serializable]
+    public class GameDataSlot
+    {
+        public bool isUse = false;
+        public string createdDate = "";
+        public string lastSaveDate = "";
+        public string principalCharacterName = "";
+        public string currentZone = "";
         public SerializedDictionary<string, CharacterData> characters = new SerializedDictionary<string, CharacterData>();
         public SerializedDictionary<string, CharacterData> dieCharacters = new SerializedDictionary<string, CharacterData>();
         public SerializedDictionary<int, CharacterData.CharacterItem> bagItems = new SerializedDictionary<int, CharacterData.CharacterItem>();
@@ -431,6 +421,7 @@ public class GameData : MonoBehaviour
     [Serializable]
     public class SystemDataInfo
     {
+        public int currentGameDataIndex = 0;
         public ConfigurationsInfo configurationsInfo = new ConfigurationsInfo();
         public SerializedDictionary<string, InitialBGMSoundsConfigSO.BGMScenesData> bgmSceneData = new SerializedDictionary<string, InitialBGMSoundsConfigSO.BGMScenesData>();
     }

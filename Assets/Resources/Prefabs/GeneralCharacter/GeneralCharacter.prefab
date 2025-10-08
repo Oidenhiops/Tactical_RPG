@@ -59,7 +59,7 @@ Transform:
   m_GameObject: {fileID: 2412411816279942414}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -79,8 +79,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isInitialize: 0
-  isCharacterPlayer: 1
-  typeCharacter: 0
+  isCharacterPlayer: 0
+  typeCharacter: 1
   initialDataSO: {fileID: 0}
   characterModel:
     characterMeshRenderer: {fileID: 372686384909317343}
@@ -91,6 +91,7 @@ MonoBehaviour:
       type: 3}
   characterData:
     id: 0
+    subId: 0
     level: 0
     name: 
     statistics:

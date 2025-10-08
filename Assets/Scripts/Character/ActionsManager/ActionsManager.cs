@@ -35,8 +35,14 @@ public class ActionsManager : MonoBehaviour
     void Start()
     {
         playerManager.characterActions.CharacterInputs.Back.started += OnUndoAction;
-        endTurnTest.Enable();
         endTurnTest.started += OnEndTurnTest;
+        endTurnTest.Enable();
+    }
+    void OnDestroy()
+    {
+        endTurnTest.started -= OnEndTurnTest;
+        playerManager.characterActions.CharacterInputs.Back.started -= OnUndoAction;
+        
     }
     public void OnEndTurnTest(InputAction.CallbackContext context)
     {
@@ -277,7 +283,7 @@ public class ActionsManager : MonoBehaviour
     }
     public async Task ChangeRoundState()
     {
-        await playerManager.ChangeRoundState(!isChangingTurn ? isPlayerTurn ? 21 : 22 : !isPlayerTurn ? 21 : 22);
+        await playerManager.ChangeRoundState(!isChangingTurn ? isPlayerTurn ? "game_scene_menu_round_state_player_turn" : "game_scene_menu_round_state_enemy_turn" : !isPlayerTurn ? "game_scene_menu_round_state_player_turn" : "game_scene_menu_round_state_enemy_turn");
         isChangingTurn = false;
     }
     public void ActionForExecuteExist(out bool actionExist)

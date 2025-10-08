@@ -7,6 +7,7 @@ using UnityEngine;
 public class CharacterData
 {
     public int id;
+    public int subId;
     public int level;
     public string name;
     public SerializedDictionary<TypeStatistic, Statistic> statistics = new SerializedDictionary<TypeStatistic, Statistic>();

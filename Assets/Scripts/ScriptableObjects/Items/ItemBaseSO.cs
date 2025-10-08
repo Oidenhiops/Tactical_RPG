@@ -4,6 +4,7 @@ using UnityEngine;
 public class ItemBaseSO : ScriptableObject
 {
     public int id;
+    public string idText;
     public Sprite icon;
     public TypeObject typeObject;
     public TypeWeapon typeWeapon;

@@ -22,6 +22,7 @@ public class Character : MonoBehaviour
     public ActionsManager.TypeAction lastAction;
     public GameObject floatingTextPrefab;
     public GameObject dieEffectPrefab;
+    public bool setDataWhitInitialValues;
     public bool autoInit;
     public void OnEnable()
     {
@@ -29,7 +30,7 @@ public class Character : MonoBehaviour
     }
     public void Awake()
     {
-        if (autoInit) _= InitializeCharacter();
+        if (autoInit) _ = InitializeCharacter();
         if (PlayerManager.Instance) PlayerManager.Instance.actionsManager.OnEndTurn += OnEndTurn;
     }
     void OnDestroy()
@@ -59,8 +60,8 @@ public class Character : MonoBehaviour
     {
         try
         {
-            await InitializeCharacterData();
-            await InitializeAnimations();            
+            if (setDataWhitInitialValues) await InitializeDataWhitInitialValues();
+            await InitializeAnimations();
             isInitialize = true;
         }
         catch (Exception e)
@@ -68,11 +69,6 @@ public class Character : MonoBehaviour
             Debug.LogError(e);
             await Awaitable.NextFrameAsync();
         }
-    }
-    async Awaitable InitializeCharacterData()
-    {
-        initialDataSO = GameData.Instance.charactersDataDBSO.data[characterData.id];
-        await Awaitable.NextFrameAsync();
     }
     async Awaitable InitializeAnimations()
     {
@@ -86,6 +82,17 @@ public class Character : MonoBehaviour
             Debug.LogError(e);
             await Awaitable.NextFrameAsync();
         }
+    }
+    async Awaitable InitializeDataWhitInitialValues()
+    {
+        characterData.statistics = initialDataSO.CloneStatistics();
+        foreach (var statistic in characterData.statistics)
+        {
+            statistic.Value.RefreshValue();
+            statistic.Value.SetMaxValue();
+        }
+        characterData.mastery = initialDataSO.CloneMastery();
+        await Awaitable.NextFrameAsync();
     }
     public void MoveCharacter(Vector3Int targetPosition)
     {
@@ -251,7 +258,8 @@ public class Character : MonoBehaviour
         characterAnimations.MakeEffect(CharacterAnimation.TypeAnimationsEffects.Blink);
         if (characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue <= 0) StartCoroutine(Die(characterMakeDamage));
     }
-    [NaughtyAttributes.Button] public void RefreshStatistics()
+    [NaughtyAttributes.Button]
+    public void RefreshStatistics()
     {
         foreach (KeyValuePair<CharacterData.TypeStatistic, CharacterData.Statistic> statistic in characterData.statistics)
         {
@@ -290,8 +298,8 @@ public class Character : MonoBehaviour
             characterMakeDamage.TakeExp(this);
         }
         characterStatusEffect.statusEffects = new AYellowpaper.SerializedCollections.SerializedDictionary<StatusEffectBaseSO, int>();
-        GameData.Instance.gameDataInfo.dieCharacters.Add(characterData.name, characterData);
-        GameData.Instance.gameDataInfo.characters.Remove(characterData.name);
+        GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].dieCharacters.Add(characterData.name, characterData);
+        GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].characters.Remove(characterData.name);
     }
     public void TakeExp(Character characterDie)
     {
@@ -309,7 +317,8 @@ public class Character : MonoBehaviour
     {
         await Awaitable.NextFrameAsync();
     }
-    [Serializable] public class CharacterModel
+    [Serializable]
+    public class CharacterModel
     {
         public MeshRenderer characterMeshRenderer;
         public MeshRenderer characterMeshRendererHand;

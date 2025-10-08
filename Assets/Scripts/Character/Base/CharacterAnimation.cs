@@ -17,7 +17,7 @@ public class CharacterAnimation : MonoBehaviour
         StopAllCoroutines();
         character.characterModel.characterMeshRenderer.transform.parent.transform.localScale = Vector3.one * GetScaleFactor(animationsData.animations["Idle"].spritesInfoDown[0].characterSprite.rect.width);
         character.characterModel.characterMeshRenderer.material.SetTexture("_BaseTexture", animationsData.atlas);
-        if (character.characterModel.characterMeshRendererHand)
+        if (animationsData.atlasHands)
         {
             character.characterModel.characterMeshRendererHand.gameObject.SetActive(true);
             character.characterModel.characterMeshRendererHand.material.SetTexture("_BaseTexture", animationsData.atlasHands);
@@ -45,7 +45,7 @@ public class CharacterAnimation : MonoBehaviour
         {
             return weapon.itemBaseSO.animationName;
         }
-        return "HandAttack";
+        return "FistAttack";
     }
     private InitialDataSO.AnimationsInfo GetAnimation(string animationName)
     {

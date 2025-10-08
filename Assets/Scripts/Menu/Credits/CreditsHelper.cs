@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class CreditsHelper : MonoBehaviour
@@ -9,6 +8,7 @@ public class CreditsHelper : MonoBehaviour
     public Button creditsButton;
     public InputAction backButton;
     public GameManagerHelper gameManagerHelper;
+    public GameObject lastButtonSelected;
     void OnEnable()
     {
         backButton.started += UnloadCreditScene;
@@ -20,15 +20,17 @@ public class CreditsHelper : MonoBehaviour
     }
     void Start()
     {
+        lastButtonSelected = EventSystem.current.currentSelectedGameObject;
         EventSystem.current.SetSelectedGameObject(null);
-        Invoke("ActiveButton", 0.25f);
-    }
-    void ActiveButton()
-    {
-        creditsButton.Select();
+        EventSystem.current.SetSelectedGameObject(creditsButton.gameObject);
     }
     void UnloadCreditScene(InputAction.CallbackContext context)
     {
+        UnloadScene();
+    }
+    public void UnloadScene()
+    {
+        gameManagerHelper.lastButtonSelected = lastButtonSelected;
         gameManagerHelper.UnloadScene();
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class ManagementOptions : MonoBehaviour, GameManagerHelper.IGameManagerHelper
+public class ManagementOptions : MonoBehaviour
 {
     public TMP_Dropdown dropdownLanguage;
     public TMP_Dropdown dropdownResolution;
@@ -39,16 +39,6 @@ public class ManagementOptions : MonoBehaviour, GameManagerHelper.IGameManagerHe
     void OnDestroy()
     {
         backButton.started -= BackHandle;
-        Scene scene = SceneManager.GetSceneByName("HomeScene");
-
-        if (scene.IsValid() && scene.isLoaded)
-        {
-            MenuHelper menuHelper = FindAnyObjectByType<MenuHelper>();
-            if (menuHelper != null)
-            {
-                menuHelper.SelectButton();
-            }
-        }
         Time.timeScale = 1;
         GameManager.Instance.isPause = false;
     }
@@ -85,6 +75,7 @@ public class ManagementOptions : MonoBehaviour, GameManagerHelper.IGameManagerHe
         else
         {
             gameManagerHelper.PlayASoundButton("TouchButtonBack");
+            gameManagerHelper.lastButtonSelected = lastButtonSelected;
             gameManagerHelper.UnloadScene();
         }
     }
@@ -290,10 +281,6 @@ public class ManagementOptions : MonoBehaviour, GameManagerHelper.IGameManagerHe
         int width = int.Parse(resolution.Substring(0, index));
         int height = int.Parse(resolution.ToString().Substring(index + 1));
         return new GameData.ResolutionsInfo(width, height);
-    }
-    public GameObject GetLastButton()
-    {
-        return lastButtonSelected;
     }
     [Serializable]
     public class SoundInfo

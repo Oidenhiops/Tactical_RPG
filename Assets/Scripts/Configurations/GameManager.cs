@@ -63,6 +63,10 @@ public class GameManager : MonoBehaviour
         pauseButton.started += PauseHandle;
         pauseButton.Enable();
     }
+    void OnDestroy()
+    {
+        pauseButton.started -= PauseHandle;
+    }
     void Start()
     {
         Cursor.visible = false;
@@ -126,6 +130,11 @@ public class GameManager : MonoBehaviour
             if (typeScene == TypeScene.Reload)
             {
                 SceneManager.LoadScene(SceneManager.GetSceneAt(0).name);
+            }
+            else if (typeScene == TypeScene.HomeScene)
+            {
+                SceneManager.LoadScene(typeScene.ToString());
+                GameData.Instance.LoadGameDataInfo();
             }
             else if (typeScene == TypeScene.Exit)
             {

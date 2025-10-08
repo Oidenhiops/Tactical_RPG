@@ -40,9 +40,9 @@ public class MenuItemsCharacter : MonoBehaviour
     {
         for (int i = 0; i < bagBanners.Count; i++)
         {
-            if (GameData.Instance.gameDataInfo.bagItems[i].itemBaseSO)
+            if (GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].bagItems[i].itemBaseSO)
             {
-                bagBanners[i].SetBannerData(GameData.Instance.gameDataInfo.bagItems[i]);
+                bagBanners[i].SetBannerData(GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].bagItems[i]);
                 bagBanners[i].EnableBanner();
             }
             else
@@ -136,7 +136,7 @@ public class MenuItemsCharacter : MonoBehaviour
                 break;
             }
         }
-        GameData.Instance.gameDataInfo.bagItems[currentBagItem.bannerInfo.index] = itemToBag;
+        GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].bagItems[currentBagItem.bannerInfo.index] = itemToBag;
         currentBagItem = null;
         foreach (var statistics in AStarPathFinding.Instance.characterSelected.characterData.statistics)
         {

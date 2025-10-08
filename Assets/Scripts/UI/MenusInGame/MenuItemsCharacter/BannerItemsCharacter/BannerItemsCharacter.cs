@@ -17,7 +17,7 @@ public class BannerItemsCharacter : MonoBehaviour, ISubmitHandler, ISelectHandle
     {
         item = characterItem;
         itemSprite.sprite = characterItem.itemBaseSO.icon;
-        managementLanguage.id = characterItem.itemId;
+        managementLanguage.id = characterItem.itemBaseSO.idText;
         managementLanguage.RefreshText();
     }
     public void EnableBanner()

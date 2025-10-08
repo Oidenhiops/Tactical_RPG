@@ -7,7 +7,7 @@ public class ManagementLanguage : MonoBehaviour
 {
     public GameData.TypeLOCS typeLOCS;
     public TMP_Text dialogText;
-    public int id = 0;
+    public string id = "";
     public bool initByCode;
     [NonSerialized] public string[] dialogIds = { };
     void OnValidate()
@@ -27,7 +27,7 @@ public class ManagementLanguage : MonoBehaviour
     {
         dialogText.text = GameData.Instance.GetDialog(id, typeLOCS);
     }
-    public void ChangeTextById(int textId)
+    public void ChangeTextById(string textId)
     {
         id = textId;
         RefreshText();

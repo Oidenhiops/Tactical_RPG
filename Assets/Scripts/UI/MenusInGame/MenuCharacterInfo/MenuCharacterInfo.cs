@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class MenuCharacterInfo : MonoBehaviour
@@ -15,7 +16,7 @@ public class MenuCharacterInfo : MonoBehaviour
     public TMP_Text characterMovementMaxHeight;
     public TMP_Text characterName;
     public GameObject statusEffectBanner;
-    public Transform itemsContainer;
+    public Button itemsButton;
     public SerializedDictionary<int, ItemInfo> itemsInfo = new SerializedDictionary<int, ItemInfo>();
     public SubMenuInfo[] subMenusInfo;
     public SerializedDictionary<CharacterData.TypeStatistic, UiInfo> uiInfo = new SerializedDictionary<CharacterData.TypeStatistic, UiInfo>();
@@ -25,6 +26,16 @@ public class MenuCharacterInfo : MonoBehaviour
     public Color subMenuSelected;
     public Color subMenuDeselected;
     public int subMenuIndex = 0;
+    public InputAction changeSubMenuInput;
+    void Awake()
+    {
+        changeSubMenuInput.Enable();
+        changeSubMenuInput.started += OnHandleChangeSubMenu;
+    }
+    void OnDestroy()
+    {
+        changeSubMenuInput.started -= OnHandleChangeSubMenu;
+    }
     public void ReloadInfo(Character character, bool disableItemsContainer = false)
     {
         characterSprite.sprite = character.initialDataSO.icon;
@@ -54,14 +65,14 @@ public class MenuCharacterInfo : MonoBehaviour
         }
         if (!disableItemsContainer)
         {
-            itemsContainer.gameObject.SetActive(true);
+            itemsButton.interactable = true;
             foreach (KeyValuePair<CharacterData.CharacterItemInfo, CharacterData.CharacterItem> item in character.characterData.items)
             {
                 if (item.Value.itemBaseSO)
                 {
                     itemsInfo[item.Key.index].disableBanner.SetActive(false);
                     itemsInfo[item.Key.index].enabledBanner.SetActive(true);
-                    itemsInfo[item.Key.index].managementLanguage.id = item.Value.itemBaseSO.id;
+                    itemsInfo[item.Key.index].managementLanguage.id = item.Value.itemBaseSO.idText;
                     itemsInfo[item.Key.index].managementLanguage.RefreshText();
                     itemsInfo[item.Key.index].itemSprite.sprite = item.Value.itemBaseSO.icon;
                 }
@@ -74,7 +85,7 @@ public class MenuCharacterInfo : MonoBehaviour
         }
         else
         {
-            itemsContainer.gameObject.SetActive(false);
+            itemsButton.interactable = false;
         }
         foreach (KeyValuePair<CharacterData.TypeStatistic, TMP_Text> aptitude in aptitudes)
         {
@@ -92,12 +103,17 @@ public class MenuCharacterInfo : MonoBehaviour
     }
     public void ChangeSubMenu()
     {
+        int discount = itemsButton.IsInteractable() ? 0 : 1;
         subMenuIndex += 1;
-        if (subMenuIndex > 2)
+        if (subMenuIndex > 2 - discount)
         {
             subMenuIndex = 0;
         }
         EnableSubMenu(subMenuIndex);
+    }
+    void OnHandleChangeSubMenu(InputAction.CallbackContext context)
+    {
+        if (isMenuActive) ChangeSubMenu();
     }
     public void EnableSubMenu(int indexMenu)
     {
@@ -120,7 +136,7 @@ public class MenuCharacterInfo : MonoBehaviour
     {
         menuCharacterInfo.SetActive(false);
         isMenuActive = false;
-        if (!conservCharacter) AStarPathFinding.Instance.characterSelected = null;
+        if (!conservCharacter && AStarPathFinding.Instance) AStarPathFinding.Instance.characterSelected = null;
     }
     [Serializable]
     public class ItemInfo
