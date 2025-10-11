@@ -1,11 +1,12 @@
-// #if UNITY_EDITOR
-// using UnityEditor;
-// #endif
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
+using Unity.Collections;
 [CreateAssetMenu(fileName = "InitialData", menuName = "ScriptableObjects/Character/InitialDataSO", order = 1)]
 public class InitialDataSO : ScriptableObject
 {
@@ -26,126 +27,127 @@ public class InitialDataSO : ScriptableObject
         {CharacterData.TypeMastery.Axe, new CharacterData.CharacterMasteryInfo{masteryRange = CharacterData.MasteryRange.N, masteryLevel = 0}},
         {CharacterData.TypeMastery.Staff, new CharacterData.CharacterMasteryInfo{masteryRange = CharacterData.MasteryRange.N, masteryLevel = 0}}
     };
+    public SerializedDictionary<SkillsBaseSO.TypeSkill, SerializedDictionary<int, CharacterData.SkillInfo>> skills = new SerializedDictionary<SkillsBaseSO.TypeSkill, SerializedDictionary<int, CharacterData.SkillInfo>>();
     public SerializedDictionary<string, AnimationsInfo> animations = new SerializedDictionary<string, AnimationsInfo>();
     private string[] defaultNames = { "Idle", "Walk", "TakeDamage", "Defend", "Lifted", "Lift", "Throw", "FistAttack", "SwordAttack", "SpearAttack", "BowAttack", "GunAttack", "AxeAttack", "StaffAttack" };
     public GenerateAllAnimations generateAllAnimations;
 
-// #if UNITY_EDITOR
-//     [NaughtyAttributes.Button]
-//     public void GenerateAllCharacterAnimations()
-//     {
-//         if (generateAllAnimations.atlas == null || generateAllAnimations.baseSprite == null) return;
+#if UNITY_EDITOR
+    [NaughtyAttributes.Button]
+    public void GenerateAllCharacterAnimations()
+    {
+        if (generateAllAnimations.atlas == null || generateAllAnimations.baseSprite == null) return;
 
-//         Sprite[] allSprites = AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(generateAllAnimations.atlas)).OfType<Sprite>().ToArray();
-//         int spriteW = Mathf.RoundToInt(generateAllAnimations.baseSprite.rect.width);
-//         int indexSpriteForEvaluate = 0;
-//         int nameIndex = 0;
-//         string animationName = "";
-//         int middleIndex;
-//         animations.Clear();
-//         while (true)
-//         {
-//             animationName = isHumanoid ? defaultNames.Length > nameIndex ? defaultNames[nameIndex] : nameIndex.ToString() : 5 > nameIndex ? defaultNames[nameIndex] : nameIndex == 5 ? "FistAttack" : nameIndex.ToString();
-//             List<Sprite> row = new List<Sprite>();
-//             for (int i = 0; i < generateAllAnimations.atlas.width / spriteW; i++)
-//             {
-//                 if (i + indexSpriteForEvaluate > allSprites.Length - 1 || allSprites[i + indexSpriteForEvaluate].rect.y != allSprites[indexSpriteForEvaluate].rect.y)
-//                 {
-//                     break;
-//                 }
-//                 row.Add(allSprites[i + indexSpriteForEvaluate]);
-//             }
-//             middleIndex = row.Count / 2;
-//             AnimationsInfo animationInfo = new AnimationsInfo
-//             {
-//                 name = animationName,
-//                 spritesInfoDown = new SpritesInfo[middleIndex],
-//                 spritesInfoUp = new SpritesInfo[middleIndex],
-//             };
-//             for (int i = 0; i < row.Count; i++)
-//             {
-//                 if (i < middleIndex)
-//                 {
-//                     animationInfo.spritesInfoDown[i] = new SpritesInfo();
-//                     animationInfo.spritesInfoDown[i].characterSprite = row[i];
-//                 }
-//                 else
-//                 {
-//                     animationInfo.spritesInfoUp[i - middleIndex] = new SpritesInfo();
-//                     animationInfo.spritesInfoUp[i - middleIndex].characterSprite = row[i];
-//                 }
-//             }
-//             animations.Add(animationName, animationInfo);
+        Sprite[] allSprites = AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(generateAllAnimations.atlas)).OfType<Sprite>().ToArray();
+        int spriteW = Mathf.RoundToInt(generateAllAnimations.baseSprite.rect.width);
+        int indexSpriteForEvaluate = 0;
+        int nameIndex = 0;
+        string animationName;
+        int middleIndex;
+        animations.Clear();
+        while (true)
+        {
+            animationName = isHumanoid ? defaultNames.Length > nameIndex ? defaultNames[nameIndex] : nameIndex.ToString() : 5 > nameIndex ? defaultNames[nameIndex] : nameIndex == 5 ? "FistAttack" : nameIndex.ToString();
+            List<Sprite> row = new List<Sprite>();
+            for (int i = 0; i < generateAllAnimations.atlas.width / spriteW; i++)
+            {
+                if (i + indexSpriteForEvaluate > allSprites.Length - 1 || allSprites[i + indexSpriteForEvaluate].rect.y != allSprites[indexSpriteForEvaluate].rect.y)
+                {
+                    break;
+                }
+                row.Add(allSprites[i + indexSpriteForEvaluate]);
+            }
+            middleIndex = row.Count / 2;
+            AnimationsInfo animationInfo = new AnimationsInfo
+            {
+                name = animationName,
+                spritesInfoDown = new SpritesInfo[middleIndex],
+                spritesInfoUp = new SpritesInfo[middleIndex],
+            };
+            for (int i = 0; i < row.Count; i++)
+            {
+                if (i < middleIndex)
+                {
+                    animationInfo.spritesInfoDown[i] = new SpritesInfo();
+                    animationInfo.spritesInfoDown[i].characterSprite = row[i];
+                }
+                else
+                {
+                    animationInfo.spritesInfoUp[i - middleIndex] = new SpritesInfo();
+                    animationInfo.spritesInfoUp[i - middleIndex].characterSprite = row[i];
+                }
+            }
+            animations.Add(animationName, animationInfo);
 
-//             switch (animationName)
-//             {
-//                 case "Defend":
-//                 case "TakeDamage":
-//                     int amountSprites = 0;
-//                     List<SpritesInfo> spritesUp = new List<SpritesInfo>();
-//                     List<SpritesInfo> spritesDown = new List<SpritesInfo>();
-//                     for (int i = 0; i < 6; i++)
-//                     {
-//                         foreach (var spriteUp in animations[animationName].spritesInfoDown)
-//                         {
-//                             spritesDown.Add(new SpritesInfo
-//                             {
-//                                 characterSprite = spriteUp.characterSprite
-//                             });
-//                             amountSprites++;
-//                         }
-//                         foreach (var spriteUp in animations[animationName].spritesInfoUp)
-//                         {
-//                             spritesUp.Add(new SpritesInfo
-//                             {
-//                                 characterSprite = spriteUp.characterSprite
-//                             });
-//                         }
-//                         if (i == 0 && amountSprites == 4 || amountSprites == 6)
-//                         {
-//                             break;
-//                         }
-//                     }
-//                     animations[animationName].spritesInfoDown = spritesDown.ToArray();
-//                     animations[animationName].spritesInfoUp = spritesUp.ToArray();
-//                     break;
-//                 case "Idle":
-//                 case "Walk":
-//                 case "Lifted":
-//                 case "Lift":
-//                     animations[animationName].loop = true;
-//                     break;
-//             }
-//             nameIndex++;
-//             indexSpriteForEvaluate += row.Count;
-//             if (nameIndex >= generateAllAnimations.atlas.height / spriteW)
-//             {
-//                 break;
-//             }
-//         }
-//         animations["TakeDamage"].animationsEffects = new SerializedDictionary<CharacterAnimation.TypeAnimationsEffects, CharacterAnimation.AnimationEffectInfo>
-//         {
-//             {
-//                 CharacterAnimation.TypeAnimationsEffects.Shake,
-//                 new CharacterAnimation.AnimationEffectInfo
-//                 {
-//                     amplitude = 0.1f,
-//                     frequency = 100
-//                 }
-//             },
-//             {
-//                 CharacterAnimation.TypeAnimationsEffects.Blink,
-//                 new CharacterAnimation.AnimationEffectInfo
-//                 {
-//                     colorBlink = Color.HSVToRGB(0, 100, 58)
-//                 }
-//             }
-//         };
-//         atlas = generateAllAnimations.atlas;
-//         atlasHands = generateAllAnimations.atlasHands;
-//         icon = generateAllAnimations.icon;
-//     }
-// #endif
+            switch (animationName)
+            {
+                case "Defend":
+                case "TakeDamage":
+                    int amountSprites = 0;
+                    List<SpritesInfo> spritesUp = new List<SpritesInfo>();
+                    List<SpritesInfo> spritesDown = new List<SpritesInfo>();
+                    for (int i = 0; i < 6; i++)
+                    {
+                        foreach (var spriteUp in animations[animationName].spritesInfoDown)
+                        {
+                            spritesDown.Add(new SpritesInfo
+                            {
+                                characterSprite = spriteUp.characterSprite
+                            });
+                            amountSprites++;
+                        }
+                        foreach (var spriteUp in animations[animationName].spritesInfoUp)
+                        {
+                            spritesUp.Add(new SpritesInfo
+                            {
+                                characterSprite = spriteUp.characterSprite
+                            });
+                        }
+                        if (i == 0 && amountSprites == 4 || amountSprites == 6)
+                        {
+                            break;
+                        }
+                    }
+                    animations[animationName].spritesInfoDown = spritesDown.ToArray();
+                    animations[animationName].spritesInfoUp = spritesUp.ToArray();
+                    break;
+                case "Idle":
+                case "Walk":
+                case "Lifted":
+                case "Lift":
+                    animations[animationName].loop = true;
+                    break;
+            }
+            nameIndex++;
+            indexSpriteForEvaluate += row.Count;
+            if (nameIndex >= generateAllAnimations.atlas.height / spriteW)
+            {
+                break;
+            }
+        }
+        animations["TakeDamage"].animationsEffects = new SerializedDictionary<CharacterAnimation.TypeAnimationsEffects, CharacterAnimation.AnimationEffectInfo>
+        {
+            {
+                CharacterAnimation.TypeAnimationsEffects.Shake,
+                new CharacterAnimation.AnimationEffectInfo
+                {
+                    amplitude = 0.1f,
+                    frequency = 100
+                }
+            },
+            {
+                CharacterAnimation.TypeAnimationsEffects.Blink,
+                new CharacterAnimation.AnimationEffectInfo
+                {
+                    colorBlink = Color.HSVToRGB(0, 100, 58)
+                }
+            }
+        };
+        atlas = generateAllAnimations.atlas;
+        atlasHands = generateAllAnimations.atlasHands;
+        icon = generateAllAnimations.icon;
+    }
+#endif
 
     public SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic> CloneStatistics()
     {
@@ -183,6 +185,59 @@ public class InitialDataSO : ScriptableObject
 
         return clone;
     }
+    public SerializedDictionary<SkillsBaseSO.TypeSkill, SerializedDictionary<int, CharacterData.SkillInfo>> CloneSkills()
+    {
+        var clone = new SerializedDictionary<SkillsBaseSO.TypeSkill, SerializedDictionary<int, CharacterData.SkillInfo>>();
+
+        foreach (var kvp in skills)
+        {
+            var innerClone = new SerializedDictionary<int, CharacterData.SkillInfo>();
+
+            foreach (var innerKvp in kvp.Value)
+            {
+                var statisticsClone = new SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic>();
+                foreach (var statKvp in innerKvp.Value.statistics)
+                {
+                    var statClone = new CharacterData.Statistic
+                    {
+                        aptitudeValue = statKvp.Value.aptitudeValue,
+                        baseValue = statKvp.Value.baseValue,
+                        buffValue = statKvp.Value.buffValue,
+                        currentValue = statKvp.Value.currentValue,
+                        itemValue = statKvp.Value.itemValue,
+                        maxValue = statKvp.Value.maxValue,
+                    };
+                    statisticsClone.Add(statKvp.Key, statClone);
+                }
+                var skillInfoClone = new CharacterData.SkillInfo
+                {
+                    skillsBaseSO = innerKvp.Value.skillsBaseSO,
+                    statistics = statisticsClone,
+                    level = innerKvp.Value.level,
+                };
+
+                innerClone.Add(innerKvp.Key, skillInfoClone);
+            }
+            clone.Add(kvp.Key, innerClone);
+        }
+        int index = 0;
+        for (int i = 0; i < clone.Count; i++)
+        {
+            for (int x = 0; x < clone.ElementAt(i).Value.Count; x++)
+            {
+                SerializedDictionary<int, CharacterData.SkillInfo> skill = new SerializedDictionary<int, CharacterData.SkillInfo>
+            {
+                { clone[clone.ElementAt(i).Key].ElementAt(index).Value.skillsBaseSO.skillId, clone[clone.ElementAt(i).Key].ElementAt(index).Value }
+            };
+                clone[clone.ElementAt(i).Key] = skill;
+                index++;
+            }
+        }
+
+        return clone;
+    }
+
+
     [Serializable]
     public class AnimationsInfo
     {

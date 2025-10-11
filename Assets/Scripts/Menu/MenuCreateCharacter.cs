@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using AYellowpaper.SerializedCollections;
 using TMPro;
 using UnityEngine;
@@ -199,6 +200,7 @@ public class MenuCreateCharacter : MonoBehaviour
             };
             character.statistics = GameData.Instance.charactersDataDBSO.data[character.id][character.subId].initialDataSO.CloneStatistics();
             character.mastery = GameData.Instance.charactersDataDBSO.data[character.id][character.subId].initialDataSO.CloneMastery();
+            character.skills = GameData.Instance.charactersDataDBSO.data[character.id][character.subId].initialDataSO.CloneSkills();
             foreach (KeyValuePair<CharacterData.TypeStatistic, CharacterData.Statistic> statistic in character.statistics)
             {
                 if (statistic.Key != CharacterData.TypeStatistic.Exp)

@@ -882,18 +882,6 @@ MonoBehaviour:
         frameToInstance: 3
         instanceObj: {fileID: 0}
         instance: {fileID: 0}
-  newOrEditAnimation:
-    name: 
-    linkAnimation: 
-    spritesInfoDown: []
-    spritesInfoUp: []
-    animationsEffects:
-      _serializedList: []
-    loop: 0
-    needInstance: 0
-    frameToInstance: 0
-    instanceObj: {fileID: 0}
-    instance: {fileID: 0}
   generateAllAnimations:
     baseSprite: {fileID: 1874254174, guid: 9966ab3212d68594dae8ed0f33172a25, type: 3}
     atlas: {fileID: 2800000, guid: 9966ab3212d68594dae8ed0f33172a25, type: 3}

@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc813b44e2b9d8745881221110312346, type: 3}
+  m_Name: BasicHealSO
+  m_EditorClassIdentifier: Assembly-CSharp::BasicHealSkillSO
+  skillId: 0
+  skillIdText: 0
+  statistics:
+    _serializedList:
+    - Key: 1
+      Value:
+        baseValue: 10
+        aptitudeValue: 0
+        itemValue: 0
+        buffValue:
+          _serializedList: []
+        currentValue: 0
+        maxValue: 0
+    - Key: 2
+      Value:
+        baseValue: 3
+        aptitudeValue: 0
+        itemValue: 0
+        buffValue:
+          _serializedList: []
+        currentValue: 0
+        maxValue: 0
+    - Key: 9
+      Value:
+        baseValue: 0
+        aptitudeValue: 0
+        itemValue: 0
+        buffValue:
+          _serializedList: []
+        currentValue: 0
+        maxValue: 15
+  typeSkill: 10

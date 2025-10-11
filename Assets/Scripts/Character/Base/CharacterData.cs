@@ -28,6 +28,7 @@ public class CharacterData
         {TypeMastery.Axe, new CharacterMasteryInfo{masteryRange = MasteryRange.N, masteryLevel = 0}},
         {TypeMastery.Staff, new CharacterMasteryInfo{masteryRange = MasteryRange.N, masteryLevel = 0}}
     };
+    public SerializedDictionary<SkillsBaseSO.TypeSkill, SerializedDictionary<int, SkillInfo>> skills = new SerializedDictionary<SkillsBaseSO.TypeSkill, SerializedDictionary<int, SkillInfo>>();
     [Serializable] public class Statistic
     {
         public int baseValue = 0;
@@ -55,7 +56,6 @@ public class CharacterData
     public int GetMovementMaxHeight()
     {
         return 2 + statistics[TypeStatistic.Spd].currentValue > 6 ? 6 : statistics[TypeStatistic.Spd].currentValue;
-        //return 0;
     }
     public int GetMovementRadius()
     {
@@ -100,6 +100,13 @@ public class CharacterData
         public int masteryLevel;
         public int currentExp;
         public int maxExp;
+    }
+    [Serializable]
+    public class SkillInfo
+    {
+        public SkillsBaseSO skillsBaseSO;
+        public int level;
+        public SerializedDictionary<TypeStatistic, Statistic> statistics = new SerializedDictionary<TypeStatistic, Statistic>();
     }
     public enum TypeMastery
     {
