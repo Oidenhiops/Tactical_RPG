@@ -18,7 +18,7 @@ public class BannerItemsCharacter : MonoBehaviour, ISubmitHandler, ISelectHandle
         item = characterItem;
         itemSprite.sprite = characterItem.itemBaseSO.icon;
         managementLanguage.id = characterItem.itemBaseSO.idText;
-        managementLanguage.RefreshText();
+        managementLanguage.RefreshDialog();
     }
     public void EnableBanner()
     {
@@ -41,7 +41,7 @@ public class BannerItemsCharacter : MonoBehaviour, ISubmitHandler, ISelectHandle
             menuItemsCharacter.OnItemSelect(this);
         }
     }
-    public void OnSelect(BaseEventData eventData)
+    public void OnHandleSelect(BaseEventData eventData)
     {
         if (isBagItem) menuItemsCharacter.bagIndex = bannerInfo.index;
         else menuItemsCharacter.gearIndex = bannerInfo.index;

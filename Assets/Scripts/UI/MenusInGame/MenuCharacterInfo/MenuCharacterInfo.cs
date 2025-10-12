@@ -11,8 +11,12 @@ public class MenuCharacterInfo : MonoBehaviour
     public GameObject menuCharacterInfo;
     public Transform statusEffectsContainer;
     public GameObject statusEffectBanner;
-    public Transform skillsContainer;
     public GameObject skillBanner;
+    public RectTransform skillsViewport;
+    public RectTransform skillsContainer;
+    public ScrollRect skillsScrollRect;
+    public int skillBannerIndex;
+    public TMP_Text skillDescription;
     public Image characterSprite;
     public TMP_Text characterLevel;
     public TMP_Text characterMovementRadius;
@@ -29,14 +33,18 @@ public class MenuCharacterInfo : MonoBehaviour
     public Color subMenuDeselected;
     public int subMenuIndex = 0;
     public InputAction changeSubMenuInput;
+    public InputAction changeSkillInput;
     void Awake()
     {
         changeSubMenuInput.Enable();
         changeSubMenuInput.started += OnHandleChangeSubMenu;
+        changeSkillInput.Enable();
+        changeSkillInput.started += OnHandleChangeSkill;
     }
     void OnDestroy()
     {
         changeSubMenuInput.started -= OnHandleChangeSubMenu;
+        changeSkillInput.started -= OnHandleChangeSkill;
     }
     public void ReloadInfo(Character character, bool disableItemsContainer = false)
     {
@@ -56,6 +64,7 @@ public class MenuCharacterInfo : MonoBehaviour
                 statisticsUi.Value.characterStatistic.text = (character.characterData.statistics[CharacterData.TypeStatistic.Exp].maxValue - character.characterData.statistics[CharacterData.TypeStatistic.Exp].currentValue).ToString();
             }
         }
+
         foreach (Transform child in statusEffectsContainer.transform)
         {
             Destroy(child.gameObject);
@@ -65,15 +74,21 @@ public class MenuCharacterInfo : MonoBehaviour
             StatusEffectBanner banner = Instantiate(statusEffectBanner, statusEffectsContainer.transform).GetComponent<StatusEffectBanner>();
             banner.SetData(statusEffect.Key, statusEffect.Value);
         }
+
+        skillBannerIndex = 0;
         foreach (Transform child in skillsContainer.transform)
         {
             Destroy(child.gameObject);
         }
         if (character.characterData.skills.Count > 0)
         {
+            skillDescription.transform.parent.gameObject.SetActive(true);
             foreach (KeyValuePair<int, CharacterData.CharacterSkillInfo> skill in character.characterData.skills[ItemBaseSO.TypeWeapon.None])
             {
                 SkillBannerCharacterInfo banner = Instantiate(skillBanner, skillsContainer.transform).GetComponent<SkillBannerCharacterInfo>();
+                banner.onObjectSelect.container = skillsContainer;
+                banner.onObjectSelect.viewport = skillsViewport;
+                banner.onObjectSelect.scrollRect = skillsScrollRect;
                 banner.SetBannerData(skill.Value);
             }
             character.characterData.GetCurrentWeapon(out CharacterData.CharacterItem weapon);
@@ -83,10 +98,22 @@ public class MenuCharacterInfo : MonoBehaviour
                 foreach (KeyValuePair<int, CharacterData.CharacterSkillInfo> skill in character.characterData.skills[weapon.itemBaseSO.typeWeapon])
                 {
                     SkillBannerCharacterInfo banner = Instantiate(skillBanner, skillsContainer.transform).GetComponent<SkillBannerCharacterInfo>();
+                    banner.onObjectSelect.container = skillsContainer;
+                    banner.onObjectSelect.viewport = skillsViewport;
+                    banner.onObjectSelect.scrollRect = skillsScrollRect;
                     banner.SetBannerData(skill.Value);
                 }
             }
+            ManagementLanguage managementLanguage = skillDescription.GetComponent<ManagementLanguage>();
+            managementLanguage.id = skillsContainer.GetChild(skillBannerIndex).GetComponent<SkillBannerCharacterInfo>().skill.skillsBaseSO.skillIdText;
+            managementLanguage.otherInfo = skillsContainer.GetChild(skillBannerIndex).GetComponent<SkillBannerCharacterInfo>().skill.skillsBaseSO.GetSkillDescription(skillsContainer.GetChild(0).GetComponent<SkillBannerCharacterInfo>().skill.statistics);
+            managementLanguage.RefreshDescription();
         }
+        else
+        {
+            skillDescription.transform.parent.gameObject.SetActive(false);
+        }
+
         if (!disableItemsContainer)
         {
             itemsButton.interactable = true;
@@ -98,7 +125,7 @@ public class MenuCharacterInfo : MonoBehaviour
                     itemsInfo[item.Key.index].disableBanner.SetActive(false);
                     itemsInfo[item.Key.index].enabledBanner.SetActive(true);
                     itemsInfo[item.Key.index].managementLanguage.id = item.Value.itemBaseSO.idText;
-                    itemsInfo[item.Key.index].managementLanguage.RefreshText();
+                    itemsInfo[item.Key.index].managementLanguage.RefreshDialog();
                     itemsInfo[item.Key.index].itemSprite.sprite = item.Value.itemBaseSO.icon;
                 }
                 else
@@ -113,6 +140,7 @@ public class MenuCharacterInfo : MonoBehaviour
             itemsButton.interactable = false;
             itemsButton.gameObject.SetActive(false);
         }
+        
         foreach (KeyValuePair<CharacterData.TypeStatistic, TMP_Text> aptitude in aptitudes)
         {
             aptitude.Value.text = character.characterData.statistics[aptitude.Key].aptitudeValue + "%";
@@ -123,6 +151,7 @@ public class MenuCharacterInfo : MonoBehaviour
             mastery.Value.masteryLevel.text = character.characterData.mastery[mastery.Key].masteryLevel.ToString();
             mastery.Value.masteryLevelFill.fillAmount = character.characterData.mastery[mastery.Key].currentExp / (float)character.characterData.mastery[mastery.Key].maxExp;
         }
+
         EnableSubMenu(0);
         menuCharacterInfo.SetActive(true);
         isMenuActive = true;
@@ -136,6 +165,29 @@ public class MenuCharacterInfo : MonoBehaviour
             subMenuIndex = 0;
         }
         EnableSubMenu(subMenuIndex);
+    }
+    public void OnHandleChangeSkill(InputAction.CallbackContext context)
+    {
+        if (subMenusInfo[1].subMenuContainer.activeSelf)
+        {
+            skillsContainer.GetChild(skillBannerIndex).GetComponent<SkillBannerCharacterInfo>().OnDeselectBanner();
+            int direction = context.ReadValue<float>() > 0 ? 1 : -1;
+            skillBannerIndex += direction;
+            if (skillBannerIndex >= skillsContainer.childCount)
+            {
+                skillBannerIndex = 0;
+            }
+            else if (skillBannerIndex < 0)
+            {
+                skillBannerIndex = skillsContainer.childCount - 1;
+            }
+
+            ManagementLanguage managementLanguage = skillDescription.GetComponent<ManagementLanguage>();
+            managementLanguage.id = skillsContainer.GetChild(skillBannerIndex).GetComponent<SkillBannerCharacterInfo>().skill.skillsBaseSO.skillIdText;
+            managementLanguage.otherInfo = skillsContainer.GetChild(skillBannerIndex).GetComponent<SkillBannerCharacterInfo>().skill.skillsBaseSO.GetSkillDescription(skillsContainer.GetChild(0).GetComponent<SkillBannerCharacterInfo>().skill.statistics);
+            skillsContainer.GetChild(skillBannerIndex).GetComponent<SkillBannerCharacterInfo>().OnSelectBanner();
+            managementLanguage.RefreshDescription();
+        }
     }
     void OnHandleChangeSubMenu(InputAction.CallbackContext context)
     {

@@ -1,2 +1,2 @@
-﻿ID;Descripción;English;Español;
-skill_basic_heal;SkillDescription;Basic Heal;Curación básica;
+﻿ID;English;EnglishDescription;Español;
+skill_basic_heal;Basic Heal;Heals a {0} amount of maximum health.;Curación básica;

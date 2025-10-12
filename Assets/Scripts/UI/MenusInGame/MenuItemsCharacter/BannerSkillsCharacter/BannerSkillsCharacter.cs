@@ -10,6 +10,6 @@ public class BannerSkillsCharacter : MonoBehaviour
     {
         bannerInfo.skillsBaseSO = characterSkill.skillsBaseSO;
         managementLanguage.id = characterSkill.skillsBaseSO.skillIdText;
-        managementLanguage.RefreshText();
+        managementLanguage.RefreshDialog();
     }
 }

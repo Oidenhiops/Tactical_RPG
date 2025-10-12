@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
 
@@ -29,6 +30,20 @@ public class SkillsBaseSO : ScriptableObject
     public bool ValidateCanUseSkill(Character character)
     {
         return character.characterData.statistics[CharacterData.TypeStatistic.Sp].currentValue - character.characterData.skills[typeSkill][skillId].statistics[CharacterData.TypeStatistic.Sp].baseValue > 0;
+    }
+    public string[] GetSkillDescription (SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic> statistics)
+    {
+        List<string> info = new List<string>();
+
+        foreach (KeyValuePair<CharacterData.TypeStatistic, CharacterData.Statistic> statistic in statistics)
+        {
+            if (statistic.Key != CharacterData.TypeStatistic.Exp)
+            {
+                info.Add($"{statistic.Value.baseValue}%");
+            }
+        }
+
+        return info.ToArray();
     }
     public SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic> CloneStatistics()
     {

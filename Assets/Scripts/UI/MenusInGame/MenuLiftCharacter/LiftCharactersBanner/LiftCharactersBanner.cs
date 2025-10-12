@@ -26,7 +26,7 @@ public class LiftCharactersBanner : MonoBehaviour, ISelectHandler
         characterImage.sprite = character.initialDataSO.icon;
         characterName.text = character.characterData.name;
     }
-    public void OnSelect(BaseEventData eventData)
+    public void OnHandleSelect(BaseEventData eventData)
     {
         menuLiftCharacter.playerManager.MovePointerToInstant(Vector3Int.RoundToInt(character.transform.position));
         menuLiftCharacter.playerManager.menuCharacterInfo.ReloadInfo(character);

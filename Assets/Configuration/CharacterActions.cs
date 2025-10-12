@@ -641,17 +641,6 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""8302163d-085f-477a-8585-112b225dbd2b"",
-                    ""path"": ""<Gamepad>/dpad"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
                     ""name"": ""Joystick"",
                     ""id"": ""91689466-be67-4c21-a5a4-5db1be3dfb27"",
                     ""path"": ""2DVector"",

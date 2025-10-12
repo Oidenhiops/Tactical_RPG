@@ -15,7 +15,7 @@ public class AllCharactersBanner : MonoBehaviour, ISelectHandler
         characterImage.sprite = character.initialDataSO.icon;
         characterName.text = character.characterData.name;
     }
-    public void OnSelect(BaseEventData eventData)
+    public void OnHandleSelect(BaseEventData eventData)
     {
         menuAllCharacters.OnCharacterSelect(this);
         menuAllCharacters.playerManager.MovePointerToInstant(Vector3Int.RoundToInt(character.transform.position));

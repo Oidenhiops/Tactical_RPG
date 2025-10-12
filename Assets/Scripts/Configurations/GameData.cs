@@ -151,7 +151,7 @@ public class GameData : MonoBehaviour
         }
         return data;
     }
-    public string GetDialog(string id, TypeLOCS typeLOCS)
+    public DialogData GetDialog(string id, TypeLOCS typeLOCS)
     {
         if (locs.TryGetValue(typeLOCS, out Dictionary<string, string[]> dialogs) && dialogs.ContainsKey(id))
         {
@@ -164,12 +164,17 @@ public class GameData : MonoBehaviour
                     break;
                 }
             }
-            return dialogs[id][languageIndex];
+            return new DialogData
+            {
+                description = dialogs[id][languageIndex + 1],
+                dialog = dialogs[id][languageIndex]
+            };
         }
-        else
+        return new DialogData
         {
-            return $"NTF {typeLOCS}: {id}";
-        }
+            description = $"NTF {typeLOCS}: {id}",
+            dialog = $"NTF {typeLOCS}: {id}"
+        };
     }
     public void ChangeLanguage(TypeLanguage language)
     {
@@ -440,6 +445,11 @@ public class GameData : MonoBehaviour
         public int currentGameDataIndex = 0;
         public ConfigurationsInfo configurationsInfo = new ConfigurationsInfo();
         public SerializedDictionary<string, InitialBGMSoundsConfigSO.BGMScenesData> bgmSceneData = new SerializedDictionary<string, InitialBGMSoundsConfigSO.BGMScenesData>();
+    }
+    public class DialogData
+    {
+        public string description;
+        public string dialog;
     }
     public enum TypeLanguage
     {

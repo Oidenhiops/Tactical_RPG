@@ -26,7 +26,7 @@ public class CharacterSelectorBanner : MonoBehaviour, ISelectHandler
         characterImage.sprite = character.initialDataSO.icon;
         characterName.text = character.characterData.name;
     }
-    public void OnSelect(BaseEventData eventData)
+    public void OnHandleSelect(BaseEventData eventData)
     {
         menuCharacterSelector.index = gameObject.transform.GetSiblingIndex();
     }

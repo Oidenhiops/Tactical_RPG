@@ -15,10 +15,14 @@ public class OnObjectSelect : MonoBehaviour, ISelectHandler
     float maxItemsInView;
     float itemsNonView;
     float sizeItemInViewport;
-    public void OnSelect(BaseEventData eventData)
+    public void OnHandleSelect(BaseEventData eventData)
+    {
+        OnSelect();
+    }
+    public void OnSelect()
     {
         index = transform.GetSiblingIndex();
-        if (!scrollByCode)
+        if (scrollByCode)
         {
             if (isDropDown && dropdownSelected.isInit || !isDropDown) ScrollTo(index);
         }
