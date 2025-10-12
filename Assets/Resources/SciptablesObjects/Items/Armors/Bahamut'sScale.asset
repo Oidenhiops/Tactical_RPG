@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c97b1e5660ddca345b132bd0101ce60a, type: 3}
-  m_Name: BahamutScale
+  m_Name: Bahamut'sScale
   m_EditorClassIdentifier: 
   id: 352
+  idText: item_bahamut's_scale
   icon: {fileID: -1391148665, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
   typeObject: 2
   typeWeapon: 0

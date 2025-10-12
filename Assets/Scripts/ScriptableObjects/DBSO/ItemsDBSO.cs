@@ -15,11 +15,23 @@ public class ItemsDBSO : ScriptableObject
             data.Add(itemsToAdd[i].id, itemsToAdd[i]);
         }
     }
-    [NaughtyAttributes.Button] public void SortItems()
+    [NaughtyAttributes.Button]
+    public void SortItems()
     {
         data = new SerializedDictionary<int, ItemBaseSO>(
             data.OrderBy(kvp => kvp.Key)
             .ToDictionary(kvp => kvp.Key, kvp => kvp.Value)
         );
+    }
+    [NaughtyAttributes.Button]
+    public void SetItemIdText()
+    {
+        for (int i = 0; i < data.Count; i++)
+        {
+            var item = data.ElementAt(i).Value;
+            string idText = System.Text.RegularExpressions.Regex.Replace(item.name, @"([a-z])([A-Z])", "$1_$2");
+            idText = idText.Replace(" ", "_").ToLower();
+            data.ElementAt(i).Value.idText = $"item_{idText}";
+        }
     }
 }

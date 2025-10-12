@@ -10,38 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c97b1e5660ddca345b132bd0101ce60a, type: 3}
-  m_Name: BahamutHorn
+  m_Name: Village'sAxe
   m_EditorClassIdentifier: 
-  id: 105
-  icon: {fileID: 34959680, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
+  id: 202
+  icon: {fileID: 1661519441, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
   typeObject: 1
-  typeWeapon: 3
+  typeWeapon: 6
   positionsToAttack:
-  - {x: -3, y: 0, z: 0}
-  - {x: -2, y: 0, z: 0}
   - {x: -1, y: 0, z: 0}
-  - {x: -2, y: 0, z: 1}
-  - {x: -1, y: 0, z: 2}
-  - {x: 0, y: 0, z: 3}
-  - {x: 0, y: 0, z: 2}
+  - {x: -2, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}
-  - {x: -1, y: 0, z: 1}
-  - {x: 2, y: 0, z: 1}
-  - {x: 1, y: 0, z: 2}
-  - {x: 3, y: 0, z: 0}
-  - {x: 2, y: 0, z: 0}
+  - {x: 0, y: 0, z: 2}
   - {x: 1, y: 0, z: 0}
-  - {x: 1, y: 0, z: 1}
+  - {x: 2, y: 0, z: 0}
   - {x: 0, y: 0, z: -1}
   - {x: 0, y: 0, z: -2}
-  - {x: 0, y: 0, z: -3}
-  - {x: 1, y: 0, z: -2}
-  - {x: 2, y: 0, z: -1}
-  - {x: 1, y: 0, z: -1}
   - {x: -1, y: 0, z: -1}
-  - {x: -2, y: 0, z: -1}
-  - {x: -1, y: 0, z: -2}
+  - {x: 1, y: 0, z: -1}
+  - {x: 1, y: 0, z: 1}
+  - {x: -1, y: 0, z: 1}
   animationName: 
-  amountToAddId: 80
+  amountToAddId: 200
   itemStatistics:
     _serializedList: []

@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
-using Unity.Collections;
 [CreateAssetMenu(fileName = "InitialData", menuName = "ScriptableObjects/Character/InitialDataSO", order = 1)]
 public class InitialDataSO : ScriptableObject
 {
@@ -27,7 +26,7 @@ public class InitialDataSO : ScriptableObject
         {CharacterData.TypeMastery.Axe, new CharacterData.CharacterMasteryInfo{masteryRange = CharacterData.MasteryRange.N, masteryLevel = 0}},
         {CharacterData.TypeMastery.Staff, new CharacterData.CharacterMasteryInfo{masteryRange = CharacterData.MasteryRange.N, masteryLevel = 0}}
     };
-    public SerializedDictionary<SkillsBaseSO.TypeSkill, SerializedDictionary<int, CharacterData.SkillInfo>> skills = new SerializedDictionary<SkillsBaseSO.TypeSkill, SerializedDictionary<int, CharacterData.SkillInfo>>();
+    public SerializedDictionary<ItemBaseSO.TypeWeapon, SerializedDictionary<int, CharacterData.CharacterSkillInfo>> skills = new SerializedDictionary<ItemBaseSO.TypeWeapon, SerializedDictionary<int, CharacterData.CharacterSkillInfo>>();
     public SerializedDictionary<string, AnimationsInfo> animations = new SerializedDictionary<string, AnimationsInfo>();
     private string[] defaultNames = { "Idle", "Walk", "TakeDamage", "Defend", "Lifted", "Lift", "Throw", "FistAttack", "SwordAttack", "SpearAttack", "BowAttack", "GunAttack", "AxeAttack", "StaffAttack" };
     public GenerateAllAnimations generateAllAnimations;
@@ -185,13 +184,13 @@ public class InitialDataSO : ScriptableObject
 
         return clone;
     }
-    public SerializedDictionary<SkillsBaseSO.TypeSkill, SerializedDictionary<int, CharacterData.SkillInfo>> CloneSkills()
+    public UnityEngine.Rendering.SerializedDictionary<ItemBaseSO.TypeWeapon, UnityEngine.Rendering.SerializedDictionary<int, CharacterData.CharacterSkillInfo>> CloneSkills()
     {
-        var clone = new SerializedDictionary<SkillsBaseSO.TypeSkill, SerializedDictionary<int, CharacterData.SkillInfo>>();
+        var clone = new UnityEngine.Rendering.SerializedDictionary<ItemBaseSO.TypeWeapon, UnityEngine.Rendering.SerializedDictionary<int, CharacterData.CharacterSkillInfo>>();
 
         foreach (var kvp in skills)
         {
-            var innerClone = new SerializedDictionary<int, CharacterData.SkillInfo>();
+            var innerClone = new UnityEngine.Rendering.SerializedDictionary<int, CharacterData.CharacterSkillInfo>();
 
             foreach (var innerKvp in kvp.Value)
             {
@@ -209,7 +208,7 @@ public class InitialDataSO : ScriptableObject
                     };
                     statisticsClone.Add(statKvp.Key, statClone);
                 }
-                var skillInfoClone = new CharacterData.SkillInfo
+                var skillInfoClone = new CharacterData.CharacterSkillInfo
                 {
                     skillsBaseSO = innerKvp.Value.skillsBaseSO,
                     statistics = statisticsClone,
@@ -225,7 +224,7 @@ public class InitialDataSO : ScriptableObject
         {
             for (int x = 0; x < clone.ElementAt(i).Value.Count; x++)
             {
-                SerializedDictionary<int, CharacterData.SkillInfo> skill = new SerializedDictionary<int, CharacterData.SkillInfo>
+                UnityEngine.Rendering.SerializedDictionary<int, CharacterData.CharacterSkillInfo> skill = new UnityEngine.Rendering.SerializedDictionary<int, CharacterData.CharacterSkillInfo>
             {
                 { clone[clone.ElementAt(i).Key].ElementAt(index).Value.skillsBaseSO.skillId, clone[clone.ElementAt(i).Key].ElementAt(index).Value }
             };

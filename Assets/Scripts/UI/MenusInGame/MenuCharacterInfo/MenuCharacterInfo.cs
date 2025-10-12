@@ -10,12 +10,14 @@ public class MenuCharacterInfo : MonoBehaviour
 {
     public GameObject menuCharacterInfo;
     public Transform statusEffectsContainer;
+    public GameObject statusEffectBanner;
+    public Transform skillsContainer;
+    public GameObject skillBanner;
     public Image characterSprite;
     public TMP_Text characterLevel;
     public TMP_Text characterMovementRadius;
     public TMP_Text characterMovementMaxHeight;
     public TMP_Text characterName;
-    public GameObject statusEffectBanner;
     public Button itemsButton;
     public SerializedDictionary<int, ItemInfo> itemsInfo = new SerializedDictionary<int, ItemInfo>();
     public SubMenuInfo[] subMenusInfo;
@@ -63,9 +65,32 @@ public class MenuCharacterInfo : MonoBehaviour
             StatusEffectBanner banner = Instantiate(statusEffectBanner, statusEffectsContainer.transform).GetComponent<StatusEffectBanner>();
             banner.SetData(statusEffect.Key, statusEffect.Value);
         }
+        foreach (Transform child in skillsContainer.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        if (character.characterData.skills.Count > 0)
+        {
+            foreach (KeyValuePair<int, CharacterData.CharacterSkillInfo> skill in character.characterData.skills[ItemBaseSO.TypeWeapon.None])
+            {
+                SkillBannerCharacterInfo banner = Instantiate(skillBanner, skillsContainer.transform).GetComponent<SkillBannerCharacterInfo>();
+                banner.SetBannerData(skill.Value);
+            }
+            character.characterData.GetCurrentWeapon(out CharacterData.CharacterItem weapon);
+
+            if (weapon != null && character.characterData.skills.ContainsKey(weapon.itemBaseSO.typeWeapon))
+            {
+                foreach (KeyValuePair<int, CharacterData.CharacterSkillInfo> skill in character.characterData.skills[weapon.itemBaseSO.typeWeapon])
+                {
+                    SkillBannerCharacterInfo banner = Instantiate(skillBanner, skillsContainer.transform).GetComponent<SkillBannerCharacterInfo>();
+                    banner.SetBannerData(skill.Value);
+                }
+            }
+        }
         if (!disableItemsContainer)
         {
             itemsButton.interactable = true;
+            itemsButton.gameObject.SetActive(true);
             foreach (KeyValuePair<CharacterData.CharacterItemInfo, CharacterData.CharacterItem> item in character.characterData.items)
             {
                 if (item.Value.itemBaseSO)
@@ -86,6 +111,7 @@ public class MenuCharacterInfo : MonoBehaviour
         else
         {
             itemsButton.interactable = false;
+            itemsButton.gameObject.SetActive(false);
         }
         foreach (KeyValuePair<CharacterData.TypeStatistic, TMP_Text> aptitude in aptitudes)
         {

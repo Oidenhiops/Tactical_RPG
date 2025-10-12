@@ -4,9 +4,9 @@ using UnityEngine;
 public class SkillsBaseSO : ScriptableObject
 {
     public int skillId;
-    public int skillIdText;
+    public string skillIdText;
     public SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic> statistics = new SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic>();
-    public TypeSkill typeSkill;
+    public ItemBaseSO.TypeWeapon typeSkill;
     public virtual void UseSkill(Character character){ Debug.LogError("UseSkill non implemented"); }
     public virtual void LevelUpSkill(Character character) { Debug.LogError("LevelUpSkill non implemented"); }
     public void AddSkill(Character character)
@@ -15,14 +15,14 @@ public class SkillsBaseSO : ScriptableObject
         {
             if (!character.characterData.skills[typeSkill].ContainsKey(skillId))
             {
-                character.characterData.skills[typeSkill].Add(skillId, new CharacterData.SkillInfo{ skillsBaseSO = this, level = 0, statistics = CloneStatistics() });
+                character.characterData.skills[typeSkill].Add(skillId, new CharacterData.CharacterSkillInfo{ skillsBaseSO = this, level = 0, statistics = CloneStatistics() });
             }
         }
         else
         {
-            character.characterData.skills.Add(typeSkill, new SerializedDictionary<int, CharacterData.SkillInfo>
+            character.characterData.skills.Add(typeSkill, new UnityEngine.Rendering.SerializedDictionary<int, CharacterData.CharacterSkillInfo>
             {
-                {skillId, new CharacterData.SkillInfo { skillsBaseSO = this, level = 0, statistics = CloneStatistics() }}
+                {skillId, new CharacterData.CharacterSkillInfo { skillsBaseSO = this, level = 0, statistics = CloneStatistics() }}
             });
         }
     }
@@ -48,18 +48,5 @@ public class SkillsBaseSO : ScriptableObject
         }
 
         return clone;
-    }
-    public enum TypeSkill
-    {
-        None = 0,
-        Fist = 1,
-        Sword = 2,
-        Spear = 3,
-        Bow = 4,
-        Gun = 5,
-        Axe = 6,
-        Staff = 7,
-        Monster = 8,
-        General = 10
     }
 }

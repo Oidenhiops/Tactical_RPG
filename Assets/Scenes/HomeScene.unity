@@ -1604,6 +1604,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 84809784}
+  - component: {fileID: 84809785}
   m_Layer: 0
   m_Name: CreateCharacter
   m_TagString: Untagged
@@ -1630,6 +1631,33 @@ Transform:
   - {fileID: 204529171}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &84809785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84809783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7feca7daa6e6cc4f8b6918937c18a23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::test
+  TEST:
+  - test:
+      _serializedList:
+      - Key: 0
+        Value:
+          test:
+            _serializedList:
+            - Key: 0
+              Value:
+                skillsBaseSO: {fileID: 0}
+                level: 0
+                statistics:
+                  _serializedList:
+                  - Key: 0
+                    Value: 0
 --- !u!1001 &85633476
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20775,7 +20803,7 @@ PrefabInstance:
     - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
         type: 3}
       propertyPath: gameDataInfo.gameDataSlots.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
         type: 3}
@@ -20784,12 +20812,47 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
         type: 3}
+      propertyPath: gameDataInfo.gameDataSlots.Array.data[0].characters._serializedList.Array.data[0].Value.items._serializedList.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
+        type: 3}
       propertyPath: gameDataInfo.gameDataSlots.Array.data[0].characters._serializedList.Array.data[0].Value.skills._serializedList.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
         type: 3}
+      propertyPath: gameDataInfo.gameDataSlots.Array.data[0].characters._serializedList.Array.data[0].Value.mastery._serializedList.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
+        type: 3}
+      propertyPath: gameDataInfo.gameDataSlots.Array.data[0].characters._serializedList.Array.data[0].Value.skills2._serializedList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
+        type: 3}
+      propertyPath: gameDataInfo.gameDataSlots.Array.data[0].characters._serializedList.Array.data[0].Value.skills._serializedList.Array.data[0].Key
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
+        type: 3}
+      propertyPath: gameDataInfo.gameDataSlots.Array.data[0].characters._serializedList.Array.data[0].Value.skills._serializedList.Array.data[0].Value.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
+        type: 3}
       propertyPath: gameDataInfo.gameDataSlots.Array.data[0].characters._serializedList.Array.data[0].Value.skills._serializedList.Array.data[0].Value._serializedList.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
+        type: 3}
+      propertyPath: gameDataInfo.gameDataSlots.Array.data[0].characters._serializedList.Array.data[0].Value.skills2._serializedList.Array.data[0].Value._serializedList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
+        type: 3}
+      propertyPath: gameDataInfo.gameDataSlots.Array.data[0].characters._serializedList.Array.data[0].Value.items._serializedList.Array.data[0].Value.itemStatistics._serializedList.Array.size
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

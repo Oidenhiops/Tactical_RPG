@@ -28,7 +28,7 @@ public class CharacterData
         {TypeMastery.Axe, new CharacterMasteryInfo{masteryRange = MasteryRange.N, masteryLevel = 0}},
         {TypeMastery.Staff, new CharacterMasteryInfo{masteryRange = MasteryRange.N, masteryLevel = 0}}
     };
-    public SerializedDictionary<SkillsBaseSO.TypeSkill, SerializedDictionary<int, SkillInfo>> skills = new SerializedDictionary<SkillsBaseSO.TypeSkill, SerializedDictionary<int, SkillInfo>>();
+    public UnityEngine.Rendering.SerializedDictionary<ItemBaseSO.TypeWeapon, UnityEngine.Rendering.SerializedDictionary<int, CharacterSkillInfo>> skills = new UnityEngine.Rendering.SerializedDictionary<ItemBaseSO.TypeWeapon, UnityEngine.Rendering.SerializedDictionary<int, CharacterSkillInfo>>();
     [Serializable] public class Statistic
     {
         public int baseValue = 0;
@@ -102,7 +102,7 @@ public class CharacterData
         public int maxExp;
     }
     [Serializable]
-    public class SkillInfo
+    public class CharacterSkillInfo
     {
         public SkillsBaseSO skillsBaseSO;
         public int level;
@@ -117,7 +117,8 @@ public class CharacterData
         Bow = 4,
         Gun = 5,
         Axe = 6,
-        Staff = 7
+        Staff = 7,
+        Monster = 8,
     }
     public enum MasteryRange
     {

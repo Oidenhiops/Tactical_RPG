@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BasicHealSO
   m_EditorClassIdentifier: Assembly-CSharp::BasicHealSkillSO
   skillId: 0
-  skillIdText: 0
+  skillIdText: skill_basic_heal
   statistics:
     _serializedList:
     - Key: 1
@@ -43,4 +43,4 @@ MonoBehaviour:
           _serializedList: []
         currentValue: 0
         maxValue: 15
-  typeSkill: 10
+  typeSkill: 0

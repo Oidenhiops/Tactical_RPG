@@ -111,12 +111,28 @@ public class GameData : MonoBehaviour
         {
             TextAsset locsSystem = Resources.Load<TextAsset>("LOCS/LOC_System");
             locs.Add(TypeLOCS.System, TransformCSV(locsSystem));
+        }
+        catch
+        {
+            Debug.LogError("No se encontro el archivo LOC_System");
+        }
+        try
+        {
             TextAsset locsItems = Resources.Load<TextAsset>("LOCS/LOC_Items");
             locs.Add(TypeLOCS.Items, TransformCSV(locsItems));
         }
         catch
         {
-            Debug.LogError("No se encontro el archivo LOC_System");
+            Debug.LogError("No se encontro el archivo LOC_Items");
+        }
+        try
+        {
+            TextAsset locsSkills = Resources.Load<TextAsset>("LOCS/LOC_Skills");
+            locs.Add(TypeLOCS.Skills, TransformCSV(locsSkills));
+        }
+        catch
+        {
+            Debug.LogError("No se encontro el archivo LOC_Skills");
         }
     }
     Dictionary<string, string[]> TransformCSV(TextAsset textAsset)
@@ -137,7 +153,7 @@ public class GameData : MonoBehaviour
     }
     public string GetDialog(string id, TypeLOCS typeLOCS)
     {
-        if (locs.TryGetValue(typeLOCS, out Dictionary<string, string[]> dialogs))
+        if (locs.TryGetValue(typeLOCS, out Dictionary<string, string[]> dialogs) && dialogs.ContainsKey(id))
         {
             int languageIndex = 0;
             for (int i = 0; i < dialogs["ID"].Length; i++)
@@ -435,7 +451,8 @@ public class GameData : MonoBehaviour
         None = 0,
         System = 1,
         Dialogs = 2,
-        Items = 3
+        Items = 3,
+        Skills = 4
     }
     public enum TypeSaveData
     {

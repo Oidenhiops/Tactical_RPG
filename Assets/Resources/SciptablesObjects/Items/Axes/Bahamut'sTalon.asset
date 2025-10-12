@@ -10,22 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c97b1e5660ddca345b132bd0101ce60a, type: 3}
-  m_Name: BelialForce
+  m_Name: Bahamut'sTalon
   m_EditorClassIdentifier: 
-  id: 316
-  icon: {fileID: -1112017384, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
+  id: 231
+  idText: item_bahamut's_talon
+  icon: {fileID: 1661519441, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
   typeObject: 1
-  typeWeapon: 0
+  typeWeapon: 6
   positionsToAttack:
   - {x: -1, y: 0, z: 0}
+  - {x: -2, y: 0, z: 0}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 2}
+  - {x: 1, y: 0, z: 0}
+  - {x: 2, y: 0, z: 0}
+  - {x: 0, y: 0, z: -1}
+  - {x: 0, y: 0, z: -2}
   - {x: -1, y: 0, z: -1}
   - {x: 1, y: 0, z: -1}
-  - {x: 0, y: 0, z: -1}
-  - {x: 1, y: 0, z: 0}
   - {x: 1, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
   - {x: -1, y: 0, z: 1}
   animationName: 
-  amountToAddId: 280
+  amountToAddId: 200
   itemStatistics:
     _serializedList: []

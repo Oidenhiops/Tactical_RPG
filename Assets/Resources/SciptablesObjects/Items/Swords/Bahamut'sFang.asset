@@ -10,36 +10,40 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c97b1e5660ddca345b132bd0101ce60a, type: 3}
-  m_Name: PASGTArmor
+  m_Name: Bahamut'sFang
   m_EditorClassIdentifier: 
-  id: 323
-  icon: {fileID: -1766122817, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
-  typeObject: 2
-  typeWeapon: 0
-  positionsToAttack: []
-  animationName: 
-  amountToAddId: 40
+  id: 66
+  idText: item_bahamut's_fang
+  icon: {fileID: 938746929, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
+  typeObject: 1
+  typeWeapon: 2
+  positionsToAttack:
+  - {x: -1, y: 0, z: 0}
+  - {x: -2, y: 0, z: 0}
+  - {x: -1, y: 0, z: 1}
+  - {x: 0, y: 0, z: 2}
+  - {x: 0, y: 0, z: 1}
+  - {x: 1, y: 0, z: 1}
+  - {x: 2, y: 0, z: 0}
+  - {x: 1, y: 0, z: 0}
+  - {x: 1, y: 0, z: -1}
+  - {x: 0, y: 0, z: -2}
+  - {x: 0, y: 0, z: -1}
+  - {x: -1, y: 0, z: -1}
+  animationName: SwordAttack
+  amountToAddId: 0
   itemStatistics:
     _serializedList:
     - Key: 1
       Value:
-        baseValue: 10
+        baseValue: 2
         aptitudeValue: 0
         itemValue: 0
         buffValue:
           _serializedList: []
         currentValue: 0
         maxValue: 0
-    - Key: 6
-      Value:
-        baseValue: 5
-        aptitudeValue: 0
-        itemValue: 0
-        buffValue:
-          _serializedList: []
-        currentValue: 0
-        maxValue: 0
-    - Key: 7
+    - Key: 3
       Value:
         baseValue: 5
         aptitudeValue: 0

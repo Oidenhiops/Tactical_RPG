@@ -63,7 +63,6 @@ public class PlayerManager : MonoBehaviour
         characterActions.CharacterInputs.Interact.performed -= HandleAction;
         characterActions.CharacterInputs.Interact.performed -= menuThrowCharacter.OnHandleTrow;
         characterActions.CharacterInputs.RotateCamera.performed -= HandleRotateCamera;
-        characterActions.CharacterInputs.ChangeSubMenu.performed -= HandleChangeSubMenu;
         characterActions.CharacterInputs.ActiveGeneralActions.performed -= HandleMenuGeneralActions;
         OnCharacterPlayerMakingActions -= OnToggleCharacterPlayerMove;
         GameManager.Instance.openCloseScene.OnFinishOpenAnimation -= OnFinishOpenAnimation;
@@ -75,7 +74,6 @@ public class PlayerManager : MonoBehaviour
         characterActions.CharacterInputs.Interact.performed += HandleAction;
         characterActions.CharacterInputs.Interact.performed += menuThrowCharacter.OnHandleTrow;
         characterActions.CharacterInputs.RotateCamera.started += HandleRotateCamera;
-        characterActions.CharacterInputs.ChangeSubMenu.performed += HandleChangeSubMenu;
         characterActions.CharacterInputs.ActiveGeneralActions.performed += HandleMenuGeneralActions;
         OnCharacterPlayerMakingActions += OnToggleCharacterPlayerMove;
         GameManager.Instance.openCloseScene.OnFinishOpenAnimation += OnFinishOpenAnimation;
@@ -172,13 +170,6 @@ public class PlayerManager : MonoBehaviour
         if (actionsManager.isPlayerTurn && !AnyMenuIsActive() && !GameManager.Instance.isPause)
         {
             menuGeneralActions.EnableMenu();
-        }
-    }
-    void HandleChangeSubMenu(InputAction.CallbackContext context)
-    {
-        if (menuCharacterInfo.isMenuActive && !GameManager.Instance.isPause)
-        {
-            menuCharacterInfo.ChangeSubMenu();
         }
     }
     public bool AnyMenuIsActive()
