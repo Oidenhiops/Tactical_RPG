@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Sage'sStaff
   m_EditorClassIdentifier: 
   id: 257
+  idText: 
   icon: {fileID: -272436775, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
   typeObject: 1
   typeWeapon: 7
@@ -238,6 +239,6 @@ MonoBehaviour:
   - {x: -3, y: 0, z: 2}
   - {x: -2, y: 0, z: 2}
   animationName: 
-  amountToAddId: 240
+  gridSize: 10
   itemStatistics:
     _serializedList: []

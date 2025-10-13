@@ -1,2 +1,4 @@
-﻿ID;English;EnglishDescription;Español;
-skill_basic_heal;Basic Heal;Heals a {0} amount of maximum health.;Curación básica;
+﻿ID;English;EnglishDescription;Español;EspañolDescripción;
+skill_basic_heal;Basic Heal;Heals a {0} amount of maximum health.;Cura un {0} de salud máxima.;Curación básica;
+skill_normal_heal;Normal Heal;Heals a {0} amount of maximum health.;Cura un {0} de salud máxima.;Curación normal;
+skill_rare_heal;Rare Heal;Heals a {0} amount of maximum health.;Cura un {0} de salud máxima.;Curación rara;

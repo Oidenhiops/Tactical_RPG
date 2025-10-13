@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 
 public class MouseDecalAnim : MonoBehaviour
 {
@@ -7,7 +6,7 @@ public class MouseDecalAnim : MonoBehaviour
     public float speed = 1.5f;
     public float minAlpha = 0f;
     public float maxAlpha = 1f;
-
+    public Transform subGridContainer;
     private Material decalMaterial;
     void Start()
     {

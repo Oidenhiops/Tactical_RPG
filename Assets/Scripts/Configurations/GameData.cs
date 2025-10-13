@@ -15,6 +15,7 @@ public class GameData : MonoBehaviour
     public InitialBGMSoundsConfigSO initialBGMSoundsConfigSO;
     public CharacterDataDBSO charactersDataDBSO;
     public ItemsDBSO itemsDBSO;
+    public SkillsDBSO skillsDBSO;
     void Awake()
     {
         if (Instance == null)
@@ -42,6 +43,7 @@ public class GameData : MonoBehaviour
             InitializeBGM();
             InitializeBagItems();
             InitializeCharacterItems();
+            InitializeCharacterSkills();
             Application.targetFrameRate = systemDataInfo.configurationsInfo.FpsLimit;
             await InitializeAudioMixerData();
             systemDataInfo.configurationsInfo.canShowFps = true;
@@ -75,9 +77,22 @@ public class GameData : MonoBehaviour
             {
                 foreach (KeyValuePair<CharacterData.CharacterItemInfo, CharacterData.CharacterItem> item in characterData.Value.items)
                 {
-                    if (item.Value.itemId != 0)
+                    item.Value.itemBaseSO = itemsDBSO.data[item.Value.itemId];
+                }
+            }
+        }
+    }
+    void InitializeCharacterSkills()
+    {
+        foreach (GameDataSlot gameDataSlot in gameDataInfo.gameDataSlots)
+        {
+            foreach (KeyValuePair<string, CharacterData> characterData in gameDataSlot.characters)
+            {
+                foreach (KeyValuePair<ItemBaseSO.TypeWeapon, UnityEngine.Rendering.SerializedDictionary<int, CharacterData.CharacterSkillInfo>> item in characterData.Value.skills)
+                {
+                    foreach (KeyValuePair<int, CharacterData.CharacterSkillInfo> skill in item.Value)
                     {
-                        item.Value.itemBaseSO = itemsDBSO.data[item.Value.itemId];
+                        skill.Value.skillsBaseSO = skillsDBSO.data[skill.Value.skillId];
                     }
                 }
             }
@@ -89,10 +104,7 @@ public class GameData : MonoBehaviour
         {
             foreach (KeyValuePair<int, CharacterData.CharacterItem> item in gameDataSlot.bagItems)
             {
-                if (item.Value.itemId != 0)
-                {
-                    item.Value.itemBaseSO = itemsDBSO.data[item.Value.itemId];
-                }
+                item.Value.itemBaseSO = itemsDBSO.data[item.Value.itemId];
             }
         }
     }

@@ -108,6 +108,7 @@ public class MenuCharacterInfo : MonoBehaviour
             managementLanguage.id = skillsContainer.GetChild(skillBannerIndex).GetComponent<SkillBannerCharacterInfo>().skill.skillsBaseSO.skillIdText;
             managementLanguage.otherInfo = skillsContainer.GetChild(skillBannerIndex).GetComponent<SkillBannerCharacterInfo>().skill.skillsBaseSO.GetSkillDescription(skillsContainer.GetChild(0).GetComponent<SkillBannerCharacterInfo>().skill.statistics);
             managementLanguage.RefreshDescription();
+            skillsContainer.GetChild(skillBannerIndex).GetComponent<SkillBannerCharacterInfo>().OnSelectBanner();
         }
         else
         {

@@ -148,6 +148,27 @@ public class InitialDataSO : ScriptableObject
     }
 #endif
 
+    [NaughtyAttributes.Button]
+    public void RefreshSkillsData()
+    {
+        SerializedDictionary<ItemBaseSO.TypeWeapon, SerializedDictionary<int, CharacterData.CharacterSkillInfo>> clonedSkills = new SerializedDictionary<ItemBaseSO.TypeWeapon, SerializedDictionary<int, CharacterData.CharacterSkillInfo>>();
+        for (int i = 0; i < skills.Count; i++)
+        {
+            SerializedDictionary<int, CharacterData.CharacterSkillInfo> innerSkills = new SerializedDictionary<int, CharacterData.CharacterSkillInfo>();
+            for (int x = 0; x < skills.ElementAt(i).Value.Count; x++)
+            {
+                innerSkills.Add(skills.ElementAt(i).Value.ElementAt(x).Value.skillsBaseSO.skillId, new CharacterData.CharacterSkillInfo
+                {
+                    skillId = skills.ElementAt(i).Value.ElementAt(x).Value.skillsBaseSO.skillId,
+                    skillsBaseSO = skills.ElementAt(i).Value.ElementAt(x).Value.skillsBaseSO,
+                    level = skills.ElementAt(i).Value.ElementAt(x).Value.level,
+                    statistics = skills.ElementAt(i).Value.ElementAt(x).Value.skillsBaseSO.CloneStatistics()
+                });
+            }
+            clonedSkills.Add(skills.ElementAt(i).Key, innerSkills);
+        }
+        skills = clonedSkills;
+    }
     public SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic> CloneStatistics()
     {
         var clone = new SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic>();
@@ -210,6 +231,7 @@ public class InitialDataSO : ScriptableObject
                 }
                 var skillInfoClone = new CharacterData.CharacterSkillInfo
                 {
+                    skillId = innerKvp.Value.skillsBaseSO.skillId,
                     skillsBaseSO = innerKvp.Value.skillsBaseSO,
                     statistics = statisticsClone,
                     level = innerKvp.Value.level,
@@ -219,20 +241,6 @@ public class InitialDataSO : ScriptableObject
             }
             clone.Add(kvp.Key, innerClone);
         }
-        int index = 0;
-        for (int i = 0; i < clone.Count; i++)
-        {
-            for (int x = 0; x < clone.ElementAt(i).Value.Count; x++)
-            {
-                UnityEngine.Rendering.SerializedDictionary<int, CharacterData.CharacterSkillInfo> skill = new UnityEngine.Rendering.SerializedDictionary<int, CharacterData.CharacterSkillInfo>
-            {
-                { clone[clone.ElementAt(i).Key].ElementAt(index).Value.skillsBaseSO.skillId, clone[clone.ElementAt(i).Key].ElementAt(index).Value }
-            };
-                clone[clone.ElementAt(i).Key] = skill;
-                index++;
-            }
-        }
-
         return clone;
     }
 

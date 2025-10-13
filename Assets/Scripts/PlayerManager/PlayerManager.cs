@@ -19,6 +19,7 @@ public class PlayerManager : MonoBehaviour
     public MenuCharacterInfo menuCharacterInfo;
     public MenuThrowCharacter menuThrowCharacter;
     public MenuItemsCharacter menuItemsCharacter;
+    public MenuSkillsCharacter menuSkillsCharacter;
     public MouseDecalAnim mouseDecal;
     public Vector3Int currentMousePos;
     public Transform cameraRot;
@@ -135,7 +136,10 @@ public class PlayerManager : MonoBehaviour
     }
     void HandleMovement(InputAction.CallbackContext context)
     {
-        if (actionsManager.isPlayerTurn && !characterPlayerMakingActions && !actionsManager.isChangingTurn && !cantRotateCamera && !AnyMenuIsActive() && !menuThrowCharacter.isThrowingCharacter || menuThrowCharacter.menuThrowCharacter.activeSelf && !menuThrowCharacter.isThrowingCharacter)
+        if (actionsManager.isPlayerTurn && !characterPlayerMakingActions && !actionsManager.isChangingTurn && !cantRotateCamera &&
+            !AnyMenuIsActive() && !menuThrowCharacter.isThrowingCharacter || menuThrowCharacter.menuThrowCharacter.activeSelf &&
+            !menuThrowCharacter.isThrowingCharacter || menuSkillsCharacter.menuSkillsCharacter.activeSelf && !menuSkillsCharacter.menuSkillSelectSkill.activeSelf &&
+            menuSkillsCharacter.canMovePointer)
         {
             if (context.performed)
             {
@@ -181,7 +185,8 @@ public class PlayerManager : MonoBehaviour
                menuCharacterInfo.menuCharacterInfo.activeSelf ||
                menuLiftCharacter.menuLiftCharacter.activeSelf ||
                menuAttackCharacter.menuAttackCharacter.activeSelf ||
-               menuItemsCharacter.menuItemCharacters.activeSelf;
+               menuItemsCharacter.menuItemCharacters.activeSelf ||
+               menuSkillsCharacter.menuSkillsCharacter.activeSelf;
     }
     void Update()
     {

@@ -1,0 +1,155 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc813b44e2b9d8745881221110312346, type: 3}
+  m_Name: RareHealSO
+  m_EditorClassIdentifier: Assembly-CSharp::BasicHealSkillSO
+  skillId: 2
+  skillIdText: skill_rare_heal
+  animationSkillName: GeneralSkillEffect
+  generalAnimationSkillName: GeneralSkillEffect
+  needSceneAnimation: 0
+  skillVFXPrefab: {fileID: 8042130166991012130, guid: 98da398807cf2704bb3fb52621f53483,
+    type: 3}
+  statistics:
+    _serializedList:
+    - Key: 1
+      Value:
+        baseValue: 20
+        aptitudeValue: 0
+        itemValue: 0
+        buffValue:
+          _serializedList: []
+        currentValue: 0
+        maxValue: 0
+    - Key: 2
+      Value:
+        baseValue: 9
+        aptitudeValue: 0
+        itemValue: 0
+        buffValue:
+          _serializedList: []
+        currentValue: 0
+        maxValue: 0
+    - Key: 9
+      Value:
+        baseValue: 0
+        aptitudeValue: 0
+        itemValue: 0
+        buffValue:
+          _serializedList: []
+        currentValue: 0
+        maxValue: 15
+  typeSkill: 0
+  positionsToMakeSkill:
+  - {x: -4, y: 0, z: 0}
+  - {x: -3, y: 0, z: 1}
+  - {x: -2, y: 0, z: 2}
+  - {x: -1, y: 0, z: 3}
+  - {x: 0, y: 0, z: 4}
+  - {x: 1, y: 0, z: 3}
+  - {x: 2, y: 0, z: 2}
+  - {x: 3, y: 0, z: 1}
+  - {x: 4, y: 0, z: 0}
+  - {x: 3, y: 0, z: -1}
+  - {x: 2, y: 0, z: -2}
+  - {x: 1, y: 0, z: -3}
+  - {x: 0, y: 0, z: -4}
+  - {x: -1, y: 0, z: -3}
+  - {x: -2, y: 0, z: -2}
+  - {x: -3, y: 0, z: -1}
+  - {x: -3, y: 0, z: 0}
+  - {x: -2, y: 0, z: 0}
+  - {x: -2, y: 0, z: 1}
+  - {x: -1, y: 0, z: 1}
+  - {x: -1, y: 0, z: 0}
+  - {x: -1, y: 0, z: 2}
+  - {x: 0, y: 0, z: 2}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 3}
+  - {x: 1, y: 0, z: 2}
+  - {x: 1, y: 0, z: 1}
+  - {x: 2, y: 0, z: 1}
+  - {x: 2, y: 0, z: 0}
+  - {x: 1, y: 0, z: 0}
+  - {x: 3, y: 0, z: 0}
+  - {x: 1, y: 0, z: -1}
+  - {x: 2, y: 0, z: -1}
+  - {x: 0, y: 0, z: -2}
+  - {x: 0, y: 0, z: -3}
+  - {x: 1, y: 0, z: -2}
+  - {x: -1, y: 0, z: -2}
+  - {x: -2, y: 0, z: -1}
+  - {x: -1, y: 0, z: -1}
+  - {x: 0, y: 0, z: -1}
+  - {x: -6, y: 0, z: 0}
+  - {x: -5, y: 0, z: 0}
+  - {x: -5, y: 0, z: 1}
+  - {x: -4, y: 0, z: 2}
+  - {x: -3, y: 0, z: 3}
+  - {x: -2, y: 0, z: 4}
+  - {x: -1, y: 0, z: 4}
+  - {x: -1, y: 0, z: 5}
+  - {x: 0, y: 0, z: 6}
+  - {x: 0, y: 0, z: 5}
+  - {x: -2, y: 0, z: 3}
+  - {x: -3, y: 0, z: 2}
+  - {x: -4, y: 0, z: 1}
+  - {x: -5, y: 0, z: -1}
+  - {x: -4, y: 0, z: -2}
+  - {x: -3, y: 0, z: -3}
+  - {x: -2, y: 0, z: -4}
+  - {x: -1, y: 0, z: -5}
+  - {x: 0, y: 0, z: -6}
+  - {x: 1, y: 0, z: -5}
+  - {x: 2, y: 0, z: -4}
+  - {x: 4, y: 0, z: -2}
+  - {x: 5, y: 0, z: -1}
+  - {x: 6, y: 0, z: 0}
+  - {x: 5, y: 0, z: 1}
+  - {x: 4, y: 0, z: 2}
+  - {x: 3, y: 0, z: 3}
+  - {x: 2, y: 0, z: 4}
+  - {x: 1, y: 0, z: 5}
+  - {x: 1, y: 0, z: 4}
+  - {x: 2, y: 0, z: 3}
+  - {x: 3, y: 0, z: 2}
+  - {x: 4, y: 0, z: 1}
+  - {x: 5, y: 0, z: 0}
+  - {x: 4, y: 0, z: -1}
+  - {x: 3, y: 0, z: -2}
+  - {x: 3, y: 0, z: -3}
+  - {x: 2, y: 0, z: -3}
+  - {x: 1, y: 0, z: -4}
+  - {x: 0, y: 0, z: -5}
+  - {x: -1, y: 0, z: -4}
+  - {x: -2, y: 0, z: -3}
+  - {x: -3, y: 0, z: -2}
+  - {x: -4, y: 0, z: -1}
+  - {x: 0, y: 0, z: 0}
+  positionsToMakeSkillGridSize: 6
+  usePositionsToMakeSkill: 1
+  positionsSkillForm:
+  - {x: -2, y: 0, z: 0}
+  - {x: -1, y: 0, z: 0}
+  - {x: -1, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 1, y: 0, z: 1}
+  - {x: 1, y: 0, z: 0}
+  - {x: 2, y: 0, z: 0}
+  - {x: 0, y: 0, z: -1}
+  - {x: 1, y: 0, z: -1}
+  - {x: -1, y: 0, z: -1}
+  - {x: 0, y: 0, z: 2}
+  - {x: 0, y: 0, z: -2}
+  - {x: 0, y: 0, z: 0}
+  positionsSkillFormGridSize: 2
+  isFreeMovementSkill: 1

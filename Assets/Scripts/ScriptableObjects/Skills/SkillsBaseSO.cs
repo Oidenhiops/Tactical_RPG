@@ -6,8 +6,18 @@ public class SkillsBaseSO : ScriptableObject
 {
     public int skillId;
     public string skillIdText;
+    public string animationSkillName;
+    public string generalAnimationSkillName;
+    public bool needSceneAnimation;
+    public GameObject skillVFXPrefab;
     public SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic> statistics = new SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic>();
     public ItemBaseSO.TypeWeapon typeSkill;
+    public Vector3Int[] positionsToMakeSkill;
+    public int positionsToMakeSkillGridSize = 5;
+    public bool usePositionsToMakeSkill;
+    public Vector3Int[] positionsSkillForm;
+    public int positionsSkillFormGridSize = 5;
+    public bool isFreeMovementSkill;
     public virtual void UseSkill(Character character){ Debug.LogError("UseSkill non implemented"); }
     public virtual void LevelUpSkill(Character character) { Debug.LogError("LevelUpSkill non implemented"); }
     public void AddSkill(Character character)

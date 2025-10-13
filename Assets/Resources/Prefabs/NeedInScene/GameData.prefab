@@ -45,13 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameDataInfo:
-    characters:
-      _serializedList: []
-    dieCharacters:
-      _serializedList: []
-    bagItems:
-      _serializedList: []
+    gameDataSlots: []
   systemDataInfo:
+    currentGameDataIndex: 0
     configurationsInfo:
       _currentLanguage: 0
       _canShowFps: 0
@@ -73,3 +69,4 @@ MonoBehaviour:
     type: 2}
   charactersDataDBSO: {fileID: 11400000, guid: 42372b129047047479af51c6e0df299f, type: 2}
   itemsDBSO: {fileID: 11400000, guid: 68c84c9b952137347842bd55f2920dbe, type: 2}
+  skillsDBSO: {fileID: 11400000, guid: 0053e4031ce50c54c823b834917bff4f, type: 2}

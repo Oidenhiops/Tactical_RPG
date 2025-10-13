@@ -65,6 +65,10 @@ public class CharacterData
     {
         return 4 + statistics[TypeStatistic.Spd].currentValue > 6 ? 6 : statistics[TypeStatistic.Spd].currentValue;
     }
+    public int GetSkillRadius()
+    {
+        return 5 + statistics[TypeStatistic.Int].currentValue > 5 ? 5 : statistics[TypeStatistic.Int].currentValue;
+    }
     public void GetCurrentWeapon(out CharacterItem weapon)
     {
         foreach (KeyValuePair<CharacterItemInfo, CharacterItem> item in items)
@@ -104,6 +108,7 @@ public class CharacterData
     [Serializable]
     public class CharacterSkillInfo
     {
+        public int skillId;
         public SkillsBaseSO skillsBaseSO;
         public int level;
         public SerializedDictionary<TypeStatistic, Statistic> statistics = new SerializedDictionary<TypeStatistic, Statistic>();

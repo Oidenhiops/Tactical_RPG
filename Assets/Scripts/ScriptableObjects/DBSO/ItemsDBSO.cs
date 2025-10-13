@@ -34,4 +34,12 @@ public class ItemsDBSO : ScriptableObject
             data.ElementAt(i).Value.idText = $"item_{idText}";
         }
     }
+    [NaughtyAttributes.Button]
+    public void SetNewId()
+    {
+        for (int i = 0; i < data.Count; i++)
+        {
+            data.ElementAt(i).Value.id += -1;
+        }
+    }
 }

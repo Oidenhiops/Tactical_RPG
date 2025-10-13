@@ -67,6 +67,17 @@ public class ActionsManager : MonoBehaviour
                 playerManager.menuItemsCharacter.DisableMenu();
             }
         }
+        else if (playerManager.menuSkillsCharacter.menuSkillsCharacter.activeSelf)
+        {
+            if (!playerManager.menuSkillsCharacter.menuSkillSelectSkill.activeSelf)
+            {
+                playerManager.menuSkillsCharacter.DisableMenuForSelectCharacterToMakeSkill();
+            }
+            else
+            {
+                playerManager.menuSkillsCharacter.DisableMenu();
+            }
+        }
         else if (playerManager.menuAllCharacters.menuAllCharacters.activeSelf)
         {
             playerManager.menuAllCharacters.DisableMenu();
@@ -165,7 +176,7 @@ public class ActionsManager : MonoBehaviour
                     break;
                 case TypeAction.Defend:
                 case TypeAction.Attack:
-                case TypeAction.Special:
+                case TypeAction.Skill:
                     actions[actions.Count - 1].character.lastAction = TypeAction.None;
                     characterFinalActions.Remove(actions[actions.Count - 1].character);
                     if (actions.Count - 1 == 0) characterActions.Remove(actions[actions.Count - 1].character);
@@ -226,7 +237,7 @@ public class ActionsManager : MonoBehaviour
                             });
                             await Task.Delay(TimeSpan.FromSeconds(0.5f));
                             break;
-                        case TypeAction.Special:
+                        case TypeAction.Skill:
                             await Awaitable.NextFrameAsync();
                             break;
                         case TypeAction.Defend:
@@ -292,7 +303,7 @@ public class ActionsManager : MonoBehaviour
         foreach (KeyValuePair<Character, List<ActionInfo>> action in characterActions)
         {
             if (action.Value[action.Value.Count - 1].typeAction == TypeAction.Attack) actionExist = true;
-            if (action.Value[action.Value.Count - 1].typeAction == TypeAction.Special) actionExist = true;
+            if (action.Value[action.Value.Count - 1].typeAction == TypeAction.Skill) actionExist = true;
             if (action.Value[action.Value.Count - 1].typeAction == TypeAction.Defend) actionExist = true;
         }
     }
@@ -316,6 +327,7 @@ public class ActionsManager : MonoBehaviour
         public bool cantUndo;
         public Character character;
         public List<OtherCharacterInfo> otherCharacterInfo;
+        public List<Vector3Int> positionsToMakeSkill;
         public TypeAction typeAction;
         public Vector3Int positionInGrid;
         public ActionInfo(Character character = null, List<OtherCharacterInfo> otherCharacterInfo = null, TypeAction typeAction = TypeAction.None, Vector3Int positionInGrid = default)
@@ -342,7 +354,7 @@ public class ActionsManager : MonoBehaviour
         None = 0,
         Move = 1,
         Attack = 2,
-        Special = 3,
+        Skill = 3,
         Defend = 4,
         Lift = 5,
         Item = 6,

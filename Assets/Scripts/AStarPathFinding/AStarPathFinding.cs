@@ -9,6 +9,7 @@ public class AStarPathFinding : MonoBehaviour
 {
     public static AStarPathFinding Instance { get; private set; }
     public SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> currentGrid;
+    public SerializedDictionary<Vector3Int, GameObject> currentSubGrid;
     public SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> grid = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
     [SerializeField] GameObject poolinGrid;
     [SerializeField] Transform gridContainer;
@@ -17,8 +18,10 @@ public class AStarPathFinding : MonoBehaviour
     public Character characterSelected;
     public Vector2Int limitX = new Vector2Int(-10, 10), limitZ = new Vector2Int(-10, 10);
     public Material gridMaterial;
+    public Material subGridMaterial;
     public bool onlyForMap;
     Coroutine _ToggleGrid;
+    Coroutine _ToggleSubGrid;
     void Awake()
     {
         if (Instance == null)
@@ -52,6 +55,8 @@ public class AStarPathFinding : MonoBehaviour
     public void ReturnPoolingGridToQueue(GameObject obj)
     {
         obj.SetActive(false);
+        obj.transform.SetParent(gridContainer);
+        obj.transform.localPosition = Vector3.zero;
         pool.Enqueue(obj);
     }
     public void EnableGrid(SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> gridToEnable, Color gridColor)
@@ -68,11 +73,33 @@ public class AStarPathFinding : MonoBehaviour
         foreach (KeyValuePair<Vector3Int, GenerateMap.WalkablePositionInfo> cell in gridToEnable)
         {
             cell.Value.blockInfo.poolingGrid = GetPoolingGrid();
+            cell.Value.blockInfo.poolingGrid.GetComponent<Renderer>().material = gridMaterial;
             cell.Value.blockInfo.poolingGrid.transform.position = cell.Value.blockInfo.transform.position + Vector3.up * 0.1f;
         }
         gridMaterial.color = gridColor;
         currentGrid = gridToEnable;
         _ToggleGrid = StartCoroutine(ToggleGrid());
+    }
+    public void EnableSubGrid(Vector3Int[]positions, Color gridColor)
+    {
+        if (_ToggleSubGrid != null)
+        {
+            StopCoroutine(_ToggleSubGrid);
+        }
+        PlayerManager.Instance.mouseDecal.subGridContainer.transform.localRotation = Quaternion.Euler(0, 0, 0);
+        foreach (Vector3Int cell in positions)
+        {
+            if (!currentSubGrid.ContainsKey(cell))
+            {
+                GameObject poolingGrid = GetPoolingGrid();
+                poolingGrid.GetComponent<Renderer>().material = subGridMaterial;
+                poolingGrid.transform.SetParent(PlayerManager.Instance.mouseDecal.subGridContainer.transform);
+                poolingGrid.transform.position = PlayerManager.Instance.mouseDecal.transform.position + cell + Vector3.up * 0.125f;
+                currentSubGrid.Add(cell, poolingGrid);
+            }
+        }
+        subGridMaterial.color = gridColor;
+        _ToggleSubGrid = StartCoroutine(ToggleSubGrid());
     }
     public void DisableGrid()
     {
@@ -82,6 +109,16 @@ public class AStarPathFinding : MonoBehaviour
             cell.Value.blockInfo.poolingGrid = null;
         }
         currentGrid = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
+        StopCoroutine(_ToggleGrid);
+    }
+    public void DisableSubGrid()
+    {
+        foreach (var cell in currentSubGrid)
+        {
+            ReturnPoolingGridToQueue(cell.Value);
+        }
+        currentSubGrid = new SerializedDictionary<Vector3Int, GameObject>();
+        StopCoroutine(_ToggleSubGrid);
     }
     IEnumerator ToggleGrid()
     {
@@ -107,6 +144,42 @@ public class AStarPathFinding : MonoBehaviour
                 foreach (var blockGrid in currentGrid)
                 {
                     blockGrid.Value.blockInfo.poolingGrid.SetActive(false);
+                }
+            }
+            elapsedTime += Time.deltaTime;
+            if (elapsedTime >= totalTime)
+            {
+                elapsedTime = 0;
+                update = true;
+                isShow = !isShow;
+            }
+            yield return null;
+        }
+    }
+    IEnumerator ToggleSubGrid()
+    {
+        bool isShow = true;
+        bool update = true;
+        float elapsedTime = 0;
+        float totalTime = 1;
+        while (true)
+        {
+            if (isShow && update)
+            {
+                totalTime = 1f;
+                update = false;
+                foreach (var blockGrid in currentSubGrid)
+                {
+                    blockGrid.Value.SetActive(true);
+                }
+            }
+            else if (!isShow && update)
+            {
+                totalTime = 0.25f;
+                update = false;
+                foreach (var blockGrid in currentSubGrid)
+                {
+                    blockGrid.Value.SetActive(false);
                 }
             }
             elapsedTime += Time.deltaTime;
@@ -199,6 +272,7 @@ public class AStarPathFinding : MonoBehaviour
                 characterSelected.lastAction != ActionsManager.TypeAction.Attack &&
                 characterSelected.lastAction != ActionsManager.TypeAction.Defend &&
                 characterSelected.lastAction != ActionsManager.TypeAction.Item &&
+                characterSelected.lastAction != ActionsManager.TypeAction.Skill &&
                 characterSelected.lastAction != ActionsManager.TypeAction.EndTurn;
     }
     public SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> GetWalkableTiles()
@@ -339,6 +413,68 @@ public class AStarPathFinding : MonoBehaviour
                 if (GetHighestBlockAt(direction, out GenerateMap.WalkablePositionInfo block) && MathF.Abs(block.pos.y - characterSelected.positionInGrid.y) <= 2 && block.hasCharacter)
                 {
                     positions.Add(direction, block);
+                }
+            }
+        }
+        return positions.Count > 0;
+    }
+    public bool GetPositionsToUseSkill(SkillsBaseSO skill, out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions)
+    {
+        positions = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
+        if (skill.isFreeMovementSkill)
+        {
+            if (!skill.usePositionsToMakeSkill)
+            {
+                Vector2Int startPos = new Vector2Int(characterSelected.startPositionInGrid.x, characterSelected.startPositionInGrid.z);
+                Vector2Int checkPos = new Vector2Int();
+                int radius = characterSelected.characterData.GetMovementRadius();
+                for (int x = -radius; x <= radius; x++)
+                {
+                    for (int z = -radius; z <= radius; z++)
+                    {
+                        checkPos.x = startPos.x + x;
+                        checkPos.y = startPos.y + z;
+
+                        if (Vector2Int.Distance(startPos, checkPos) <= radius &&
+                            GetHighestBlockAt(checkPos.x, checkPos.y, out GenerateMap.WalkablePositionInfo block) &&
+                            block.pos.y <= characterSelected.positionInGrid.y + characterSelected.characterData.GetMovementMaxHeight())
+                        {
+                            if (block.isWalkable)
+                            {
+                                positions.Add(block.pos, block);
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Vector3Int[] directions = skill.positionsToMakeSkill;
+                if (directions.Length > 0)
+                {
+                    foreach (var directionFounded in directions)
+                    {
+                        Vector3Int direction = directionFounded + characterSelected.positionInGrid;
+                        if (GetHighestBlockAt(direction, out GenerateMap.WalkablePositionInfo block))
+                        {
+                            positions.Add(direction, block);
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            Vector3Int[] directions = skill.positionsToMakeSkill;
+            if (directions.Length > 0)
+            {
+                foreach (var directionFounded in directions)
+                {
+                    Vector3Int direction = directionFounded + characterSelected.positionInGrid;
+                    if (GetHighestBlockAt(direction, out GenerateMap.WalkablePositionInfo block))
+                    {
+                        positions.Add(direction, block);
+                    }
                 }
             }
         }

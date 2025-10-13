@@ -6,18 +6,18 @@ using System.Collections.Generic;
 [CanEditMultipleObjects]
 public class ItemBaseSOEditor : Editor
 {
-    private int gridSize = 5;
     private float cellSize = 30f;
 
     private SerializedProperty typeObjectProp;
     private SerializedProperty typeWeaponProp;
     private SerializedProperty positionsToAttackProp;
-
+    private SerializedProperty gridSizeProp;
     private void OnEnable()
     {
         typeObjectProp = serializedObject.FindProperty("typeObject");
         typeWeaponProp = serializedObject.FindProperty("typeWeapon");
         positionsToAttackProp = serializedObject.FindProperty("positionsToAttack");
+        gridSizeProp = serializedObject.FindProperty("gridSize");
     }
 
     public override void OnInspectorGUI()
@@ -27,7 +27,7 @@ public class ItemBaseSOEditor : Editor
         EditorGUILayout.PropertyField(typeObjectProp);
         ItemBaseSO.TypeObject selectedType = (ItemBaseSO.TypeObject)typeObjectProp.enumValueIndex;
 
-        if (selectedType == ItemBaseSO.TypeObject.Weapon)
+        if (selectedType == ItemBaseSO.TypeObject.Weapon || selectedType == ItemBaseSO.TypeObject.Consumable)
         {
             EditorGUILayout.PropertyField(typeWeaponProp);
         }
@@ -46,16 +46,17 @@ public class ItemBaseSOEditor : Editor
             }
         }
 
-        DrawPropertiesExcluding(serializedObject, "m_Script", "typeObject", "typeWeapon", "positionsToAttack");
+        DrawPropertiesExcluding(serializedObject, "m_Script", "typeObject", "typeWeapon", "positionsToAttack", "gridSize");
 
-        if (selectedType == ItemBaseSO.TypeObject.Weapon)
+        if (selectedType == ItemBaseSO.TypeObject.Weapon || selectedType == ItemBaseSO.TypeObject.Consumable)
         {
             EditorGUILayout.Space();
             EditorGUILayout.PropertyField(positionsToAttackProp, true);
             EditorGUILayout.Space();
 
             EditorGUILayout.LabelField("Positions To Attack Grid", EditorStyles.boldLabel);
-            gridSize = EditorGUILayout.IntField("Grid Size", gridSize);
+            EditorGUILayout.PropertyField(gridSizeProp);
+            int gridSize = gridSizeProp.intValue;
 
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
@@ -73,25 +74,22 @@ public class ItemBaseSOEditor : Editor
                     bool isActive = System.Array.Exists(referenceItem.positionsToAttack, p => p == pos);
 
                     Color original = GUI.backgroundColor;
-                    if (isOrigin) GUI.backgroundColor = new Color(1f, 0.6f, 0f);
+                    if (isOrigin) GUI.backgroundColor = isActive ? Color.green : new Color(1f, 0.6f, 0f);
                     else if (isActive) GUI.backgroundColor = Color.red;
                     else GUI.backgroundColor = Color.gray;
 
                     if (GUILayout.Button("", GUILayout.Width(cellSize), GUILayout.Height(cellSize)))
                     {
-                        if (!isOrigin)
+                        List<Vector3Int> newPositions = new List<Vector3Int>(referenceItem.positionsToAttack);
+
+                        if (newPositions.Contains(pos)) newPositions.Remove(pos);
+                        else newPositions.Add(pos);
+
+                        foreach (var t in targets)
                         {
-                            List<Vector3Int> newPositions = new List<Vector3Int>(referenceItem.positionsToAttack);
-
-                            if (newPositions.Contains(pos)) newPositions.Remove(pos);
-                            else newPositions.Add(pos);
-
-                            foreach (var t in targets)
-                            {
-                                var so = (ItemBaseSO)t;
-                                so.positionsToAttack = newPositions.ToArray();
-                                EditorUtility.SetDirty(so);
-                            }
+                            var so = (ItemBaseSO)t;
+                            so.positionsToAttack = newPositions.ToArray();
+                            EditorUtility.SetDirty(so);
                         }
                     }
 

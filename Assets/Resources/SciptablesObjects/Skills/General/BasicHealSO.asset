@@ -14,6 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BasicHealSkillSO
   skillId: 0
   skillIdText: skill_basic_heal
+  animationSkillName: GeneralSkillEffect
+  generalAnimationSkillName: GeneralSkillEffect
+  needSceneAnimation: 0
+  skillVFXPrefab: {fileID: 8042130166991012130, guid: 98da398807cf2704bb3fb52621f53483,
+    type: 3}
   statistics:
     _serializedList:
     - Key: 1
@@ -44,3 +49,23 @@ MonoBehaviour:
         currentValue: 0
         maxValue: 15
   typeSkill: 0
+  positionsToMakeSkill:
+  - {x: 0, y: 0, z: 0}
+  - {x: -1, y: 0, z: -1}
+  - {x: -1, y: 0, z: 0}
+  - {x: 0, y: 0, z: 1}
+  - {x: 1, y: 0, z: 1}
+  - {x: 1, y: 0, z: 0}
+  - {x: 0, y: 0, z: -1}
+  - {x: -1, y: 0, z: 1}
+  - {x: 1, y: 0, z: -1}
+  - {x: 2, y: 0, z: 0}
+  - {x: 0, y: 0, z: 2}
+  - {x: -2, y: 0, z: 0}
+  - {x: 0, y: 0, z: -2}
+  positionsToMakeSkillGridSize: 2
+  usePositionsToMakeSkill: 1
+  positionsSkillForm:
+  - {x: 0, y: 0, z: 0}
+  positionsSkillFormGridSize: 0
+  isFreeMovementSkill: 1

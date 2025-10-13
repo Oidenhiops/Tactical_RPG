@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Benkei
   m_EditorClassIdentifier: 
   id: 106
+  idText: 
   icon: {fileID: 34959680, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
   typeObject: 1
   typeWeapon: 3
@@ -41,7 +42,7 @@ MonoBehaviour:
   - {x: -1, y: 0, z: -1}
   - {x: -2, y: 0, z: -1}
   - {x: -1, y: 0, z: -2}
+  gridSize: 3
   animationName: 
-  amountToAddId: 80
   itemStatistics:
     _serializedList: []

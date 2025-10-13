@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: SpikedShell
   m_EditorClassIdentifier: 
   id: 292
+  idText: 
   icon: {fileID: -1112017384, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
   typeObject: 1
   typeWeapon: 0
@@ -25,7 +26,7 @@ MonoBehaviour:
   - {x: 1, y: 0, z: 1}
   - {x: 0, y: 0, z: 1}
   - {x: -1, y: 0, z: 1}
+  gridSize: 1
   animationName: 
-  amountToAddId: 280
   itemStatistics:
     _serializedList: []

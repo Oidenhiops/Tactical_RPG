@@ -408,7 +408,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isDropDown: 0
   dropdownSelected: {fileID: 0}
-  scrollByCode: 0
+  scrollByCode: 1
   item: {fileID: 0}
   viewport: {fileID: 0}
   container: {fileID: 0}
@@ -593,4 +593,6 @@ MonoBehaviour:
   typeLOCS: 3
   dialogText: {fileID: 5682508514286665691}
   id: 0
+  isDescription: 0
   initByCode: 1
+  otherInfo: []

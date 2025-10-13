@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: KLZ900
   m_EditorClassIdentifier: 
   id: 167
+  idText: 
   icon: {fileID: 1490955822, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
   typeObject: 1
   typeWeapon: 0
@@ -161,7 +162,7 @@ MonoBehaviour:
   - {x: 5, y: 0, z: -1}
   - {x: 5, y: 0, z: -2}
   - {x: 6, y: 0, z: -1}
+  gridSize: 8
   animationName: 
-  amountToAddId: 160
   itemStatistics:
     _serializedList: []

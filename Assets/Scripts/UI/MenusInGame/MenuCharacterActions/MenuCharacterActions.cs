@@ -27,7 +27,7 @@ public class MenuCharacterActions : MonoBehaviour
                 switch (AStarPathFinding.Instance.characterSelected.lastAction)
                 {
                     case ActionsManager.TypeAction.Attack:
-                    case ActionsManager.TypeAction.Special:
+                    case ActionsManager.TypeAction.Skill:
                     case ActionsManager.TypeAction.Defend:
                     case ActionsManager.TypeAction.Item:
                         break;
@@ -37,13 +37,13 @@ public class MenuCharacterActions : MonoBehaviour
                         buttonsExepts.Add(TypeButton.Throw);
                         break;
                     default:
-                        for (int i = 0; i < Enum.GetValues(typeof(TypeButton)).Length; i++)
+                        for (int i = 1; i < Enum.GetValues(typeof(TypeButton)).Length; i++)
                         {
-                            if ((TypeButton)i != TypeButton.Lift && (TypeButton)i != TypeButton.Attack)
+                            if ((TypeButton)i != TypeButton.Lift && (TypeButton)i != TypeButton.Attack && (TypeButton)i != TypeButton.Skill)
                             {
                                 buttonsExepts.Add((TypeButton)i);
                             }
-                            else if ((TypeButton)i != TypeButton.Attack)
+                            else if ((TypeButton)i == TypeButton.Attack)
                             {
                                 if (AStarPathFinding.Instance.GetPositionsToAttack(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions))
                                 {
@@ -51,7 +51,19 @@ public class MenuCharacterActions : MonoBehaviour
                                     SendCharactersToAttack(positions);
                                 }
                             }
-                            else if ((TypeButton)i != TypeButton.Lift)
+                            else if ((TypeButton)i == TypeButton.Skill)
+                            {
+                                if (AStarPathFinding.Instance.characterSelected.characterData.skills.Count > 0)
+                                {
+                                    buttons[TypeButton.Skill].interactable = true;
+                                    buttonsExepts.Add(TypeButton.Skill);
+                                }
+                                else
+                                {
+                                    buttons[TypeButton.Skill].interactable = false;
+                                }
+                            }
+                            else if ((TypeButton)i == TypeButton.Lift)
                             {
                                 buttons[TypeButton.Lift].gameObject.SetActive(true);
                                 buttons[TypeButton.Throw].gameObject.SetActive(false);
@@ -147,7 +159,7 @@ public class MenuCharacterActions : MonoBehaviour
     }
     public void HandleSpecial()
     {
-        if (isMenuActive) print("Special");
+        if (isMenuActive) StartCoroutine(playerManager.menuSkillsCharacter.EnableMenu());
     }
     public void HandleDefend()
     {
@@ -207,7 +219,7 @@ public class MenuCharacterActions : MonoBehaviour
     {
         None = 0,
         Attack = 1,
-        Special = 2,
+        Skill = 2,
         Defend = 3,
         Lift = 4,
         Throw = 5,
