@@ -39,7 +39,7 @@ public class ItemsDBSO : ScriptableObject
     {
         for (int i = 0; i < data.Count; i++)
         {
-            data.ElementAt(i).Value.id += -1;
+            data.ElementAt(i).Value.id += 1;
         }
     }
 }

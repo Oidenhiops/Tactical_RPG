@@ -4,15 +4,18 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "BasicHealSO", menuName = "ScriptableObjects/Skills/BasicHealSO", order = 1)]
 public class BasicHealSkillSO : SkillsBaseSO
 {
-    public override void UseSkill(Character character)
+    public override void UseSkill(Character characterMakeSkill, Character characterToMakeSkill)
     {
-        int amountHeal = Math.Clamp(Mathf.RoundToInt(character.characterData.statistics[CharacterData.TypeStatistic.Hp].maxValue * (character.characterData.skills[typeSkill][skillId].statistics[CharacterData.TypeStatistic.Sp].baseValue / 100)), 1, 10000);
+        int amountHeal = Math.Clamp(Mathf.RoundToInt(characterToMakeSkill.characterData.statistics[CharacterData.TypeStatistic.Hp].maxValue * (characterMakeSkill.characterData.skills[typeSkill][skillId].statistics[CharacterData.TypeStatistic.Sp].baseValue / 100)), 1, 10000);
 
-        character.characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue += amountHeal;
-        character.characterData.statistics[CharacterData.TypeStatistic.Sp].currentValue -= character.characterData.skills[typeSkill][skillId].statistics[CharacterData.TypeStatistic.Sp].baseValue;
+        characterToMakeSkill.characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue += amountHeal;
+        characterMakeSkill.characterData.statistics[CharacterData.TypeStatistic.Sp].currentValue -= characterMakeSkill.characterData.skills[typeSkill][skillId].statistics[CharacterData.TypeStatistic.Sp].baseValue;
 
-        character.characterData.statistics[CharacterData.TypeStatistic.Hp].RefreshValue();
-        character.characterData.statistics[CharacterData.TypeStatistic.Sp].RefreshValue();
+        characterToMakeSkill.characterData.statistics[CharacterData.TypeStatistic.Hp].RefreshValue();
+        characterMakeSkill.characterData.statistics[CharacterData.TypeStatistic.Sp].RefreshValue();
+
+        FloatingText floatingText = Instantiate(floatingTextPrefab, characterToMakeSkill.transform.position, Quaternion.identity).GetComponent<FloatingText>();
+        _ = floatingText.SendText(amountHeal.ToString(), Color.green, false);
     }
     public override void LevelUpSkill(Character character)
     {

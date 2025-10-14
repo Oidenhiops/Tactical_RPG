@@ -160,7 +160,7 @@ public class Character : MonoBehaviour
                 {
                     actions.Add(new ActionsManager.ActionInfo
                     {
-                        character = this,
+                        characterMakeAction = this,
                         typeAction = ActionsManager.TypeAction.Move,
                         positionInGrid = path[0]
                     });
@@ -168,7 +168,7 @@ public class Character : MonoBehaviour
                 else
                 {
                     PlayerManager.Instance.actionsManager.characterActions.Add(this, new List<ActionsManager.ActionInfo> { new ActionsManager.ActionInfo{
-                        character = this,
+                        characterMakeAction = this,
                         typeAction = ActionsManager.TypeAction.Move,
                         positionInGrid = path[0]
                     } });

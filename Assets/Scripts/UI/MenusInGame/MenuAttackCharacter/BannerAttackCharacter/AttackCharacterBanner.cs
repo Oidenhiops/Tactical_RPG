@@ -29,6 +29,6 @@ public class AttackCharacterBanner : MonoBehaviour, ISelectHandler
     public void OnHandleSelect(BaseEventData eventData)
     {
         menuAttackCharacter.playerManager.MovePointerToInstant(Vector3Int.RoundToInt(character.transform.position));
-        menuAttackCharacter.playerManager.menuCharacterInfo.ReloadInfo(character);
+        _= menuAttackCharacter.playerManager.menuCharacterInfo.ReloadInfo(character);
     }
 }

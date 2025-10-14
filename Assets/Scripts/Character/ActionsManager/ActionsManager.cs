@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.VFX;
 
 public class ActionsManager : MonoBehaviour
 {
@@ -42,7 +43,7 @@ public class ActionsManager : MonoBehaviour
     {
         endTurnTest.started -= OnEndTurnTest;
         playerManager.characterActions.CharacterInputs.Back.started -= OnUndoAction;
-        
+
     }
     public void OnEndTurnTest(InputAction.CallbackContext context)
     {
@@ -53,7 +54,7 @@ public class ActionsManager : MonoBehaviour
         if (GameManager.Instance.isPause) return;
         if (!isPlayerTurn)
         {
-            _= EndTurn();
+            _ = EndTurn();
             return;
         }
         if (playerManager.menuItemsCharacter.menuItemCharacters.activeSelf)
@@ -125,61 +126,61 @@ public class ActionsManager : MonoBehaviour
                 case TypeAction.Move:
                     if (AStarPathFinding.Instance.grid[actions[actions.Count - 1].positionInGrid].hasCharacter == null)
                     {
-                        AStarPathFinding.Instance.grid[actions[actions.Count - 1].character.positionInGrid].hasCharacter = null;
-                        actions[actions.Count - 1].character.transform.position = actions[actions.Count - 1].positionInGrid;
+                        AStarPathFinding.Instance.grid[actions[actions.Count - 1].characterMakeAction.positionInGrid].hasCharacter = null;
+                        actions[actions.Count - 1].characterMakeAction.transform.position = actions[actions.Count - 1].positionInGrid;
                         StartCoroutine(playerManager.MovePointerTo(actions[actions.Count - 1].positionInGrid));
                         if (actions[actions.Count - 1].positionInGrid == Vector3Int.zero)
                         {
                             playerManager.menuCharacterSelector.amountCharacters++;
-                            actions[actions.Count - 1].character.positionInGrid = Vector3Int.zero;
-                            actions[actions.Count - 1].character.gameObject.SetActive(false);
-                            characterActions.Remove(actions[actions.Count - 1].character);
+                            actions[actions.Count - 1].characterMakeAction.positionInGrid = Vector3Int.zero;
+                            actions[actions.Count - 1].characterMakeAction.gameObject.SetActive(false);
+                            characterActions.Remove(actions[actions.Count - 1].characterMakeAction);
                         }
                         else
                         {
-                            AStarPathFinding.Instance.grid[actions[actions.Count - 1].positionInGrid].hasCharacter = actions[actions.Count - 1].character;
-                            actions[actions.Count - 1].character.positionInGrid = actions[actions.Count - 1].positionInGrid;
+                            AStarPathFinding.Instance.grid[actions[actions.Count - 1].positionInGrid].hasCharacter = actions[actions.Count - 1].characterMakeAction;
+                            actions[actions.Count - 1].characterMakeAction.positionInGrid = actions[actions.Count - 1].positionInGrid;
                             if (actions.Count > 1)
                             {
                                 actions.RemoveAt(actions.Count - 1);
                             }
                             else
                             {
-                                characterActions.Remove(actions[actions.Count - 1].character);
+                                characterActions.Remove(actions[actions.Count - 1].characterMakeAction);
                             }
                         }
                     }
                     else if (actions[actions.Count - 1].positionInGrid == Vector3Int.zero)
                     {
-                        AStarPathFinding.Instance.grid[actions[actions.Count - 1].character.positionInGrid].hasCharacter = null;
-                        actions[actions.Count - 1].character.positionInGrid = Vector3Int.zero;
+                        AStarPathFinding.Instance.grid[actions[actions.Count - 1].characterMakeAction.positionInGrid].hasCharacter = null;
+                        actions[actions.Count - 1].characterMakeAction.positionInGrid = Vector3Int.zero;
                         playerManager.menuCharacterSelector.amountCharacters++;
                         StartCoroutine(playerManager.MovePointerTo(actions[actions.Count - 1].positionInGrid));
-                        actions[actions.Count - 1].character.gameObject.SetActive(false);
-                        characterActions.Remove(actions[actions.Count - 1].character);
+                        actions[actions.Count - 1].characterMakeAction.gameObject.SetActive(false);
+                        characterActions.Remove(actions[actions.Count - 1].characterMakeAction);
                     }
                     break;
                 case TypeAction.Lift:
-                    if (!AStarPathFinding.Instance.grid[actions[actions.Count - 1].otherCharacterInfo[0].positionInGrid].hasCharacter)
+                    if (!AStarPathFinding.Instance.grid[actions[actions.Count - 1].characterToMakeAction[0].positionInGrid].hasCharacter)
                     {
-                        actions[actions.Count - 1].character.lastAction = TypeAction.None;
-                        characterFinalActions.Remove(actions[actions.Count - 1].character);
-                        actions[actions.Count - 1].character.characterAnimations.MakeAnimation("Idle");
-                        actions[actions.Count - 1].character.characterStatusEffect.statusEffects.Remove(playerManager.menuLiftCharacter.statusEffectLiftSO);
-                        actions[actions.Count - 1].otherCharacterInfo[0].character.transform.SetParent(null);
-                        if (actions[actions.Count - 1].otherCharacterInfo[0].character.characterAnimations.currentAnimation.name != "Lift") actions[actions.Count - 1].otherCharacterInfo[0].character.characterAnimations.MakeAnimation("Idle");
-                        actions[actions.Count - 1].otherCharacterInfo[0].character.transform.position = actions[actions.Count - 1].otherCharacterInfo[0].positionInGrid;
-                        AStarPathFinding.Instance.grid[actions[actions.Count - 1].otherCharacterInfo[0].positionInGrid].hasCharacter = actions[actions.Count - 1].otherCharacterInfo[0].character;
+                        actions[actions.Count - 1].characterMakeAction.lastAction = TypeAction.None;
+                        characterFinalActions.Remove(actions[actions.Count - 1].characterMakeAction);
+                        actions[actions.Count - 1].characterMakeAction.characterAnimations.MakeAnimation("Idle");
+                        actions[actions.Count - 1].characterMakeAction.characterStatusEffect.statusEffects.Remove(playerManager.menuLiftCharacter.statusEffectLiftSO);
+                        actions[actions.Count - 1].characterToMakeAction[0].character.transform.SetParent(null);
+                        if (actions[actions.Count - 1].characterToMakeAction[0].character.characterAnimations.currentAnimation.name != "Lift") actions[actions.Count - 1].characterToMakeAction[0].character.characterAnimations.MakeAnimation("Idle");
+                        actions[actions.Count - 1].characterToMakeAction[0].character.transform.position = actions[actions.Count - 1].characterToMakeAction[0].positionInGrid;
+                        AStarPathFinding.Instance.grid[actions[actions.Count - 1].characterToMakeAction[0].positionInGrid].hasCharacter = actions[actions.Count - 1].characterToMakeAction[0].character;
                         actions.RemoveAt(actions.Count - 1);
-                        if (actions.Count == 0) characterActions.Remove(actions[actions.Count - 1].character);
+                        if (actions.Count == 0) characterActions.Remove(actions[actions.Count - 1].characterMakeAction);
                     }
                     break;
                 case TypeAction.Defend:
                 case TypeAction.Attack:
                 case TypeAction.Skill:
-                    actions[actions.Count - 1].character.lastAction = TypeAction.None;
-                    characterFinalActions.Remove(actions[actions.Count - 1].character);
-                    if (actions.Count - 1 == 0) characterActions.Remove(actions[actions.Count - 1].character);
+                    actions[actions.Count - 1].characterMakeAction.lastAction = TypeAction.None;
+                    characterFinalActions.Remove(actions[actions.Count - 1].characterMakeAction);
+                    if (actions.Count - 1 == 0) characterActions.Remove(actions[actions.Count - 1].characterMakeAction);
                     else actions.RemoveAt(actions.Count - 1);
                     break;
             }
@@ -201,58 +202,97 @@ public class ActionsManager : MonoBehaviour
     }
     public async Task MakeActions()
     {
-       foreach (KeyValuePair<Character, ActionInfo> actions in characterFinalActions)
+        foreach (KeyValuePair<Character, ActionInfo> actions in characterFinalActions)
+        {
+            if (actions.Value.characterMakeAction.characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue > 0)
             {
-                if (actions.Value.character.characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue > 0)
+                switch (actions.Value.typeAction)
                 {
-                    switch (actions.Value.typeAction)
-                    {
-                        case TypeAction.Attack:
-                            actions.Value.character.characterAnimations.MakeAnimation(actions.Value.character.characterAnimations.GetAnimationAttack());
-                            await Awaitable.NextFrameAsync();
-                            bool makedDamage = false;
-                            while (true)
+                    case TypeAction.Attack:
+                        actions.Value.characterMakeAction.characterAnimations.MakeAnimation(actions.Value.characterMakeAction.characterAnimations.GetAnimationAttack());
+                        await Awaitable.NextFrameAsync();
+                        bool makedDamage = false;
+                        while (true)
+                        {
+                            if (actions.Value.characterMakeAction.characterAnimations.currentAnimation.frameToInstance == actions.Value.characterMakeAction.characterAnimations.currentSpriteIndex && !makedDamage)
                             {
-                                if (actions.Value.character.characterAnimations.currentAnimation.frameToInstance == actions.Value.character.characterAnimations.currentSpriteIndex && !makedDamage)
+                                makedDamage = true;
+                                foreach (OtherCharacterInfo otherCharacter in actions.Value.characterToMakeAction)
                                 {
-                                    makedDamage = true;
-                                    foreach (OtherCharacterInfo otherCharacter in actions.Value.otherCharacterInfo)
+                                    if (otherCharacter.character.characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue > 0)
                                     {
-                                        if (otherCharacter.character.characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue > 0)
-                                        {
-                                            otherCharacter.character.TakeDamage(actions.Value.character, actions.Value.character.characterData.statistics[CharacterData.TypeStatistic.Atk].currentValue);
-                                        }
+                                        otherCharacter.character.TakeDamage(actions.Value.characterMakeAction, actions.Value.characterMakeAction.characterData.statistics[CharacterData.TypeStatistic.Atk].currentValue);
                                     }
                                 }
-                                if (actions.Value.character.characterAnimations.currentAnimation.name == "Idle") break;
+                            }
+                            if (actions.Value.characterMakeAction.characterAnimations.currentAnimation.name == "Idle") break;
+                            await Awaitable.NextFrameAsync();
+                        }
+                        actions.Key.lastAction = TypeAction.EndTurn;
+                        await Task.Delay(TimeSpan.FromSeconds(0.25f));
+                        characterActions[actions.Key].Add(new ActionInfo()
+                        {
+                            cantUndo = false,
+                            positionInGrid = actions.Key.positionInGrid,
+                            typeAction = TypeAction.EndTurn
+                        });
+                        await Task.Delay(TimeSpan.FromSeconds(0.5f));
+                        break;
+                    case TypeAction.Skill:
+                        if (!actions.Value.skillInfo.skillsBaseSO.needSceneAnimation)
+                        {
+                            if (actions.Value.characterMakeAction.initialDataSO.animations.ContainsKey(actions.Value.skillInfo.skillsBaseSO.animationSkillName))
+                            {
+                                actions.Value.characterMakeAction.characterAnimations.MakeAnimation(actions.Value.skillInfo.skillsBaseSO.animationSkillName);
+                            }
+                            else
+                            {
+                                actions.Value.characterMakeAction.characterAnimations.MakeAnimation(actions.Value.skillInfo.skillsBaseSO.generalAnimationSkillName);
+                            }
+                            foreach (Vector3Int position in actions.Value.positionsToMakeSkill)
+                            {
+                                AStarPathFinding.Instance.GetHighestBlockAt(new Vector3Int(position.x, 0, position.z),  out GenerateMap.WalkablePositionInfo block);
+                                GameObject skillEffect = Instantiate(actions.Value.skillInfo.skillsBaseSO.skillVFXPrefab, block != null ? block.pos : position, Quaternion.identity);
+                                Destroy(skillEffect, actions.Value.skillInfo.skillsBaseSO.skillVFXDuration);
+                                if (block != null && AStarPathFinding.Instance.grid[block.pos].hasCharacter)
+                                {
+                                    actions.Value.skillInfo.skillsBaseSO.UseSkill(AStarPathFinding.Instance.grid[block.pos].hasCharacter, actions.Value.characterMakeAction);
+                                }
+                            }
+                            float elapsedTime = 0f;
+                            while (elapsedTime < actions.Value.skillInfo.skillsBaseSO.skillVFXDuration)
+                            {
+                                elapsedTime += Time.deltaTime;
                                 await Awaitable.NextFrameAsync();
                             }
-                            actions.Key.lastAction = TypeAction.EndTurn;
-                            await Task.Delay(TimeSpan.FromSeconds(0.25f));
-                            characterActions[actions.Key].Add(new ActionInfo()
-                            {
-                                cantUndo = false,
-                                positionInGrid = actions.Key.positionInGrid,
-                                typeAction = TypeAction.EndTurn
-                            });
-                            await Task.Delay(TimeSpan.FromSeconds(0.5f));
-                            break;
-                        case TypeAction.Skill:
-                            await Awaitable.NextFrameAsync();
-                            break;
-                        case TypeAction.Defend:
-                            await DefendAction(actions.Key);
-                            characterActions[actions.Key].Add(new ActionInfo()
-                            {
-                                cantUndo = false,
-                                positionInGrid = actions.Key.positionInGrid,
-                                typeAction = TypeAction.EndTurn
-                            });
-                            await Awaitable.NextFrameAsync();
-                            break;
-                    }
+                        }
+                        else
+                        {
+                            print("Need Scene Animation Non Implemented");
+                        }
+                        actions.Key.lastAction = TypeAction.EndTurn;
+                        await Task.Delay(TimeSpan.FromSeconds(0.25f));
+                        characterActions[actions.Key].Add(new ActionInfo()
+                        {
+                            cantUndo = false,
+                            positionInGrid = actions.Key.positionInGrid,
+                            typeAction = TypeAction.EndTurn
+                        });
+                        await Task.Delay(TimeSpan.FromSeconds(0.5f));
+                        break;
+                    case TypeAction.Defend:
+                        await DefendAction(actions.Key);
+                        characterActions[actions.Key].Add(new ActionInfo()
+                        {
+                            cantUndo = false,
+                            positionInGrid = actions.Key.positionInGrid,
+                            typeAction = TypeAction.EndTurn
+                        });
+                        await Awaitable.NextFrameAsync();
+                        break;
                 }
             }
+        }
         characterFinalActions = new SerializedDictionary<Character, ActionInfo>();
         await Awaitable.NextFrameAsync();
     }
@@ -325,15 +365,22 @@ public class ActionsManager : MonoBehaviour
     public class ActionInfo
     {
         public bool cantUndo;
-        public Character character;
-        public List<OtherCharacterInfo> otherCharacterInfo;
+        public Character characterMakeAction;
+        public List<OtherCharacterInfo> characterToMakeAction;
         public List<Vector3Int> positionsToMakeSkill;
+        public CharacterData.CharacterSkillInfo skillInfo;
         public TypeAction typeAction;
         public Vector3Int positionInGrid;
-        public ActionInfo(Character character = null, List<OtherCharacterInfo> otherCharacterInfo = null, TypeAction typeAction = TypeAction.None, Vector3Int positionInGrid = default)
+        public ActionInfo
+        (
+            bool cantUndo = false, Character characterMakeAction = null, List<OtherCharacterInfo> characterToMakeAction = null, List<Vector3Int> positionsToMakeSkill = null,
+            CharacterData.CharacterSkillInfo skillInfo = null, TypeAction typeAction = TypeAction.None, Vector3Int positionInGrid = default)
         {
-            this.character = character;
-            this.otherCharacterInfo = otherCharacterInfo;
+            this.cantUndo = cantUndo;
+            this.characterMakeAction = characterMakeAction;
+            this.characterToMakeAction = characterToMakeAction;
+            this.positionsToMakeSkill = positionsToMakeSkill;
+            this.skillInfo = skillInfo;
             this.typeAction = typeAction;
             this.positionInGrid = positionInGrid;
         }

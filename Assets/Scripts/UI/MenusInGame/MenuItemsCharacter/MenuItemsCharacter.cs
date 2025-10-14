@@ -167,7 +167,7 @@ public class MenuItemsCharacter : MonoBehaviour
         yield return null;
         yield return ReloadGearBanners();
         yield return ReloadBagBanners();
-        playerManager.menuCharacterInfo.ReloadInfo(AStarPathFinding.Instance.characterSelected, true);
+        _= playerManager.menuCharacterInfo.ReloadInfo(AStarPathFinding.Instance.characterSelected, true);
     }
     public IEnumerator EnableMenu()
     {
@@ -184,7 +184,7 @@ public class MenuItemsCharacter : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(bagBanners.ElementAt(bagIndex).Value.gameObject);
             bagBanners.ElementAt(bagIndex).Value.onObjectSelect.ScrollTo(bagIndex);
             yield return null;
-            playerManager.menuCharacterInfo.ReloadInfo(AStarPathFinding.Instance.characterSelected, true);
+            _= playerManager.menuCharacterInfo.ReloadInfo(AStarPathFinding.Instance.characterSelected, true);
             playerManager.menuCharacterInfo.menuCharacterInfo.SetActive(true);
         }
         playerManager.menuCharacterActions.menuCharacterActions.SetActive(false);

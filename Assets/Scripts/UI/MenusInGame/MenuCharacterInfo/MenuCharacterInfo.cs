@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AYellowpaper.SerializedCollections;
 using TMPro;
 using UnityEngine;
@@ -16,7 +17,7 @@ public class MenuCharacterInfo : MonoBehaviour
     public RectTransform skillsContainer;
     public ScrollRect skillsScrollRect;
     public int skillBannerIndex;
-    public TMP_Text skillDescription;
+    public ManagementLanguage skillDescription;
     public Image characterSprite;
     public TMP_Text characterLevel;
     public TMP_Text characterMovementRadius;
@@ -46,7 +47,7 @@ public class MenuCharacterInfo : MonoBehaviour
         changeSubMenuInput.started -= OnHandleChangeSubMenu;
         changeSkillInput.started -= OnHandleChangeSkill;
     }
-    public void ReloadInfo(Character character, bool disableItemsContainer = false)
+    public async Task ReloadInfo(Character character, bool disableItemsContainer = false)
     {
         characterSprite.sprite = character.initialDataSO.icon;
         characterName.text = character.characterData.name;
@@ -75,46 +76,6 @@ public class MenuCharacterInfo : MonoBehaviour
             banner.SetData(statusEffect.Key, statusEffect.Value);
         }
 
-        skillBannerIndex = 0;
-        foreach (Transform child in skillsContainer.transform)
-        {
-            Destroy(child.gameObject);
-        }
-        if (character.characterData.skills.Count > 0)
-        {
-            skillDescription.transform.parent.gameObject.SetActive(true);
-            foreach (KeyValuePair<int, CharacterData.CharacterSkillInfo> skill in character.characterData.skills[ItemBaseSO.TypeWeapon.None])
-            {
-                SkillBannerCharacterInfo banner = Instantiate(skillBanner, skillsContainer.transform).GetComponent<SkillBannerCharacterInfo>();
-                banner.onObjectSelect.container = skillsContainer;
-                banner.onObjectSelect.viewport = skillsViewport;
-                banner.onObjectSelect.scrollRect = skillsScrollRect;
-                banner.SetBannerData(skill.Value);
-            }
-            character.characterData.GetCurrentWeapon(out CharacterData.CharacterItem weapon);
-
-            if (weapon != null && character.characterData.skills.ContainsKey(weapon.itemBaseSO.typeWeapon))
-            {
-                foreach (KeyValuePair<int, CharacterData.CharacterSkillInfo> skill in character.characterData.skills[weapon.itemBaseSO.typeWeapon])
-                {
-                    SkillBannerCharacterInfo banner = Instantiate(skillBanner, skillsContainer.transform).GetComponent<SkillBannerCharacterInfo>();
-                    banner.onObjectSelect.container = skillsContainer;
-                    banner.onObjectSelect.viewport = skillsViewport;
-                    banner.onObjectSelect.scrollRect = skillsScrollRect;
-                    banner.SetBannerData(skill.Value);
-                }
-            }
-            ManagementLanguage managementLanguage = skillDescription.GetComponent<ManagementLanguage>();
-            managementLanguage.id = skillsContainer.GetChild(skillBannerIndex).GetComponent<SkillBannerCharacterInfo>().skill.skillsBaseSO.skillIdText;
-            managementLanguage.otherInfo = skillsContainer.GetChild(skillBannerIndex).GetComponent<SkillBannerCharacterInfo>().skill.skillsBaseSO.GetSkillDescription(skillsContainer.GetChild(0).GetComponent<SkillBannerCharacterInfo>().skill.statistics);
-            managementLanguage.RefreshDescription();
-            skillsContainer.GetChild(skillBannerIndex).GetComponent<SkillBannerCharacterInfo>().OnSelectBanner();
-        }
-        else
-        {
-            skillDescription.transform.parent.gameObject.SetActive(false);
-        }
-
         if (!disableItemsContainer)
         {
             itemsButton.interactable = true;
@@ -141,7 +102,7 @@ public class MenuCharacterInfo : MonoBehaviour
             itemsButton.interactable = false;
             itemsButton.gameObject.SetActive(false);
         }
-        
+
         foreach (KeyValuePair<CharacterData.TypeStatistic, TMP_Text> aptitude in aptitudes)
         {
             aptitude.Value.text = character.characterData.statistics[aptitude.Key].aptitudeValue + "%";
@@ -151,6 +112,48 @@ public class MenuCharacterInfo : MonoBehaviour
             mastery.Value.masteryRange.text = character.characterData.mastery[mastery.Key].masteryRange.ToString();
             mastery.Value.masteryLevel.text = character.characterData.mastery[mastery.Key].masteryLevel.ToString();
             mastery.Value.masteryLevelFill.fillAmount = character.characterData.mastery[mastery.Key].currentExp / (float)character.characterData.mastery[mastery.Key].maxExp;
+        }
+
+        skillBannerIndex = 0;
+        foreach (Transform child in skillsContainer.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        if (character.characterData.skills.Count > 0)
+        {
+            skillDescription.transform.parent.gameObject.SetActive(true);
+            foreach (KeyValuePair<int, CharacterData.CharacterSkillInfo> skill in character.characterData.skills[ItemBaseSO.TypeWeapon.None])
+            {
+                SkillBannerCharacterInfo banner = Instantiate(skillBanner, skillsContainer.transform).GetComponent<SkillBannerCharacterInfo>();
+                banner.onObjectSelect.container = skillsContainer;
+                banner.onObjectSelect.viewport = skillsViewport;
+                banner.onObjectSelect.scrollRect = skillsScrollRect;
+                banner.menuCharacterInfo = this;
+                banner.SetBannerData(skill.Value);
+            }
+            character.characterData.GetCurrentWeapon(out CharacterData.CharacterItem weapon);
+
+            if (weapon != null && character.characterData.skills.ContainsKey(weapon.itemBaseSO.typeWeapon))
+            {
+                foreach (KeyValuePair<int, CharacterData.CharacterSkillInfo> skill in character.characterData.skills[weapon.itemBaseSO.typeWeapon])
+                {
+                    SkillBannerCharacterInfo banner = Instantiate(skillBanner, skillsContainer.transform).GetComponent<SkillBannerCharacterInfo>();
+                    banner.onObjectSelect.container = skillsContainer;
+                    banner.onObjectSelect.viewport = skillsViewport;
+                    banner.onObjectSelect.scrollRect = skillsScrollRect;
+                    banner.menuCharacterInfo = this;
+                    banner.SetBannerData(skill.Value);
+                }
+            }
+            skillDescription.id = skillsContainer.GetChild(skillBannerIndex).GetComponent<SkillBannerCharacterInfo>().skill.skillsBaseSO.skillIdText;
+            skillDescription.otherInfo = skillsContainer.GetChild(skillBannerIndex).GetComponent<SkillBannerCharacterInfo>().skill.skillsBaseSO.GetSkillDescription(skillsContainer.GetChild(0).GetComponent<SkillBannerCharacterInfo>().skill.statistics);
+            skillDescription.RefreshDescription();
+            await Awaitable.NextFrameAsync();
+            skillsContainer.GetChild(skillBannerIndex).GetComponent<SkillBannerCharacterInfo>().OnSelectBanner();
+        }
+        else
+        {
+            skillDescription.transform.parent.gameObject.SetActive(false);
         }
 
         EnableSubMenu(0);
@@ -210,6 +213,12 @@ public class MenuCharacterInfo : MonoBehaviour
                 subMenusInfo[i].subMenuContainer.SetActive(false);
             }
         }
+    }
+    public void SetDescriptionData(SkillBannerCharacterInfo skillBannerCharacterInfo)
+    {
+        skillDescription.id = skillBannerCharacterInfo.skill.skillsBaseSO.skillIdText;
+        skillDescription.otherInfo = skillBannerCharacterInfo.skill.skillsBaseSO.GetSkillDescription(skillBannerCharacterInfo.skill.statistics);
+        skillDescription.RefreshDescription();
     }
     public void DisableMenu(bool conservCharacter = false)
     {

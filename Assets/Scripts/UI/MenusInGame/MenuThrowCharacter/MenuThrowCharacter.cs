@@ -41,7 +41,7 @@ public class MenuThrowCharacter : MonoBehaviour
             if (playerManager.actionsManager.characterActions.TryGetValue(AStarPathFinding.Instance.characterSelected, out List<ActionsManager.ActionInfo> actions))
             {
                 isThrowingCharacter = false;
-                StartCoroutine(ThrowCharacterToPosition(AStarPathFinding.Instance.characterSelected.positionInGrid + Vector3.up, playerManager.currentMousePos, actions[actions.Count - 1].otherCharacterInfo[0].character, 1));
+                StartCoroutine(ThrowCharacterToPosition(AStarPathFinding.Instance.characterSelected.positionInGrid + Vector3.up, playerManager.currentMousePos, actions[actions.Count - 1].characterToMakeAction[0].character, 1));
             }
             else
             {
@@ -87,10 +87,10 @@ public class MenuThrowCharacter : MonoBehaviour
         AStarPathFinding.Instance.characterSelected.lastAction = ActionsManager.TypeAction.EndTurn;
         if (playerManager.actionsManager.characterActions.TryGetValue(AStarPathFinding.Instance.characterSelected, out List<ActionsManager.ActionInfo> actions))
         {
-            actions[actions.Count - 1].otherCharacterInfo[0].character.startPositionInGrid = Vector3Int.RoundToInt(endPos);
-            actions[actions.Count - 1].otherCharacterInfo[0].character.positionInGrid = Vector3Int.RoundToInt(endPos);
-            AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(endPos)].hasCharacter = actions[actions.Count - 1].otherCharacterInfo[0].character;
-            actions[actions.Count - 1].otherCharacterInfo[0].character.transform.SetParent(AStarPathFinding.Instance.characterSelected.transform.parent);
+            actions[actions.Count - 1].characterToMakeAction[0].character.startPositionInGrid = Vector3Int.RoundToInt(endPos);
+            actions[actions.Count - 1].characterToMakeAction[0].character.positionInGrid = Vector3Int.RoundToInt(endPos);
+            AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(endPos)].hasCharacter = actions[actions.Count - 1].characterToMakeAction[0].character;
+            actions[actions.Count - 1].characterToMakeAction[0].character.transform.SetParent(AStarPathFinding.Instance.characterSelected.transform.parent);
         }
         else
         {
@@ -106,7 +106,7 @@ public class MenuThrowCharacter : MonoBehaviour
         {
             playerManager.actionsManager.characterFinalActions[AStarPathFinding.Instance.characterSelected] = new ActionsManager.ActionInfo()
             {
-                character = AStarPathFinding.Instance.characterSelected,
+                characterMakeAction = AStarPathFinding.Instance.characterSelected,
                 typeAction = ActionsManager.TypeAction.Lift
             };
         }
@@ -114,7 +114,7 @@ public class MenuThrowCharacter : MonoBehaviour
         {
             playerManager.actionsManager.characterFinalActions.Add(AStarPathFinding.Instance.characterSelected, new ActionsManager.ActionInfo()
             {
-                character = AStarPathFinding.Instance.characterSelected,
+                characterMakeAction = AStarPathFinding.Instance.characterSelected,
                 typeAction = ActionsManager.TypeAction.Lift
             });
         }
@@ -127,9 +127,9 @@ public class MenuThrowCharacter : MonoBehaviour
     {
         if (PlayerManager.Instance.actionsManager.characterActions.TryGetValue(character, out List<ActionsManager.ActionInfo> actions))
         {
-            if (actions[actions.Count - 1].otherCharacterInfo != null && actions[actions.Count - 1].otherCharacterInfo.Count > 0)
+            if (actions[actions.Count - 1].characterToMakeAction != null && actions[actions.Count - 1].characterToMakeAction.Count > 0)
             {
-                if (PlayerManager.Instance.actionsManager.characterActions.TryGetValue(actions[actions.Count - 1].otherCharacterInfo[0].character, out List<ActionsManager.ActionInfo> otherActions))
+                if (PlayerManager.Instance.actionsManager.characterActions.TryGetValue(actions[actions.Count - 1].characterToMakeAction[0].character, out List<ActionsManager.ActionInfo> otherActions))
                 {
                     otherActions[otherActions.Count - 1].cantUndo = true;
                 }
@@ -137,14 +137,14 @@ public class MenuThrowCharacter : MonoBehaviour
             if (actions[actions.Count - 1].typeAction == ActionsManager.TypeAction.Lift)
             {
                 actions[actions.Count - 1].cantUndo = true;
-                actions[actions.Count - 1].otherCharacterInfo = new List<ActionsManager.OtherCharacterInfo>();
+                actions[actions.Count - 1].characterToMakeAction = new List<ActionsManager.OtherCharacterInfo>();
             }
             else
             {
                 PlayerManager.Instance.actionsManager.characterActions[character].Add(new ActionsManager.ActionInfo
                 {
                     cantUndo = true,
-                    character = character,
+                    characterMakeAction = character,
                     typeAction = ActionsManager.TypeAction.EndTurn,
                     positionInGrid = Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)
                 });

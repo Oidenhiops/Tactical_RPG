@@ -55,7 +55,7 @@ public class MenuCreateCharacter : MonoBehaviour
     {
         int xPos = -1;
         bool xPosLock = false;
-        for (int x = 0; x < GameData.Instance.charactersDataDBSO.data.Count; x++)
+        for (int x = 1; x <= GameData.Instance.charactersDataDBSO.data.Count; x++)
         {
             for (int y = 0; y < GameData.Instance.charactersDataDBSO.data[x].Count; y++)
             {
@@ -90,7 +90,7 @@ public class MenuCreateCharacter : MonoBehaviour
         AddCharactersToInfiniteLoop();
         yield return null;
         isMenuActive = true;
-        menuCharacterInfo.ReloadInfo(characters[index.x][index.y].GetComponent<Character>());
+        _= menuCharacterInfo.ReloadInfo(characters[index.x][index.y].GetComponent<Character>());
     }
     public void AddCharactersToInfiniteLoop()
     {
@@ -153,7 +153,7 @@ public class MenuCreateCharacter : MonoBehaviour
             index.y = characters[index.x].Count - 1;
         }
         gridCellMouse.transform.localPosition = new Vector3(index.y, 0, index.x);
-        menuCharacterInfo.ReloadInfo(characters[index.x][index.y].GetComponent<Character>());
+        _= menuCharacterInfo.ReloadInfo(characters[index.x][index.y].GetComponent<Character>());
     }
     void UnloadMenuCreateCharacter(InputAction.CallbackContext context)
     {

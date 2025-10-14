@@ -49,7 +49,7 @@ public class MenuAllCharacters : MonoBehaviour
     }
     public void OnCharacterSelect(AllCharactersBanner banner)
     {
-        playerManager.menuCharacterInfo.ReloadInfo(banner.character);
+        _= playerManager.menuCharacterInfo.ReloadInfo(banner.character);
     }
     public IEnumerator EnableMenu()
     {
@@ -65,7 +65,7 @@ public class MenuAllCharacters : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(banners.ElementAt(index).Value.gameObject);
             banners.ElementAt(index).Value.onObjectSelect.ScrollTo(index);
             yield return null;
-            playerManager.menuCharacterInfo.ReloadInfo(banners.ElementAt(index).Value.character);
+            _= playerManager.menuCharacterInfo.ReloadInfo(banners.ElementAt(index).Value.character);
             playerManager.menuCharacterInfo.menuCharacterInfo.SetActive(true);
         }
         playerManager.menuGeneralActions.menuGeneralActions.SetActive(false);

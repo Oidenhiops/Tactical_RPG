@@ -12,12 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc813b44e2b9d8745881221110312346, type: 3}
   m_Name: RareHealSO
   m_EditorClassIdentifier: Assembly-CSharp::BasicHealSkillSO
-  skillId: 2
+  skillId: 3
   skillIdText: skill_rare_heal
   animationSkillName: GeneralSkillEffect
   generalAnimationSkillName: GeneralSkillEffect
   needSceneAnimation: 0
   skillVFXPrefab: {fileID: 8042130166991012130, guid: 98da398807cf2704bb3fb52621f53483,
+    type: 3}
+  skillVFXDuration: 1.1
+  floatingTextPrefab: {fileID: 2459534110922450985, guid: 735e9d32137233f4492a6d557a6c2880,
     type: 3}
   statistics:
     _serializedList:
@@ -153,3 +156,4 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   positionsSkillFormGridSize: 2
   isFreeMovementSkill: 1
+  needCharacterToMakeSkill: 1

@@ -428,7 +428,7 @@ MonoBehaviour:
   bannerInfo:
     index: 0
     typeCharacterItem: 0
-  onObjectSelect: {fileID: 0}
+  onObjectSelect: {fileID: 1057442076856761001}
   menuItemsCharacter: {fileID: 0}
   managementLanguage: {fileID: 4484929051877040103}
   item:

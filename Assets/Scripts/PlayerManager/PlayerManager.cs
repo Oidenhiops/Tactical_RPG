@@ -43,7 +43,7 @@ public class PlayerManager : MonoBehaviour
         }
     }
     public GameObject generalCharacterPrefab;
-    bool isDecalMovement;
+    public bool isDecalMovement;
     Vector3Int direction;
     Vector3 camDirection;
     bool cantRotateCamera;

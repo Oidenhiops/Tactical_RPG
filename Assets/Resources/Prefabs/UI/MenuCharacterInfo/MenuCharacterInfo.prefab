@@ -3131,7 +3131,7 @@ MonoBehaviour:
   skillsContainer: {fileID: 4393454293434834761}
   skillsScrollRect: {fileID: 920064320936109721}
   skillBannerIndex: 0
-  skillDescription: {fileID: 7125520268820917302}
+  skillDescription: {fileID: 4109010599108872195}
   characterSprite: {fileID: 2639392737890914183}
   characterLevel: {fileID: 7029432597208707295}
   characterMovementRadius: {fileID: 4678131160939772569}

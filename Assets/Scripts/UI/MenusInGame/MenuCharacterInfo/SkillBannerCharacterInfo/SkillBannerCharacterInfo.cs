@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class SkillBannerCharacterInfo : SkillCharacterBanner, IDeselectHandler
 {
     public Image skillBg;
+    public MenuCharacterInfo menuCharacterInfo;
     public override void OnHandleSelect(BaseEventData eventData)
     {
         OnSelectBanner();
@@ -17,6 +18,7 @@ public class SkillBannerCharacterInfo : SkillCharacterBanner, IDeselectHandler
     public void OnSelectBanner()
     {
         skillBg.color = Color.yellow;
+        menuCharacterInfo.SetDescriptionData(this);
         onObjectSelect.OnSelect();
     }
     public void OnDeselectBanner()

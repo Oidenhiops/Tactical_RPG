@@ -237,7 +237,7 @@ public class InitialDataSO : ScriptableObject
                     level = innerKvp.Value.level,
                 };
 
-                innerClone.Add(innerKvp.Key, skillInfoClone);
+                innerClone.Add(skillInfoClone.skillId, skillInfoClone);
             }
             clone.Add(kvp.Key, innerClone);
         }

@@ -213,7 +213,7 @@ public class AStarPathFinding : MonoBehaviour
                         }
                         else
                         {
-                            PlayerManager.Instance.menuCharacterInfo.ReloadInfo(characterSelected);
+                            _= PlayerManager.Instance.menuCharacterInfo.ReloadInfo(characterSelected);
                         }
                     }
                     else

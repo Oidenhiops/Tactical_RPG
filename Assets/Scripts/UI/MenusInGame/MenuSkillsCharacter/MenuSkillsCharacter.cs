@@ -29,16 +29,16 @@ public class MenuSkillsCharacter : MonoBehaviour
     void OnEnable()
     {
         selectCharacterInput.Enable();
-        selectCharacterInput.performed += OnSelectCharacterHandle;
+        selectCharacterInput.started += OnSelectCharacterHandle;
         rotateSkillFormInput.Enable();
-        rotateSkillFormInput.performed += OnRotateSkillFormHandle;
+        rotateSkillFormInput.started += OnRotateSkillFormHandle;
     }
     void OnDisable()
     {
         selectCharacterInput.Disable();
-        selectCharacterInput.performed -= OnSelectCharacterHandle;
+        selectCharacterInput.started -= OnSelectCharacterHandle;
         rotateSkillFormInput.Disable();
-        rotateSkillFormInput.performed -= OnRotateSkillFormHandle;
+        rotateSkillFormInput.started -= OnRotateSkillFormHandle;
     }
     public async Task SpawnBanners()
     {
@@ -87,19 +87,28 @@ public class MenuSkillsCharacter : MonoBehaviour
         AStarPathFinding.Instance.EnableGrid(positions, Color.blue);
         AStarPathFinding.Instance.EnableSubGrid(banner.skill.skillsBaseSO.positionsSkillForm, Color.red);
         canMovePointer = banner.skill.skillsBaseSO.isFreeMovementSkill;
+        currentSkill = banner;
         menuSkillSelectSkill.SetActive(false);
     }
     public void OnSelectCharacterHandle(InputAction.CallbackContext context)
     {
-        if (isMenuActive && !menuSkillSelectSkill.activeSelf)
+        if (isMenuActive && !menuSkillSelectSkill.activeSelf && !playerManager.isDecalMovement)
         {
             bool characterFinded = false;
-            foreach (KeyValuePair<Vector3Int, GameObject> pos in AStarPathFinding.Instance.currentSubGrid)
+            if (!currentSkill.skill.skillsBaseSO.needCharacterToMakeSkill)
             {
-                if (AStarPathFinding.Instance.grid.ContainsKey(pos.Key) && AStarPathFinding.Instance.grid[pos.Key].hasCharacter)
+                characterFinded = true;
+            }
+            else
+            {
+                foreach (KeyValuePair<Vector3Int, GameObject> pos in AStarPathFinding.Instance.currentSubGrid)
                 {
-                    characterFinded = true;
-                    break;
+                    AStarPathFinding.Instance.GetHighestBlockAt(new Vector3Int(Mathf.RoundToInt(pos.Value.transform.position.x), 0, Mathf.RoundToInt(pos.Value.transform.position.z)), out GenerateMap.WalkablePositionInfo block);
+                    if (block != null && AStarPathFinding.Instance.grid.ContainsKey(block.pos) && AStarPathFinding.Instance.grid[block.pos].hasCharacter)
+                    {
+                        characterFinded = true;
+                        break;
+                    }
                 }
             }
             if (characterFinded)
@@ -156,6 +165,7 @@ public class MenuSkillsCharacter : MonoBehaviour
     public void DisableMenuForSelectCharacterToMakeSkill()
     {
         canMovePointer = false;
+        currentSkill = null;
         menuSkillSelectSkill.SetActive(true);
         AStarPathFinding.Instance.DisableGrid();
         AStarPathFinding.Instance.DisableSubGrid();
@@ -169,21 +179,23 @@ public class MenuSkillsCharacter : MonoBehaviour
 
         foreach (KeyValuePair<Vector3Int, GameObject> pos in AStarPathFinding.Instance.currentSubGrid)
         {
-            positionsToMakeSkill.Add(new Vector3Int(pos.Key.x, 0, pos.Key.z));
+            positionsToMakeSkill.Add(new Vector3Int(Mathf.RoundToInt(pos.Value.transform.position.x), 0, Mathf.RoundToInt(pos.Value.transform.position.z)));
         }
 
         if (playerManager.actionsManager.characterActions.TryGetValue(AStarPathFinding.Instance.characterSelected, out List<ActionsManager.ActionInfo> actions))
         {
             actions.Add(new ActionsManager.ActionInfo
             {
-                character = AStarPathFinding.Instance.characterSelected,
+                characterMakeAction = AStarPathFinding.Instance.characterSelected,
                 typeAction = ActionsManager.TypeAction.Skill,
+                skillInfo = currentSkill.skill,
                 positionsToMakeSkill = positionsToMakeSkill
             });
             playerManager.actionsManager.characterFinalActions.Add(AStarPathFinding.Instance.characterSelected, new ActionsManager.ActionInfo
             {
-                character = AStarPathFinding.Instance.characterSelected,
+                characterMakeAction = AStarPathFinding.Instance.characterSelected,
                 typeAction = ActionsManager.TypeAction.Skill,
+                skillInfo = currentSkill.skill,
                 positionsToMakeSkill = positionsToMakeSkill
             });
         }
@@ -193,16 +205,18 @@ public class MenuSkillsCharacter : MonoBehaviour
                 AStarPathFinding.Instance.characterSelected,
                 new List<ActionsManager.ActionInfo> {
                     new ActionsManager.ActionInfo{
-                        character = AStarPathFinding.Instance.characterSelected,
+                        characterMakeAction = AStarPathFinding.Instance.characterSelected,
                         typeAction = ActionsManager.TypeAction.Skill,
+                        skillInfo = currentSkill.skill,
                         positionsToMakeSkill = positionsToMakeSkill
                     }
                 }
             );
             playerManager.actionsManager.characterFinalActions.Add(AStarPathFinding.Instance.characterSelected, new ActionsManager.ActionInfo
             {
-                character = AStarPathFinding.Instance.characterSelected,
+                characterMakeAction = AStarPathFinding.Instance.characterSelected,
                 typeAction = ActionsManager.TypeAction.Skill,
+                skillInfo = currentSkill.skill,
                 positionsToMakeSkill = positionsToMakeSkill
             });
         }

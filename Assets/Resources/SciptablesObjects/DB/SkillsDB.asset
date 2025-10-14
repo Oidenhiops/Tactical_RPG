@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SkillsDBSO
   data:
     _serializedList:
-    - Key: 0
-      Value: {fileID: 11400000, guid: 33042c29cbaccfc4e808d3641238b45a, type: 2}
     - Key: 1
-      Value: {fileID: 11400000, guid: 5d788844053c784439d3c4cedf09fec6, type: 2}
+      Value: {fileID: 11400000, guid: 33042c29cbaccfc4e808d3641238b45a, type: 2}
     - Key: 2
+      Value: {fileID: 11400000, guid: 5d788844053c784439d3c4cedf09fec6, type: 2}
+    - Key: 3
       Value: {fileID: 11400000, guid: 4e5b88c0c040ef64992aa2b5edf7ec94, type: 2}

@@ -61,18 +61,18 @@ public class MenuAttackCharacter : MonoBehaviour
         {
             actions.Add(new ActionsManager.ActionInfo
             {
-                character = AStarPathFinding.Instance.characterSelected,
+                characterMakeAction = AStarPathFinding.Instance.characterSelected,
                 typeAction = ActionsManager.TypeAction.Attack,
-                otherCharacterInfo = new List<ActionsManager.OtherCharacterInfo>
+                characterToMakeAction = new List<ActionsManager.OtherCharacterInfo>
                 {
                     new ActionsManager.OtherCharacterInfo(banner.character, Vector3Int.RoundToInt(banner.character.transform.position))
                 }
             });
             playerManager.actionsManager.characterFinalActions.Add(AStarPathFinding.Instance.characterSelected, new ActionsManager.ActionInfo
             {
-                character = AStarPathFinding.Instance.characterSelected,
+                characterMakeAction = AStarPathFinding.Instance.characterSelected,
                 typeAction = ActionsManager.TypeAction.Attack,
-                otherCharacterInfo = new List<ActionsManager.OtherCharacterInfo>
+                characterToMakeAction = new List<ActionsManager.OtherCharacterInfo>
                 {
                     new ActionsManager.OtherCharacterInfo(banner.character, Vector3Int.RoundToInt(banner.character.transform.position))
                 }
@@ -84,9 +84,9 @@ public class MenuAttackCharacter : MonoBehaviour
                 AStarPathFinding.Instance.characterSelected,
                 new List<ActionsManager.ActionInfo> {
                     new ActionsManager.ActionInfo{
-                        character = AStarPathFinding.Instance.characterSelected,
+                        characterMakeAction = AStarPathFinding.Instance.characterSelected,
                         typeAction = ActionsManager.TypeAction.Attack,
-                        otherCharacterInfo = new List<ActionsManager.OtherCharacterInfo>
+                        characterToMakeAction = new List<ActionsManager.OtherCharacterInfo>
                         {
                             new ActionsManager.OtherCharacterInfo(banner.character, Vector3Int.RoundToInt(banner.character.transform.position))
                         }
@@ -95,9 +95,9 @@ public class MenuAttackCharacter : MonoBehaviour
             );
             playerManager.actionsManager.characterFinalActions.Add(AStarPathFinding.Instance.characterSelected, new ActionsManager.ActionInfo
             {
-                character = AStarPathFinding.Instance.characterSelected,
+                characterMakeAction = AStarPathFinding.Instance.characterSelected,
                 typeAction = ActionsManager.TypeAction.Attack,
-                otherCharacterInfo = new List<ActionsManager.OtherCharacterInfo>
+                characterToMakeAction = new List<ActionsManager.OtherCharacterInfo>
                 {
                     new ActionsManager.OtherCharacterInfo(banner.character, Vector3Int.RoundToInt(banner.character.transform.position))
                 }
@@ -118,7 +118,7 @@ public class MenuAttackCharacter : MonoBehaviour
                 index--;
             }
             EventSystem.current.SetSelectedGameObject(banners.ElementAt(index).Value.gameObject);
-            playerManager.menuCharacterInfo.ReloadInfo(banners.ElementAt(index).Value.character);
+            _= playerManager.menuCharacterInfo.ReloadInfo(banners.ElementAt(index).Value.character);
             banners.ElementAt(index).Value.onObjectSelect.ScrollTo(index);
             yield return null;
         }

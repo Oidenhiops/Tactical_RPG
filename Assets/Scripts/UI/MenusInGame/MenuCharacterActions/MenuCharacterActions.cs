@@ -18,7 +18,7 @@ public class MenuCharacterActions : MonoBehaviour
         playerManager.actionsManager.DisableMobileInputs();
         if (!playerManager.AnyMenuIsActive())
         {
-            playerManager.menuCharacterInfo.ReloadInfo(AStarPathFinding.Instance.characterSelected);
+            _= playerManager.menuCharacterInfo.ReloadInfo(AStarPathFinding.Instance.characterSelected);
             buttonsExepts = new List<TypeButton>();
             EventSystem.current.SetSelectedGameObject(null);
             AStarPathFinding.Instance.DisableGrid();
@@ -115,7 +115,7 @@ public class MenuCharacterActions : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(buttons[typeButton].gameObject);
         menuCharacterActions.SetActive(true);
-        playerManager.menuCharacterInfo.ReloadInfo(AStarPathFinding.Instance.characterSelected);
+        _= playerManager.menuCharacterInfo.ReloadInfo(AStarPathFinding.Instance.characterSelected);
         isMenuActive = true;
     }
     public void DisableMenu(bool conservSelectedCharacter = false, bool conservCharacterInfo = false)
@@ -170,12 +170,12 @@ public class MenuCharacterActions : MonoBehaviour
             {
                 actions.Add(new ActionsManager.ActionInfo
                 {
-                    character = AStarPathFinding.Instance.characterSelected,
+                    characterMakeAction = AStarPathFinding.Instance.characterSelected,
                     typeAction = ActionsManager.TypeAction.Defend,
                 });
                 playerManager.actionsManager.characterFinalActions.Add(AStarPathFinding.Instance.characterSelected, new ActionsManager.ActionInfo
                 {
-                    character = AStarPathFinding.Instance.characterSelected,
+                    characterMakeAction = AStarPathFinding.Instance.characterSelected,
                     typeAction = ActionsManager.TypeAction.Defend,
                 });
             }
@@ -186,14 +186,14 @@ public class MenuCharacterActions : MonoBehaviour
                     {
                         new ActionsManager.ActionInfo
                         {
-                        character = AStarPathFinding.Instance.characterSelected,
+                        characterMakeAction = AStarPathFinding.Instance.characterSelected,
                         typeAction = ActionsManager.TypeAction.Defend
                         }
                     }
                 });
                 playerManager.actionsManager.characterFinalActions.Add(AStarPathFinding.Instance.characterSelected, new ActionsManager.ActionInfo
                 {
-                    character = AStarPathFinding.Instance.characterSelected,
+                    characterMakeAction = AStarPathFinding.Instance.characterSelected,
                     typeAction = ActionsManager.TypeAction.Defend,
                 });
             }

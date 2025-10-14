@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d773741b1771804f9162c2f66581841, type: 3}
   m_Name: Angel 1
   m_EditorClassIdentifier: 
-  id: 5
+  id: 6
   subId: 1
   isHumanoid: 1
   atlas: {fileID: 2800000, guid: 1e01dd49b7215ed4486239613c7cbd20, type: 3}
@@ -145,6 +145,8 @@ MonoBehaviour:
         masteryLevel: 0
         currentExp: 0
         maxExp: 15
+  skills:
+    _serializedList: []
   animations:
     _serializedList:
     - Key: Idle
@@ -882,18 +884,6 @@ MonoBehaviour:
         frameToInstance: 3
         instanceObj: {fileID: 0}
         instance: {fileID: 0}
-  newOrEditAnimation:
-    name: 
-    linkAnimation: 
-    spritesInfoDown: []
-    spritesInfoUp: []
-    animationsEffects:
-      _serializedList: []
-    loop: 0
-    needInstance: 0
-    frameToInstance: 0
-    instanceObj: {fileID: 0}
-    instance: {fileID: 0}
   generateAllAnimations:
     baseSprite: {fileID: 1874254174, guid: 9966ab3212d68594dae8ed0f33172a25, type: 3}
     atlas: {fileID: 2800000, guid: 9966ab3212d68594dae8ed0f33172a25, type: 3}

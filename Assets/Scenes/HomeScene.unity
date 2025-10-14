@@ -831,7 +831,9 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 55838465}
   id: home_scene_button_credits
+  isDescription: 0
   initByCode: 0
+  otherInfo: []
 --- !u!114 &55838465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1333,7 +1335,9 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 65362741}
   id: home_scene_button_options
+  isDescription: 0
   initByCode: 0
+  otherInfo: []
 --- !u!114 &65362744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2708,7 +2712,9 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 159845596}
   id: home_scene_menu_slots_level
+  isDescription: 0
   initByCode: 0
+  otherInfo: []
 --- !u!114 &159845596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2863,7 +2869,9 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 162497503}
   id: home_scene_menu_slots_main_character
+  isDescription: 0
   initByCode: 0
+  otherInfo: []
 --- !u!114 &162497503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3891,7 +3899,9 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 190983971}
   id: home_scene_menu_create_character_name_character_placeholder
+  isDescription: 0
   initByCode: 0
+  otherInfo: []
 --- !u!1001 &193656359
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4394,7 +4404,9 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 221818358}
   id: home_scene_menu_slots_level
+  isDescription: 0
   initByCode: 0
+  otherInfo: []
 --- !u!114 &221818358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8274,7 +8286,9 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 451350828}
   id: home_scene_button_play
+  isDescription: 0
   initByCode: 0
+  otherInfo: []
 --- !u!114 &451350831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8842,7 +8856,9 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 492568417}
   id: home_scene_menu_create_character_name_character_title
+  isDescription: 0
   initByCode: 0
+  otherInfo: []
 --- !u!1 &493176295 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ef9e26d240e74ef498ad004d224377a5,
@@ -10283,7 +10299,9 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 577510071}
   id: home_scene_menu_slots_play_time
+  isDescription: 0
   initByCode: 0
+  otherInfo: []
 --- !u!114 &577510071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11372,7 +11390,9 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 610652342}
   id: home_scene_menu_slots_main_character
+  isDescription: 0
   initByCode: 0
+  otherInfo: []
 --- !u!114 &610652342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15317,7 +15337,9 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 825472637}
   id: home_scene_menu_slots_play_time
+  isDescription: 0
   initByCode: 0
+  otherInfo: []
 --- !u!114 &825472637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17803,7 +17825,9 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 988750145}
   id: home_scene_menu_slots_current_zone
+  isDescription: 0
   initByCode: 0
+  otherInfo: []
 --- !u!114 &988750145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18837,7 +18861,9 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 1026978037}
   id: home_scene_menu_slots_no_data
+  isDescription: 0
   initByCode: 0
+  otherInfo: []
 --- !u!114 &1026978037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19944,7 +19970,9 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 1055228938}
   id: home_scene_menu_slots_level
+  isDescription: 0
   initByCode: 0
+  otherInfo: []
 --- !u!114 &1055228938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22118,6 +22146,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentGrid:
     _serializedList: []
+  currentSubGrid:
+    _serializedList: []
   grid:
     _serializedList: []
   poolinGrid: {fileID: 0}
@@ -22127,6 +22157,7 @@ MonoBehaviour:
   limitX: {x: -10, y: 10}
   limitZ: {x: -10, y: 10}
   gridMaterial: {fileID: 0}
+  subGridMaterial: {fileID: 0}
   onlyForMap: 1
 --- !u!1001 &1185708949
 PrefabInstance:
@@ -22666,7 +22697,9 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 1210421601}
   id: home_scene_menu_slots_play_time
+  isDescription: 0
   initByCode: 0
+  otherInfo: []
 --- !u!114 &1210421601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26425,7 +26458,9 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 1400439561}
   id: home_scene_menu_slots_current_zone
+  isDescription: 0
   initByCode: 0
+  otherInfo: []
 --- !u!114 &1400439561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27349,7 +27384,9 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 1427882792}
   id: home_scene_button_exit
+  isDescription: 0
   initByCode: 0
+  otherInfo: []
 --- !u!114 &1427882795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29273,7 +29310,9 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 1527612028}
   id: home_scene_menu_slots_no_data
+  isDescription: 0
   initByCode: 0
+  otherInfo: []
 --- !u!1001 &1527957767
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34170,7 +34209,9 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 1797900329}
   id: home_scene_menu_slots_no_data
+  isDescription: 0
   initByCode: 0
+  otherInfo: []
 --- !u!114 &1797900329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39106,7 +39147,9 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 2052783501}
   id: home_scene_menu_slots_current_zone
+  isDescription: 0
   initByCode: 0
+  otherInfo: []
 --- !u!114 &2052783501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39907,7 +39950,9 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 2094409666}
   id: home_scene_menu_slots_main_character
+  isDescription: 0
   initByCode: 0
+  otherInfo: []
 --- !u!114 &2094409666
 MonoBehaviour:
   m_ObjectHideFlags: 0

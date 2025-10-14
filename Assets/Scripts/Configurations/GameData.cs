@@ -77,7 +77,10 @@ public class GameData : MonoBehaviour
             {
                 foreach (KeyValuePair<CharacterData.CharacterItemInfo, CharacterData.CharacterItem> item in characterData.Value.items)
                 {
-                    item.Value.itemBaseSO = itemsDBSO.data[item.Value.itemId];
+                    if (item.Value.itemId != 0)
+                    {
+                        item.Value.itemBaseSO = itemsDBSO.data[item.Value.itemId];
+                    }
                 }
             }
         }
@@ -92,7 +95,10 @@ public class GameData : MonoBehaviour
                 {
                     foreach (KeyValuePair<int, CharacterData.CharacterSkillInfo> skill in item.Value)
                     {
-                        skill.Value.skillsBaseSO = skillsDBSO.data[skill.Value.skillId];
+                        if (skill.Value.skillId != 0)
+                        {
+                            skill.Value.skillsBaseSO = skillsDBSO.data[skill.Value.skillId];
+                        }
                     }
                 }
             }
@@ -104,7 +110,10 @@ public class GameData : MonoBehaviour
         {
             foreach (KeyValuePair<int, CharacterData.CharacterItem> item in gameDataSlot.bagItems)
             {
-                item.Value.itemBaseSO = itemsDBSO.data[item.Value.itemId];
+                if (item.Value.itemId != 0)
+                {
+                    item.Value.itemBaseSO = itemsDBSO.data[item.Value.itemId];
+                }
             }
         }
     }
@@ -191,7 +200,7 @@ public class GameData : MonoBehaviour
     public void ChangeLanguage(TypeLanguage language)
     {
         systemDataInfo.configurationsInfo.currentLanguage = language;
-        SaveGameData();
+        SaveSystemData();
     }
     void InitializeResolutionData()
     {
