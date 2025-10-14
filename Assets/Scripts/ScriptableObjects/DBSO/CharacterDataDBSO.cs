@@ -11,4 +11,5 @@ public class CharacterDataDBSO : ScriptableObject
         public bool isUnlocked;
         public InitialDataSO initialDataSO;
     }
+    public List<CharacterInfo> companionsCharacters = new List<CharacterInfo>();
 }

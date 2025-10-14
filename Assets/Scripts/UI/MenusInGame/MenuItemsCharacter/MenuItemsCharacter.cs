@@ -55,65 +55,71 @@ public class MenuItemsCharacter : MonoBehaviour
     }
     public void OnItemBagSelect(BannerItemsCharacter bagItem)
     {
-        currentBagItem = bagItem;
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(gearBanners.ElementAt(gearIndex).Value.gameObject);
-        bagItem.GetComponentInChildren<Button>().interactable = false;
-        TogglePanels(true);
+        if (!GameManager.Instance.isPause)
+        {
+            currentBagItem = bagItem;
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(gearBanners.ElementAt(gearIndex).Value.gameObject);
+            bagItem.GetComponentInChildren<Button>().interactable = false;
+            TogglePanels(true);
+        }
     }
     public void OnItemSelect(BannerItemsCharacter gearItem)
     {
-        CharacterData.CharacterItem itemToBag = new CharacterData.CharacterItem()
+        if (!GameManager.Instance.isPause)
         {
-            itemId = gearItem.item.itemId,
-            itemBaseSO = gearItem.item.itemBaseSO,
-            itemStatistics = gearItem.item.itemStatistics
-        };
-        CharacterData.CharacterItem itemToGear = new CharacterData.CharacterItem()
-        {
-            itemId = currentBagItem.item.itemId,
-            itemBaseSO = currentBagItem.item.itemBaseSO,
-            itemStatistics = currentBagItem.item.itemStatistics
-        };
+            CharacterData.CharacterItem itemToBag = new CharacterData.CharacterItem()
+            {
+                itemId = gearItem.item.itemId,
+                itemBaseSO = gearItem.item.itemBaseSO,
+                itemStatistics = gearItem.item.itemStatistics
+            };
+            CharacterData.CharacterItem itemToGear = new CharacterData.CharacterItem()
+            {
+                itemId = currentBagItem.item.itemId,
+                itemBaseSO = currentBagItem.item.itemBaseSO,
+                itemStatistics = currentBagItem.item.itemStatistics
+            };
 
-        if (gearBanners[gearIndex].bannerInfo.typeCharacterItem == CharacterData.TypeCharacterItem.Weapon)
-        {
-            if (!itemToGear.itemBaseSO)
+            if (gearBanners[gearIndex].bannerInfo.typeCharacterItem == CharacterData.TypeCharacterItem.Weapon)
             {
-                SetItemData(itemToBag, itemToGear);
-            }
-            else
-            {
-                if (itemToGear.itemBaseSO.typeObject == ItemBaseSO.TypeObject.Weapon)
+                if (!itemToGear.itemBaseSO)
                 {
-                    if (AStarPathFinding.Instance.characterSelected.initialDataSO.isHumanoid)
+                    SetItemData(itemToBag, itemToGear);
+                }
+                else
+                {
+                    if (itemToGear.itemBaseSO.typeObject == ItemBaseSO.TypeObject.Weapon)
                     {
-                        if (itemToGear.itemBaseSO.typeWeapon != ItemBaseSO.TypeWeapon.Monster)
+                        if (AStarPathFinding.Instance.characterSelected.initialDataSO.isHumanoid)
                         {
-                            SetItemData(itemToBag, itemToGear);
+                            if (itemToGear.itemBaseSO.typeWeapon != ItemBaseSO.TypeWeapon.Monster)
+                            {
+                                SetItemData(itemToBag, itemToGear);
+                            }
                         }
-                    }
-                    else
-                    {
-                        if (itemToGear.itemBaseSO.typeWeapon == ItemBaseSO.TypeWeapon.Monster)
+                        else
                         {
-                            SetItemData(itemToBag, itemToGear);
+                            if (itemToGear.itemBaseSO.typeWeapon == ItemBaseSO.TypeWeapon.Monster)
+                            {
+                                SetItemData(itemToBag, itemToGear);
+                            }
                         }
                     }
                 }
             }
-        }
-        else
-        {
-            if (!itemToGear.itemBaseSO)
-            {
-                SetItemData(itemToBag, itemToGear);
-            }
             else
             {
-                if (itemToGear.itemBaseSO.typeObject != ItemBaseSO.TypeObject.Weapon)
+                if (!itemToGear.itemBaseSO)
                 {
                     SetItemData(itemToBag, itemToGear);
+                }
+                else
+                {
+                    if (itemToGear.itemBaseSO.typeObject != ItemBaseSO.TypeObject.Weapon)
+                    {
+                        SetItemData(itemToBag, itemToGear);
+                    }
                 }
             }
         }
@@ -145,7 +151,7 @@ public class MenuItemsCharacter : MonoBehaviour
         AStarPathFinding.Instance.GetPositionsToAttack(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions);
         playerManager.menuCharacterActions.SendCharactersToAttack(positions);
         TogglePanels(false);
-        StartCoroutine(ReloadItems());
+        _= ReloadItems();
         BackToBagItems();
     }
     public void TogglePanels(bool panelBagIsActive)
@@ -155,24 +161,27 @@ public class MenuItemsCharacter : MonoBehaviour
     }
     public void BackToBagItems()
     {
-        TogglePanels(false);
-        currentBagItem = null;
-        bagBanners.ElementAt(bagIndex).Value.gameObject.GetComponent<Button>().interactable = true;
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(bagBanners.ElementAt(bagIndex).Value.gameObject);
-        bagBanners.ElementAt(bagIndex).Value.onObjectSelect.ScrollTo(bagIndex);
+        if (!GameManager.Instance.isPause)
+        {
+            TogglePanels(false);
+            currentBagItem = null;
+            bagBanners.ElementAt(bagIndex).Value.gameObject.GetComponent<Button>().interactable = true;
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(bagBanners.ElementAt(bagIndex).Value.gameObject);
+            bagBanners.ElementAt(bagIndex).Value.onObjectSelect.ScrollTo(bagIndex);
+        }
     }
-    public IEnumerator ReloadItems()
+    public async Task ReloadItems()
     {
-        yield return null;
-        yield return ReloadGearBanners();
-        yield return ReloadBagBanners();
+        await Awaitable.NextFrameAsync();
+        await ReloadGearBanners();
+        await ReloadBagBanners();
         _= playerManager.menuCharacterInfo.ReloadInfo(AStarPathFinding.Instance.characterSelected, true);
     }
-    public IEnumerator EnableMenu()
+    public async Task EnableMenu()
     {
-        yield return ReloadGearBanners();
-        yield return ReloadBagBanners();
+        await ReloadGearBanners();
+        await ReloadBagBanners();
         bagIndex = 0;
         if (bagBanners.Count > 0)
         {
@@ -183,7 +192,7 @@ public class MenuItemsCharacter : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(null);
             EventSystem.current.SetSelectedGameObject(bagBanners.ElementAt(bagIndex).Value.gameObject);
             bagBanners.ElementAt(bagIndex).Value.onObjectSelect.ScrollTo(bagIndex);
-            yield return null;
+            await Awaitable.NextFrameAsync();
             _= playerManager.menuCharacterInfo.ReloadInfo(AStarPathFinding.Instance.characterSelected, true);
             playerManager.menuCharacterInfo.menuCharacterInfo.SetActive(true);
         }
@@ -191,8 +200,9 @@ public class MenuItemsCharacter : MonoBehaviour
         menuItemCharacters.SetActive(true);
         TogglePanels(false);
     }
-    public void DisableMenu()
+    public async Task DisableMenu()
     {
+        await Awaitable.NextFrameAsync();
         menuItemCharacters.SetActive(false);
         gearIndex = 0;
         bagIndex = 0;

@@ -21,7 +21,8 @@ public class SkillsBaseSO : ScriptableObject
     public int positionsSkillFormGridSize = 5;
     public bool isFreeMovementSkill;
     public bool needCharacterToMakeSkill;
-    public virtual void UseSkill(Character characterMakeSkill, Character characterToMakeSkill){ Debug.LogError("UseSkill non implemented"); }
+    public virtual void UseSkill(Character characterMakeSkill, Character characterToMakeSkill) { Debug.LogError("UseSkill non implemented"); }
+    public virtual void DiscountMpAfterUseSkill(Character characterMakeSkill) { Debug.LogError("DiscountMpAfterUseSkill non implemented"); }
     public virtual void LevelUpSkill(Character character) { Debug.LogError("LevelUpSkill non implemented"); }
     public void AddSkill(Character character)
     {

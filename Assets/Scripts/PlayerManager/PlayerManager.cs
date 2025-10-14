@@ -136,6 +136,7 @@ public class PlayerManager : MonoBehaviour
     }
     void HandleMovement(InputAction.CallbackContext context)
     {
+        if (GameManager.Instance.isPause) return;
         if (actionsManager.isPlayerTurn && !characterPlayerMakingActions && !actionsManager.isChangingTurn && !cantRotateCamera &&
             !AnyMenuIsActive() && !menuThrowCharacter.isThrowingCharacter || menuThrowCharacter.menuThrowCharacter.activeSelf &&
             !menuThrowCharacter.isThrowingCharacter || menuSkillsCharacter.menuSkillsCharacter.activeSelf && !menuSkillsCharacter.menuSkillSelectSkill.activeSelf &&
@@ -154,14 +155,16 @@ public class PlayerManager : MonoBehaviour
     }
     void HandleAction(InputAction.CallbackContext context)
     {
-        if (actionsManager.isPlayerTurn && !characterPlayerMakingActions && !actionsManager.isChangingTurn && !cantRotateCamera && !AnyMenuIsActive() && !menuThrowCharacter.menuThrowCharacter.activeSelf && !GameManager.Instance.isPause)
+        if (actionsManager.isPlayerTurn && !characterPlayerMakingActions && !actionsManager.isChangingTurn && !cantRotateCamera && !AnyMenuIsActive() &&
+            !menuThrowCharacter.menuThrowCharacter.activeSelf && !GameManager.Instance.isPause)
         {
             AStarPathFinding.Instance.ValidateAction(new Vector3Int(Mathf.RoundToInt(mouseDecal.transform.position.x), Mathf.RoundToInt(mouseDecal.transform.position.y), Mathf.RoundToInt(mouseDecal.transform.position.z)));
         }
     }
     void HandleRotateCamera(InputAction.CallbackContext context)
     {
-        if (actionsManager.isPlayerTurn && !characterPlayerMakingActions && !actionsManager.isChangingTurn && !cantRotateCamera && !onRotateCamera && !AnyMenuIsActive() && !GameManager.Instance.isPause)
+        if (actionsManager.isPlayerTurn && !characterPlayerMakingActions && !actionsManager.isChangingTurn && !cantRotateCamera && !onRotateCamera && !AnyMenuIsActive() &&
+            !GameManager.Instance.isPause)
         {
             cantRotateCamera = true;
             onRotateCamera = true;
@@ -173,7 +176,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (actionsManager.isPlayerTurn && !AnyMenuIsActive() && !GameManager.Instance.isPause)
         {
-            menuGeneralActions.EnableMenu();
+            _= menuGeneralActions.EnableMenu();
         }
     }
     public bool AnyMenuIsActive()
@@ -186,7 +189,7 @@ public class PlayerManager : MonoBehaviour
                menuLiftCharacter.menuLiftCharacter.activeSelf ||
                menuAttackCharacter.menuAttackCharacter.activeSelf ||
                menuItemsCharacter.menuItemCharacters.activeSelf ||
-               menuSkillsCharacter.menuSkillsCharacter.activeSelf;
+               menuSkillsCharacter.isMenuActive;
     }
     void Update()
     {

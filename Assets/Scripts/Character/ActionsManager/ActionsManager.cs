@@ -1,10 +1,10 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.VFX;
 
 public class ActionsManager : MonoBehaviour
 {
@@ -35,14 +35,14 @@ public class ActionsManager : MonoBehaviour
     public bool isChangingTurn = false;
     void Start()
     {
-        playerManager.characterActions.CharacterInputs.Back.started += OnUndoAction;
+        playerManager.characterActions.CharacterInputs.Back.performed += OnUndoAction;
         endTurnTest.started += OnEndTurnTest;
         endTurnTest.Enable();
     }
     void OnDestroy()
     {
         endTurnTest.started -= OnEndTurnTest;
-        playerManager.characterActions.CharacterInputs.Back.started -= OnUndoAction;
+        playerManager.characterActions.CharacterInputs.Back.performed -= OnUndoAction;
 
     }
     public void OnEndTurnTest(InputAction.CallbackContext context)
@@ -52,11 +52,6 @@ public class ActionsManager : MonoBehaviour
     void OnUndoAction(InputAction.CallbackContext context)
     {
         if (GameManager.Instance.isPause) return;
-        if (!isPlayerTurn)
-        {
-            _ = EndTurn();
-            return;
-        }
         if (playerManager.menuItemsCharacter.menuItemCharacters.activeSelf)
         {
             if (playerManager.menuItemsCharacter.currentBagItem)
@@ -65,43 +60,43 @@ public class ActionsManager : MonoBehaviour
             }
             else
             {
-                playerManager.menuItemsCharacter.DisableMenu();
+                _= playerManager.menuItemsCharacter.DisableMenu();
             }
         }
         else if (playerManager.menuSkillsCharacter.menuSkillsCharacter.activeSelf)
         {
             if (!playerManager.menuSkillsCharacter.menuSkillSelectSkill.activeSelf)
             {
-                playerManager.menuSkillsCharacter.DisableMenuForSelectCharacterToMakeSkill();
+                _= playerManager.menuSkillsCharacter.DisableMenuForSelectCharacterToMakeSkill();
             }
             else
             {
-                playerManager.menuSkillsCharacter.DisableMenu();
+                _= playerManager.menuSkillsCharacter.DisableMenu();
             }
         }
         else if (playerManager.menuAllCharacters.menuAllCharacters.activeSelf)
         {
-            playerManager.menuAllCharacters.DisableMenu();
+            _= playerManager.menuAllCharacters.DisableMenu();
         }
         else if (playerManager.menuLiftCharacter.menuLiftCharacter.activeSelf)
         {
-            playerManager.menuLiftCharacter.DisableMenu();
+            _= playerManager.menuLiftCharacter.DisableMenu();
         }
         else if (playerManager.menuAttackCharacter.menuAttackCharacter.activeSelf)
         {
-            playerManager.menuAttackCharacter.DisableMenu();
+            _= playerManager.menuAttackCharacter.DisableMenu();
         }
         else if (playerManager.menuCharacterSelector.menuCharacterSelector.activeSelf)
         {
-            playerManager.menuCharacterSelector.DisableMenu();
+            _= playerManager.menuCharacterSelector.DisableMenu();
         }
         else if (playerManager.menuCharacterActions.menuCharacterActions.activeSelf)
         {
-            playerManager.menuCharacterActions.DisableMenu();
+            _= playerManager.menuCharacterActions.DisableMenu();
         }
         else if (playerManager.menuGeneralActions.menuGeneralActions.activeSelf)
         {
-            playerManager.menuGeneralActions.DisableMenu();
+            _= playerManager.menuGeneralActions.DisableMenu();
         }
         else if (playerManager.menuCharacterInfo.menuCharacterInfo.activeSelf)
         {
@@ -109,12 +104,13 @@ public class ActionsManager : MonoBehaviour
         }
         else if (playerManager.menuThrowCharacter.menuThrowCharacter.activeSelf)
         {
-            playerManager.menuThrowCharacter.DisableMenuBack();
+            _= playerManager.menuThrowCharacter.DisableMenu();
         }
         else if (AStarPathFinding.Instance.characterSelected)
         {
             AStarPathFinding.Instance.characterSelected = null;
             AStarPathFinding.Instance.DisableGrid();
+            AStarPathFinding.Instance.backButtonGrid.SetActive(false);
         }
         else if (
             AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)].hasCharacter != null &&
@@ -251,14 +247,15 @@ public class ActionsManager : MonoBehaviour
                             }
                             foreach (Vector3Int position in actions.Value.positionsToMakeSkill)
                             {
-                                AStarPathFinding.Instance.GetHighestBlockAt(new Vector3Int(position.x, 0, position.z),  out GenerateMap.WalkablePositionInfo block);
+                                AStarPathFinding.Instance.GetHighestBlockAt(new Vector3Int(position.x, 0, position.z), out GenerateMap.WalkablePositionInfo block);
                                 GameObject skillEffect = Instantiate(actions.Value.skillInfo.skillsBaseSO.skillVFXPrefab, block != null ? block.pos : position, Quaternion.identity);
                                 Destroy(skillEffect, actions.Value.skillInfo.skillsBaseSO.skillVFXDuration);
                                 if (block != null && AStarPathFinding.Instance.grid[block.pos].hasCharacter)
                                 {
-                                    actions.Value.skillInfo.skillsBaseSO.UseSkill(AStarPathFinding.Instance.grid[block.pos].hasCharacter, actions.Value.characterMakeAction);
+                                    actions.Value.skillInfo.skillsBaseSO.UseSkill(actions.Value.characterMakeAction, AStarPathFinding.Instance.grid[block.pos].hasCharacter);
                                 }
                             }
+                            actions.Value.skillInfo.skillsBaseSO.DiscountMpAfterUseSkill(actions.Value.characterMakeAction);
                             float elapsedTime = 0f;
                             while (elapsedTime < actions.Value.skillInfo.skillsBaseSO.skillVFXDuration)
                             {
@@ -282,6 +279,7 @@ public class ActionsManager : MonoBehaviour
                         break;
                     case TypeAction.Defend:
                         await DefendAction(actions.Key);
+                        actions.Key.lastAction = TypeAction.EndTurn;
                         characterActions[actions.Key].Add(new ActionInfo()
                         {
                             cantUndo = false,

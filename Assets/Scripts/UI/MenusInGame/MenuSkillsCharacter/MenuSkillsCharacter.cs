@@ -20,25 +20,22 @@ public class MenuSkillsCharacter : MonoBehaviour
     public RectTransform viewport;
     public GameObject skillCharacterBanner;
     public ManagementLanguage skillDescription;
+    public GameObject mobileJoystick;
     public bool isMenuActive;
     public int index;
-    public InputAction selectCharacterInput;
-    public InputAction rotateSkillFormInput;
     public bool canMovePointer = false;
     public SkillCharacterBanner currentSkill;
     void OnEnable()
     {
-        selectCharacterInput.Enable();
-        selectCharacterInput.started += OnSelectCharacterHandle;
-        rotateSkillFormInput.Enable();
-        rotateSkillFormInput.started += OnRotateSkillFormHandle;
+        playerManager.characterActions.CharacterInputs.Interact.started += OnSelectCharacterHandle;
+        playerManager.characterActions.CharacterInputs.Interact.started += OnHandleSelectSkill;
+        playerManager.characterActions.CharacterInputs.RotateSkill.started += OnRotateSkillFormHandle;
     }
     void OnDisable()
     {
-        selectCharacterInput.Disable();
-        selectCharacterInput.started -= OnSelectCharacterHandle;
-        rotateSkillFormInput.Disable();
-        rotateSkillFormInput.started -= OnRotateSkillFormHandle;
+        playerManager.characterActions.CharacterInputs.Interact.started -= OnSelectCharacterHandle;
+        playerManager.characterActions.CharacterInputs.Interact.started -= OnHandleSelectSkill;
+        playerManager.characterActions.CharacterInputs.RotateSkill.started -= OnRotateSkillFormHandle;
     }
     public async Task SpawnBanners()
     {
@@ -54,6 +51,8 @@ public class MenuSkillsCharacter : MonoBehaviour
                 banner.onObjectSelect.scrollRect = scrollRect;
                 banner.SetBannerData(skill.Value);
                 banner.menuSkillsCharacter = this;
+                banner.canUserSkill = skill.Value.skillsBaseSO.ValidateCanUseSkill(character);
+                banner.skillBg.color = banner.canUserSkill ? Color.white : Color.gray;
                 banners.Add(skill.Value.skillsBaseSO, banner.GetComponent<SkillCharacterBanner>());
             }
             character.characterData.GetCurrentWeapon(out CharacterData.CharacterItem weapon);
@@ -71,6 +70,7 @@ public class MenuSkillsCharacter : MonoBehaviour
                     banners.Add(skill.Value.skillsBaseSO, banner.GetComponent<SkillCharacterBanner>());
                 }
             }
+            currentSkill = banners.ElementAt(0).Value;
             SetDescriptionData(banners.ElementAt(0).Value);
         }
         await Awaitable.NextFrameAsync();
@@ -81,18 +81,21 @@ public class MenuSkillsCharacter : MonoBehaviour
         skillDescription.otherInfo = skillCharacterBanner.skill.skillsBaseSO.GetSkillDescription(skillCharacterBanner.skill.statistics);
         skillDescription.RefreshDescription();
     }
-    public void OnSkillSelect(SkillCharacterBanner banner)
+    public void OnSkillSelect()
     {
-        AStarPathFinding.Instance.GetPositionsToUseSkill(banner.skill.skillsBaseSO, out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions);
-        AStarPathFinding.Instance.EnableGrid(positions, Color.blue);
-        AStarPathFinding.Instance.EnableSubGrid(banner.skill.skillsBaseSO.positionsSkillForm, Color.red);
-        canMovePointer = banner.skill.skillsBaseSO.isFreeMovementSkill;
-        currentSkill = banner;
-        menuSkillSelectSkill.SetActive(false);
+        if (!GameManager.Instance.isPause)
+        {
+            AStarPathFinding.Instance.GetPositionsToUseSkill(currentSkill.skill.skillsBaseSO, out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions);
+            AStarPathFinding.Instance.EnableGrid(positions, Color.blue);
+            AStarPathFinding.Instance.EnableSubGrid(currentSkill.skill.skillsBaseSO.positionsSkillForm, Color.red);
+            canMovePointer = currentSkill.skill.skillsBaseSO.isFreeMovementSkill;
+            menuSkillSelectSkill.SetActive(false);
+            mobileJoystick.SetActive(true);
+        }
     }
     public void OnSelectCharacterHandle(InputAction.CallbackContext context)
     {
-        if (isMenuActive && !menuSkillSelectSkill.activeSelf && !playerManager.isDecalMovement)
+        if (isMenuActive && !menuSkillSelectSkill.activeSelf && !playerManager.isDecalMovement && !GameManager.Instance.isPause)
         {
             bool characterFinded = false;
             if (!currentSkill.skill.skillsBaseSO.needCharacterToMakeSkill)
@@ -113,21 +116,26 @@ public class MenuSkillsCharacter : MonoBehaviour
             }
             if (characterFinded)
             {
-                DisableMenuAfterSelectCharacterToMakeSkill();
+                _= DisableMenuAfterSelectCharacterToMakeSkill();
             }
         }
     }
     private void OnRotateSkillFormHandle(InputAction.CallbackContext context)
     {
-        if (isMenuActive && !menuSkillSelectSkill.activeSelf)
+        if (isMenuActive && !menuSkillSelectSkill.activeSelf && !GameManager.Instance.isPause)
         {
             bool direction = context.ReadValue<float>() > 0;
             playerManager.mouseDecal.subGridContainer.rotation = Quaternion.Euler(0, playerManager.mouseDecal.subGridContainer.localRotation.eulerAngles.y + (direction ? 90 : -90), 0);
         }
     }
-    public IEnumerator EnableMenu()
+    public void OnHandleSelectSkill(InputAction.CallbackContext context)
     {
-        yield return SpawnBanners();
+        if (isMenuActive && menuSkillSelectSkill.activeSelf && currentSkill != null && currentSkill.canUserSkill && !GameManager.Instance.isPause) OnSkillSelect();
+    }
+    public async Task EnableMenu()
+    {
+        await Awaitable.NextFrameAsync();
+        await SpawnBanners();
         index = 0;
         if (banners.Count > 0)
         {
@@ -137,23 +145,22 @@ public class MenuSkillsCharacter : MonoBehaviour
             }
             EventSystem.current.SetSelectedGameObject(null);
             EventSystem.current.SetSelectedGameObject(banners.ElementAt(index).Value.gameObject);
-            yield return null;
+            await Awaitable.NextFrameAsync();
         }
-        yield return null;
+        await Awaitable.NextFrameAsync();
         isMenuActive = true;
         playerManager.menuCharacterInfo.DisableMenu(true);
-        playerManager.menuCharacterActions.DisableMenu(true, true);
+        _= playerManager.menuCharacterActions.DisableMenu(true, true);
         menuSkillSelectSkill.SetActive(true);
         menuSkillsCharacter.SetActive(true);
     }
-    public void DisableMenu()
+    public async Task DisableMenu()
     {
+        await Awaitable.NextFrameAsync();
         index = 0;
         canMovePointer = false;
         menuSkillSelectSkill.SetActive(false);
         menuSkillsCharacter.SetActive(false);
-        AStarPathFinding.Instance.DisableGrid();
-        AStarPathFinding.Instance.DisableSubGrid();
         isMenuActive = false;
         foreach (Transform child in containerBanners.transform)
         {
@@ -162,18 +169,20 @@ public class MenuSkillsCharacter : MonoBehaviour
         banners = new SerializedDictionary<SkillsBaseSO, SkillCharacterBanner>();
         playerManager.menuCharacterActions.BackToMenuWhitButton(MenuCharacterActions.TypeButton.Skill);
     }
-    public void DisableMenuForSelectCharacterToMakeSkill()
+    public async Task DisableMenuForSelectCharacterToMakeSkill()
     {
+        await Awaitable.NextFrameAsync();
         canMovePointer = false;
         currentSkill = null;
         menuSkillSelectSkill.SetActive(true);
+        mobileJoystick.SetActive(false);
         AStarPathFinding.Instance.DisableGrid();
         AStarPathFinding.Instance.DisableSubGrid();
         playerManager.MovePointerToInstant(Vector3Int.RoundToInt(AStarPathFinding.Instance.characterSelected.transform.position));
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(banners.ElementAt(index).Value.gameObject);
     }
-    public void DisableMenuAfterSelectCharacterToMakeSkill()
+    public async Task DisableMenuAfterSelectCharacterToMakeSkill()
     {
         List<Vector3Int> positionsToMakeSkill = new List<Vector3Int>();
 
@@ -221,14 +230,15 @@ public class MenuSkillsCharacter : MonoBehaviour
             });
         }
         AStarPathFinding.Instance.characterSelected.lastAction = ActionsManager.TypeAction.Skill;
-        
+
+        await Awaitable.NextFrameAsync();
         index = 0;
         canMovePointer = false;
         menuSkillSelectSkill.SetActive(false);
         menuSkillsCharacter.SetActive(false);
+        mobileJoystick.SetActive(false);
         AStarPathFinding.Instance.DisableGrid();
         AStarPathFinding.Instance.DisableSubGrid();
-        isMenuActive = false;
         foreach (Transform child in containerBanners.transform)
         {
             Destroy(child.gameObject);
@@ -237,5 +247,6 @@ public class MenuSkillsCharacter : MonoBehaviour
         playerManager.MovePointerToInstant(Vector3Int.RoundToInt(AStarPathFinding.Instance.characterSelected.transform.position));
         playerManager.actionsManager.EnableMobileInputs();
         AStarPathFinding.Instance.characterSelected = null;
+        isMenuActive = false;
     }
 }

@@ -12,8 +12,9 @@ public class MenuGeneralActions : MonoBehaviour
     public Button executeButton;
     public GameObject charactersButton;
     public GameObject endTurnButton;
-    public void EnableMenu()
+    public async Task EnableMenu()
     {
+        await Awaitable.NextFrameAsync();
         playerManager.actionsManager.DisableMobileInputs();
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(GetSelectedButton());
@@ -25,8 +26,9 @@ public class MenuGeneralActions : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(button);
     }
-    public void DisableMenu()
+    public async Task DisableMenu()
     {
+        await Awaitable.NextFrameAsync();
         playerManager.actionsManager.EnableMobileInputs();
         if (AStarPathFinding.Instance.characterSelected && AStarPathFinding.Instance.LastCharacterActionPermitActions()) AStarPathFinding.Instance.EnableGrid(AStarPathFinding.Instance.GetWalkableTiles(), Color.magenta);
         executeButton.interactable = false;
@@ -45,7 +47,7 @@ public class MenuGeneralActions : MonoBehaviour
     }
     public void ExecuteButton()
     {
-        _ = ExecuteAction();
+        if (!GameManager.Instance.isPause) _ = ExecuteAction();
     }
     public async Task ExecuteAction()
     {
@@ -57,22 +59,25 @@ public class MenuGeneralActions : MonoBehaviour
         await PlayerManager.Instance.actionsManager.MakeActions();
         PlayerManager.Instance.canShowGridAndDecal = true;
         PlayerManager.Instance.characterPlayerMakingActions = false;
-        EnableMenu();
+        _= EnableMenu();
         PlayerManager.Instance.mouseDecal.decal.gameObject.SetActive(true);
     }
     public void EndTurnButton()
     {
-        PlayerManager.Instance.canShowGridAndDecal = false;
-        PlayerManager.Instance.DisableVisuals();
-        menuGeneralActions.SetActive(false);
-        _ = PlayerManager.Instance.actionsManager.EndTurn();
+        if (!GameManager.Instance.isPause)
+        {
+            PlayerManager.Instance.canShowGridAndDecal = false;
+            PlayerManager.Instance.DisableVisuals();
+            menuGeneralActions.SetActive(false);
+            _ = PlayerManager.Instance.actionsManager.EndTurn();
+        }
     }
     public void CharactersButton()
     {
-        StartCoroutine(PlayerManager.Instance.menuAllCharacters.EnableMenu());
+        if (!GameManager.Instance.isPause) _= PlayerManager.Instance.menuAllCharacters.EnableMenu();
     }
     public void BonusButton()
     {
-        
+        if (!GameManager.Instance.isPause) print("bonus");
     }
 }

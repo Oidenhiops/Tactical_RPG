@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,31 +12,33 @@ public class MenuThrowCharacter : MonoBehaviour
     public TMP_Text heightTextValue;
     public TMP_Text distanceTextValue;
     public bool isThrowingCharacter;
-    public IEnumerator EnableMenu()
+    public async Task EnableMenu()
     {
+        await Awaitable.NextFrameAsync();
         menuThrowCharacter.SetActive(true);
-        playerManager.menuCharacterActions.DisableMenu(true);
+        _= playerManager.menuCharacterActions.DisableMenu(true, true);
         playerManager.menuCharacterInfo.menuCharacterInfo.SetActive(false);
         heightTextValue.text = AStarPathFinding.Instance.characterSelected.characterData.GetMovementMaxHeight().ToString();
         distanceTextValue.text = AStarPathFinding.Instance.characterSelected.characterData.GetThrowRadius().ToString();
         AStarPathFinding.Instance.EnableGrid(AStarPathFinding.Instance.GetTilesToThrow(), playerManager.menuLiftCharacter.gridColor);
-        yield return null;
     }
-    public void DisableMenuBack()
+    public async Task DisableMenu()
     {
+        await Awaitable.NextFrameAsync();
         menuThrowCharacter.SetActive(false);
-        StartCoroutine(playerManager.menuCharacterActions.EnableMenu());
+        _ = playerManager.menuCharacterActions.EnableMenu();
         playerManager.MovePointerToInstant(AStarPathFinding.Instance.characterSelected.positionInGrid);
     }
-    public void DisableMenuActive()
+    public async Task DisableMenuAfterThrowCharacter()
     {
+        await Awaitable.NextFrameAsync();
         menuThrowCharacter.SetActive(false);
         AStarPathFinding.Instance.characterSelected = null;
         playerManager.actionsManager.EnableMobileInputs();
     }
     public void OnHandleTrow(InputAction.CallbackContext context)
     {
-        if (menuThrowCharacter.activeSelf && AStarPathFinding.Instance.grid[playerManager.currentMousePos].hasCharacter == null)
+        if (menuThrowCharacter.activeSelf && AStarPathFinding.Instance.grid[playerManager.currentMousePos].hasCharacter == null && !GameManager.Instance.isPause)
         {
             if (playerManager.actionsManager.characterActions.TryGetValue(AStarPathFinding.Instance.characterSelected, out List<ActionsManager.ActionInfo> actions))
             {
@@ -121,7 +123,8 @@ public class MenuThrowCharacter : MonoBehaviour
         AStarPathFinding.Instance.characterSelected.characterStatusEffect.statusEffects.Remove(playerManager.menuLiftCharacter.statusEffectLiftSO);
         CancelCharacterActions(AStarPathFinding.Instance.characterSelected);
         isThrowingCharacter = false;
-        DisableMenuActive();
+        yield return null;
+        _= DisableMenuAfterThrowCharacter();
     }
     void CancelCharacterActions(Character character)
     {

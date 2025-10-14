@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AYellowpaper.SerializedCollections;
 using TMPro;
 using UnityEngine;
@@ -41,7 +42,7 @@ public class MenuCharacterSelector : MonoBehaviour
         OnAmountCharacterChange += ValidateBlockBanner;
         ValidateBlockBanner(amountCharacters);
     }
-    public void SpawnBanners()
+    public async Task SpawnBanners()
     {
         for (int i = 0; i < playerManager.characters.Count(); i++)
         {
@@ -57,22 +58,27 @@ public class MenuCharacterSelector : MonoBehaviour
                 banners.Add(playerManager.characters[i], characterSelectorBanner);
             }
         }
+        await Awaitable.NextFrameAsync();
     }
     public void OnCharacterSelect(GameObject banner)
     {
-        banner.SetActive(false);
-        amountCharacters--;
-        Character character = banners.FirstOrDefault(x => x.Value.gameObject == banner.gameObject).Key;
-        character.gameObject.SetActive(true);
-        character.transform.position = Vector3.zero;
-        AStarPathFinding.Instance.characterSelected = character;
-        AStarPathFinding.Instance.grid[Vector3Int.zero].hasCharacter = character;
-        AStarPathFinding.Instance.EnableGrid(AStarPathFinding.Instance.GetWalkableTiles(), Color.magenta);
-        DisableMenu();
+        if (!GameManager.Instance.isPause)
+        {
+            banner.SetActive(false);
+            amountCharacters--;
+            Character character = banners.FirstOrDefault(x => x.Value.gameObject == banner.gameObject).Key;
+            character.gameObject.SetActive(true);
+            character.transform.position = Vector3.zero;
+            AStarPathFinding.Instance.characterSelected = character;
+            AStarPathFinding.Instance.grid[Vector3Int.zero].hasCharacter = character;
+            AStarPathFinding.Instance.EnableGrid(AStarPathFinding.Instance.GetWalkableTiles(), Color.magenta);
+            AStarPathFinding.Instance.backButtonGrid.SetActive(true);
+            _ = DisableMenu();
+        }
     }
-    public IEnumerator EnableMenu()
+    public async Task EnableMenu()
     {
-        SpawnBanners();
+        await SpawnBanners();
         playerManager.actionsManager.DisableMobileInputs();
         menuCharacterSelector.SetActive(true);
         if (banners.Count > 0)
@@ -85,11 +91,12 @@ public class MenuCharacterSelector : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(banners.ElementAt(index).Value.gameObject);
             banners.ElementAt(index).Value.onObjectSelect.ScrollTo(index);
         }
-        yield return null;
+        await Awaitable.NextFrameAsync();
         isMenuActive = true;
     }
-    public void DisableMenu()
+    public async Task DisableMenu()
     {
+        await Awaitable.NextFrameAsync();
         playerManager.actionsManager.EnableMobileInputs();
         menuCharacterSelector.SetActive(false);
         isMenuActive = false;

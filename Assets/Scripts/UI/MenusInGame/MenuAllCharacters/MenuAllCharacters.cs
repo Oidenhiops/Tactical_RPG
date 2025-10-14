@@ -49,11 +49,11 @@ public class MenuAllCharacters : MonoBehaviour
     }
     public void OnCharacterSelect(AllCharactersBanner banner)
     {
-        _= playerManager.menuCharacterInfo.ReloadInfo(banner.character);
+        if (!GameManager.Instance.isPause) _= playerManager.menuCharacterInfo.ReloadInfo(banner.character);
     }
-    public IEnumerator EnableMenu()
+    public async Task EnableMenu()
     {
-        yield return SpawnBanners();
+        await SpawnBanners();
         index = 0;
         if (banners.Count > 0)
         {
@@ -64,7 +64,7 @@ public class MenuAllCharacters : MonoBehaviour
             }
             EventSystem.current.SetSelectedGameObject(banners.ElementAt(index).Value.gameObject);
             banners.ElementAt(index).Value.onObjectSelect.ScrollTo(index);
-            yield return null;
+            await Awaitable.NextFrameAsync();
             _= playerManager.menuCharacterInfo.ReloadInfo(banners.ElementAt(index).Value.character);
             playerManager.menuCharacterInfo.menuCharacterInfo.SetActive(true);
         }
@@ -72,8 +72,9 @@ public class MenuAllCharacters : MonoBehaviour
         menuAllCharacters.SetActive(true);
         playerManager.MovePointerToInstant(Vector3Int.RoundToInt(banners.ElementAt(0).Key.transform.position));
     }
-    public void DisableMenu()
+    public async Task DisableMenu()
     {
+        await Awaitable.NextFrameAsync();
         menuAllCharacters.SetActive(false);
         playerManager.menuGeneralActions.menuGeneralActions.SetActive(true);
         playerManager.menuCharacterInfo.menuCharacterInfo.SetActive(false);

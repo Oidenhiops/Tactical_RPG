@@ -546,8 +546,10 @@ MonoBehaviour:
   skillLevel: {fileID: 5261769127901754980}
   skillFillAmount: {fileID: 3940943253518191060}
   skillCost: {fileID: 2355945065930201908}
+  skillButton: {fileID: 3608524765885103117}
   menuSkillsCharacter: {fileID: 0}
   skillBg: {fileID: 6406871744588123440}
+  menuCharacterInfo: {fileID: 0}
 --- !u!114 &8751040136643524376
 MonoBehaviour:
   m_ObjectHideFlags: 0

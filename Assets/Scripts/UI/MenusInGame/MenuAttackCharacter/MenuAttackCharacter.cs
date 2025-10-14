@@ -52,37 +52,39 @@ public class MenuAttackCharacter : MonoBehaviour
     }
     public void OnCharacterSelect(AttackCharacterBanner banner)
     {
-        foreach (Transform child in containerBanners.transform)
+        if (!GameManager.Instance.isPause)
         {
-            Destroy(child.gameObject);
-        }
-        banners = new SerializedDictionary<Character, AttackCharacterBanner>();
-        if (playerManager.actionsManager.characterActions.TryGetValue(AStarPathFinding.Instance.characterSelected, out List<ActionsManager.ActionInfo> actions))
-        {
-            actions.Add(new ActionsManager.ActionInfo
+            foreach (Transform child in containerBanners.transform)
             {
-                characterMakeAction = AStarPathFinding.Instance.characterSelected,
-                typeAction = ActionsManager.TypeAction.Attack,
-                characterToMakeAction = new List<ActionsManager.OtherCharacterInfo>
+                Destroy(child.gameObject);
+            }
+            banners = new SerializedDictionary<Character, AttackCharacterBanner>();
+            if (playerManager.actionsManager.characterActions.TryGetValue(AStarPathFinding.Instance.characterSelected, out List<ActionsManager.ActionInfo> actions))
+            {
+                actions.Add(new ActionsManager.ActionInfo
+                {
+                    characterMakeAction = AStarPathFinding.Instance.characterSelected,
+                    typeAction = ActionsManager.TypeAction.Attack,
+                    characterToMakeAction = new List<ActionsManager.OtherCharacterInfo>
                 {
                     new ActionsManager.OtherCharacterInfo(banner.character, Vector3Int.RoundToInt(banner.character.transform.position))
                 }
-            });
-            playerManager.actionsManager.characterFinalActions.Add(AStarPathFinding.Instance.characterSelected, new ActionsManager.ActionInfo
-            {
-                characterMakeAction = AStarPathFinding.Instance.characterSelected,
-                typeAction = ActionsManager.TypeAction.Attack,
-                characterToMakeAction = new List<ActionsManager.OtherCharacterInfo>
+                });
+                playerManager.actionsManager.characterFinalActions.Add(AStarPathFinding.Instance.characterSelected, new ActionsManager.ActionInfo
+                {
+                    characterMakeAction = AStarPathFinding.Instance.characterSelected,
+                    typeAction = ActionsManager.TypeAction.Attack,
+                    characterToMakeAction = new List<ActionsManager.OtherCharacterInfo>
                 {
                     new ActionsManager.OtherCharacterInfo(banner.character, Vector3Int.RoundToInt(banner.character.transform.position))
                 }
-            });
-        }
-        else
-        {
-            playerManager.actionsManager.characterActions.Add(
-                AStarPathFinding.Instance.characterSelected,
-                new List<ActionsManager.ActionInfo> {
+                });
+            }
+            else
+            {
+                playerManager.actionsManager.characterActions.Add(
+                    AStarPathFinding.Instance.characterSelected,
+                    new List<ActionsManager.ActionInfo> {
                     new ActionsManager.ActionInfo{
                         characterMakeAction = AStarPathFinding.Instance.characterSelected,
                         typeAction = ActionsManager.TypeAction.Attack,
@@ -91,23 +93,25 @@ public class MenuAttackCharacter : MonoBehaviour
                             new ActionsManager.OtherCharacterInfo(banner.character, Vector3Int.RoundToInt(banner.character.transform.position))
                         }
                     }
-                }
-            );
-            playerManager.actionsManager.characterFinalActions.Add(AStarPathFinding.Instance.characterSelected, new ActionsManager.ActionInfo
-            {
-                characterMakeAction = AStarPathFinding.Instance.characterSelected,
-                typeAction = ActionsManager.TypeAction.Attack,
-                characterToMakeAction = new List<ActionsManager.OtherCharacterInfo>
+                    }
+                );
+                playerManager.actionsManager.characterFinalActions.Add(AStarPathFinding.Instance.characterSelected, new ActionsManager.ActionInfo
+                {
+                    characterMakeAction = AStarPathFinding.Instance.characterSelected,
+                    typeAction = ActionsManager.TypeAction.Attack,
+                    characterToMakeAction = new List<ActionsManager.OtherCharacterInfo>
                 {
                     new ActionsManager.OtherCharacterInfo(banner.character, Vector3Int.RoundToInt(banner.character.transform.position))
                 }
-            });
+                });
+            }
+            AStarPathFinding.Instance.characterSelected.lastAction = ActionsManager.TypeAction.Attack;
+            _ = DisableMenuAfterCharacterSelect();
         }
-        DisableMenuCharacterSelect();
     }
-    public IEnumerator EnableMenu()
+    public async Task EnableMenu()
     {
-        yield return SpawnBanners();
+        await SpawnBanners();
         AStarPathFinding.Instance.EnableGrid(positionsToAttack, gridColor);
         index = 0;
         if (banners.Count > 0)
@@ -120,16 +124,17 @@ public class MenuAttackCharacter : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(banners.ElementAt(index).Value.gameObject);
             _= playerManager.menuCharacterInfo.ReloadInfo(banners.ElementAt(index).Value.character);
             banners.ElementAt(index).Value.onObjectSelect.ScrollTo(index);
-            yield return null;
+            await Awaitable.NextFrameAsync();
         }
-        yield return null;
+        await Awaitable.NextFrameAsync();
         isMenuActive = true;
-        playerManager.menuCharacterActions.DisableMenu(true, true);
+        _= playerManager.menuCharacterActions.DisableMenu(true, true);
         menuAttackCharacter.SetActive(true);
         playerManager.MovePointerToInstant(Vector3Int.RoundToInt(banners.ElementAt(0).Key.transform.position));
     }
-    public void DisableMenu()
+    public async Task DisableMenu()
     {
+        await Awaitable.NextFrameAsync();
         AStarPathFinding.Instance.DisableGrid();
         menuAttackCharacter.SetActive(false);
         isMenuActive = false;
@@ -141,18 +146,16 @@ public class MenuAttackCharacter : MonoBehaviour
         playerManager.menuCharacterActions.BackToMenuWhitButton(MenuCharacterActions.TypeButton.Attack);
         playerManager.MovePointerToInstant(AStarPathFinding.Instance.characterSelected.positionInGrid);
     }
-    public void DisableMenuCharacterSelect()
+    public async Task DisableMenuAfterCharacterSelect()
     {
+        await Awaitable.NextFrameAsync();
         AStarPathFinding.Instance.DisableGrid();
         menuAttackCharacter.SetActive(false);
         playerManager.menuCharacterInfo.DisableMenu(true);
         isMenuActive = false;
-        foreach (Transform child in containerBanners.transform)
-        {
-            Destroy(child.gameObject);
-        }
         banners = new SerializedDictionary<Character, AttackCharacterBanner>();
         playerManager.MovePointerToInstant(AStarPathFinding.Instance.characterSelected.positionInGrid);
         AStarPathFinding.Instance.characterSelected = null;
+        playerManager.actionsManager.EnableMobileInputs();
     }
 }

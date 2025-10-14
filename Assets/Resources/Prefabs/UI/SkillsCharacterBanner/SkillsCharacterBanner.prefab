@@ -562,9 +562,12 @@ MonoBehaviour:
       _serializedList: []
   managementLanguage: {fileID: 1446133489327883303}
   onObjectSelect: {fileID: 8751040136643524376}
+  skillBg: {fileID: 6406871744588123440}
   skillLevel: {fileID: 5261769127901754980}
   skillFillAmount: {fileID: 3940943253518191060}
   skillCost: {fileID: 2355945065930201908}
+  canUserSkill: 0
+  menuSkillsCharacter: {fileID: 0}
 --- !u!1 &6743549503234305108
 GameObject:
   m_ObjectHideFlags: 0

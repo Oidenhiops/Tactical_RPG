@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -13,7 +14,7 @@ public class MenuCharacterActions : MonoBehaviour
     public SerializedDictionary<TypeButton, Button> buttons = new SerializedDictionary<TypeButton, Button>();
     List<TypeButton> buttonsExepts = new List<TypeButton>();
     public bool isMenuActive;
-    public IEnumerator EnableMenu()
+    public async Task EnableMenu()
     {
         playerManager.actionsManager.DisableMobileInputs();
         if (!playerManager.AnyMenuIsActive())
@@ -81,7 +82,7 @@ public class MenuCharacterActions : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(null);
             EventSystem.current.SetSelectedGameObject(GetFirtsButtonActive());
             menuCharacterActions.SetActive(true);
-            yield return null;
+            await Awaitable.NextFrameAsync();
             isMenuActive = true;
         }
     }
@@ -118,17 +119,18 @@ public class MenuCharacterActions : MonoBehaviour
         _= playerManager.menuCharacterInfo.ReloadInfo(AStarPathFinding.Instance.characterSelected);
         isMenuActive = true;
     }
-    public void DisableMenu(bool conservSelectedCharacter = false, bool conservCharacterInfo = false)
+    public async Task DisableMenu(bool conservSelectedCharacter = false, bool conservCharacterInfo = false)
     {
+        await Awaitable.NextFrameAsync();
         menuCharacterActions.SetActive(false);
         playerManager.menuAttackCharacter.positionsToAttack = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
         playerManager.menuAttackCharacter.characters = new Character[0];
+        if (!conservSelectedCharacter) AStarPathFinding.Instance.characterSelected = null;
         if (!conservCharacterInfo)
         {
             playerManager.actionsManager.EnableMobileInputs();
             playerManager.menuCharacterInfo.menuCharacterInfo.SetActive(false);
         }
-        if (!conservSelectedCharacter) AStarPathFinding.Instance.characterSelected = null;
         isMenuActive = false;
     }
     public GameObject GetFirtsButtonActive()
@@ -155,15 +157,15 @@ public class MenuCharacterActions : MonoBehaviour
     }
     public void HandleAttack()
     {
-        if (isMenuActive) StartCoroutine(playerManager.menuAttackCharacter.EnableMenu());
+        if (isMenuActive && !GameManager.Instance.isPause) _= playerManager.menuAttackCharacter.EnableMenu();
     }
     public void HandleSpecial()
     {
-        if (isMenuActive) StartCoroutine(playerManager.menuSkillsCharacter.EnableMenu());
+        if (isMenuActive && !GameManager.Instance.isPause) _= playerManager.menuSkillsCharacter.EnableMenu();
     }
     public void HandleDefend()
     {
-        if (isMenuActive)
+        if (isMenuActive && !GameManager.Instance.isPause)
         {
             AStarPathFinding.Instance.characterSelected.lastAction = ActionsManager.TypeAction.Defend;
             if (playerManager.actionsManager.characterActions.TryGetValue(AStarPathFinding.Instance.characterSelected, out List<ActionsManager.ActionInfo> actions))
@@ -197,23 +199,20 @@ public class MenuCharacterActions : MonoBehaviour
                     typeAction = ActionsManager.TypeAction.Defend,
                 });
             }
-            DisableMenu();
+            _= DisableMenu();
         }
     }
     public void HandleLift()
     {
-        if (isMenuActive) StartCoroutine(playerManager.menuLiftCharacter.EnableMenu());
+        if (isMenuActive && !GameManager.Instance.isPause) _= playerManager.menuLiftCharacter.EnableMenu();
     }
     public void HandleThrow()
     {
-        if (isMenuActive)
-        {
-            StartCoroutine(playerManager.menuThrowCharacter.EnableMenu());
-        }
+        if (isMenuActive && !GameManager.Instance.isPause) _= playerManager.menuThrowCharacter.EnableMenu();
     }
     public void HandleItem()
     {
-        if (isMenuActive) StartCoroutine(playerManager.menuItemsCharacter.EnableMenu());
+        if (isMenuActive && !GameManager.Instance.isPause) _= playerManager.menuItemsCharacter.EnableMenu();
     }
     public enum TypeButton
     {

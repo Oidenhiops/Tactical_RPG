@@ -52,3 +52,8 @@ MonoBehaviour:
       - isUnlocked: 1
         initialDataSO: {fileID: 11400000, guid: 233c42620a410e74bb4d118b7ec79c89,
           type: 2}
+  companionsCharacters:
+  - isUnlocked: 0
+    initialDataSO: {fileID: 11400000, guid: 14ef0526423443242b0d93701be0fa6f, type: 2}
+  - isUnlocked: 0
+    initialDataSO: {fileID: 11400000, guid: 14ef0526423443242b0d93701be0fa6f, type: 2}

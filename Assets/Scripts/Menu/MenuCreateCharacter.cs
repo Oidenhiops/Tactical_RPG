@@ -213,7 +213,38 @@ public class MenuCreateCharacter : MonoBehaviour
                     statistic.Value.RefreshValue();
                 }
             }
+
             GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].characters.Add(character.name, character);
+
+            foreach (var companion in GameData.Instance.charactersDataDBSO.companionsCharacters)
+            {
+                CharacterData companionCharacter = new CharacterData
+                {
+                    id = companion.initialDataSO.id,
+                    subId = companion.initialDataSO.subId,
+                    name = GenerateFantasyName(),
+                    level = 1,
+                    mastery = new SerializedDictionary<CharacterData.TypeMastery, CharacterData.CharacterMasteryInfo>()
+                };
+                companionCharacter.statistics = companion.initialDataSO.CloneStatistics();
+                companionCharacter.mastery = companion.initialDataSO.CloneMastery();
+                companionCharacter.skills = companion.initialDataSO.CloneSkills();
+                foreach (KeyValuePair<CharacterData.TypeStatistic, CharacterData.Statistic> statistic in companionCharacter.statistics)
+                {
+                    if (statistic.Key != CharacterData.TypeStatistic.Exp)
+                    {
+                        statistic.Value.RefreshValue();
+                        statistic.Value.SetMaxValue();
+                    }
+                    else
+                    {
+                        statistic.Value.baseValue = 15;
+                        statistic.Value.RefreshValue();
+                    }
+                }
+                GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].characters.Add(companionCharacter.name, companionCharacter);
+            }
+
             inputField.text = "";
             GameData.Instance.SaveGameData();
             GameData.Instance.LoadGameDataInfo();
@@ -224,5 +255,36 @@ public class MenuCreateCharacter : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(lastButtonSelected);
             isMenuActive = false;
         }
+    }
+
+    string GenerateFantasyName()
+    {
+        string[] syllablesStart = { "Ka", "Lo", "Mi", "Ra", "Th", "El", "Ar", "Va", "Zy", "Xe", "Lu", "Na" };
+        string[] syllablesMiddle = { "ra", "en", "or", "il", "um", "ar", "is", "al", "on", "ir" };
+        string[] syllablesEnd = { "th", "dor", "ion", "mir", "rak", "len", "var", "oth", "us", "iel" };
+
+        int pattern = UnityEngine.Random.Range(0, 3);
+        string name = "";
+
+        switch (pattern)
+        {
+            case 0:
+                name = syllablesStart[UnityEngine.Random.Range(0, syllablesStart.Length)] +
+                        syllablesEnd[UnityEngine.Random.Range(0, syllablesEnd.Length)];
+                break;
+            case 1:
+                name = syllablesStart[UnityEngine.Random.Range(0, syllablesStart.Length)] +
+                        syllablesMiddle[UnityEngine.Random.Range(0, syllablesMiddle.Length)] +
+                        syllablesEnd[UnityEngine.Random.Range(0, syllablesEnd.Length)];
+                break;
+            case 2:
+                name = syllablesStart[UnityEngine.Random.Range(0, syllablesStart.Length)] +
+                        syllablesMiddle[UnityEngine.Random.Range(0, syllablesMiddle.Length)] +
+                        syllablesMiddle[UnityEngine.Random.Range(0, syllablesMiddle.Length)] +
+                        syllablesEnd[UnityEngine.Random.Range(0, syllablesEnd.Length)];
+                break;
+        }
+
+        return name;
     }
 }

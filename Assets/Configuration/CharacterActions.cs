@@ -154,6 +154,15 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RotateSkill"",
+                    ""type"": ""Button"",
+                    ""id"": ""4b472aaf-a75b-462a-9033-bad6e745aa7c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -442,6 +451,72 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
                     ""action"": ""ChangeSubMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Keyboard"",
+                    ""id"": ""4f303626-0087-402e-acb6-8eb39729cc70"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateSkill"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""45cdc621-8b8b-4a21-a2b6-b582904a1426"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateSkill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""bcdea5b3-10a0-4957-8e36-273147d5b97f"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateSkill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Gamepad"",
+                    ""id"": ""a8ed38f2-e66d-464d-b4b1-d55d19199acb"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateSkill"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""8ff90ec1-cb51-403b-9d76-afa089935c7e"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateSkill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""49ddba3d-7d39-4e3d-921b-0fef8d1f344a"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateSkill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -984,6 +1059,7 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
         m_CharacterInputs_Back = m_CharacterInputs.FindAction("Back", throwIfNotFound: true);
         m_CharacterInputs_ActiveGeneralActions = m_CharacterInputs.FindAction("ActiveGeneralActions", throwIfNotFound: true);
         m_CharacterInputs_ChangeSubMenu = m_CharacterInputs.FindAction("ChangeSubMenu", throwIfNotFound: true);
+        m_CharacterInputs_RotateSkill = m_CharacterInputs.FindAction("RotateSkill", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1084,6 +1160,7 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_CharacterInputs_Back;
     private readonly InputAction m_CharacterInputs_ActiveGeneralActions;
     private readonly InputAction m_CharacterInputs_ChangeSubMenu;
+    private readonly InputAction m_CharacterInputs_RotateSkill;
     /// <summary>
     /// Provides access to input actions defined in input action map "CharacterInputs".
     /// </summary>
@@ -1123,6 +1200,10 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "CharacterInputs/ChangeSubMenu".
         /// </summary>
         public InputAction @ChangeSubMenu => m_Wrapper.m_CharacterInputs_ChangeSubMenu;
+        /// <summary>
+        /// Provides access to the underlying input action "CharacterInputs/RotateSkill".
+        /// </summary>
+        public InputAction @RotateSkill => m_Wrapper.m_CharacterInputs_RotateSkill;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1170,6 +1251,9 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
             @ChangeSubMenu.started += instance.OnChangeSubMenu;
             @ChangeSubMenu.performed += instance.OnChangeSubMenu;
             @ChangeSubMenu.canceled += instance.OnChangeSubMenu;
+            @RotateSkill.started += instance.OnRotateSkill;
+            @RotateSkill.performed += instance.OnRotateSkill;
+            @RotateSkill.canceled += instance.OnRotateSkill;
         }
 
         /// <summary>
@@ -1202,6 +1286,9 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
             @ChangeSubMenu.started -= instance.OnChangeSubMenu;
             @ChangeSubMenu.performed -= instance.OnChangeSubMenu;
             @ChangeSubMenu.canceled -= instance.OnChangeSubMenu;
+            @RotateSkill.started -= instance.OnRotateSkill;
+            @RotateSkill.performed -= instance.OnRotateSkill;
+            @RotateSkill.canceled -= instance.OnRotateSkill;
         }
 
         /// <summary>
@@ -1486,6 +1573,13 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnChangeSubMenu(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "RotateSkill" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotateSkill(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

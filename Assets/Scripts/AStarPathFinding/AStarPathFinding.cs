@@ -22,6 +22,7 @@ public class AStarPathFinding : MonoBehaviour
     public bool onlyForMap;
     Coroutine _ToggleGrid;
     Coroutine _ToggleSubGrid;
+    public GameObject backButtonGrid;
     void Awake()
     {
         if (Instance == null)
@@ -109,7 +110,7 @@ public class AStarPathFinding : MonoBehaviour
             cell.Value.blockInfo.poolingGrid = null;
         }
         currentGrid = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
-        StopCoroutine(_ToggleGrid);
+        if (_ToggleGrid != null) StopCoroutine(_ToggleGrid);
     }
     public void DisableSubGrid()
     {
@@ -118,7 +119,7 @@ public class AStarPathFinding : MonoBehaviour
             ReturnPoolingGridToQueue(cell.Value);
         }
         currentSubGrid = new SerializedDictionary<Vector3Int, GameObject>();
-        StopCoroutine(_ToggleSubGrid);
+        if (_ToggleSubGrid != null) StopCoroutine(_ToggleSubGrid);
     }
     IEnumerator ToggleGrid()
     {
@@ -208,8 +209,9 @@ public class AStarPathFinding : MonoBehaviour
                             if (LastCharacterActionPermitActions())
                             {
                                 EnableGrid(GetWalkableTiles(), Color.magenta);
+                                backButtonGrid.SetActive(true);
                             }
-                            else StartCoroutine(PlayerManager.Instance.menuCharacterActions.EnableMenu());
+                            else _= PlayerManager.Instance.menuCharacterActions.EnableMenu();
                         }
                         else
                         {
@@ -218,7 +220,7 @@ public class AStarPathFinding : MonoBehaviour
                     }
                     else
                     {
-                        StartCoroutine(PlayerManager.Instance.menuCharacterActions.EnableMenu());
+                        _= PlayerManager.Instance.menuCharacterActions.EnableMenu();
                     }
                 }
                 else if (characterSelected && characterSelected.isCharacterPlayer)
@@ -240,15 +242,16 @@ public class AStarPathFinding : MonoBehaviour
                         if (LastCharacterActionPermitActions())
                         {
                             EnableGrid(GetWalkableTiles(), Color.magenta);
+                            backButtonGrid.SetActive(true);
                         }
                         else
                         {
-                            StartCoroutine(PlayerManager.Instance.menuCharacterActions.EnableMenu());
+                            _= PlayerManager.Instance.menuCharacterActions.EnableMenu();
                         }
                     }
                     else
                     {
-                        StartCoroutine(PlayerManager.Instance.menuCharacterActions.EnableMenu());
+                        _= PlayerManager.Instance.menuCharacterActions.EnableMenu();
                     }
                 }
                 else if (characterSelected && characterSelected.isCharacterPlayer)
@@ -257,7 +260,7 @@ public class AStarPathFinding : MonoBehaviour
                 }
                 else
                 {
-                    StartCoroutine(PlayerManager.Instance.menuCharacterSelector.EnableMenu());
+                    _= PlayerManager.Instance.menuCharacterSelector.EnableMenu();
                 }
             }
         }

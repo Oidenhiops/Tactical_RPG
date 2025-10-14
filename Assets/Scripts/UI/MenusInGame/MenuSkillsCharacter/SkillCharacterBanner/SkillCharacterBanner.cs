@@ -3,14 +3,16 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SkillCharacterBanner : MonoBehaviour, ISelectHandler, ISubmitHandler
+public class SkillCharacterBanner : MonoBehaviour, ISelectHandler
 {
     public CharacterData.CharacterSkillInfo skill;
     public ManagementLanguage managementLanguage;
     public OnObjectSelect onObjectSelect;
+    public Image skillBg;
     public TMP_Text skillLevel;
     public Image skillFillAmount;
     public TMP_Text skillCost;
+    public bool canUserSkill;
     public MenuSkillsCharacter menuSkillsCharacter;
     public void SetBannerData(CharacterData.CharacterSkillInfo characterSkill)
     {
@@ -26,9 +28,6 @@ public class SkillCharacterBanner : MonoBehaviour, ISelectHandler, ISubmitHandle
     {
         menuSkillsCharacter.SetDescriptionData(this);
         menuSkillsCharacter.index = transform.GetSiblingIndex();
-    }
-    public virtual void OnSubmit(BaseEventData eventData)
-    {
-        menuSkillsCharacter.OnSkillSelect(this);
+        menuSkillsCharacter.currentSkill = this;
     }
 }
