@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DiabolicStaff
   m_EditorClassIdentifier: 
   id: 271
-  idText: 
+  idText: item_diabolic_staff
   icon: {fileID: -272436775, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
   typeObject: 1
   typeWeapon: 7
@@ -238,7 +238,7 @@ MonoBehaviour:
   - {x: -3, y: 0, z: 1}
   - {x: -3, y: 0, z: 2}
   - {x: -2, y: 0, z: 2}
-  animationName: 
   gridSize: 10
+  animationName: 
   itemStatistics:
     _serializedList: []

@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: RoyalRing
   m_EditorClassIdentifier: 
   id: 427
+  idText: item_royal_ring
   icon: {fileID: 745498920, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
   typeObject: 2
   typeWeapon: 0
   positionsToAttack: []
+  gridSize: 5
   animationName: 
-  amountToAddId: 50
   itemStatistics:
     _serializedList: []

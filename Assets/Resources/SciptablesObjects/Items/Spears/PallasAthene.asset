@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PallasAthene
   m_EditorClassIdentifier: 
   id: 108
-  idText: 
+  idText: item_pallas_athene
   icon: {fileID: 34959680, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
   typeObject: 1
   typeWeapon: 3

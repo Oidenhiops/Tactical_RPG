@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DragonHeart
   m_EditorClassIdentifier: 
   id: 315
-  idText: 
+  idText: item_dragon_heart
   icon: {fileID: -1112017384, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
   typeObject: 1
   typeWeapon: 0

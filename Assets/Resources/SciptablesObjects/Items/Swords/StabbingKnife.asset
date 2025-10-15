@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StabbingKnife
   m_EditorClassIdentifier: 
   id: 56
-  idText: 
+  idText: item_stabbing_knife
   icon: {fileID: 938746929, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
   typeObject: 1
   typeWeapon: 2

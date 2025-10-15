@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: HolyOrb
   m_EditorClassIdentifier: 
   id: 398
+  idText: item_holy_orb
   icon: {fileID: 1915612944, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
   typeObject: 2
   typeWeapon: 0
   positionsToAttack: []
+  gridSize: 5
   animationName: 
-  amountToAddId: 50
   itemStatistics:
     _serializedList: []

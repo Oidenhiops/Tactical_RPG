@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Wristband
   m_EditorClassIdentifier: 
   id: 1
+  idText: item_wristband
   icon: {fileID: -737092281, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
   typeObject: 1
   typeWeapon: 1
@@ -21,8 +22,8 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 1}
   - {x: 0, y: 0, z: -1}
   - {x: 1, y: 0, z: 0}
+  gridSize: 1
   animationName: FistAttack
-  amountToAddId: 0
   itemStatistics:
     _serializedList:
     - Key: 1

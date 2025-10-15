@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: QuasiBelt
   m_EditorClassIdentifier: 
   id: 361
+  idText: item_quasi_belt
   icon: {fileID: -1312622907, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
   typeObject: 2
   typeWeapon: 0
   positionsToAttack: []
+  gridSize: 5
   animationName: 
-  amountToAddId: 320
   itemStatistics:
     _serializedList: []

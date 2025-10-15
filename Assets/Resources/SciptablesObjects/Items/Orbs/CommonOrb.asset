@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: CommonOrb
   m_EditorClassIdentifier: 
   id: 391
+  idText: item_common_orb
   icon: {fileID: -1183848281, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
   typeObject: 2
   typeWeapon: 0
   positionsToAttack: []
+  gridSize: 5
   animationName: 
-  amountToAddId: 50
   itemStatistics:
     _serializedList: []

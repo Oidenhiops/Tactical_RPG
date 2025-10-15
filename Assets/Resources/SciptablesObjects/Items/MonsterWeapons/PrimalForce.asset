@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PrimalForce
   m_EditorClassIdentifier: 
   id: 306
-  idText: 
+  idText: item_primal_force
   icon: {fileID: -1112017384, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
   typeObject: 1
   typeWeapon: 0

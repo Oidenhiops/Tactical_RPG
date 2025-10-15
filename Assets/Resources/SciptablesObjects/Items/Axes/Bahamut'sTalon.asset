@@ -30,7 +30,7 @@ MonoBehaviour:
   - {x: 1, y: 0, z: -1}
   - {x: 1, y: 0, z: 1}
   - {x: -1, y: 0, z: 1}
+  gridSize: 2
   animationName: 
-  amountToAddId: 200
   itemStatistics:
     _serializedList: []

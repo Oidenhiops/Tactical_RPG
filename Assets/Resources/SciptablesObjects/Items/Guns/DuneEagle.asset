@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DuneEagle
   m_EditorClassIdentifier: 
   id: 170
-  idText: 
+  idText: item_dune_eagle
   icon: {fileID: 1490955822, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
   typeObject: 1
   typeWeapon: 0

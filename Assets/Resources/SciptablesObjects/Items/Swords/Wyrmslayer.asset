@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Wyrmslayer
   m_EditorClassIdentifier: 
   id: 69
-  idText: 
+  idText: item_wyrmslayer
   icon: {fileID: 938746929, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
   typeObject: 1
   typeWeapon: 2

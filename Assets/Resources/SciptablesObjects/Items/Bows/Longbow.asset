@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Longbow
   m_EditorClassIdentifier: 
   id: 123
+  idText: item_longbow
   icon: {fileID: 194517803, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
   typeObject: 1
   typeWeapon: 4
@@ -77,7 +78,7 @@ MonoBehaviour:
   - {x: -1, y: 0, z: -1}
   - {x: -3, y: 0, z: -1}
   - {x: -4, y: 0, z: -1}
+  gridSize: 5
   animationName: 
-  amountToAddId: 120
   itemStatistics:
     _serializedList: []
