@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: CactusArmor
   m_EditorClassIdentifier: 
   id: 343
+  idText: item_cactus_armor
   icon: {fileID: -1391148665, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
   typeObject: 2
   typeWeapon: 0
   positionsToAttack: []
+  gridSize: 0
   animationName: 
-  amountToAddId: 40
   itemStatistics:
     _serializedList: []

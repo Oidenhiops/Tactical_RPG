@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: MuscleArmor
   m_EditorClassIdentifier: 
   id: 331
+  idText: item_muscle_armor
   icon: {fileID: -651966959, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
   typeObject: 2
   typeWeapon: 0
   positionsToAttack: []
+  gridSize: 0
   animationName: 
-  amountToAddId: 40
   itemStatistics:
     _serializedList: []

@@ -18,7 +18,7 @@ MonoBehaviour:
   typeObject: 2
   typeWeapon: 0
   positionsToAttack: []
-  gridSize: 5
+  gridSize: 0
   animationName: 
   itemStatistics:
     _serializedList: []

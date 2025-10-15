@@ -18,8 +18,8 @@ MonoBehaviour:
   typeObject: 2
   typeWeapon: 0
   positionsToAttack: []
+  gridSize: 0
   animationName: 
-  amountToAddId: 40
   itemStatistics:
     _serializedList:
     - Key: 1

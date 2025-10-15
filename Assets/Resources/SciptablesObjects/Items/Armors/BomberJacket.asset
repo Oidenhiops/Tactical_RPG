@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: BomberJacket
   m_EditorClassIdentifier: 
   id: 325
+  idText: item_bomber_jacket
   icon: {fileID: -1766122817, guid: 045b8e191d56fee4ab6519c197540815, type: 3}
   typeObject: 2
   typeWeapon: 0
   positionsToAttack: []
+  gridSize: 0
   animationName: 
-  amountToAddId: 40
   itemStatistics:
     _serializedList: []
