@@ -72,7 +72,6 @@ public class MenuCharacterSelector : MonoBehaviour
             AStarPathFinding.Instance.characterSelected = character;
             AStarPathFinding.Instance.grid[Vector3Int.zero].hasCharacter = character;
             AStarPathFinding.Instance.EnableGrid(AStarPathFinding.Instance.GetWalkableTiles(), Color.magenta);
-            AStarPathFinding.Instance.backButtonGrid.SetActive(true);
             _ = DisableMenu();
         }
     }

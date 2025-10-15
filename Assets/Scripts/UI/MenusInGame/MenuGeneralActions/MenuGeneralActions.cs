@@ -14,7 +14,7 @@ public class MenuGeneralActions : MonoBehaviour
     public GameObject endTurnButton;
     public async Task EnableMenu()
     {
-        await Awaitable.NextFrameAsync();
+        await Awaitable.NextFrameAsync();        
         playerManager.actionsManager.DisableMobileInputs();
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(GetSelectedButton());

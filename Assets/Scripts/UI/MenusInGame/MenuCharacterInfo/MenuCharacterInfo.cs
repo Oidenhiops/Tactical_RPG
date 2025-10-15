@@ -170,6 +170,13 @@ public class MenuCharacterInfo : MonoBehaviour
         }
         EnableSubMenu(subMenuIndex);
     }
+    public void DeselectAllBanners()
+    {
+        for (int i = 0; i < skillsContainer.childCount; i++)
+        {
+            skillsContainer.GetChild(i).GetComponent<SkillBannerCharacterInfo>().OnDeselectBanner();
+        }
+    }
     public void OnHandleChangeSkill(InputAction.CallbackContext context)
     {
         if (subMenusInfo[1].subMenuContainer.activeSelf)

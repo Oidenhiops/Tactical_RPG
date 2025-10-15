@@ -86,6 +86,8 @@ public class Character : MonoBehaviour
     async Awaitable InitializeDataWhitInitialValues()
     {
         characterData.statistics = initialDataSO.CloneStatistics();
+        characterData.skills = initialDataSO.CloneSkills();
+        characterData.mastery = initialDataSO.CloneMastery();
         foreach (var statistic in characterData.statistics)
         {
             statistic.Value.RefreshValue();

@@ -1,14 +1,9 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SkillBannerCharacterInfo : SkillCharacterBanner, IDeselectHandler
+public class SkillBannerCharacterInfo : SkillCharacterBanner, IDeselectHandler, IPointerClickHandler
 {
     public MenuCharacterInfo menuCharacterInfo;
-    public override void OnHandleSelect(BaseEventData eventData)
-    {
-        OnSelectBanner();
-    }
-
     public void OnDeselect(BaseEventData eventData)
     {
         OnDeselectBanner();
@@ -22,5 +17,10 @@ public class SkillBannerCharacterInfo : SkillCharacterBanner, IDeselectHandler
     public void OnDeselectBanner()
     {
         skillBg.color = Color.white;
+    }
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        menuCharacterInfo.DeselectAllBanners();
+        OnSelectBanner();
     }
 }

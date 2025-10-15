@@ -110,7 +110,6 @@ public class ActionsManager : MonoBehaviour
         {
             AStarPathFinding.Instance.characterSelected = null;
             AStarPathFinding.Instance.DisableGrid();
-            AStarPathFinding.Instance.backButtonGrid.SetActive(false);
         }
         else if (
             AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)].hasCharacter != null &&

@@ -22,7 +22,6 @@ public class AStarPathFinding : MonoBehaviour
     public bool onlyForMap;
     Coroutine _ToggleGrid;
     Coroutine _ToggleSubGrid;
-    public GameObject backButtonGrid;
     void Awake()
     {
         if (Instance == null)
@@ -209,7 +208,6 @@ public class AStarPathFinding : MonoBehaviour
                             if (LastCharacterActionPermitActions())
                             {
                                 EnableGrid(GetWalkableTiles(), Color.magenta);
-                                backButtonGrid.SetActive(true);
                             }
                             else _= PlayerManager.Instance.menuCharacterActions.EnableMenu();
                         }
@@ -242,7 +240,6 @@ public class AStarPathFinding : MonoBehaviour
                         if (LastCharacterActionPermitActions())
                         {
                             EnableGrid(GetWalkableTiles(), Color.magenta);
-                            backButtonGrid.SetActive(true);
                         }
                         else
                         {

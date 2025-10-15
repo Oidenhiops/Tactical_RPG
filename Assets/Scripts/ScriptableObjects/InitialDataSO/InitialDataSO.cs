@@ -147,7 +147,6 @@ public class InitialDataSO : ScriptableObject
         icon = generateAllAnimations.icon;
     }
 #endif
-
     [NaughtyAttributes.Button]
     public void RefreshSkillsData()
     {
@@ -243,8 +242,6 @@ public class InitialDataSO : ScriptableObject
         }
         return clone;
     }
-
-
     [Serializable]
     public class AnimationsInfo
     {
