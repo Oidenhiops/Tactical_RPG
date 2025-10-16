@@ -122,20 +122,9 @@ public class MenuCharacterInfo : MonoBehaviour
         if (character.characterData.skills.Count > 0)
         {
             skillDescription.transform.parent.gameObject.SetActive(true);
-            foreach (KeyValuePair<int, CharacterData.CharacterSkillInfo> skill in character.characterData.skills[ItemBaseSO.TypeWeapon.None])
+            foreach (KeyValuePair<SkillsBaseSO.TypeSkill, UnityEngine.Rendering.SerializedDictionary<string, CharacterData.CharacterSkillInfo>> typeSkill in character.characterData.skills[ItemBaseSO.TypeWeapon.None])
             {
-                SkillBannerCharacterInfo banner = Instantiate(skillBanner, skillsContainer.transform).GetComponent<SkillBannerCharacterInfo>();
-                banner.onObjectSelect.container = skillsContainer;
-                banner.onObjectSelect.viewport = skillsViewport;
-                banner.onObjectSelect.scrollRect = skillsScrollRect;
-                banner.menuCharacterInfo = this;
-                banner.SetBannerData(skill.Value);
-            }
-            character.characterData.GetCurrentWeapon(out CharacterData.CharacterItem weapon);
-
-            if (weapon != null && character.characterData.skills.ContainsKey(weapon.itemBaseSO.typeWeapon))
-            {
-                foreach (KeyValuePair<int, CharacterData.CharacterSkillInfo> skill in character.characterData.skills[weapon.itemBaseSO.typeWeapon])
+                foreach (KeyValuePair<string, CharacterData.CharacterSkillInfo> skill in typeSkill.Value)
                 {
                     SkillBannerCharacterInfo banner = Instantiate(skillBanner, skillsContainer.transform).GetComponent<SkillBannerCharacterInfo>();
                     banner.onObjectSelect.container = skillsContainer;
@@ -143,6 +132,23 @@ public class MenuCharacterInfo : MonoBehaviour
                     banner.onObjectSelect.scrollRect = skillsScrollRect;
                     banner.menuCharacterInfo = this;
                     banner.SetBannerData(skill.Value);
+                }
+            }
+            character.characterData.GetCurrentWeapon(out CharacterData.CharacterItem weapon);
+
+            if (weapon != null && character.characterData.skills.ContainsKey(weapon.itemBaseSO.typeWeapon))
+            {
+                foreach (KeyValuePair<SkillsBaseSO.TypeSkill, UnityEngine.Rendering.SerializedDictionary<string, CharacterData.CharacterSkillInfo>> typeSkill in character.characterData.skills[weapon.itemBaseSO.typeWeapon])
+                {
+                    foreach (KeyValuePair<string, CharacterData.CharacterSkillInfo> skill in typeSkill.Value)
+                    {
+                        SkillBannerCharacterInfo banner = Instantiate(skillBanner, skillsContainer.transform).GetComponent<SkillBannerCharacterInfo>();
+                        banner.onObjectSelect.container = skillsContainer;
+                        banner.onObjectSelect.viewport = skillsViewport;
+                        banner.onObjectSelect.scrollRect = skillsScrollRect;
+                        banner.menuCharacterInfo = this;
+                        banner.SetBannerData(skill.Value);
+                    }
                 }
             }
             skillDescription.id = skillsContainer.GetChild(skillBannerIndex).GetComponent<SkillBannerCharacterInfo>().skill.skillsBaseSO.skillIdText;
@@ -156,7 +162,15 @@ public class MenuCharacterInfo : MonoBehaviour
             skillDescription.transform.parent.gameObject.SetActive(false);
         }
 
-        EnableSubMenu(0);
+        if (disableItemsContainer && subMenuIndex == 2)
+        {
+            EnableSubMenu(1);
+        }
+        else
+        {
+            EnableSubMenu(subMenuIndex);
+        }
+
         menuCharacterInfo.SetActive(true);
         isMenuActive = true;
     }
@@ -231,6 +245,7 @@ public class MenuCharacterInfo : MonoBehaviour
     {
         menuCharacterInfo.SetActive(false);
         isMenuActive = false;
+        subMenuIndex = 0;
         if (!conservCharacter && AStarPathFinding.Instance) AStarPathFinding.Instance.characterSelected = null;
     }
     [Serializable]

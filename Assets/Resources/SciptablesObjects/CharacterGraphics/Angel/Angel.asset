@@ -101,7 +101,7 @@ MonoBehaviour:
           _serializedList: []
         currentValue: 0
         maxValue: 0
-  mastery:
+  initialMastery:
     _serializedList:
     - Key: 1
       Value:
@@ -145,116 +145,101 @@ MonoBehaviour:
         masteryLevel: 0
         currentExp: 0
         maxExp: 15
-  skills:
+  initialSkills:
     _serializedList:
     - Key: 0
       Value:
         _serializedList:
-        - Key: 0
-          Value:
-            skillId: 0
-            skillsBaseSO: {fileID: 11400000, guid: 33042c29cbaccfc4e808d3641238b45a,
-              type: 2}
-            level: 0
-            statistics:
-              _serializedList:
-              - Key: 1
-                Value:
-                  baseValue: 10
-                  aptitudeValue: 0
-                  itemValue: 0
-                  buffValue:
-                    _serializedList: []
-                  currentValue: 0
-                  maxValue: 0
-              - Key: 2
-                Value:
-                  baseValue: 3
-                  aptitudeValue: 0
-                  itemValue: 0
-                  buffValue:
-                    _serializedList: []
-                  currentValue: 0
-                  maxValue: 0
-              - Key: 9
-                Value:
-                  baseValue: 0
-                  aptitudeValue: 0
-                  itemValue: 0
-                  buffValue:
-                    _serializedList: []
-                  currentValue: 0
-                  maxValue: 15
         - Key: 1
           Value:
-            skillId: 1
-            skillsBaseSO: {fileID: 11400000, guid: 5d788844053c784439d3c4cedf09fec6,
-              type: 2}
-            level: 0
-            statistics:
-              _serializedList:
-              - Key: 1
-                Value:
-                  baseValue: 15
-                  aptitudeValue: 0
-                  itemValue: 0
-                  buffValue:
-                    _serializedList: []
-                  currentValue: 0
-                  maxValue: 0
-              - Key: 2
-                Value:
-                  baseValue: 6
-                  aptitudeValue: 0
-                  itemValue: 0
-                  buffValue:
-                    _serializedList: []
-                  currentValue: 0
-                  maxValue: 0
-              - Key: 9
-                Value:
-                  baseValue: 0
-                  aptitudeValue: 0
-                  itemValue: 0
-                  buffValue:
-                    _serializedList: []
-                  currentValue: 0
-                  maxValue: 15
-        - Key: 2
-          Value:
-            skillId: 2
-            skillsBaseSO: {fileID: 11400000, guid: 4e5b88c0c040ef64992aa2b5edf7ec94,
-              type: 2}
-            level: 0
-            statistics:
-              _serializedList:
-              - Key: 1
-                Value:
-                  baseValue: 20
-                  aptitudeValue: 0
-                  itemValue: 0
-                  buffValue:
-                    _serializedList: []
-                  currentValue: 0
-                  maxValue: 0
-              - Key: 2
-                Value:
-                  baseValue: 9
-                  aptitudeValue: 0
-                  itemValue: 0
-                  buffValue:
-                    _serializedList: []
-                  currentValue: 0
-                  maxValue: 0
-              - Key: 9
-                Value:
-                  baseValue: 0
-                  aptitudeValue: 0
-                  itemValue: 0
-                  buffValue:
-                    _serializedList: []
-                  currentValue: 0
-                  maxValue: 15
+            _serializedList:
+            - Key: 1
+              Value:
+                skillId: 1
+                skillsBaseSO: {fileID: 11400000, guid: 33042c29cbaccfc4e808d3641238b45a,
+                  type: 2}
+                level: 0
+                statistics:
+                  _serializedList:
+                  - Key: 1
+                    Value:
+                      baseValue: 10
+                      aptitudeValue: 0
+                      itemValue: 0
+                      currentValue: 0
+                      maxValue: 0
+                  - Key: 2
+                    Value:
+                      baseValue: 3
+                      aptitudeValue: 0
+                      itemValue: 0
+                      currentValue: 0
+                      maxValue: 0
+                  - Key: 9
+                    Value:
+                      baseValue: 0
+                      aptitudeValue: 0
+                      itemValue: 0
+                      currentValue: 0
+                      maxValue: 15
+            - Key: 2
+              Value:
+                skillId: 2
+                skillsBaseSO: {fileID: 11400000, guid: 5d788844053c784439d3c4cedf09fec6,
+                  type: 2}
+                level: 0
+                statistics:
+                  _serializedList:
+                  - Key: 1
+                    Value:
+                      baseValue: 15
+                      aptitudeValue: 0
+                      itemValue: 0
+                      currentValue: 0
+                      maxValue: 0
+                  - Key: 2
+                    Value:
+                      baseValue: 6
+                      aptitudeValue: 0
+                      itemValue: 0
+                      currentValue: 0
+                      maxValue: 0
+                  - Key: 9
+                    Value:
+                      baseValue: 0
+                      aptitudeValue: 0
+                      itemValue: 0
+                      currentValue: 0
+                      maxValue: 15
+            - Key: 3
+              Value:
+                skillId: 3
+                skillsBaseSO: {fileID: 11400000, guid: 4e5b88c0c040ef64992aa2b5edf7ec94,
+                  type: 2}
+                level: 0
+                statistics:
+                  _serializedList:
+                  - Key: 1
+                    Value:
+                      baseValue: 20
+                      aptitudeValue: 0
+                      itemValue: 0
+                      currentValue: 0
+                      maxValue: 0
+                  - Key: 2
+                    Value:
+                      baseValue: 9
+                      aptitudeValue: 0
+                      itemValue: 0
+                      currentValue: 0
+                      maxValue: 0
+                  - Key: 9
+                    Value:
+                      baseValue: 0
+                      aptitudeValue: 0
+                      itemValue: 0
+                      currentValue: 0
+                      maxValue: 15
   animations:
     _serializedList:
     - Key: Idle

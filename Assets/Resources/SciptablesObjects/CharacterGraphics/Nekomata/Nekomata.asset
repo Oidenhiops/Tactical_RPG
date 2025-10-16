@@ -101,7 +101,7 @@ MonoBehaviour:
           _serializedList: []
         currentValue: 0
         maxValue: 0
-  mastery:
+  initialMastery:
     _serializedList:
     - Key: 1
       Value:
@@ -145,7 +145,7 @@ MonoBehaviour:
         masteryLevel: 0
         currentExp: 0
         maxExp: 15
-  skills:
+  initialSkills:
     _serializedList: []
   animations:
     _serializedList:

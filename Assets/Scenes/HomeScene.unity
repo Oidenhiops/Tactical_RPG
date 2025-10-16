@@ -20803,12 +20803,12 @@ PrefabInstance:
     - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
         type: 3}
       propertyPath: gameDataInfo.gameDataSlots.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
         type: 3}
       propertyPath: gameDataInfo.gameDataSlots.Array.data[0].characters._serializedList.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
         type: 3}
@@ -20818,7 +20818,7 @@ PrefabInstance:
     - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
         type: 3}
       propertyPath: gameDataInfo.gameDataSlots.Array.data[0].characters._serializedList.Array.data[0].Value.skills._serializedList.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
         type: 3}
@@ -20843,7 +20843,7 @@ PrefabInstance:
     - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
         type: 3}
       propertyPath: gameDataInfo.gameDataSlots.Array.data[0].characters._serializedList.Array.data[0].Value.skills._serializedList.Array.data[0].Value._serializedList.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
         type: 3}
@@ -20853,6 +20853,11 @@ PrefabInstance:
     - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
         type: 3}
       propertyPath: gameDataInfo.gameDataSlots.Array.data[0].characters._serializedList.Array.data[0].Value.items._serializedList.Array.data[0].Value.itemStatistics._serializedList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
+        type: 3}
+      propertyPath: gameDataInfo.gameDataSlots.Array.data[0].characters._serializedList.Array.data[0].Value.skills._serializedList.Array.data[0].Value._serializedList.Array.data[0].Value._serializedList.Array.size
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -22159,7 +22164,6 @@ MonoBehaviour:
   gridMaterial: {fileID: 0}
   subGridMaterial: {fileID: 0}
   onlyForMap: 1
-  backButtonGrid: {fileID: 0}
 --- !u!1001 &1185708949
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -43,23 +43,9 @@ public class MenuSkillsCharacter : MonoBehaviour
         if (character.characterData.skills.Count > 0)
         {
             skillDescription.transform.parent.gameObject.SetActive(true);
-            foreach (KeyValuePair<int, CharacterData.CharacterSkillInfo> skill in character.characterData.skills[ItemBaseSO.TypeWeapon.None])
+            foreach (KeyValuePair<SkillsBaseSO.TypeSkill, UnityEngine.Rendering.SerializedDictionary<string, CharacterData.CharacterSkillInfo>> typeSkill in character.characterData.skills[ItemBaseSO.TypeWeapon.None])
             {
-                SkillCharacterBanner banner = Instantiate(skillCharacterBanner, containerBanners.transform).GetComponent<SkillCharacterBanner>();
-                banner.onObjectSelect.container = containerBanners;
-                banner.onObjectSelect.viewport = viewport;
-                banner.onObjectSelect.scrollRect = scrollRect;
-                banner.SetBannerData(skill.Value);
-                banner.menuSkillsCharacter = this;
-                banner.canUserSkill = skill.Value.skillsBaseSO.ValidateCanUseSkill(character);
-                banner.skillBg.color = banner.canUserSkill ? Color.white : Color.gray;
-                banners.Add(skill.Value.skillsBaseSO, banner.GetComponent<SkillCharacterBanner>());
-            }
-            character.characterData.GetCurrentWeapon(out CharacterData.CharacterItem weapon);
-
-            if (weapon != null && character.characterData.skills.ContainsKey(weapon.itemBaseSO.typeWeapon))
-            {
-                foreach (KeyValuePair<int, CharacterData.CharacterSkillInfo> skill in character.characterData.skills[weapon.itemBaseSO.typeWeapon])
+                foreach (KeyValuePair<string, CharacterData.CharacterSkillInfo> skill in typeSkill.Value)
                 {
                     SkillCharacterBanner banner = Instantiate(skillCharacterBanner, containerBanners.transform).GetComponent<SkillCharacterBanner>();
                     banner.onObjectSelect.container = containerBanners;
@@ -67,7 +53,29 @@ public class MenuSkillsCharacter : MonoBehaviour
                     banner.onObjectSelect.scrollRect = scrollRect;
                     banner.SetBannerData(skill.Value);
                     banner.menuSkillsCharacter = this;
+                    banner.canUserSkill = skill.Value.skillsBaseSO.ValidateCanUseSkill(character);
+                    banner.skillBg.color = banner.canUserSkill ? Color.white : Color.gray;
                     banners.Add(skill.Value.skillsBaseSO, banner.GetComponent<SkillCharacterBanner>());
+                }
+            }
+            character.characterData.GetCurrentWeapon(out CharacterData.CharacterItem weapon);
+
+            if (weapon != null && character.characterData.skills.ContainsKey(weapon.itemBaseSO.typeWeapon))
+            {
+                foreach (KeyValuePair<SkillsBaseSO.TypeSkill, UnityEngine.Rendering.SerializedDictionary<string, CharacterData.CharacterSkillInfo>> typeSkill in character.characterData.skills[weapon.itemBaseSO.typeWeapon])
+                {
+                    foreach (KeyValuePair<string, CharacterData.CharacterSkillInfo> skill in typeSkill.Value)
+                    {
+                        SkillCharacterBanner banner = Instantiate(skillCharacterBanner, containerBanners.transform).GetComponent<SkillCharacterBanner>();
+                        banner.onObjectSelect.container = containerBanners;
+                        banner.onObjectSelect.viewport = viewport;
+                        banner.onObjectSelect.scrollRect = scrollRect;
+                        banner.SetBannerData(skill.Value);
+                        banner.menuSkillsCharacter = this;
+                        banner.canUserSkill = skill.Value.skillsBaseSO.ValidateCanUseSkill(character);
+                        banner.skillBg.color = banner.canUserSkill ? Color.white : Color.gray;
+                        banners.Add(skill.Value.skillsBaseSO, banner.GetComponent<SkillCharacterBanner>());
+                    }
                 }
             }
             currentSkill = banners.ElementAt(0).Value;

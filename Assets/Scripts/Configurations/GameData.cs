@@ -91,13 +91,16 @@ public class GameData : MonoBehaviour
         {
             foreach (KeyValuePair<string, CharacterData> characterData in gameDataSlot.characters)
             {
-                foreach (KeyValuePair<ItemBaseSO.TypeWeapon, UnityEngine.Rendering.SerializedDictionary<int, CharacterData.CharacterSkillInfo>> item in characterData.Value.skills)
+                foreach (KeyValuePair<ItemBaseSO.TypeWeapon, UnityEngine.Rendering.SerializedDictionary<SkillsBaseSO.TypeSkill, UnityEngine.Rendering.SerializedDictionary<string, CharacterData.CharacterSkillInfo>>> item in characterData.Value.skills)
                 {
-                    foreach (KeyValuePair<int, CharacterData.CharacterSkillInfo> skill in item.Value)
+                    foreach (KeyValuePair<SkillsBaseSO.TypeSkill, UnityEngine.Rendering.SerializedDictionary<string, CharacterData.CharacterSkillInfo>> skill in item.Value)
                     {
-                        if (skill.Value.skillId != 0)
+                        foreach (KeyValuePair<string, CharacterData.CharacterSkillInfo> skillInfo in skill.Value)
                         {
-                            skill.Value.skillsBaseSO = skillsDBSO.data[skill.Value.skillId];
+                            if (skillInfo.Value.skillId != "")
+                            {
+                                skillInfo.Value.skillsBaseSO = skillsDBSO.data[skillInfo.Value.skillId];
+                            }
                         }
                     }
                 }

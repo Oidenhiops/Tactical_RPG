@@ -93,6 +93,7 @@ public class MenuSlotsHelper : MonoBehaviour
         if (GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].isUse)
         {
             gameManagerHelper.ChangeScene(7);
+            gameManagerHelper.SaveSystemData();
         }
         else
         {

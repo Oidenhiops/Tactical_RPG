@@ -16,6 +16,7 @@ MonoBehaviour:
   skillIdText: skill_rare_heal
   animationSkillName: GeneralSkillEffect
   generalAnimationSkillName: GeneralSkillEffect
+  typeSkill: 1
   needSceneAnimation: 0
   skillVFXPrefab: {fileID: 8042130166991012130, guid: 98da398807cf2704bb3fb52621f53483,
     type: 3}
@@ -51,7 +52,7 @@ MonoBehaviour:
           _serializedList: []
         currentValue: 0
         maxValue: 15
-  typeSkill: 0
+  weaponForUseSkill: 0
   positionsToMakeSkill:
   - {x: -4, y: 0, z: 0}
   - {x: -3, y: 0, z: 1}
@@ -156,4 +157,4 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   positionsSkillFormGridSize: 2
   isFreeMovementSkill: 1
-  needCharacterToMakeSkill: 1
+  needCharacterToMakeSkill: 0

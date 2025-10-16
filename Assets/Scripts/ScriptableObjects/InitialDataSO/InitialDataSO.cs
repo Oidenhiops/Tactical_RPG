@@ -16,17 +16,17 @@ public class InitialDataSO : ScriptableObject
     public Texture2D atlasHands;
     public Sprite icon;
     public SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic> initialStats = new SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic>();
-    public SerializedDictionary<CharacterData.TypeMastery, CharacterData.CharacterMasteryInfo> mastery = new SerializedDictionary<CharacterData.TypeMastery, CharacterData.CharacterMasteryInfo>()
+    public SerializedDictionary<CharacterData.TypeMastery, CharacterData.CharacterMasteryInfo> initialMastery = new SerializedDictionary<CharacterData.TypeMastery, CharacterData.CharacterMasteryInfo>()
     {
-        {CharacterData.TypeMastery.Fist, new CharacterData.CharacterMasteryInfo{masteryRange = CharacterData.MasteryRange.N, masteryLevel = 0}},
-        {CharacterData.TypeMastery.Sword, new CharacterData.CharacterMasteryInfo{masteryRange = CharacterData.MasteryRange.N, masteryLevel = 0}},
-        {CharacterData.TypeMastery.Spear, new CharacterData.CharacterMasteryInfo{masteryRange = CharacterData.MasteryRange.N, masteryLevel = 0}},
-        {CharacterData.TypeMastery.Bow, new CharacterData.CharacterMasteryInfo{masteryRange = CharacterData.MasteryRange.N, masteryLevel = 0}},
-        {CharacterData.TypeMastery.Gun, new CharacterData.CharacterMasteryInfo{masteryRange = CharacterData.MasteryRange.N, masteryLevel = 0}},
-        {CharacterData.TypeMastery.Axe, new CharacterData.CharacterMasteryInfo{masteryRange = CharacterData.MasteryRange.N, masteryLevel = 0}},
-        {CharacterData.TypeMastery.Staff, new CharacterData.CharacterMasteryInfo{masteryRange = CharacterData.MasteryRange.N, masteryLevel = 0}}
+        {CharacterData.TypeMastery.Fist, new CharacterData.CharacterMasteryInfo{masteryRange = CharacterData.MasteryRange.N, masteryLevel = 0, maxExp = 15}},
+        {CharacterData.TypeMastery.Sword, new CharacterData.CharacterMasteryInfo{masteryRange = CharacterData.MasteryRange.N, masteryLevel = 0, maxExp = 15}},
+        {CharacterData.TypeMastery.Spear, new CharacterData.CharacterMasteryInfo{masteryRange = CharacterData.MasteryRange.N, masteryLevel = 0, maxExp = 15}},
+        {CharacterData.TypeMastery.Bow, new CharacterData.CharacterMasteryInfo{masteryRange = CharacterData.MasteryRange.N, masteryLevel = 0, maxExp = 15}},
+        {CharacterData.TypeMastery.Gun, new CharacterData.CharacterMasteryInfo{masteryRange = CharacterData.MasteryRange.N, masteryLevel = 0, maxExp = 15}},
+        {CharacterData.TypeMastery.Axe, new CharacterData.CharacterMasteryInfo{masteryRange = CharacterData.MasteryRange.N, masteryLevel = 0, maxExp = 15}},
+        {CharacterData.TypeMastery.Staff, new CharacterData.CharacterMasteryInfo{masteryRange = CharacterData.MasteryRange.N, masteryLevel = 0, maxExp = 15}}
     };
-    public SerializedDictionary<ItemBaseSO.TypeWeapon, SerializedDictionary<int, CharacterData.CharacterSkillInfo>> skills = new SerializedDictionary<ItemBaseSO.TypeWeapon, SerializedDictionary<int, CharacterData.CharacterSkillInfo>>();
+    public SerializedDictionary<ItemBaseSO.TypeWeapon, SerializedDictionary<SkillsBaseSO.TypeSkill, SerializedDictionary<string, CharacterData.CharacterSkillInfo>>> initialSkills = new SerializedDictionary<ItemBaseSO.TypeWeapon, SerializedDictionary<SkillsBaseSO.TypeSkill, SerializedDictionary<string, CharacterData.CharacterSkillInfo>>>();
     public SerializedDictionary<string, AnimationsInfo> animations = new SerializedDictionary<string, AnimationsInfo>();
     private string[] defaultNames = { "Idle", "Walk", "TakeDamage", "Defend", "Lifted", "Lift", "Throw", "FistAttack", "SwordAttack", "SpearAttack", "BowAttack", "GunAttack", "AxeAttack", "StaffAttack" };
     public GenerateAllAnimations generateAllAnimations;
@@ -150,23 +150,29 @@ public class InitialDataSO : ScriptableObject
     [NaughtyAttributes.Button]
     public void RefreshSkillsData()
     {
-        SerializedDictionary<ItemBaseSO.TypeWeapon, SerializedDictionary<int, CharacterData.CharacterSkillInfo>> clonedSkills = new SerializedDictionary<ItemBaseSO.TypeWeapon, SerializedDictionary<int, CharacterData.CharacterSkillInfo>>();
-        for (int i = 0; i < skills.Count; i++)
+        SerializedDictionary<ItemBaseSO.TypeWeapon, SerializedDictionary<SkillsBaseSO.TypeSkill, SerializedDictionary<string, CharacterData.CharacterSkillInfo>>> clonedSkills = new SerializedDictionary<ItemBaseSO.TypeWeapon, SerializedDictionary<SkillsBaseSO.TypeSkill, SerializedDictionary<string, CharacterData.CharacterSkillInfo>>>();
+        for (int i = 0; i < initialSkills.Count; i++)
         {
-            SerializedDictionary<int, CharacterData.CharacterSkillInfo> innerSkills = new SerializedDictionary<int, CharacterData.CharacterSkillInfo>();
-            for (int x = 0; x < skills.ElementAt(i).Value.Count; x++)
+            for (int y = 0; y < initialSkills.ElementAt(i).Value.Count; y++)
             {
-                innerSkills.Add(skills.ElementAt(i).Value.ElementAt(x).Value.skillsBaseSO.skillId, new CharacterData.CharacterSkillInfo
+                SerializedDictionary<string, CharacterData.CharacterSkillInfo> innerSkills = new SerializedDictionary<string, CharacterData.CharacterSkillInfo>();
+                for (int x = 0; x < initialSkills.ElementAt(i).Value.ElementAt(y).Value.Count; x++)
                 {
-                    skillId = skills.ElementAt(i).Value.ElementAt(x).Value.skillsBaseSO.skillId,
-                    skillsBaseSO = skills.ElementAt(i).Value.ElementAt(x).Value.skillsBaseSO,
-                    level = skills.ElementAt(i).Value.ElementAt(x).Value.level,
-                    statistics = skills.ElementAt(i).Value.ElementAt(x).Value.skillsBaseSO.CloneStatistics()
+                    innerSkills.Add(initialSkills.ElementAt(i).Value.ElementAt(y).Value.ElementAt(x).Value.skillsBaseSO.skillId, new CharacterData.CharacterSkillInfo
+                    {
+                        skillId = initialSkills.ElementAt(i).Value.ElementAt(y).Value.ElementAt(x).Value.skillsBaseSO.skillId,
+                        skillsBaseSO = initialSkills.ElementAt(i).Value.ElementAt(y).Value.ElementAt(x).Value.skillsBaseSO,
+                        level = initialSkills.ElementAt(i).Value.ElementAt(y).Value.ElementAt(x).Value.level,
+                        statistics = initialSkills.ElementAt(i).Value.ElementAt(y).Value.ElementAt(x).Value.skillsBaseSO.CloneStatistics()
+                    });
+                }
+                clonedSkills.Add(initialSkills.ElementAt(i).Key, new SerializedDictionary<SkillsBaseSO.TypeSkill, SerializedDictionary<string, CharacterData.CharacterSkillInfo>>()
+                {
+                    { initialSkills.ElementAt(i).Value.ElementAt(y).Key, innerSkills }
                 });
             }
-            clonedSkills.Add(skills.ElementAt(i).Key, innerSkills);
         }
-        skills = clonedSkills;
+        initialSkills = clonedSkills;
     }
     public SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic> CloneStatistics()
     {
@@ -191,7 +197,7 @@ public class InitialDataSO : ScriptableObject
     {
         var clone = new SerializedDictionary<CharacterData.TypeMastery, CharacterData.CharacterMasteryInfo>();
 
-        foreach (var kvp in mastery)
+        foreach (var kvp in initialMastery)
         {
             clone[kvp.Key] = new CharacterData.CharacterMasteryInfo
             {
@@ -204,41 +210,29 @@ public class InitialDataSO : ScriptableObject
 
         return clone;
     }
-    public UnityEngine.Rendering.SerializedDictionary<ItemBaseSO.TypeWeapon, UnityEngine.Rendering.SerializedDictionary<int, CharacterData.CharacterSkillInfo>> CloneSkills()
+    public UnityEngine.Rendering.SerializedDictionary<ItemBaseSO.TypeWeapon, UnityEngine.Rendering.SerializedDictionary<SkillsBaseSO.TypeSkill, UnityEngine.Rendering.SerializedDictionary<string, CharacterData.CharacterSkillInfo>>> CloneSkills()
     {
-        var clone = new UnityEngine.Rendering.SerializedDictionary<ItemBaseSO.TypeWeapon, UnityEngine.Rendering.SerializedDictionary<int, CharacterData.CharacterSkillInfo>>();
+        var clone = new UnityEngine.Rendering.SerializedDictionary<ItemBaseSO.TypeWeapon, UnityEngine.Rendering.SerializedDictionary<SkillsBaseSO.TypeSkill, UnityEngine.Rendering.SerializedDictionary<string, CharacterData.CharacterSkillInfo>>>();
 
-        foreach (var kvp in skills)
+        foreach (var weaponKvp in initialSkills)
         {
-            var innerClone = new UnityEngine.Rendering.SerializedDictionary<int, CharacterData.CharacterSkillInfo>();
-
-            foreach (var innerKvp in kvp.Value)
+            var weaponClone = new UnityEngine.Rendering.SerializedDictionary<SkillsBaseSO.TypeSkill, UnityEngine.Rendering.SerializedDictionary<string, CharacterData.CharacterSkillInfo>>();
+            foreach (var typeSkillKvp in weaponKvp.Value)
             {
-                var statisticsClone = new SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic>();
-                foreach (var statKvp in innerKvp.Value.statistics)
+                var typeSkillClone = new UnityEngine.Rendering.SerializedDictionary<string, CharacterData.CharacterSkillInfo>();
+                foreach (var skillKvp in typeSkillKvp.Value)
                 {
-                    var statClone = new CharacterData.Statistic
+                    typeSkillClone.Add(skillKvp.Key, new CharacterData.CharacterSkillInfo
                     {
-                        aptitudeValue = statKvp.Value.aptitudeValue,
-                        baseValue = statKvp.Value.baseValue,
-                        buffValue = statKvp.Value.buffValue,
-                        currentValue = statKvp.Value.currentValue,
-                        itemValue = statKvp.Value.itemValue,
-                        maxValue = statKvp.Value.maxValue,
-                    };
-                    statisticsClone.Add(statKvp.Key, statClone);
+                        skillId = skillKvp.Value.skillsBaseSO.skillId,
+                        skillsBaseSO = skillKvp.Value.skillsBaseSO,
+                        level = skillKvp.Value.level,
+                        statistics = skillKvp.Value.skillsBaseSO.CloneStatistics()
+                    });
                 }
-                var skillInfoClone = new CharacterData.CharacterSkillInfo
-                {
-                    skillId = innerKvp.Value.skillsBaseSO.skillId,
-                    skillsBaseSO = innerKvp.Value.skillsBaseSO,
-                    statistics = statisticsClone,
-                    level = innerKvp.Value.level,
-                };
-
-                innerClone.Add(skillInfoClone.skillId, skillInfoClone);
+                weaponClone.Add(typeSkillKvp.Key, typeSkillClone);
             }
-            clone.Add(kvp.Key, innerClone);
+            clone.Add(weaponKvp.Key, weaponClone);
         }
         return clone;
     }

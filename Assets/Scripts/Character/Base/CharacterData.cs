@@ -28,7 +28,7 @@ public class CharacterData
         {TypeMastery.Axe, new CharacterMasteryInfo{masteryRange = MasteryRange.N, masteryLevel = 0}},
         {TypeMastery.Staff, new CharacterMasteryInfo{masteryRange = MasteryRange.N, masteryLevel = 0}}
     };
-    public UnityEngine.Rendering.SerializedDictionary<ItemBaseSO.TypeWeapon, UnityEngine.Rendering.SerializedDictionary<int, CharacterSkillInfo>> skills = new UnityEngine.Rendering.SerializedDictionary<ItemBaseSO.TypeWeapon, UnityEngine.Rendering.SerializedDictionary<int, CharacterSkillInfo>>();
+    public UnityEngine.Rendering.SerializedDictionary<ItemBaseSO.TypeWeapon, UnityEngine.Rendering.SerializedDictionary<SkillsBaseSO.TypeSkill, UnityEngine.Rendering.SerializedDictionary<string, CharacterSkillInfo>>> skills = new UnityEngine.Rendering.SerializedDictionary<ItemBaseSO.TypeWeapon, UnityEngine.Rendering.SerializedDictionary<SkillsBaseSO.TypeSkill, UnityEngine.Rendering.SerializedDictionary<string, CharacterSkillInfo>>>();
     [Serializable] public class Statistic
     {
         public int baseValue = 0;
@@ -108,7 +108,7 @@ public class CharacterData
     [Serializable]
     public class CharacterSkillInfo
     {
-        public int skillId;
+        public string skillId;
         public SkillsBaseSO skillsBaseSO;
         public int level;
         public SerializedDictionary<TypeStatistic, Statistic> statistics = new SerializedDictionary<TypeStatistic, Statistic>();

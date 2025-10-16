@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class SkillsBaseSO : ScriptableObject
 {
-    public int skillId;
+    public string skillId;
     public string skillIdText;
     public string animationSkillName;
     public string generalAnimationSkillName;
+    public TypeSkill typeSkill;
     public bool needSceneAnimation;
     public GameObject skillVFXPrefab;
     public float skillVFXDuration = 1f;
     public GameObject floatingTextPrefab;
     public SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic> statistics = new SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic>();
-    public ItemBaseSO.TypeWeapon typeSkill;
+    public ItemBaseSO.TypeWeapon weaponForUseSkill;
     public Vector3Int[] positionsToMakeSkill;
     public int positionsToMakeSkillGridSize = 5;
     public bool usePositionsToMakeSkill;
@@ -26,24 +27,28 @@ public class SkillsBaseSO : ScriptableObject
     public virtual void LevelUpSkill(Character character) { Debug.LogError("LevelUpSkill non implemented"); }
     public void AddSkill(Character character)
     {
-        if (character.characterData.skills.ContainsKey(typeSkill))
+        if (character.characterData.skills.ContainsKey(weaponForUseSkill))
         {
-            if (!character.characterData.skills[typeSkill].ContainsKey(skillId))
+            if (!character.characterData.skills[weaponForUseSkill][typeSkill].ContainsKey(skillId))
             {
-                character.characterData.skills[typeSkill].Add(skillId, new CharacterData.CharacterSkillInfo{ skillsBaseSO = this, level = 0, statistics = CloneStatistics() });
+                character.characterData.skills[weaponForUseSkill][typeSkill].Add(skillId, new CharacterData.CharacterSkillInfo{ skillsBaseSO = this, level = 0, statistics = CloneStatistics() });
             }
         }
         else
         {
-            character.characterData.skills.Add(typeSkill, new UnityEngine.Rendering.SerializedDictionary<int, CharacterData.CharacterSkillInfo>
+            character.characterData.skills.Add(weaponForUseSkill, new UnityEngine.Rendering.SerializedDictionary<TypeSkill, UnityEngine.Rendering.SerializedDictionary<string, CharacterData.CharacterSkillInfo>>()
             {
-                {skillId, new CharacterData.CharacterSkillInfo { skillsBaseSO = this, level = 0, statistics = CloneStatistics() }}
+                {typeSkill, new UnityEngine.Rendering.SerializedDictionary<string, CharacterData.CharacterSkillInfo>
+                    {
+                        {skillId, new CharacterData.CharacterSkillInfo { skillsBaseSO = this, level = 0, statistics = CloneStatistics() }}
+                    }
+                }
             });
         }
     }
     public bool ValidateCanUseSkill(Character character)
     {
-        return character.characterData.statistics[CharacterData.TypeStatistic.Sp].currentValue - character.characterData.skills[typeSkill][skillId].statistics[CharacterData.TypeStatistic.Sp].baseValue > 0;
+        return character.characterData.statistics[CharacterData.TypeStatistic.Sp].currentValue - character.characterData.skills[weaponForUseSkill][typeSkill][skillId].statistics[CharacterData.TypeStatistic.Sp].baseValue > 0;
     }
     public string[] GetSkillDescription (SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic> statistics)
     {
@@ -77,5 +82,12 @@ public class SkillsBaseSO : ScriptableObject
         }
 
         return clone;
+    }
+    public enum TypeSkill
+    {
+        Attack,
+        Heal,
+        Buff,
+        Debuff
     }
 }

@@ -47,6 +47,9 @@ MonoBehaviour:
       - isUnlocked: 1
         initialDataSO: {fileID: 11400000, guid: cd03584173f80cb47a76e2620c227064,
           type: 2}
+      - isUnlocked: 1
+        initialDataSO: {fileID: 11400000, guid: 90d0dfe55c009f147bce9d6278b5dbc5,
+          type: 2}
     - Key: 7
       Value:
       - isUnlocked: 1
