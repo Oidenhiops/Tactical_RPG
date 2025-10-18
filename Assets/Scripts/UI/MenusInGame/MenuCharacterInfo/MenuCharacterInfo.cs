@@ -193,7 +193,7 @@ public class MenuCharacterInfo : MonoBehaviour
     }
     public void OnHandleChangeSkill(InputAction.CallbackContext context)
     {
-        if (subMenusInfo[1].subMenuContainer.activeSelf)
+        if (subMenusInfo[1].subMenuContainer.activeSelf && isMenuActive)
         {
             skillsContainer.GetChild(skillBannerIndex).GetComponent<SkillBannerCharacterInfo>().OnDeselectBanner();
             int direction = context.ReadValue<float>() > 0 ? 1 : -1;

@@ -158,6 +158,15 @@ public class GameData : MonoBehaviour
         {
             Debug.LogError("No se encontro el archivo LOC_Skills");
         }
+        try
+        {
+            TextAsset locsChars = Resources.Load<TextAsset>("LOCS/LOC_Chars");
+            locs.Add(TypeLOCS.Chars, TransformCSV(locsChars));
+        }
+        catch
+        {
+            Debug.LogError("No se encontro el archivo LOC_Chars");
+        }
     }
     Dictionary<string, string[]> TransformCSV(TextAsset textAsset)
     {
@@ -486,7 +495,8 @@ public class GameData : MonoBehaviour
         System = 1,
         Dialogs = 2,
         Items = 3,
-        Skills = 4
+        Skills = 4,
+        Chars = 5
     }
     public enum TypeSaveData
     {

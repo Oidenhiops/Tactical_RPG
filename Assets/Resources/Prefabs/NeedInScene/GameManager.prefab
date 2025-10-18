@@ -848,8 +848,8 @@ MonoBehaviour:
   openCloseScene: {fileID: 5133976558147750733}
   isPause: 0
   isWebGlBuild: 0
-  lockDevice: 0
-  principalDevice: 1
+  lockDevice: 1
+  principalDevice: 3
   _currentDevice: 0
   _startGame: 0
   pauseButton:

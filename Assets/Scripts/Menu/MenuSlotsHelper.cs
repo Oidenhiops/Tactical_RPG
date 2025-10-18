@@ -12,7 +12,7 @@ public class MenuSlotsHelper : MonoBehaviour
     public GameObject playButton;
     public GameObject buttonsContainer;
     public SlotInfo[] slotInfos = new SlotInfo[3];
-    public GameObject createSlotMenu;
+    public MenuSelectCharacterToCreate menuCreateCharacter;
     void OnEnable()
     {
         backButton.started += UnloadSlotsMenu;
@@ -97,7 +97,7 @@ public class MenuSlotsHelper : MonoBehaviour
         }
         else
         {
-            createSlotMenu.gameObject.SetActive(true);
+            _ = menuCreateCharacter.EnableMenu();
         }
     }
     [Serializable] public class SlotInfo
