@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Item", menuName = "ScriptableObjects/Items/ItemSO", order = 1)]
 public class GeneralItemSO : ItemBaseSO
 {
-    public override void EquipItem(Character character, CharacterData.CharacterItem characterItem)
+    public override void EquipItem(CharacterBase character, CharacterData.CharacterItem characterItem)
     {
         foreach (KeyValuePair<CharacterData.TypeStatistic, CharacterData.Statistic> statistic in characterItem.itemStatistics)
         {
@@ -15,7 +15,7 @@ public class GeneralItemSO : ItemBaseSO
             }
         }
     }
-    public override void DesEquipItem(Character character, CharacterData.CharacterItem characterItem)
+    public override void DesEquipItem(CharacterBase character, CharacterData.CharacterItem characterItem)
     {
         foreach (KeyValuePair<CharacterData.TypeStatistic, CharacterData.Statistic> statistic in characterItem.itemStatistics)
         {

@@ -14,7 +14,7 @@ public class MenuSetCharacterNameToCreate : MonoBehaviour
     public SerializedDictionary<Button, TMP_Text> characterNameButtons = new SerializedDictionary<Button, TMP_Text>();
     public TMP_InputField nameLabel;
     public MenuSelectCharacterToCreate menuSelectCharacterToCreate;
-    public Character characterView;
+    public CharacterBase characterView;
     public InputAction backAction;
     public bool isMenuActive;
     public async Task EnableMenu()
@@ -25,6 +25,7 @@ public class MenuSetCharacterNameToCreate : MonoBehaviour
         backAction.performed += OnHandleBack;
         menuSelectCharacterToCreate.menuCharacterInfo.isMenuActive = false;
         menuSelectCharacterToCreate.isMenuActive = false;
+        menuSelectCharacterToCreate.container.SetActive(false);
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(characterNameButtons.ElementAt(0).Key.gameObject);
         isMenuActive = true;
@@ -45,6 +46,7 @@ public class MenuSetCharacterNameToCreate : MonoBehaviour
             await Awaitable.NextFrameAsync();
             menuSelectCharacterToCreate.menuCharacterInfo.isMenuActive = true;
             menuSelectCharacterToCreate.isMenuActive = true;
+            menuSelectCharacterToCreate.container.SetActive(true);
             gameObject.SetActive(false);
         }
     }
@@ -172,6 +174,7 @@ public class MenuSetCharacterNameToCreate : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(null);
             EventSystem.current.SetSelectedGameObject(menuSelectCharacterToCreate.lastButtonSelected);
             gameObject.SetActive(false);
+            menuSelectCharacterToCreate.container.SetActive(true);
             menuSelectCharacterToCreate.gameObject.SetActive(false);
             menuSelectCharacterToCreate.otherMenu.SetActive(true);
         }

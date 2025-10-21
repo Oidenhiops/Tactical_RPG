@@ -7,7 +7,7 @@ public class MenuHelper : MonoBehaviour
 {
     public Button lastButtonSelected;
     public InputAction handleBack;
-    public Character characterView;
+    public CharacterBase characterView;
     void Awake()
     {
         handleBack.Enable();

@@ -24,7 +24,7 @@ public class PlayerManager : MonoBehaviour
     public Vector3Int currentMousePos;
     public Transform cameraRot;
     public bool canShowGridAndDecal;
-    public Character[] characters;
+    public CharacterBase[] characters;
     public Animator roundStateAnimator;
     public ManagementLanguage roundStateLanguage;
     public Transform charactersContainer;
@@ -99,10 +99,10 @@ public class PlayerManager : MonoBehaviour
     }
     public async Task InitializeCharacterData()
     {
-        List<Character> charactersSpawned = new List<Character>();
+        List<CharacterBase> charactersSpawned = new List<CharacterBase>();
         foreach (KeyValuePair<string, CharacterData> characterInfo in GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].characters)
         {
-            Character character = Instantiate(generalCharacterPrefab, Vector3Int.down * 2, Quaternion.identity, charactersContainer).GetComponent<Character>();
+            CharacterBase character = Instantiate(generalCharacterPrefab, Vector3Int.down * 2, Quaternion.identity, charactersContainer).GetComponent<CharacterBase>();
             character.initialDataSO = GameData.Instance.charactersDataDBSO.data[characterInfo.Value.id][characterInfo.Value.subId].initialDataSO;
             character.isCharacterPlayer = true;
             character.characterData = characterInfo.Value;

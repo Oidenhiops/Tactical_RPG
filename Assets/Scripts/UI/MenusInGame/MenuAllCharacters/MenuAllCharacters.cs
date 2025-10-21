@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class MenuAllCharacters : MonoBehaviour
 {
     public PlayerManager playerManager;
-    public SerializedDictionary<Character, AllCharactersBanner> banners = new SerializedDictionary<Character, AllCharactersBanner>();
+    public SerializedDictionary<CharacterBase, AllCharactersBanner> banners = new SerializedDictionary<CharacterBase, AllCharactersBanner>();
     public RectTransform containerBanners;
     public GameObject menuAllCharacters;
     public ScrollRect ScrollRect;
@@ -19,7 +19,7 @@ public class MenuAllCharacters : MonoBehaviour
     public int index;
     public async Task SpawnBanners()
     {
-        Character[] characters = SortCharacters(FindObjectsByType<Character>(FindObjectsSortMode.None));
+        CharacterBase[] characters = SortCharacters(FindObjectsByType<CharacterBase>(FindObjectsSortMode.None));
 
         for (int i = 0; i < characters.Length; i++)
         {
@@ -35,7 +35,7 @@ public class MenuAllCharacters : MonoBehaviour
         }
         await Awaitable.NextFrameAsync();
     }
-    public Character[] SortCharacters(Character[] charactersToSort)
+    public CharacterBase[] SortCharacters(CharacterBase[] charactersToSort)
     {
         return charactersToSort
             .OrderBy(c =>
@@ -82,7 +82,7 @@ public class MenuAllCharacters : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        banners = new SerializedDictionary<Character, AllCharactersBanner>();
+        banners = new SerializedDictionary<CharacterBase, AllCharactersBanner>();
         playerManager.menuGeneralActions.BackToMenuWhitButton(playerManager.menuGeneralActions.charactersButton);
     }
 }

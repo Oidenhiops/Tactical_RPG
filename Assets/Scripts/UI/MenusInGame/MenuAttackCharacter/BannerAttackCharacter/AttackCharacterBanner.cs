@@ -7,7 +7,7 @@ public class AttackCharacterBanner : MonoBehaviour, ISelectHandler
 {
     public OnObjectSelect onObjectSelect;
     public MenuAttackCharacter menuAttackCharacter;
-    public Character character;
+    public CharacterBase character;
     public Image characterImage;
     public TMP_Text characterName;
     public Button button;
@@ -21,7 +21,7 @@ public class AttackCharacterBanner : MonoBehaviour, ISelectHandler
             }
         });
     }
-    public void SetBannerData(Character character)
+    public void SetBannerData(CharacterBase character)
     {
         characterImage.sprite = character.initialDataSO.icon;
         characterName.text = character.characterData.name;

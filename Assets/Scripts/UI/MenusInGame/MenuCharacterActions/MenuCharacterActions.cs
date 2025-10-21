@@ -88,7 +88,7 @@ public class MenuCharacterActions : MonoBehaviour
     }
     public void SendCharactersToLift(SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> data)
     {
-        List<Character> characters = new List<Character>();
+        List<CharacterBase> characters = new List<CharacterBase>();
         foreach (KeyValuePair<Vector3Int, GenerateMap.WalkablePositionInfo> position in data)
         {
             characters.Add(position.Value.hasCharacter);
@@ -98,7 +98,7 @@ public class MenuCharacterActions : MonoBehaviour
     }
     public void SendCharactersToAttack(SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> data)
     {
-        List<Character> characters = new List<Character>();
+        List<CharacterBase> characters = new List<CharacterBase>();
         foreach (KeyValuePair<Vector3Int, GenerateMap.WalkablePositionInfo> position in data)
         {
             characters.Add(position.Value.hasCharacter);
@@ -124,7 +124,7 @@ public class MenuCharacterActions : MonoBehaviour
         await Awaitable.NextFrameAsync();
         menuCharacterActions.SetActive(false);
         playerManager.menuAttackCharacter.positionsToAttack = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
-        playerManager.menuAttackCharacter.characters = new Character[0];
+        playerManager.menuAttackCharacter.characters = new CharacterBase[0];
         if (!conservSelectedCharacter) AStarPathFinding.Instance.characterSelected = null;
         if (!conservCharacterInfo)
         {

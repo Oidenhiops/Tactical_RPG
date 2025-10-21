@@ -39,7 +39,7 @@ public class MenuSkillsCharacter : MonoBehaviour
     }
     public async Task SpawnBanners()
     {
-        Character character = AStarPathFinding.Instance.characterSelected;
+        CharacterBase character = AStarPathFinding.Instance.characterSelected;
         if (character.characterData.skills.Count > 0)
         {
             skillDescription.transform.parent.gameObject.SetActive(true);

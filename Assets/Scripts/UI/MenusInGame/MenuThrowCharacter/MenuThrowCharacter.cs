@@ -48,11 +48,11 @@ public class MenuThrowCharacter : MonoBehaviour
             else
             {
                 isThrowingCharacter = false;
-                StartCoroutine(ThrowCharacterToPosition(AStarPathFinding.Instance.characterSelected.positionInGrid + Vector3.up, playerManager.currentMousePos, AStarPathFinding.Instance.characterSelected.transform.GetChild(1).GetComponent<Character>(), 1));
+                StartCoroutine(ThrowCharacterToPosition(AStarPathFinding.Instance.characterSelected.positionInGrid + Vector3.up, playerManager.currentMousePos, AStarPathFinding.Instance.characterSelected.transform.GetChild(1).GetComponent<CharacterBase>(), 1));
             }
         }
     }
-    IEnumerator ThrowCharacterToPosition(Vector3 from, Vector3 to, Character character, float duration)
+    IEnumerator ThrowCharacterToPosition(Vector3 from, Vector3 to, CharacterBase character, float duration)
     {        
         AStarPathFinding.Instance.DisableGrid();
         AStarPathFinding.Instance.characterSelected.characterAnimations.MakeAnimation("Throw");
@@ -96,7 +96,7 @@ public class MenuThrowCharacter : MonoBehaviour
         }
         else
         {
-            if (AStarPathFinding.Instance.characterSelected.transform.GetChild(1).TryGetComponent(out Character component))
+            if (AStarPathFinding.Instance.characterSelected.transform.GetChild(1).TryGetComponent(out CharacterBase component))
             {
                 component.startPositionInGrid = Vector3Int.RoundToInt(endPos);
                 component.positionInGrid = Vector3Int.RoundToInt(endPos);
@@ -126,7 +126,7 @@ public class MenuThrowCharacter : MonoBehaviour
         yield return null;
         _= DisableMenuAfterThrowCharacter();
     }
-    void CancelCharacterActions(Character character)
+    void CancelCharacterActions(CharacterBase character)
     {
         if (PlayerManager.Instance.actionsManager.characterActions.TryGetValue(character, out List<ActionsManager.ActionInfo> actions))
         {

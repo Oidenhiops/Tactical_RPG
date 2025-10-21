@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6365426573277852337}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LeftHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,11 +40,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1791299666810847271}
-  - component: {fileID: 1430011315207952022}
+  - component: {fileID: 1099579251572069924}
+  - component: {fileID: 7911896654055421151}
+  - component: {fileID: 9200859857825963379}
   - component: {fileID: 3788326535341420580}
   - component: {fileID: 3168936691978696117}
-  m_Layer: 0
-  m_Name: ViewCharacter
+  m_Layer: 7
+  m_Name: CharacterWorldEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -66,7 +68,55 @@ Transform:
   - {fileID: 825085045171416096}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1430011315207952022
+--- !u!65 &1099579251572069924
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2412411816279942414}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!54 &7911896654055421151
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2412411816279942414}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &9200859857825963379
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -75,12 +125,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2412411816279942414}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecb83d02944e5c345aaff6222058a901, type: 3}
+  m_Script: {fileID: 11500000, guid: ea29d0a43f1c143409e15f393251653a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterWorldEnemy
   isInitialize: 0
   isCharacterPlayer: 0
-  typeCharacter: 1
+  typeCharacter: 0
   initialDataSO: {fileID: 0}
   characterModel:
     characterMeshRenderer: {fileID: 372686384909317343}
@@ -95,88 +145,7 @@ MonoBehaviour:
     level: 0
     name: 
     statistics:
-      _serializedList:
-      - Key: 1
-        Value:
-          baseValue: 0
-          aptitudeValue: 0
-          itemValue: 0
-          buffValue:
-            _serializedList: []
-          currentValue: 0
-          maxValue: 0
-      - Key: 2
-        Value:
-          baseValue: 0
-          aptitudeValue: 0
-          itemValue: 0
-          buffValue:
-            _serializedList: []
-          currentValue: 0
-          maxValue: 0
-      - Key: 3
-        Value:
-          baseValue: 0
-          aptitudeValue: 0
-          itemValue: 0
-          buffValue:
-            _serializedList: []
-          currentValue: 0
-          maxValue: 0
-      - Key: 5
-        Value:
-          baseValue: 0
-          aptitudeValue: 0
-          itemValue: 0
-          buffValue:
-            _serializedList: []
-          currentValue: 0
-          maxValue: 0
-      - Key: 4
-        Value:
-          baseValue: 0
-          aptitudeValue: 0
-          itemValue: 0
-          buffValue:
-            _serializedList: []
-          currentValue: 0
-          maxValue: 0
-      - Key: 6
-        Value:
-          baseValue: 0
-          aptitudeValue: 0
-          itemValue: 0
-          buffValue:
-            _serializedList: []
-          currentValue: 0
-          maxValue: 0
-      - Key: 7
-        Value:
-          baseValue: 0
-          aptitudeValue: 0
-          itemValue: 0
-          buffValue:
-            _serializedList: []
-          currentValue: 0
-          maxValue: 0
-      - Key: 8
-        Value:
-          baseValue: 0
-          aptitudeValue: 0
-          itemValue: 0
-          buffValue:
-            _serializedList: []
-          currentValue: 0
-          maxValue: 0
-      - Key: 9
-        Value:
-          baseValue: 0
-          aptitudeValue: 0
-          itemValue: 0
-          buffValue:
-            _serializedList: []
-          currentValue: 0
-          maxValue: 0
+      _serializedList: []
     items:
       _serializedList:
       - Key:
@@ -255,6 +224,9 @@ MonoBehaviour:
           masteryLevel: 0
           currentExp: 0
           maxExp: 0
+    skills:
+      m_Keys: 
+      m_Values: []
   direction: {x: 0, y: 0, z: 0}
   nextDirection: {x: 0, y: 0, z: 0}
   characterAnimations: {fileID: 3788326535341420580}
@@ -266,8 +238,12 @@ MonoBehaviour:
     type: 3}
   dieEffectPrefab: {fileID: 3328385887415025661, guid: f5ddebed183a2d947bd7dfdbb72a5cc5,
     type: 3}
-  setDataWhitInitialValues: 1
+  setDataWhitInitialValues: 0
   autoInit: 0
+  detectorOffset: {x: 0, y: 0.5, z: 0}
+  detectorSize: {x: 11, y: 1, z: 11}
+  target: {fileID: 0}
+  _targetPos: {x: 0, y: 0, z: 0}
 --- !u!114 &3788326535341420580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,7 +256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e269d0769587626448f34292aab172fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 1430011315207952022}
+  character: {fileID: 9200859857825963379}
   currentAnimation:
     name: 
     linkAnimation: 
@@ -308,7 +284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1de40ac32139d3b4b9be53224ae86536, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 1430011315207952022}
+  character: {fileID: 9200859857825963379}
   statusEffects:
     _serializedList: []
 --- !u!1 &2968497886100457924
@@ -320,7 +296,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7922811631303624518}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RightHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -351,7 +327,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 825085045171416096}
-  m_Layer: 0
+  - component: {fileID: 8158240177017111518}
+  m_Layer: 7
   m_Name: CharacterModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -374,6 +351,19 @@ Transform:
   - {fileID: 7873512387308882313}
   m_Father: {fileID: 1791299666810847271}
   m_LocalEulerAnglesHint: {x: 45, y: 45, z: 0}
+--- !u!114 &8158240177017111518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5252179369395549219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a62d7b397d4428042ad074edfbcdca18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offsetRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &7988671965371829188
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,7 +373,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7873512387308882313}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CharacterModelScale
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -474,6 +464,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4385848d124d476478957ebbe044aec6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -562,6 +557,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CharacterHand
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4385848d124d476478957ebbe044aec6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4385848d124d476478957ebbe044aec6,
         type: 3}

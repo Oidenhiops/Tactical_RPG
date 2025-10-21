@@ -7,7 +7,7 @@ public class LiftCharactersBanner : MonoBehaviour, ISelectHandler
 {
     public OnObjectSelect onObjectSelect;
     public MenuLiftCharacter menuLiftCharacter;
-    public Character character;
+    public CharacterBase character;
     public Image characterImage;
     public TMP_Text characterName;
     public Button button;
@@ -21,7 +21,7 @@ public class LiftCharactersBanner : MonoBehaviour, ISelectHandler
             }
         });
     }
-    public void SetBannerData(Character character)
+    public void SetBannerData(CharacterBase character)
     {
         characterImage.sprite = character.initialDataSO.icon;
         characterName.text = character.characterData.name;

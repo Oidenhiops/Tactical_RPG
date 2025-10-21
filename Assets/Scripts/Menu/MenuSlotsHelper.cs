@@ -47,6 +47,7 @@ public class MenuSlotsHelper : MonoBehaviour
                 slotInfos[i].data.SetActive(false);
             }
         }
+        buttonsContainer.SetActive(false);
     }
     string GetPlayTime(string createdDate, string lastSaveDate)
     {
@@ -99,6 +100,13 @@ public class MenuSlotsHelper : MonoBehaviour
         {
             _ = menuCreateCharacter.EnableMenu();
         }
+    }
+    public void DeleteSlot(int index)
+    {
+        GameData.Instance.gameDataInfo.gameDataSlots[index] = new GameData.GameDataSlot();
+        GameData.Instance.SaveGameData();
+        slotInfos[index].noData.SetActive(true);
+        slotInfos[index].data.SetActive(false);
     }
     [Serializable] public class SlotInfo
     {

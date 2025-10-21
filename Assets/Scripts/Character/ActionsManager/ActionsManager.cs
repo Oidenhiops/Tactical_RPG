@@ -10,8 +10,8 @@ public class ActionsManager : MonoBehaviour
 {
     public PlayerManager playerManager;
     public InputAction endTurnTest;
-    public SerializedDictionary<Character, List<ActionInfo>> characterActions = new SerializedDictionary<Character, List<ActionInfo>>();
-    public SerializedDictionary<Character, ActionInfo> characterFinalActions = new SerializedDictionary<Character, ActionInfo>();
+    public SerializedDictionary<CharacterBase, List<ActionInfo>> characterActions = new SerializedDictionary<CharacterBase, List<ActionInfo>>();
+    public SerializedDictionary<CharacterBase, ActionInfo> characterFinalActions = new SerializedDictionary<CharacterBase, ActionInfo>();
     public GameObject[] mobileInputs;
     public Action OnEndTurn;
     public bool _isPlayerTurn;
@@ -191,13 +191,13 @@ public class ActionsManager : MonoBehaviour
             }
         }
     }
-    public ActionInfo GetLastActionByCharacter(Character character)
+    public ActionInfo GetLastActionByCharacter(CharacterBase character)
     {
         return characterActions[character][characterActions[character].Count - 1];
     }
     public async Task MakeActions()
     {
-        foreach (KeyValuePair<Character, ActionInfo> actions in characterFinalActions)
+        foreach (KeyValuePair<CharacterBase, ActionInfo> actions in characterFinalActions)
         {
             if (actions.Value.characterMakeAction.characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue > 0)
             {
@@ -290,7 +290,7 @@ public class ActionsManager : MonoBehaviour
                 }
             }
         }
-        characterFinalActions = new SerializedDictionary<Character, ActionInfo>();
+        characterFinalActions = new SerializedDictionary<CharacterBase, ActionInfo>();
         await Awaitable.NextFrameAsync();
     }
     private async Task DiscountStatusEffects()
@@ -303,12 +303,12 @@ public class ActionsManager : MonoBehaviour
         isChangingTurn = true;
         AStarPathFinding.Instance.characterSelected = null;
         await MakeActions();
-        characterActions = new SerializedDictionary<Character, List<ActionInfo>>();
-        characterFinalActions = new SerializedDictionary<Character, ActionInfo>();
+        characterActions = new SerializedDictionary<CharacterBase, List<ActionInfo>>();
+        characterFinalActions = new SerializedDictionary<CharacterBase, ActionInfo>();
         await ChangeRoundState();
         await DiscountStatusEffects();
     }
-    public async Task DefendAction(Character character)
+    public async Task DefendAction(CharacterBase character)
     {
         StatusEffectDefendSO statusEffectDefendSO = Resources.Load<StatusEffectDefendSO>("Prefabs/ScriptableObjects/StatusEffects/StatusEffectDefend");
         if (character.characterStatusEffect.statusEffects.ContainsKey(statusEffectDefendSO))
@@ -337,7 +337,7 @@ public class ActionsManager : MonoBehaviour
     public void ActionForExecuteExist(out bool actionExist)
     {
         actionExist = false;
-        foreach (KeyValuePair<Character, List<ActionInfo>> action in characterActions)
+        foreach (KeyValuePair<CharacterBase, List<ActionInfo>> action in characterActions)
         {
             if (action.Value[action.Value.Count - 1].typeAction == TypeAction.Attack) actionExist = true;
             if (action.Value[action.Value.Count - 1].typeAction == TypeAction.Skill) actionExist = true;
@@ -362,7 +362,7 @@ public class ActionsManager : MonoBehaviour
     public class ActionInfo
     {
         public bool cantUndo;
-        public Character characterMakeAction;
+        public CharacterBase characterMakeAction;
         public List<OtherCharacterInfo> characterToMakeAction;
         public List<Vector3Int> positionsToMakeSkill;
         public CharacterData.CharacterSkillInfo skillInfo;
@@ -370,7 +370,7 @@ public class ActionsManager : MonoBehaviour
         public Vector3Int positionInGrid;
         public ActionInfo
         (
-            bool cantUndo = false, Character characterMakeAction = null, List<OtherCharacterInfo> characterToMakeAction = null, List<Vector3Int> positionsToMakeSkill = null,
+            bool cantUndo = false, CharacterBase characterMakeAction = null, List<OtherCharacterInfo> characterToMakeAction = null, List<Vector3Int> positionsToMakeSkill = null,
             CharacterData.CharacterSkillInfo skillInfo = null, TypeAction typeAction = TypeAction.None, Vector3Int positionInGrid = default)
         {
             this.cantUndo = cantUndo;
@@ -385,9 +385,9 @@ public class ActionsManager : MonoBehaviour
     [Serializable]
     public class OtherCharacterInfo
     {
-        public Character character;
+        public CharacterBase character;
         public Vector3Int positionInGrid;
-        public OtherCharacterInfo(Character character, Vector3Int positionInGrid)
+        public OtherCharacterInfo(CharacterBase character, Vector3Int positionInGrid)
         {
             this.character = character;
             this.positionInGrid = positionInGrid;

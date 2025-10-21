@@ -10,6 +10,7 @@ public class GenerateMap : MonoBehaviour
     public bool showGizmos;
     public bool showHandles;
     public bool autoInit;
+    public bool isWorldMap;
     void Awake()
     {
         if (Instance == null)
@@ -32,7 +33,7 @@ public class GenerateMap : MonoBehaviour
                     AStarPathFinding.Instance.grid.Add(Vector3Int.RoundToInt(block.transform.position), new WalkablePositionInfo
                     {
                         pos = Vector3Int.RoundToInt(block.transform.position),
-                        isWalkable = false,
+                        isWalkable = true,
                         hasCharacter = null,
                         blockInfo = block
                     });
@@ -45,6 +46,7 @@ public class GenerateMap : MonoBehaviour
             }
             yield return null;
             DrawBlocks();
+            if (isWorldMap) AStarPathFinding.Instance.currentGrid = AStarPathFinding.Instance.grid;
         }
     }
     public void DrawBlocks()
@@ -89,7 +91,7 @@ public class GenerateMap : MonoBehaviour
     {
         public Vector3Int pos;
         public bool isWalkable;
-        public Character hasCharacter;
+        public CharacterBase hasCharacter;
         public Block blockInfo;
     }
 }

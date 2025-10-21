@@ -235,7 +235,7 @@ public class GameManager : MonoBehaviour
         Reload = 4,
         Exit = 5,
         GameOverScene = 6,
-        Test = 7
+        BattleScene = 7
     }
     public enum TypeDevice
     {

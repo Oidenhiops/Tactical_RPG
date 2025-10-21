@@ -47,7 +47,7 @@ public class MenuCharacterInfo : MonoBehaviour
         changeSubMenuInput.started -= OnHandleChangeSubMenu;
         changeSkillInput.started -= OnHandleChangeSkill;
     }
-    public async Task ReloadInfo(Character character, bool disableItemsContainer = false)
+    public async Task ReloadInfo(CharacterBase character, bool disableItemsContainer = false)
     {
         characterSprite.sprite = character.initialDataSO.icon;
         characterName.text = character.characterData.name;

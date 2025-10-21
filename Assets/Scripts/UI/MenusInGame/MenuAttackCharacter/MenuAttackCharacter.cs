@@ -11,12 +11,12 @@ using UnityEngine.UI;
 public class MenuAttackCharacter : MonoBehaviour
 {
     public PlayerManager playerManager;
-    public SerializedDictionary<Character, AttackCharacterBanner> banners = new SerializedDictionary<Character, AttackCharacterBanner>();
+    public SerializedDictionary<CharacterBase, AttackCharacterBanner> banners = new SerializedDictionary<CharacterBase, AttackCharacterBanner>();
     public RectTransform containerBanners;
     public GameObject menuAttackCharacter;
     public ScrollRect ScrollRect;
     public RectTransform viewport;
-    public Character[] characters;
+    public CharacterBase[] characters;
     public SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positionsToAttack;
     public Color gridColor;
     public bool isMenuActive;
@@ -38,7 +38,7 @@ public class MenuAttackCharacter : MonoBehaviour
         }
         await Awaitable.NextFrameAsync();
     }
-    public Character[] SortCharacters(Character[] charactersToSort)
+    public CharacterBase[] SortCharacters(CharacterBase[] charactersToSort)
     {
         return charactersToSort
             .OrderBy(c =>
@@ -58,7 +58,7 @@ public class MenuAttackCharacter : MonoBehaviour
             {
                 Destroy(child.gameObject);
             }
-            banners = new SerializedDictionary<Character, AttackCharacterBanner>();
+            banners = new SerializedDictionary<CharacterBase, AttackCharacterBanner>();
             if (playerManager.actionsManager.characterActions.TryGetValue(AStarPathFinding.Instance.characterSelected, out List<ActionsManager.ActionInfo> actions))
             {
                 actions.Add(new ActionsManager.ActionInfo
@@ -142,7 +142,7 @@ public class MenuAttackCharacter : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        banners = new SerializedDictionary<Character, AttackCharacterBanner>();
+        banners = new SerializedDictionary<CharacterBase, AttackCharacterBanner>();
         playerManager.menuCharacterActions.BackToMenuWhitButton(MenuCharacterActions.TypeButton.Attack);
         playerManager.MovePointerToInstant(AStarPathFinding.Instance.characterSelected.positionInGrid);
     }
@@ -153,7 +153,7 @@ public class MenuAttackCharacter : MonoBehaviour
         menuAttackCharacter.SetActive(false);
         playerManager.menuCharacterInfo.DisableMenu(true);
         isMenuActive = false;
-        banners = new SerializedDictionary<Character, AttackCharacterBanner>();
+        banners = new SerializedDictionary<CharacterBase, AttackCharacterBanner>();
         playerManager.MovePointerToInstant(AStarPathFinding.Instance.characterSelected.positionInGrid);
         AStarPathFinding.Instance.characterSelected = null;
         playerManager.actionsManager.EnableMobileInputs();

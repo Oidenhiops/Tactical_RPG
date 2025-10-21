@@ -21,7 +21,7 @@ public class CharacterSelectorBanner : MonoBehaviour, ISelectHandler
             }
         });
     }
-    public void SetBannerData(Character character)
+    public void SetBannerData(CharacterBase character)
     {
         characterImage.sprite = character.initialDataSO.icon;
         characterName.text = character.characterData.name;

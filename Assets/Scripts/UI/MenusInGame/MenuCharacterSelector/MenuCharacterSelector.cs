@@ -12,7 +12,7 @@ using UnityEngine.UI;
 public class MenuCharacterSelector : MonoBehaviour
 {
     public PlayerManager playerManager;
-    public SerializedDictionary<Character, CharacterSelectorBanner> banners = new SerializedDictionary<Character, CharacterSelectorBanner>();
+    public SerializedDictionary<CharacterBase, CharacterSelectorBanner> banners = new SerializedDictionary<CharacterBase, CharacterSelectorBanner>();
     public RectTransform containerBanners;
     public ScrollRect ScrollRect;
     public RectTransform viewport;
@@ -66,7 +66,7 @@ public class MenuCharacterSelector : MonoBehaviour
         {
             banner.SetActive(false);
             amountCharacters--;
-            Character character = banners.FirstOrDefault(x => x.Value.gameObject == banner.gameObject).Key;
+            CharacterBase character = banners.FirstOrDefault(x => x.Value.gameObject == banner.gameObject).Key;
             character.gameObject.SetActive(true);
             character.transform.position = Vector3.zero;
             AStarPathFinding.Instance.characterSelected = character;
@@ -103,11 +103,11 @@ public class MenuCharacterSelector : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        banners = new SerializedDictionary<Character, CharacterSelectorBanner>();
+        banners = new SerializedDictionary<CharacterBase, CharacterSelectorBanner>();
     }
     void ValidateBlockBanner(int amountCharacters)
     {
-        foreach (KeyValuePair<Character, CharacterSelectorBanner> banner in banners)
+        foreach (KeyValuePair<CharacterBase, CharacterSelectorBanner> banner in banners)
         {
             banner.Value.blocker.SetActive(amountCharacters <= 0);
         }

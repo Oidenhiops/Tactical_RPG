@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "StatusEffect", menuName = "ScriptableObjects/StatusEffect/StatusEffectLiftSO", order = 1)]
 public class StatusEffectLiftSO : StatusEffectBaseSO
 {
-    public override void ApplyEffect(Character character)
+    public override void ApplyEffect(CharacterBase character)
     {
         if (GetParentCount(character.gameObject.transform) <= 1)
         {
@@ -29,7 +29,7 @@ public class StatusEffectLiftSO : StatusEffectBaseSO
 
         return count;
     }
-    public override void ReApplyEffect(Character character)
+    public override void ReApplyEffect(CharacterBase character)
     {
         ApplyEffect(character);
     }

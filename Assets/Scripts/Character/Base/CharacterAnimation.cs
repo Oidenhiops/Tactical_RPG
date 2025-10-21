@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CharacterAnimation : MonoBehaviour
 {
-    public Character character;
+    public CharacterBase character;
     public InitialDataSO.AnimationsInfo currentAnimation = new InitialDataSO.AnimationsInfo();
     public int currentSpriteIndex;
     public float currentSpritePerTime = 0.1f;

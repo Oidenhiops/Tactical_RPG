@@ -3,21 +3,21 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "StatusEffect", menuName = "ScriptableObjects/StatusEffect/StatusEffectDefendSO", order = 1)]
 public class StatusEffectDefendSO : StatusEffectBaseSO
 {
-    public override void ApplyEffect(Character character)
+    public override void ApplyEffect(CharacterBase character)
     {
         character.characterStatusEffect.statusEffects[this] = maxStats;
         character.characterData.statistics[CharacterData.TypeStatistic.Def].buffValue.Add(this, statusEffectStatistics[CharacterData.TypeStatistic.Def].baseValue);
         character.characterData.statistics[CharacterData.TypeStatistic.Def].RefreshValue();
         character.characterData.statistics[CharacterData.TypeStatistic.Def].SetMaxValue();
     }
-    public override void ReloadEffect(Character character)
+    public override void ReloadEffect(CharacterBase character)
     {
         character.characterStatusEffect.statusEffects[this] = maxStats;
         character.characterData.statistics[CharacterData.TypeStatistic.Def].buffValue[this] = statusEffectStatistics[CharacterData.TypeStatistic.Def].baseValue;
         character.characterData.statistics[CharacterData.TypeStatistic.Def].RefreshValue();
         character.characterData.statistics[CharacterData.TypeStatistic.Def].SetMaxValue();
     }
-    public override void DiscountEffect(Character character)
+    public override void DiscountEffect(CharacterBase character)
     {
         if (character.characterStatusEffect.statusEffects[this] - 1 == 0)
         {

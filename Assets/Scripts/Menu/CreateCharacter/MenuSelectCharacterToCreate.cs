@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AYellowpaper.SerializedCollections;
-using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -15,6 +13,7 @@ public class MenuSelectCharacterToCreate : MonoBehaviour
     public GameObject otherMenu;
     public GameObject lastButtonSelected;
     public Vector2Int index;
+    public GameObject container;
     public SerializedDictionary<int, List<GameObject>> characters = new SerializedDictionary<int, List<GameObject>>();
     public GameObject characterPreviewPrefab;
     public Transform charactersContainer;
@@ -38,7 +37,7 @@ public class MenuSelectCharacterToCreate : MonoBehaviour
                         xPosLock = true;
                         xPos++;
                     }
-                    Character character = Instantiate(characterPreviewPrefab, charactersContainer).GetComponent<Character>();
+                    CharacterBase character = Instantiate(characterPreviewPrefab, charactersContainer).GetComponent<CharacterBase>();
                     character.initialDataSO = GameData.Instance.charactersDataDBSO.data[x][y].initialDataSO;
                     _ = character.InitializeCharacter();
                     character.transform.localPosition = new Vector3(y, 0, xPos);
@@ -74,7 +73,7 @@ public class MenuSelectCharacterToCreate : MonoBehaviour
         await SpawnCharacters();
         await Awaitable.NextFrameAsync();
         otherMenu.SetActive(false);
-        _= menuCharacterInfo.ReloadInfo(characters[index.x][index.y].GetComponent<Character>());
+        _= menuCharacterInfo.ReloadInfo(characters[index.x][index.y].GetComponent<CharacterBase>());
         gameObject.SetActive(true);
         isMenuActive = true;
     }
@@ -85,8 +84,8 @@ public class MenuSelectCharacterToCreate : MonoBehaviour
         {
             for (int y = 0; y < characters[x].Count; y++)
             {
-                Character character = Instantiate(characterPreviewPrefab, charactersContainer).GetComponent<Character>();
-                character.initialDataSO = characters[x][y].GetComponent<Character>().initialDataSO;
+                CharacterBase character = Instantiate(characterPreviewPrefab, charactersContainer).GetComponent<CharacterBase>();
+                character.initialDataSO = characters[x][y].GetComponent<CharacterBase>().initialDataSO;
                 _ = character.InitializeCharacter();
                 character.transform.localPosition = new Vector3(y, 0, finalPosLeft + x);
             }
@@ -96,8 +95,8 @@ public class MenuSelectCharacterToCreate : MonoBehaviour
         {
             for (int y = 0; y < characters[x].Count; y++)
             {
-                Character character = Instantiate(characterPreviewPrefab, charactersContainer).GetComponent<Character>();
-                character.initialDataSO = characters[x][y].GetComponent<Character>().initialDataSO;
+                CharacterBase character = Instantiate(characterPreviewPrefab, charactersContainer).GetComponent<CharacterBase>();
+                character.initialDataSO = characters[x][y].GetComponent<CharacterBase>().initialDataSO;
                 _ = character.InitializeCharacter();
                 character.transform.localPosition = new Vector3(y, 0, finalPosRight);
             }
@@ -108,7 +107,7 @@ public class MenuSelectCharacterToCreate : MonoBehaviour
     {
         if (isMenuActive)
         {
-            characterSelected = characters[index.x][index.y].GetComponent<Character>().initialDataSO;
+            characterSelected = characters[index.x][index.y].GetComponent<CharacterBase>().initialDataSO;
             _ = menuCharacterSetName.EnableMenu();
         }
     }
@@ -135,7 +134,7 @@ public class MenuSelectCharacterToCreate : MonoBehaviour
             index.y = characters[index.x].Count - 1;
         }
         gridCellMouse.transform.localPosition = new Vector3(index.y, 0, index.x);
-        _= menuCharacterInfo.ReloadInfo(characters[index.x][index.y].GetComponent<Character>());
+        _= menuCharacterInfo.ReloadInfo(characters[index.x][index.y].GetComponent<CharacterBase>());
     }
     void UnloadMenuCreateCharacter(InputAction.CallbackContext context)
     {

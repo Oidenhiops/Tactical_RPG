@@ -11,12 +11,12 @@ using UnityEngine.UI;
 public class MenuLiftCharacter : MonoBehaviour
 {
     public PlayerManager playerManager;
-    public SerializedDictionary<Character, LiftCharactersBanner> banners = new SerializedDictionary<Character, LiftCharactersBanner>();
+    public SerializedDictionary<CharacterBase, LiftCharactersBanner> banners = new SerializedDictionary<CharacterBase, LiftCharactersBanner>();
     public RectTransform containerBanners;
     public GameObject menuLiftCharacter;
     public ScrollRect ScrollRect;
     public RectTransform viewport;
-    public Character[] characters;
+    public CharacterBase[] characters;
     public SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positionsToLift;
     public Color gridColor;
     public bool isMenuActive;
@@ -39,7 +39,7 @@ public class MenuLiftCharacter : MonoBehaviour
         }
         await Awaitable.NextFrameAsync();
     }
-    public Character[] SortCharacters(Character[] charactersToSort)
+    public CharacterBase[] SortCharacters(CharacterBase[] charactersToSort)
     {
         return charactersToSort
             .OrderBy(c =>
@@ -59,7 +59,7 @@ public class MenuLiftCharacter : MonoBehaviour
             {
                 Destroy(child.gameObject);
             }
-            banners = new SerializedDictionary<Character, LiftCharactersBanner>();
+            banners = new SerializedDictionary<CharacterBase, LiftCharactersBanner>();
             if (playerManager.actionsManager.characterActions.TryGetValue(AStarPathFinding.Instance.characterSelected, out List<ActionsManager.ActionInfo> actions))
             {
                 actions.Add(new ActionsManager.ActionInfo
@@ -155,7 +155,7 @@ public class MenuLiftCharacter : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        banners = new SerializedDictionary<Character, LiftCharactersBanner>();
+        banners = new SerializedDictionary<CharacterBase, LiftCharactersBanner>();
         playerManager.menuCharacterActions.BackToMenuWhitButton(MenuCharacterActions.TypeButton.Lift);
         playerManager.MovePointerToInstant(AStarPathFinding.Instance.characterSelected.positionInGrid);
     }
@@ -171,7 +171,7 @@ public class MenuLiftCharacter : MonoBehaviour
             Destroy(child.gameObject);
         }
         playerManager.actionsManager.EnableMobileInputs();
-        banners = new SerializedDictionary<Character, LiftCharactersBanner>();
+        banners = new SerializedDictionary<CharacterBase, LiftCharactersBanner>();
         playerManager.MovePointerToInstant(AStarPathFinding.Instance.characterSelected.positionInGrid);
         AStarPathFinding.Instance.characterSelected = null;
     }

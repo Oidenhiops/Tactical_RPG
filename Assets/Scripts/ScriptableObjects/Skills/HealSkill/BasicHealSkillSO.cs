@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "BasicHealSO", menuName = "ScriptableObjects/Skills/BasicHealSO", order = 1)]
 public class BasicHealSkillSO : SkillsBaseSO
 {
-    public override void UseSkill(Character characterMakeSkill, Character characterToMakeSkill)
+    public override void UseSkill(CharacterBase characterMakeSkill, CharacterBase characterToMakeSkill)
     {
         int amountHeal = Math.Clamp(Mathf.RoundToInt(characterToMakeSkill.characterData.statistics[CharacterData.TypeStatistic.Hp].maxValue * (characterMakeSkill.characterData.skills[weaponForUseSkill][typeSkill][skillId].statistics[CharacterData.TypeStatistic.Sp].baseValue / 100)), 1, 10000);
         characterToMakeSkill.characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue += amountHeal;
@@ -12,12 +12,12 @@ public class BasicHealSkillSO : SkillsBaseSO
         FloatingText floatingText = Instantiate(floatingTextPrefab, characterToMakeSkill.transform.position, Quaternion.identity).GetComponent<FloatingText>();
         _ = floatingText.SendText(amountHeal.ToString(), Color.green, false);
     }
-    public override void DiscountMpAfterUseSkill(Character characterMakeSkill)
+    public override void DiscountMpAfterUseSkill(CharacterBase characterMakeSkill)
     {
         characterMakeSkill.characterData.statistics[CharacterData.TypeStatistic.Sp].currentValue -= characterMakeSkill.characterData.skills[weaponForUseSkill][typeSkill][skillId].statistics[CharacterData.TypeStatistic.Sp].baseValue;
         characterMakeSkill.characterData.statistics[CharacterData.TypeStatistic.Sp].RefreshValue();
     }
-    public override void LevelUpSkill(Character character)
+    public override void LevelUpSkill(CharacterBase character)
     {
         character.characterData.skills[weaponForUseSkill][typeSkill][skillId].level++;
 

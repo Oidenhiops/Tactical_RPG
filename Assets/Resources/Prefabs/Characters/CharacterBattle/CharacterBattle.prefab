@@ -40,11 +40,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1791299666810847271}
-  - component: {fileID: 1430011315207952022}
+  - component: {fileID: 4956635268105822218}
   - component: {fileID: 3788326535341420580}
   - component: {fileID: 3168936691978696117}
   m_Layer: 0
-  m_Name: GeneralCharacter
+  m_Name: CharacterBattle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -66,7 +66,7 @@ Transform:
   - {fileID: 825085045171416096}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1430011315207952022
+--- !u!114 &4956635268105822218
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -75,12 +75,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2412411816279942414}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecb83d02944e5c345aaff6222058a901, type: 3}
+  m_Script: {fileID: 11500000, guid: ad876d25d22f69746a7d8f354b98610a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterBattle
   isInitialize: 0
   isCharacterPlayer: 0
-  typeCharacter: 1
+  typeCharacter: 0
   initialDataSO: {fileID: 0}
   characterModel:
     characterMeshRenderer: {fileID: 372686384909317343}
@@ -95,88 +95,7 @@ MonoBehaviour:
     level: 0
     name: 
     statistics:
-      _serializedList:
-      - Key: 1
-        Value:
-          baseValue: 0
-          aptitudeValue: 0
-          itemValue: 0
-          buffValue:
-            _serializedList: []
-          currentValue: 0
-          maxValue: 0
-      - Key: 2
-        Value:
-          baseValue: 0
-          aptitudeValue: 0
-          itemValue: 0
-          buffValue:
-            _serializedList: []
-          currentValue: 0
-          maxValue: 0
-      - Key: 3
-        Value:
-          baseValue: 0
-          aptitudeValue: 0
-          itemValue: 0
-          buffValue:
-            _serializedList: []
-          currentValue: 0
-          maxValue: 0
-      - Key: 5
-        Value:
-          baseValue: 0
-          aptitudeValue: 0
-          itemValue: 0
-          buffValue:
-            _serializedList: []
-          currentValue: 0
-          maxValue: 0
-      - Key: 4
-        Value:
-          baseValue: 0
-          aptitudeValue: 0
-          itemValue: 0
-          buffValue:
-            _serializedList: []
-          currentValue: 0
-          maxValue: 0
-      - Key: 6
-        Value:
-          baseValue: 0
-          aptitudeValue: 0
-          itemValue: 0
-          buffValue:
-            _serializedList: []
-          currentValue: 0
-          maxValue: 0
-      - Key: 7
-        Value:
-          baseValue: 0
-          aptitudeValue: 0
-          itemValue: 0
-          buffValue:
-            _serializedList: []
-          currentValue: 0
-          maxValue: 0
-      - Key: 8
-        Value:
-          baseValue: 0
-          aptitudeValue: 0
-          itemValue: 0
-          buffValue:
-            _serializedList: []
-          currentValue: 0
-          maxValue: 0
-      - Key: 9
-        Value:
-          baseValue: 0
-          aptitudeValue: 0
-          itemValue: 0
-          buffValue:
-            _serializedList: []
-          currentValue: 0
-          maxValue: 0
+      _serializedList: []
     items:
       _serializedList:
       - Key:
@@ -255,6 +174,9 @@ MonoBehaviour:
           masteryLevel: 0
           currentExp: 0
           maxExp: 0
+    skills:
+      m_Keys: 
+      m_Values: []
   direction: {x: 0, y: 0, z: 0}
   nextDirection: {x: 0, y: 0, z: 0}
   characterAnimations: {fileID: 3788326535341420580}
@@ -266,6 +188,7 @@ MonoBehaviour:
     type: 3}
   dieEffectPrefab: {fileID: 3328385887415025661, guid: f5ddebed183a2d947bd7dfdbb72a5cc5,
     type: 3}
+  setDataWhitInitialValues: 0
   autoInit: 0
 --- !u!114 &3788326535341420580
 MonoBehaviour:
@@ -279,7 +202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e269d0769587626448f34292aab172fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 1430011315207952022}
+  character: {fileID: 4956635268105822218}
   currentAnimation:
     name: 
     linkAnimation: 
@@ -307,7 +230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1de40ac32139d3b4b9be53224ae86536, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 1430011315207952022}
+  character: {fileID: 4956635268105822218}
   statusEffects:
     _serializedList: []
 --- !u!1 &2968497886100457924

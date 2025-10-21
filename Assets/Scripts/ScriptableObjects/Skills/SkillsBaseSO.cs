@@ -22,10 +22,10 @@ public class SkillsBaseSO : ScriptableObject
     public int positionsSkillFormGridSize = 5;
     public bool isFreeMovementSkill;
     public bool needCharacterToMakeSkill;
-    public virtual void UseSkill(Character characterMakeSkill, Character characterToMakeSkill) { Debug.LogError("UseSkill non implemented"); }
-    public virtual void DiscountMpAfterUseSkill(Character characterMakeSkill) { Debug.LogError("DiscountMpAfterUseSkill non implemented"); }
-    public virtual void LevelUpSkill(Character character) { Debug.LogError("LevelUpSkill non implemented"); }
-    public void AddSkill(Character character)
+    public virtual void UseSkill(CharacterBase characterMakeSkill, CharacterBase characterToMakeSkill) { Debug.LogError("UseSkill non implemented"); }
+    public virtual void DiscountMpAfterUseSkill(CharacterBase characterMakeSkill) { Debug.LogError("DiscountMpAfterUseSkill non implemented"); }
+    public virtual void LevelUpSkill(CharacterBase character) { Debug.LogError("LevelUpSkill non implemented"); }
+    public void AddSkill(CharacterBase character)
     {
         if (character.characterData.skills.ContainsKey(weaponForUseSkill))
         {
@@ -46,7 +46,7 @@ public class SkillsBaseSO : ScriptableObject
             });
         }
     }
-    public bool ValidateCanUseSkill(Character character)
+    public bool ValidateCanUseSkill(CharacterBase character)
     {
         return character.characterData.statistics[CharacterData.TypeStatistic.Sp].currentValue - character.characterData.skills[weaponForUseSkill][typeSkill][skillId].statistics[CharacterData.TypeStatistic.Sp].baseValue > 0;
     }

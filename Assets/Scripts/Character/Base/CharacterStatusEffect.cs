@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CharacterStatusEffect : MonoBehaviour
 {
-    public Character character;
+    public CharacterBase character;
     public SerializedDictionary<StatusEffectBaseSO, int> statusEffects = new SerializedDictionary<StatusEffectBaseSO, int>();
     public void Start()
     {

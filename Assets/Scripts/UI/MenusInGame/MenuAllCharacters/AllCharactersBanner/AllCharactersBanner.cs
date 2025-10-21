@@ -7,10 +7,10 @@ public class AllCharactersBanner : MonoBehaviour, ISelectHandler
 {
     public OnObjectSelect onObjectSelect;
     public MenuAllCharacters menuAllCharacters;
-    public Character character;
+    public CharacterBase character;
     public Image characterImage;
     public TMP_Text characterName;
-    public void SetBannerData(Character character)
+    public void SetBannerData(CharacterBase character)
     {
         characterImage.sprite = character.initialDataSO.icon;
         characterName.text = character.characterData.name;

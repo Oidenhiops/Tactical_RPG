@@ -15,13 +15,26 @@ public class AStarPathFinding : MonoBehaviour
     [SerializeField] Transform gridContainer;
     [SerializeField] private int poolSize = 50;
     private Queue<GameObject> pool = new Queue<GameObject>();
-    public Character characterSelected;
+    public CharacterBase characterSelected;
     public Vector2Int limitX = new Vector2Int(-10, 10), limitZ = new Vector2Int(-10, 10);
     public Material gridMaterial;
     public Material subGridMaterial;
     public bool onlyForMap;
     Coroutine _ToggleGrid;
     Coroutine _ToggleSubGrid;
+    public bool useEightDirections;
+    private (int x, int z)[] fourDirections = new (int x, int z)[]
+    {
+        ( 1, 0), (-1, 0),
+        ( 0, 1), ( 0, -1)
+    };
+    private (int x, int z)[] eightDirections = new (int x, int z)[]
+    {
+        ( 1, 0), (-1, 0),
+        ( 0, 1), ( 0, -1),
+        ( 1, 1), (-1, -1),
+        ( 1, -1), (-1, 1)
+    };
     void Awake()
     {
         if (Instance == null)
@@ -581,11 +594,7 @@ public class AStarPathFinding : MonoBehaviour
     List<Node> GetNeighbors(Node node)
     {
         var neighbors = new List<Node>();
-        var directions = new (int x, int z)[]
-        {
-        ( 1, 0), (-1, 0),
-        ( 0, 1), ( 0, -1)
-        };
+        var directions = useEightDirections ? eightDirections : fourDirections;
         foreach (var dir in directions)
         {
             int targetX = node.X + dir.x;
