@@ -7,7 +7,6 @@ using UnityEngine;
 
 public class AStarPathFinding : MonoBehaviour
 {
-    public static AStarPathFinding Instance { get; private set; }
     public SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> currentGrid;
     public SerializedDictionary<Vector3Int, GameObject> currentSubGrid;
     public SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> grid = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
@@ -37,17 +36,13 @@ public class AStarPathFinding : MonoBehaviour
     };
     void Awake()
     {
-        if (Instance == null)
+        if (!onlyForMap)
         {
-            Instance = this;
-            if (!onlyForMap)
-            {                
-                for (int i = 0; i < poolSize; i++)
-                {
-                    GameObject obj = Instantiate(poolinGrid, gridContainer);
-                    obj.SetActive(false);
-                    pool.Enqueue(obj);
-                }
+            for (int i = 0; i < poolSize; i++)
+            {
+                GameObject obj = Instantiate(poolinGrid, gridContainer);
+                obj.SetActive(false);
+                pool.Enqueue(obj);
             }
         }
     }

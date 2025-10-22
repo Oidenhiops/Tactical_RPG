@@ -11,7 +11,7 @@ public class CharacterBattle : CharacterBase
     }
     void OnDestroy()
     {
-        if (PlayerManager.Instance) PlayerManager.Instance.actionsManager.OnEndTurn -= OnEndTurn;
+        PlayerManager.Instance.actionsManager.OnEndTurn -= OnEndTurn;
     }
     void OnEndTurn()
     {
@@ -46,7 +46,7 @@ public class CharacterBattle : CharacterBase
                 {
                     component.MakeAnimation("Idle");
                 }
-                AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(gameObject.transform.position)].hasCharacter = component.character;
+                PlayerManager.Instance.aStarPathFinding.grid[Vector3Int.RoundToInt(gameObject.transform.position)].hasCharacter = component.character;
                 component.transform.position = transform.position;
                 component.character.positionInGrid = positionInGrid;
                 component.character.startPositionInGrid = startPositionInGrid;
@@ -55,7 +55,7 @@ public class CharacterBattle : CharacterBase
         }
         else
         {
-            AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(gameObject.transform.position)].hasCharacter = null;
+            PlayerManager.Instance.aStarPathFinding.grid[Vector3Int.RoundToInt(gameObject.transform.position)].hasCharacter = null;
         }
         yield return new WaitForSeconds(1);
         Destroy(dieEffect);
@@ -70,13 +70,13 @@ public class CharacterBattle : CharacterBase
     }
     public override void MoveCharacter(Vector3Int targetPosition)
     {
-        List<Vector3Int> path = AStarPathFinding.Instance.FindPath(positionInGrid, targetPosition);
+        List<Vector3Int> path = PlayerManager.Instance.aStarPathFinding.FindPath(positionInGrid, targetPosition);
 
         if (path != null && path.Count > 0)
         {
-            AStarPathFinding.Instance.grid[path[0]].hasCharacter = null;
+            PlayerManager.Instance.aStarPathFinding.grid[path[0]].hasCharacter = null;
             if (isCharacterPlayer) PlayerManager.Instance.characterPlayerMakingActions = true;
-            AStarPathFinding.Instance.grid[targetPosition].hasCharacter = this;
+            PlayerManager.Instance.aStarPathFinding.grid[targetPosition].hasCharacter = this;
             StartCoroutine(FollowPath(path));
         }
     }
@@ -118,15 +118,15 @@ public class CharacterBattle : CharacterBase
             if (positionInGrid == Vector3Int.zero)
             {
                 gameObject.SetActive(false);
-                AStarPathFinding.Instance.characterSelected = null;
-                AStarPathFinding.Instance.grid[Vector3Int.zero].hasCharacter = null;
+                PlayerManager.Instance.aStarPathFinding.characterSelected = null;
+                PlayerManager.Instance.aStarPathFinding.grid[Vector3Int.zero].hasCharacter = null;
                 if (PlayerManager.Instance.actionsManager.characterActions.ContainsKey(this))
                 {
                     PlayerManager.Instance.actionsManager.characterActions.Remove(this);
                 }
                 PlayerManager.Instance.menuCharacterSelector.amountCharacters++;
                 startPositionInGrid = Vector3Int.zero;
-                AStarPathFinding.Instance.DisableGrid();
+                PlayerManager.Instance.aStarPathFinding.DisableGrid();
             }
             else
             {

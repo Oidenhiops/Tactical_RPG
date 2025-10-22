@@ -33,10 +33,8 @@ public class CharacterBase : MonoBehaviour
     {
         if (CameraInfo.Instance)
         {
-            CameraInfo.Instance.CamDirection(out Vector3 camForward, out Vector3 camRight);
-            Vector3 camRelativeDir = (nextDirection.x * camRight + nextDirection.z * camForward).normalized;
-            Vector3 movementDirection = new Vector3(camRelativeDir.x, 0, camRelativeDir.z).normalized;
-            direction = new Vector3Int(Mathf.RoundToInt(movementDirection.x), Mathf.RoundToInt(movementDirection.y), Mathf.RoundToInt(movementDirection.z));
+            CameraInfo.Instance.CamDirection(nextDirection, out Vector3 directionFromCamera);
+            direction = Vector3Int.RoundToInt(directionFromCamera);
             ChangeDirectionModel();
         }
     }

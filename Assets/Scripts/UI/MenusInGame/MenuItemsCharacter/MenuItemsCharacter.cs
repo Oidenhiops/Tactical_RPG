@@ -20,7 +20,7 @@ public class MenuItemsCharacter : MonoBehaviour
     public BannerItemsCharacter currentBagItem;
     public async Task ReloadGearBanners()
     {
-        var character = AStarPathFinding.Instance.characterSelected;
+        var character = playerManager.aStarPathFinding.characterSelected;
         foreach (KeyValuePair<CharacterData.CharacterItemInfo, CharacterData.CharacterItem> item in character.characterData.items)
         {
             if (item.Value.itemBaseSO)
@@ -91,7 +91,7 @@ public class MenuItemsCharacter : MonoBehaviour
                 {
                     if (itemToGear.itemBaseSO.typeObject == ItemBaseSO.TypeObject.Weapon)
                     {
-                        if (AStarPathFinding.Instance.characterSelected.initialDataSO.isHumanoid)
+                        if (playerManager.aStarPathFinding.characterSelected.initialDataSO.isHumanoid)
                         {
                             if (itemToGear.itemBaseSO.typeWeapon != ItemBaseSO.TypeWeapon.Monster)
                             {
@@ -128,27 +128,27 @@ public class MenuItemsCharacter : MonoBehaviour
     {
         if (itemToBag.itemBaseSO)
         {
-            itemToBag.itemBaseSO.DesEquipItem(AStarPathFinding.Instance.characterSelected, itemToBag);
+            itemToBag.itemBaseSO.DesEquipItem(playerManager.aStarPathFinding.characterSelected, itemToBag);
         }
         if (itemToGear.itemBaseSO)
         {
-            itemToGear.itemBaseSO.EquipItem(AStarPathFinding.Instance.characterSelected, itemToGear);
+            itemToGear.itemBaseSO.EquipItem(playerManager.aStarPathFinding.characterSelected, itemToGear);
         }
-        foreach (KeyValuePair<CharacterData.CharacterItemInfo, CharacterData.CharacterItem> item in AStarPathFinding.Instance.characterSelected.characterData.items)
+        foreach (KeyValuePair<CharacterData.CharacterItemInfo, CharacterData.CharacterItem> item in playerManager.aStarPathFinding.characterSelected.characterData.items)
         {
             if (item.Key.index == gearIndex)
             {
-                AStarPathFinding.Instance.characterSelected.characterData.items[item.Key] = itemToGear;
+                playerManager.aStarPathFinding.characterSelected.characterData.items[item.Key] = itemToGear;
                 break;
             }
         }
         GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].bagItems[currentBagItem.bannerInfo.index] = itemToBag;
         currentBagItem = null;
-        foreach (var statistics in AStarPathFinding.Instance.characterSelected.characterData.statistics)
+        foreach (var statistics in playerManager.aStarPathFinding.characterSelected.characterData.statistics)
         {
             statistics.Value.RefreshValue();
         }
-        AStarPathFinding.Instance.GetPositionsToAttack(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions);
+        playerManager.aStarPathFinding.GetPositionsToAttack(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions);
         playerManager.menuCharacterActions.SendCharactersToAttack(positions);
         TogglePanels(false);
         _= ReloadItems();
@@ -176,7 +176,7 @@ public class MenuItemsCharacter : MonoBehaviour
         await Awaitable.NextFrameAsync();
         await ReloadGearBanners();
         await ReloadBagBanners();
-        _= playerManager.menuCharacterInfo.ReloadInfo(AStarPathFinding.Instance.characterSelected, true);
+        _= playerManager.menuCharacterInfo.ReloadInfo(playerManager.aStarPathFinding.characterSelected, true);
     }
     public async Task EnableMenu()
     {
@@ -193,7 +193,7 @@ public class MenuItemsCharacter : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(bagBanners.ElementAt(bagIndex).Value.gameObject);
             bagBanners.ElementAt(bagIndex).Value.onObjectSelect.ScrollTo(bagIndex);
             await Awaitable.NextFrameAsync();
-            _= playerManager.menuCharacterInfo.ReloadInfo(AStarPathFinding.Instance.characterSelected, true);
+            _= playerManager.menuCharacterInfo.ReloadInfo(playerManager.aStarPathFinding.characterSelected, true);
             playerManager.menuCharacterInfo.menuCharacterInfo.SetActive(true);
         }
         playerManager.menuCharacterActions.menuCharacterActions.SetActive(false);

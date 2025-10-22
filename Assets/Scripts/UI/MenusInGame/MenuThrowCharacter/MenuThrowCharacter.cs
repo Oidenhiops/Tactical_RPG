@@ -18,49 +18,49 @@ public class MenuThrowCharacter : MonoBehaviour
         menuThrowCharacter.SetActive(true);
         _= playerManager.menuCharacterActions.DisableMenu(true, true);
         playerManager.menuCharacterInfo.menuCharacterInfo.SetActive(false);
-        heightTextValue.text = AStarPathFinding.Instance.characterSelected.characterData.GetMovementMaxHeight().ToString();
-        distanceTextValue.text = AStarPathFinding.Instance.characterSelected.characterData.GetThrowRadius().ToString();
-        AStarPathFinding.Instance.EnableGrid(AStarPathFinding.Instance.GetTilesToThrow(), playerManager.menuLiftCharacter.gridColor);
+        heightTextValue.text = playerManager.aStarPathFinding.characterSelected.characterData.GetMovementMaxHeight().ToString();
+        distanceTextValue.text = playerManager.aStarPathFinding.characterSelected.characterData.GetThrowRadius().ToString();
+        playerManager.aStarPathFinding.EnableGrid(playerManager.aStarPathFinding.GetTilesToThrow(), playerManager.menuLiftCharacter.gridColor);
     }
     public async Task DisableMenu()
     {
         await Awaitable.NextFrameAsync();
         menuThrowCharacter.SetActive(false);
         _ = playerManager.menuCharacterActions.EnableMenu();
-        playerManager.MovePointerToInstant(AStarPathFinding.Instance.characterSelected.positionInGrid);
+        playerManager.MovePointerToInstant(playerManager.aStarPathFinding.characterSelected.positionInGrid);
     }
     public async Task DisableMenuAfterThrowCharacter()
     {
         await Awaitable.NextFrameAsync();
         menuThrowCharacter.SetActive(false);
-        AStarPathFinding.Instance.characterSelected = null;
+        playerManager.aStarPathFinding.characterSelected = null;
         playerManager.actionsManager.EnableMobileInputs();
     }
     public void OnHandleTrow(InputAction.CallbackContext context)
     {
-        if (menuThrowCharacter.activeSelf && AStarPathFinding.Instance.grid[playerManager.currentMousePos].hasCharacter == null && !GameManager.Instance.isPause)
+        if (menuThrowCharacter.activeSelf && playerManager.aStarPathFinding.grid[playerManager.currentMousePos].hasCharacter == null && !GameManager.Instance.isPause)
         {
-            if (playerManager.actionsManager.characterActions.TryGetValue(AStarPathFinding.Instance.characterSelected, out List<ActionsManager.ActionInfo> actions))
+            if (playerManager.actionsManager.characterActions.TryGetValue(playerManager.aStarPathFinding.characterSelected, out List<ActionsManager.ActionInfo> actions))
             {
                 isThrowingCharacter = false;
-                StartCoroutine(ThrowCharacterToPosition(AStarPathFinding.Instance.characterSelected.positionInGrid + Vector3.up, playerManager.currentMousePos, actions[actions.Count - 1].characterToMakeAction[0].character, 1));
+                StartCoroutine(ThrowCharacterToPosition(playerManager.aStarPathFinding.characterSelected.positionInGrid + Vector3.up, playerManager.currentMousePos, actions[actions.Count - 1].characterToMakeAction[0].character, 1));
             }
             else
             {
                 isThrowingCharacter = false;
-                StartCoroutine(ThrowCharacterToPosition(AStarPathFinding.Instance.characterSelected.positionInGrid + Vector3.up, playerManager.currentMousePos, AStarPathFinding.Instance.characterSelected.transform.GetChild(1).GetComponent<CharacterBase>(), 1));
+                StartCoroutine(ThrowCharacterToPosition(playerManager.aStarPathFinding.characterSelected.positionInGrid + Vector3.up, playerManager.currentMousePos, playerManager.aStarPathFinding.characterSelected.transform.GetChild(1).GetComponent<CharacterBase>(), 1));
             }
         }
     }
     IEnumerator ThrowCharacterToPosition(Vector3 from, Vector3 to, CharacterBase character, float duration)
     {        
-        AStarPathFinding.Instance.DisableGrid();
-        AStarPathFinding.Instance.characterSelected.characterAnimations.MakeAnimation("Throw");
+        playerManager.aStarPathFinding.DisableGrid();
+        playerManager.aStarPathFinding.characterSelected.characterAnimations.MakeAnimation("Throw");
         while (true)
         {
-            if (AStarPathFinding.Instance.characterSelected.characterAnimations.currentAnimation.name == "Throw" &&
-                AStarPathFinding.Instance.characterSelected.characterAnimations.currentSpriteIndex == 
-                AStarPathFinding.Instance.characterSelected.characterAnimations.currentAnimation.frameToInstance)
+            if (playerManager.aStarPathFinding.characterSelected.characterAnimations.currentAnimation.name == "Throw" &&
+                playerManager.aStarPathFinding.characterSelected.characterAnimations.currentSpriteIndex == 
+                playerManager.aStarPathFinding.characterSelected.characterAnimations.currentAnimation.frameToInstance)
             {
                 break;
             }
@@ -86,42 +86,42 @@ public class MenuThrowCharacter : MonoBehaviour
         {
             character.characterAnimations.MakeAnimation("Idle");
         }
-        AStarPathFinding.Instance.characterSelected.lastAction = ActionsManager.TypeAction.EndTurn;
-        if (playerManager.actionsManager.characterActions.TryGetValue(AStarPathFinding.Instance.characterSelected, out List<ActionsManager.ActionInfo> actions))
+        playerManager.aStarPathFinding.characterSelected.lastAction = ActionsManager.TypeAction.EndTurn;
+        if (playerManager.actionsManager.characterActions.TryGetValue(playerManager.aStarPathFinding.characterSelected, out List<ActionsManager.ActionInfo> actions))
         {
             actions[actions.Count - 1].characterToMakeAction[0].character.startPositionInGrid = Vector3Int.RoundToInt(endPos);
             actions[actions.Count - 1].characterToMakeAction[0].character.positionInGrid = Vector3Int.RoundToInt(endPos);
-            AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(endPos)].hasCharacter = actions[actions.Count - 1].characterToMakeAction[0].character;
-            actions[actions.Count - 1].characterToMakeAction[0].character.transform.SetParent(AStarPathFinding.Instance.characterSelected.transform.parent);
+            playerManager.aStarPathFinding.grid[Vector3Int.RoundToInt(endPos)].hasCharacter = actions[actions.Count - 1].characterToMakeAction[0].character;
+            actions[actions.Count - 1].characterToMakeAction[0].character.transform.SetParent(playerManager.aStarPathFinding.characterSelected.transform.parent);
         }
         else
         {
-            if (AStarPathFinding.Instance.characterSelected.transform.GetChild(1).TryGetComponent(out CharacterBase component))
+            if (playerManager.aStarPathFinding.characterSelected.transform.GetChild(1).TryGetComponent(out CharacterBase component))
             {
                 component.startPositionInGrid = Vector3Int.RoundToInt(endPos);
                 component.positionInGrid = Vector3Int.RoundToInt(endPos);
-                AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(endPos)].hasCharacter = component;
-                component.transform.SetParent(AStarPathFinding.Instance.characterSelected.transform.parent);
+                playerManager.aStarPathFinding.grid[Vector3Int.RoundToInt(endPos)].hasCharacter = component;
+                component.transform.SetParent(playerManager.aStarPathFinding.characterSelected.transform.parent);
             }
         }
-        if (playerManager.actionsManager.characterFinalActions.ContainsKey(AStarPathFinding.Instance.characterSelected))
+        if (playerManager.actionsManager.characterFinalActions.ContainsKey(playerManager.aStarPathFinding.characterSelected))
         {
-            playerManager.actionsManager.characterFinalActions[AStarPathFinding.Instance.characterSelected] = new ActionsManager.ActionInfo()
+            playerManager.actionsManager.characterFinalActions[playerManager.aStarPathFinding.characterSelected] = new ActionsManager.ActionInfo()
             {
-                characterMakeAction = AStarPathFinding.Instance.characterSelected,
+                characterMakeAction = playerManager.aStarPathFinding.characterSelected,
                 typeAction = ActionsManager.TypeAction.Lift
             };
         }
         else
         {
-            playerManager.actionsManager.characterFinalActions.Add(AStarPathFinding.Instance.characterSelected, new ActionsManager.ActionInfo()
+            playerManager.actionsManager.characterFinalActions.Add(playerManager.aStarPathFinding.characterSelected, new ActionsManager.ActionInfo()
             {
-                characterMakeAction = AStarPathFinding.Instance.characterSelected,
+                characterMakeAction = playerManager.aStarPathFinding.characterSelected,
                 typeAction = ActionsManager.TypeAction.Lift
             });
         }
-        AStarPathFinding.Instance.characterSelected.characterStatusEffect.statusEffects.Remove(playerManager.menuLiftCharacter.statusEffectLiftSO);
-        CancelCharacterActions(AStarPathFinding.Instance.characterSelected);
+        playerManager.aStarPathFinding.characterSelected.characterStatusEffect.statusEffects.Remove(playerManager.menuLiftCharacter.statusEffectLiftSO);
+        CancelCharacterActions(playerManager.aStarPathFinding.characterSelected);
         isThrowingCharacter = false;
         yield return null;
         _= DisableMenuAfterThrowCharacter();

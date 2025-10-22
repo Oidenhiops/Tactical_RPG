@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: aa23dd530e9f98c4cb0766404fc0e755
 timeCreated: 1626377683
-licenseType: Free
+licenseType: Store
 PluginImporter:
   serializedVersion: 2
   iconMap: {}
@@ -37,3 +37,10 @@ PluginImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 68068
+  packageName: In-game Debug Console
+  packageVersion: 1.8.2
+  assetPath: Assets/Plugins/IngameDebugConsole/WebGL/IngameDebugConsole.jslib
+  uploadId: 764785

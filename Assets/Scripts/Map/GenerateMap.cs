@@ -1,52 +1,52 @@
 using System;
-using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class GenerateMap : MonoBehaviour
 {
-    public static GenerateMap Instance { get; private set; }
+    public AStarPathFinding aStarPathFinding;
     public Sprite currentAtlasMap;
     public Block[] blocks;
-    public bool showGizmos;
-    public bool showHandles;
-    public bool autoInit;
     public bool isWorldMap;
-    void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-    }
+    public bool findMapInfo;
     void Start()
     {
-        if (autoInit) StartCoroutine(GenerateGrid());
+        if (isWorldMap) _ = GenerateGrid();
+        if (findMapInfo && ManagementBattleInfo.Instance) currentAtlasMap = ManagementBattleInfo.Instance.generateMap.currentAtlasMap;
     }
-    public IEnumerator GenerateGrid()
+    public async Task GenerateGrid()
     {
-        if (blocks != null && blocks.Length > 0)
+        try
         {
-            foreach (Block block in blocks)
+            if (blocks != null && blocks.Length > 0)
             {
-                if (block != null)
+                foreach (Block block in blocks)
                 {
-                    AStarPathFinding.Instance.grid.Add(Vector3Int.RoundToInt(block.transform.position), new WalkablePositionInfo
+                    if (block != null)
                     {
-                        pos = Vector3Int.RoundToInt(block.transform.position),
-                        isWalkable = true,
-                        hasCharacter = null,
-                        blockInfo = block
-                    });
+                        block.generateMap = this;
+                        aStarPathFinding.grid.Add(Vector3Int.RoundToInt(block.transform.position), new WalkablePositionInfo
+                        {
+                            pos = Vector3Int.RoundToInt(block.transform.position),
+                            isWalkable = true,
+                            hasCharacter = null,
+                            blockInfo = block
+                        });
+                    }
                 }
+                foreach (Block blockEvaluate in blocks)
+                {
+                    aStarPathFinding.GetHighestBlockAt(Vector3Int.RoundToInt(blockEvaluate.transform.position), out WalkablePositionInfo block);
+                    if (block != null) block.isWalkable = true;
+                }
+                await Awaitable.NextFrameAsync();
+                DrawBlocks();
+                if (isWorldMap) aStarPathFinding.currentGrid = aStarPathFinding.grid;
             }
-            foreach (Block blockEvaluate in blocks)
-            {
-                AStarPathFinding.Instance.GetHighestBlockAt(Vector3Int.RoundToInt(blockEvaluate.transform.position), out WalkablePositionInfo block);
-                if (block != null) block.isWalkable = true;
-            }
-            yield return null;
-            DrawBlocks();
-            if (isWorldMap) AStarPathFinding.Instance.currentGrid = AStarPathFinding.Instance.grid;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Error generating grid: {e.Message}");
         }
     }
     public void DrawBlocks()
@@ -59,33 +59,6 @@ public class GenerateMap : MonoBehaviour
             }
         }
     }
-    // void OnDrawGizmos()
-    // {
-    //     if (AStarPathFinding.Instance && AStarPathFinding.Instance.grid != null && AStarPathFinding.Instance.grid.Count > 0 && showGizmos)
-    //     {
-    //         foreach (Block blockEvaluate in blocks)
-    //         {
-    //             if (AStarPathFinding.Instance.grid.TryGetValue(Vector3Int.RoundToInt(blockEvaluate.transform.position), out WalkablePositionInfo block))
-    //             {
-    //                 Gizmos.color = block.isWalkable ? block.hasCharacter ? Color.cyan : Color.green : Color.red;
-    //                 Gizmos.DrawSphere(block.pos + Vector3.up * .25f, 0.1f);
-
-    //                 if (showHandles)
-    //                 {
-    //                     GUIStyle labelStyle = new GUIStyle();
-    //                     labelStyle.normal.textColor = Color.black;
-    //                     labelStyle.fontStyle = FontStyle.Bold;
-    //                     string state = block.isWalkable ? "Walkable" : "Blocked";
-    //                     Handles.Label(
-    //                         block.pos,
-    //                         $"   {state}\n   {block.pos}",
-    //                         labelStyle
-    //                     );
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
     [Serializable]
     public class WalkablePositionInfo
     {

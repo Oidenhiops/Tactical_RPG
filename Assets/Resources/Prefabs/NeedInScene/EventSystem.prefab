@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4457262482508969449}
   - component: {fileID: 7158020430445307484}
   - component: {fileID: 9049765978667231315}
+  - component: {fileID: 6005046246227997673}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -90,3 +91,15 @@ MonoBehaviour:
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
   m_ScrollDeltaPerTick: 6
+--- !u!114 &6005046246227997673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4313473464384886657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93f416598d2e1734aa30c11d5aa00cb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventSystemSingleton

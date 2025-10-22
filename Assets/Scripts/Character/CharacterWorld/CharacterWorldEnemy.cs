@@ -41,7 +41,7 @@ public class CharacterWorldEnemy : CharacterBase
     }
     bool DetectTarget()
     {
-        Collider[] colliders = Physics.OverlapBox(transform.position + detectorOffset, detectorSize / 2, Quaternion.identity, LayerMask.GetMask("Character"));
+        Collider[] colliders = Physics.OverlapBox(transform.position + detectorOffset, detectorSize / 2, Quaternion.identity, LayerMask.GetMask("CharacterPlayer"));
 
         foreach (var col in colliders)
         {
@@ -56,7 +56,7 @@ public class CharacterWorldEnemy : CharacterBase
     }
     public override void MoveCharacter(Vector3Int targetPosition)
     {
-        path = AStarPathFinding.Instance.FindPath(Vector3Int.RoundToInt(transform.position), targetPosition);
+        path = WorldManager.Instance.aStarPathFinding.FindPath(Vector3Int.RoundToInt(transform.position), targetPosition);
 
         if (path != null && path.Count > 0)
         {

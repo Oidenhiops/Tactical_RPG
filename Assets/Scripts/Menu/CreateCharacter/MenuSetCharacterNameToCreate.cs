@@ -71,9 +71,10 @@ public class MenuSetCharacterNameToCreate : MonoBehaviour
         {
             GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].isUse = true;
             GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].principalCharacterName = nameLabel.text;
-            GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].currentZone = "City";
+            GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].currentZone = GameManager.TypeScene.CityScene;
             GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].createdDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].lastSaveDate = GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].createdDate;
+            GameData.Instance.SetStartingItems();
             CharacterData character = new CharacterData
             {
                 id = menuSelectCharacterToCreate.characterSelected.id,

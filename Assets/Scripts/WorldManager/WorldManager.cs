@@ -1,13 +1,18 @@
 using System;
 using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class WorldManager : MonoBehaviour
 {
     public static WorldManager Instance { get; private set; }
     public CharacterActions characterActions;
+    public GameObject worldContainer;
     public CharacterBase characterWorld;
+    public GenerateMap currentWorldMap;
+    public AStarPathFinding aStarPathFinding;
     bool cantRotateCamera = false;
     bool onRotateCamera = false;
     bool directionCamera = false;
@@ -18,26 +23,37 @@ public class WorldManager : MonoBehaviour
         if (Instance == null) Instance = this;
         characterActions = new CharacterActions();
         characterActions.Enable();
-        InitializeActions();
-        InitializeCharacterData();
-    }
-    void InitializeActions()
-    {
-        characterActions.CharacterInputs.RotateCamera.started += HandleRotateCamera;
+        _ = InitializeData();
     }
     void OnDestroy()
     {
         characterActions.CharacterInputs.RotateCamera.performed -= HandleRotateCamera;
     }
-    void InitializeCharacterData()
+    async Task InitializeData()
+    {
+        await InitializeActions();
+        await InitializeCharacterData();
+    }
+    async Task InitializeActions()
+    {
+        characterActions.CharacterInputs.RotateCamera.started += HandleRotateCamera;
+        await Awaitable.NextFrameAsync();
+        GameManager.Instance.openCloseScene.AdjustLoading(50);
+        await Awaitable.NextFrameAsync();
+    }
+    async Task InitializeCharacterData()
     {
         var characterInfo = GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].
-    characters[GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].principalCharacterName];
+            characters[GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].principalCharacterName];
         characterWorld.initialDataSO = GameData.Instance.charactersDataDBSO.data[characterInfo.id][characterInfo.subId].initialDataSO;
         characterWorld.isCharacterPlayer = true;
         characterWorld.name = characterInfo.name;
         characterWorld.characterData = characterInfo;
-        _ = characterWorld.InitializeCharacter();
+        characterWorld.transform.position = GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].positionSave;
+        await characterWorld.InitializeCharacter();
+        await Awaitable.NextFrameAsync();
+        GameManager.Instance.openCloseScene.AdjustLoading(100);
+        await Awaitable.NextFrameAsync();
     }
     void HandleRotateCamera(InputAction.CallbackContext context)
     {
@@ -48,6 +64,13 @@ public class WorldManager : MonoBehaviour
             directionCamera = context.ReadValue<float>() > 0 ? false : true;
             StartCoroutine(RotateCamera());
         }
+    }
+    public async Task OnEnemyHit()
+    {
+        enemyHitted = true;
+        ManagementBattleInfo.Instance.generateMap = currentWorldMap;
+        _ = GameManager.Instance.ChangeScene(GameManager.TypeScene.BattleScene, LoadSceneMode.Additive);
+        worldContainer.gameObject.SetActive(false);
     }
     IEnumerator RotateCamera()
     {

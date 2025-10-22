@@ -11,7 +11,7 @@ public class CameraInfo : MonoBehaviour
             Instance = this;
         }
     }
-    public void CamDirection(out Vector3 camForward, out Vector3 camRight)
+    public void CamDirection(Vector3 direction, out Vector3 directionFromCamera)
     {
         Vector3 forward = Camera.main.transform.forward;
         Vector3 right = Camera.main.transform.right;
@@ -20,7 +20,10 @@ public class CameraInfo : MonoBehaviour
         forward.Normalize();
         right.Normalize();
         Quaternion rotationOffset = Quaternion.Euler(0, -45f, 0);
-        camForward = rotationOffset * forward;
-        camRight = rotationOffset * right;
+        Vector3 camForward = rotationOffset * forward;
+        Vector3 camRight = rotationOffset * right;
+
+        Vector3 camRelativeDir = (direction.x * camRight + direction.z * camForward).normalized;
+        directionFromCamera = new Vector3Int(Mathf.RoundToInt(camRelativeDir.x), 0, Mathf.RoundToInt(camRelativeDir.z));
     }
 }

@@ -22,7 +22,11 @@ MonoBehaviour:
       Value:
         defaultClip: GameBg
         otherClip: 
-    - Key: Test
+    - Key: BattleScene
+      Value:
+        defaultClip: GameBg
+        otherClip: 
+    - Key: CityScene
       Value:
         defaultClip: GameBg
         otherClip: 

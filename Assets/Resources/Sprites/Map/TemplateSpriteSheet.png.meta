@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 64
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
@@ -153,11 +153,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 800
+        y: 1120
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -175,11 +175,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 80
-        y: 800
+        y: 1120
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -197,11 +197,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 160
-        y: 800
+        y: 1120
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -219,11 +219,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 240
-        y: 800
+        y: 1120
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -241,11 +241,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 320
-        y: 800
+        y: 1120
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -263,11 +263,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 400
-        y: 800
+        y: 1120
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -285,11 +285,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 480
-        y: 800
+        y: 1120
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -306,12 +306,12 @@ TextureImporter:
       name: TemplateSpriteSheet_7
       rect:
         serializedVersion: 2
-        x: 0
-        y: 640
+        x: 560
+        y: 1120
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -328,12 +328,12 @@ TextureImporter:
       name: TemplateSpriteSheet_8
       rect:
         serializedVersion: 2
-        x: 80
-        y: 640
+        x: 0
+        y: 960
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -350,12 +350,12 @@ TextureImporter:
       name: TemplateSpriteSheet_9
       rect:
         serializedVersion: 2
-        x: 160
-        y: 640
+        x: 80
+        y: 960
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -372,12 +372,12 @@ TextureImporter:
       name: TemplateSpriteSheet_10
       rect:
         serializedVersion: 2
-        x: 240
-        y: 640
+        x: 160
+        y: 960
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -394,12 +394,12 @@ TextureImporter:
       name: TemplateSpriteSheet_11
       rect:
         serializedVersion: 2
-        x: 320
-        y: 640
+        x: 240
+        y: 960
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -416,12 +416,12 @@ TextureImporter:
       name: TemplateSpriteSheet_12
       rect:
         serializedVersion: 2
-        x: 400
-        y: 640
+        x: 320
+        y: 960
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -438,12 +438,12 @@ TextureImporter:
       name: TemplateSpriteSheet_13
       rect:
         serializedVersion: 2
-        x: 480
-        y: 640
+        x: 400
+        y: 960
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -460,12 +460,12 @@ TextureImporter:
       name: TemplateSpriteSheet_14
       rect:
         serializedVersion: 2
-        x: 560
-        y: 640
+        x: 480
+        y: 960
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -482,12 +482,12 @@ TextureImporter:
       name: TemplateSpriteSheet_15
       rect:
         serializedVersion: 2
-        x: 0
-        y: 480
+        x: 560
+        y: 960
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -504,12 +504,12 @@ TextureImporter:
       name: TemplateSpriteSheet_16
       rect:
         serializedVersion: 2
-        x: 80
-        y: 480
+        x: 0
+        y: 800
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -526,12 +526,12 @@ TextureImporter:
       name: TemplateSpriteSheet_17
       rect:
         serializedVersion: 2
-        x: 160
-        y: 480
+        x: 80
+        y: 800
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -548,12 +548,12 @@ TextureImporter:
       name: TemplateSpriteSheet_18
       rect:
         serializedVersion: 2
-        x: 240
-        y: 480
+        x: 160
+        y: 800
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -570,12 +570,12 @@ TextureImporter:
       name: TemplateSpriteSheet_19
       rect:
         serializedVersion: 2
-        x: 320
-        y: 480
+        x: 240
+        y: 800
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -592,12 +592,12 @@ TextureImporter:
       name: TemplateSpriteSheet_20
       rect:
         serializedVersion: 2
-        x: 400
-        y: 480
+        x: 320
+        y: 800
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -614,12 +614,12 @@ TextureImporter:
       name: TemplateSpriteSheet_21
       rect:
         serializedVersion: 2
-        x: 480
-        y: 480
+        x: 400
+        y: 800
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -636,12 +636,12 @@ TextureImporter:
       name: TemplateSpriteSheet_22
       rect:
         serializedVersion: 2
-        x: 560
-        y: 480
+        x: 480
+        y: 800
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -658,12 +658,12 @@ TextureImporter:
       name: TemplateSpriteSheet_23
       rect:
         serializedVersion: 2
-        x: 0
-        y: 320
+        x: 560
+        y: 800
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -680,12 +680,12 @@ TextureImporter:
       name: TemplateSpriteSheet_24
       rect:
         serializedVersion: 2
-        x: 80
-        y: 320
+        x: 0
+        y: 640
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -702,12 +702,12 @@ TextureImporter:
       name: TemplateSpriteSheet_25
       rect:
         serializedVersion: 2
-        x: 160
-        y: 320
+        x: 80
+        y: 640
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -724,12 +724,12 @@ TextureImporter:
       name: TemplateSpriteSheet_26
       rect:
         serializedVersion: 2
-        x: 240
-        y: 320
+        x: 160
+        y: 640
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -746,12 +746,12 @@ TextureImporter:
       name: TemplateSpriteSheet_27
       rect:
         serializedVersion: 2
-        x: 320
-        y: 320
+        x: 240
+        y: 640
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -768,12 +768,12 @@ TextureImporter:
       name: TemplateSpriteSheet_28
       rect:
         serializedVersion: 2
-        x: 400
-        y: 320
+        x: 320
+        y: 640
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -790,12 +790,12 @@ TextureImporter:
       name: TemplateSpriteSheet_29
       rect:
         serializedVersion: 2
-        x: 480
-        y: 320
+        x: 400
+        y: 640
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -812,12 +812,12 @@ TextureImporter:
       name: TemplateSpriteSheet_30
       rect:
         serializedVersion: 2
-        x: 560
-        y: 320
+        x: 480
+        y: 640
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -834,12 +834,12 @@ TextureImporter:
       name: TemplateSpriteSheet_31
       rect:
         serializedVersion: 2
-        x: 0
-        y: 160
+        x: 560
+        y: 640
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -856,12 +856,12 @@ TextureImporter:
       name: TemplateSpriteSheet_32
       rect:
         serializedVersion: 2
-        x: 80
-        y: 160
+        x: 0
+        y: 480
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -878,12 +878,12 @@ TextureImporter:
       name: TemplateSpriteSheet_33
       rect:
         serializedVersion: 2
-        x: 160
-        y: 160
+        x: 80
+        y: 480
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -900,12 +900,12 @@ TextureImporter:
       name: TemplateSpriteSheet_34
       rect:
         serializedVersion: 2
-        x: 240
-        y: 160
+        x: 160
+        y: 480
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -922,12 +922,12 @@ TextureImporter:
       name: TemplateSpriteSheet_35
       rect:
         serializedVersion: 2
-        x: 320
-        y: 160
+        x: 240
+        y: 480
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -944,12 +944,12 @@ TextureImporter:
       name: TemplateSpriteSheet_36
       rect:
         serializedVersion: 2
-        x: 400
-        y: 160
+        x: 320
+        y: 480
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -966,12 +966,12 @@ TextureImporter:
       name: TemplateSpriteSheet_37
       rect:
         serializedVersion: 2
-        x: 480
-        y: 160
+        x: 400
+        y: 480
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -988,12 +988,12 @@ TextureImporter:
       name: TemplateSpriteSheet_38
       rect:
         serializedVersion: 2
-        x: 560
-        y: 160
+        x: 480
+        y: 480
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1010,12 +1010,12 @@ TextureImporter:
       name: TemplateSpriteSheet_39
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
+        x: 560
+        y: 480
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1032,12 +1032,12 @@ TextureImporter:
       name: TemplateSpriteSheet_40
       rect:
         serializedVersion: 2
-        x: 80
-        y: 0
+        x: 0
+        y: 320
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1054,12 +1054,12 @@ TextureImporter:
       name: TemplateSpriteSheet_41
       rect:
         serializedVersion: 2
-        x: 160
-        y: 0
+        x: 80
+        y: 320
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1076,12 +1076,12 @@ TextureImporter:
       name: TemplateSpriteSheet_42
       rect:
         serializedVersion: 2
-        x: 240
-        y: 0
+        x: 160
+        y: 320
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1098,12 +1098,12 @@ TextureImporter:
       name: TemplateSpriteSheet_43
       rect:
         serializedVersion: 2
-        x: 320
-        y: 0
+        x: 240
+        y: 320
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1120,12 +1120,12 @@ TextureImporter:
       name: TemplateSpriteSheet_44
       rect:
         serializedVersion: 2
-        x: 400
-        y: 0
+        x: 320
+        y: 320
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1142,12 +1142,12 @@ TextureImporter:
       name: TemplateSpriteSheet_45
       rect:
         serializedVersion: 2
-        x: 480
-        y: 0
+        x: 400
+        y: 320
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1164,12 +1164,12 @@ TextureImporter:
       name: TemplateSpriteSheet_46
       rect:
         serializedVersion: 2
-        x: 560
-        y: 0
+        x: 480
+        y: 320
         width: 80
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1178,6 +1178,380 @@ TextureImporter:
       bones: []
       spriteID: 4238416de2d3fac48b5855aeb72a8e93
       internalID: -639930119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TemplateSpriteSheet_47
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 320
+        width: 80
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: acd38057fef38da478a1d409dccfee7c
+      internalID: -71565637
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TemplateSpriteSheet_48
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 160
+        width: 80
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 61a4c6448de9c614eb25261b23d3d11d
+      internalID: 844457666
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TemplateSpriteSheet_49
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 160
+        width: 80
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce14c8f5d9e80d34cb728e6e6062126e
+      internalID: -299328741
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TemplateSpriteSheet_50
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 160
+        width: 80
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e315ad4b22a5ef43ad50e252d88de80
+      internalID: -407683928
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TemplateSpriteSheet_51
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 160
+        width: 80
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73fa1af1bcba3c04db98a9bb517a90c6
+      internalID: -2052119156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TemplateSpriteSheet_52
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 160
+        width: 80
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54775700561e5d043891cccaf424b10c
+      internalID: 633044836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TemplateSpriteSheet_53
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 160
+        width: 80
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 87ff29e6fb5ea1d4a98a819ccc824539
+      internalID: -970123103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TemplateSpriteSheet_54
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 160
+        width: 80
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4191ff2220145604897356f0a6959d07
+      internalID: 1526160820
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TemplateSpriteSheet_55
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 160
+        width: 80
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a6bf8f76b76f70e4aba7b43f04337191
+      internalID: 1823776435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TemplateSpriteSheet_56
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 80
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d223c55f523da7347a7e78c8791ad722
+      internalID: 1247351432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TemplateSpriteSheet_57
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 0
+        width: 80
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 89e48e5f342855a488ee25b3d26ecf53
+      internalID: -1112247322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TemplateSpriteSheet_58
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 80
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e8737e78c757c545acbfcb4acf2cc48
+      internalID: 616540735
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TemplateSpriteSheet_59
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 0
+        width: 80
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 393d488e22fd7594bbbe349a3b067507
+      internalID: -1212519855
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TemplateSpriteSheet_60
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 80
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a9bcd45039b41a5498ebae14d9b358c4
+      internalID: 30813929
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TemplateSpriteSheet_61
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 0
+        width: 80
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da91a115584e90a4c9494767abf38940
+      internalID: -1852411526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TemplateSpriteSheet_62
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 0
+        width: 80
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 133f5f3bea6fad14dba61c458da62dab
+      internalID: -250802342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TemplateSpriteSheet_63
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 0
+        width: 80
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 585ac0e5b0a31b14b9286e6b6e64f6e2
+      internalID: -2028462067
       vertices: []
       indices: 
       edges: []
@@ -1194,7 +1568,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":80.0,"y":160.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       TemplateSpriteSheet_0: 1005503913
       TemplateSpriteSheet_1: -1727559
@@ -1238,8 +1614,25 @@ TextureImporter:
       TemplateSpriteSheet_44: 760786055
       TemplateSpriteSheet_45: -1777276541
       TemplateSpriteSheet_46: -639930119
+      TemplateSpriteSheet_47: -71565637
+      TemplateSpriteSheet_48: 844457666
+      TemplateSpriteSheet_49: -299328741
       TemplateSpriteSheet_5: -1965653608
+      TemplateSpriteSheet_50: -407683928
+      TemplateSpriteSheet_51: -2052119156
+      TemplateSpriteSheet_52: 633044836
+      TemplateSpriteSheet_53: -970123103
+      TemplateSpriteSheet_54: 1526160820
+      TemplateSpriteSheet_55: 1823776435
+      TemplateSpriteSheet_56: 1247351432
+      TemplateSpriteSheet_57: -1112247322
+      TemplateSpriteSheet_58: 616540735
+      TemplateSpriteSheet_59: -1212519855
       TemplateSpriteSheet_6: 18889342
+      TemplateSpriteSheet_60: 30813929
+      TemplateSpriteSheet_61: -1852411526
+      TemplateSpriteSheet_62: -250802342
+      TemplateSpriteSheet_63: -2028462067
       TemplateSpriteSheet_7: 2118977197
       TemplateSpriteSheet_8: 2125613318
       TemplateSpriteSheet_9: -471963569

@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class ManagementBattleInfo : MonoBehaviour
+public class EventSystemSingleton : MonoBehaviour
 {
-    public static ManagementBattleInfo Instance { get; private set; }
-    public GenerateMap generateMap;
+    public static EventSystemSingleton Instance { get; private set; }
+
     void Awake()
     {
         if (Instance == null)
@@ -15,9 +15,5 @@ public class ManagementBattleInfo : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-    public void GetInfo()
-    {
-        
     }
 }

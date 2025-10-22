@@ -116,7 +116,7 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
-    async Awaitable ChangeScene(TypeScene typeScene)
+    public async Awaitable ChangeScene(TypeScene typeScene, LoadSceneMode loadSceneMode = LoadSceneMode.Single)
     {
         try
         {
@@ -129,11 +129,11 @@ public class GameManager : MonoBehaviour
             while (!openCloseScene.openCloseSceneAnimator.GetCurrentAnimatorStateInfo(0).IsName("OpenCloseSceneIdle")) await Task.Delay(TimeSpan.FromSeconds(0.01)); ;
             if (typeScene == TypeScene.Reload)
             {
-                SceneManager.LoadScene(SceneManager.GetSceneAt(0).name);
+                SceneManager.LoadScene(SceneManager.GetSceneAt(0).name, loadSceneMode);
             }
             else if (typeScene == TypeScene.HomeScene)
             {
-                SceneManager.LoadScene(typeScene.ToString());
+                SceneManager.LoadScene(typeScene.ToString(), loadSceneMode);
                 GameData.Instance.LoadGameDataInfo();
             }
             else if (typeScene == TypeScene.Exit)
@@ -142,7 +142,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                SceneManager.LoadScene(typeScene.ToString());
+                SceneManager.LoadScene(typeScene.ToString(), loadSceneMode);
             }
             await Task.Delay(TimeSpan.FromSeconds(0.05));
             _ = openCloseScene.WaitFinishCloseAnimation();
@@ -235,7 +235,8 @@ public class GameManager : MonoBehaviour
         Reload = 4,
         Exit = 5,
         GameOverScene = 6,
-        BattleScene = 7
+        BattleScene = 7,
+        CityScene = 8,
     }
     public enum TypeDevice
     {

@@ -17,6 +17,10 @@ public class GameManagerHelper : MonoBehaviour
         GameManager.TypeScene scene = (GameManager.TypeScene)typeScene;
         GameManager.Instance.ChangeSceneSelector(scene);
     }
+    public void ChangeScene(GameManager.TypeScene typeScene)
+    {
+        GameManager.Instance.ChangeSceneSelector(typeScene);
+    }
     public void SaveGameData()
     {
         GameData.Instance.SaveGameData();

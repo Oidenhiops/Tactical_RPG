@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
+    public GenerateMap generateMap;
     public TypeBlock typeBlock;
     public SerializedDictionary<TypeNeighbors, MeshesInfo> meshes;
     public int bitMask;
     public SerializedDictionary<int, BlocksInfo> renderInfo;
+    public SerializedDictionary<Sprite, List<Sprite>> variationsSprites;
     [SerializeField] List<TypeNeighbors> neighbors = new List<TypeNeighbors>();
     public SerializedDictionary<Vector3Int, TypeNeighbors> directions;
     public GameObject poolingGrid;
@@ -38,7 +40,7 @@ public class Block : MonoBehaviour
         foreach (KeyValuePair<Vector3Int, TypeNeighbors> value in directions)
         {
             direction = Vector3Int.RoundToInt(transform.position + value.Key);
-            if (AStarPathFinding.Instance.grid.ContainsKey(direction))
+            if (generateMap.aStarPathFinding.grid.ContainsKey(direction))
             {
                 neighbors.Add(directions[GetDirection(Vector3Int.RoundToInt(transform.position), Vector3Int.RoundToInt(transform.position + value.Key))]);
             }
@@ -60,11 +62,20 @@ public class Block : MonoBehaviour
                 if (!neighbors.Contains(directions[i]))
                 {
                     meshes[directions[i]].meshRenderer.gameObject.SetActive(true);
-                    SetTextureFromAtlas(blockInfo.targetSprite, meshes[directions[i]]);
+                    SetTextureFromAtlas(GetVariationSprite(blockInfo.targetSprite), meshes[directions[i]]);
                 }
             }
         }
         else if (BlockAddRuleManager.Instance && !BlockAddRuleManager.Instance.blockToAddRule.renderInfo.ContainsKey(GetBitmask())) BlockAddRuleManager.Instance.blockToAddRule.renderInfo.Add(GetBitmask(), new BlocksInfo { targetSprite = null, blockGeneratedRule = this });
+    }
+    Sprite GetVariationSprite(Sprite originalSprite)
+    {
+        if (variationsSprites.TryGetValue(originalSprite, out List<Sprite> variations) && variations.Count > 0)
+        {
+            int randomIndex = Random.Range(0, variations.Count);
+            return variations[randomIndex];
+        }
+        return originalSprite;
     }
     Vector3Int GetDirection(Vector3Int from, Vector3Int to)
     {
@@ -79,7 +90,7 @@ public class Block : MonoBehaviour
     {
         Vector2[] uvs = meshesInfo.originalMesh.uv;
         Texture2D texture = spriteFromAtlas.texture;
-        meshesInfo.meshRenderer.material.mainTexture = GenerateMap.Instance.currentAtlasMap.texture;
+        meshesInfo.meshRenderer.material.mainTexture = generateMap.currentAtlasMap.texture;
         Rect spriteRect = spriteFromAtlas.rect; 
         for (int i = 0; i < uvs.Length; i++)
         {

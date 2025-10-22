@@ -60,20 +60,20 @@ public class MenuLiftCharacter : MonoBehaviour
                 Destroy(child.gameObject);
             }
             banners = new SerializedDictionary<CharacterBase, LiftCharactersBanner>();
-            if (playerManager.actionsManager.characterActions.TryGetValue(AStarPathFinding.Instance.characterSelected, out List<ActionsManager.ActionInfo> actions))
+            if (playerManager.actionsManager.characterActions.TryGetValue(playerManager.aStarPathFinding.characterSelected, out List<ActionsManager.ActionInfo> actions))
             {
                 actions.Add(new ActionsManager.ActionInfo
                 {
-                    characterMakeAction = AStarPathFinding.Instance.characterSelected,
+                    characterMakeAction = playerManager.aStarPathFinding.characterSelected,
                     typeAction = ActionsManager.TypeAction.Lift,
                     characterToMakeAction = new List<ActionsManager.OtherCharacterInfo>
                 {
                     new ActionsManager.OtherCharacterInfo(banner.character, Vector3Int.RoundToInt(banner.character.transform.position))
                 }
                 });
-                playerManager.actionsManager.characterFinalActions.Add(AStarPathFinding.Instance.characterSelected, new ActionsManager.ActionInfo
+                playerManager.actionsManager.characterFinalActions.Add(playerManager.aStarPathFinding.characterSelected, new ActionsManager.ActionInfo
                 {
-                    characterMakeAction = AStarPathFinding.Instance.characterSelected,
+                    characterMakeAction = playerManager.aStarPathFinding.characterSelected,
                     typeAction = ActionsManager.TypeAction.Lift,
                     characterToMakeAction = new List<ActionsManager.OtherCharacterInfo>
                 {
@@ -84,10 +84,10 @@ public class MenuLiftCharacter : MonoBehaviour
             else
             {
                 playerManager.actionsManager.characterActions.Add(
-                    AStarPathFinding.Instance.characterSelected,
+                    playerManager.aStarPathFinding.characterSelected,
                     new List<ActionsManager.ActionInfo> {
                     new ActionsManager.ActionInfo{
-                        characterMakeAction = AStarPathFinding.Instance.characterSelected,
+                        characterMakeAction = playerManager.aStarPathFinding.characterSelected,
                         typeAction = ActionsManager.TypeAction.Lift,
                         characterToMakeAction = new List<ActionsManager.OtherCharacterInfo>
                         {
@@ -96,9 +96,9 @@ public class MenuLiftCharacter : MonoBehaviour
                     }
                     }
                 );
-                playerManager.actionsManager.characterFinalActions.Add(AStarPathFinding.Instance.characterSelected, new ActionsManager.ActionInfo
+                playerManager.actionsManager.characterFinalActions.Add(playerManager.aStarPathFinding.characterSelected, new ActionsManager.ActionInfo
                 {
-                    characterMakeAction = AStarPathFinding.Instance.characterSelected,
+                    characterMakeAction = playerManager.aStarPathFinding.characterSelected,
                     typeAction = ActionsManager.TypeAction.Lift,
                     characterToMakeAction = new List<ActionsManager.OtherCharacterInfo>
                 {
@@ -110,22 +110,22 @@ public class MenuLiftCharacter : MonoBehaviour
             {
                 banner.character.characterAnimations.MakeAnimation("Lifted");
             }
-            AStarPathFinding.Instance.characterSelected.characterAnimations.MakeAnimation("Lift");
-            AStarPathFinding.Instance.characterSelected.characterStatusEffect.statusEffects.Add(statusEffectLiftSO, 0);
-            AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(banner.character.transform.position)].hasCharacter = null;
-            if (playerManager.actionsManager.characterActions.TryGetValue(AStarPathFinding.Instance.characterSelected, out List<ActionsManager.ActionInfo> actionsFinded))
+            playerManager.aStarPathFinding.characterSelected.characterAnimations.MakeAnimation("Lift");
+            playerManager.aStarPathFinding.characterSelected.characterStatusEffect.statusEffects.Add(statusEffectLiftSO, 0);
+            playerManager.aStarPathFinding.grid[Vector3Int.RoundToInt(banner.character.transform.position)].hasCharacter = null;
+            if (playerManager.actionsManager.characterActions.TryGetValue(playerManager.aStarPathFinding.characterSelected, out List<ActionsManager.ActionInfo> actionsFinded))
             {
-                actionsFinded[actionsFinded.Count - 1].characterToMakeAction[0].character.transform.position = AStarPathFinding.Instance.characterSelected.positionInGrid + Vector3Int.up;
-                actionsFinded[actionsFinded.Count - 1].characterToMakeAction[0].character.transform.SetParent(AStarPathFinding.Instance.characterSelected.transform);
+                actionsFinded[actionsFinded.Count - 1].characterToMakeAction[0].character.transform.position = playerManager.aStarPathFinding.characterSelected.positionInGrid + Vector3Int.up;
+                actionsFinded[actionsFinded.Count - 1].characterToMakeAction[0].character.transform.SetParent(playerManager.aStarPathFinding.characterSelected.transform);
             }
-            AStarPathFinding.Instance.characterSelected.lastAction = ActionsManager.TypeAction.Lift;
+            playerManager.aStarPathFinding.characterSelected.lastAction = ActionsManager.TypeAction.Lift;
             _ = DisableMenuAfterCharacterSelect();
         }
     }
     public async Task EnableMenu()
     {
         await SpawnBanners();
-        AStarPathFinding.Instance.EnableGrid(positionsToLift, gridColor);
+        playerManager.aStarPathFinding.EnableGrid(positionsToLift, gridColor);
         index = 0;
         if (banners.Count > 0)
         {
@@ -148,7 +148,7 @@ public class MenuLiftCharacter : MonoBehaviour
     public async Task DisableMenu()
     {
         await Awaitable.NextFrameAsync();
-        AStarPathFinding.Instance.DisableGrid();
+        playerManager.aStarPathFinding.DisableGrid();
         menuLiftCharacter.SetActive(false);
         isMenuActive = false;
         foreach (Transform child in containerBanners.transform)
@@ -157,12 +157,12 @@ public class MenuLiftCharacter : MonoBehaviour
         }
         banners = new SerializedDictionary<CharacterBase, LiftCharactersBanner>();
         playerManager.menuCharacterActions.BackToMenuWhitButton(MenuCharacterActions.TypeButton.Lift);
-        playerManager.MovePointerToInstant(AStarPathFinding.Instance.characterSelected.positionInGrid);
+        playerManager.MovePointerToInstant(playerManager.aStarPathFinding.characterSelected.positionInGrid);
     }
     public async Task DisableMenuAfterCharacterSelect()
     {
         await Awaitable.NextFrameAsync();
-        AStarPathFinding.Instance.DisableGrid();
+        playerManager.aStarPathFinding.DisableGrid();
         menuLiftCharacter.SetActive(false);
         playerManager.menuCharacterInfo.DisableMenu(true);
         isMenuActive = false;
@@ -172,7 +172,7 @@ public class MenuLiftCharacter : MonoBehaviour
         }
         playerManager.actionsManager.EnableMobileInputs();
         banners = new SerializedDictionary<CharacterBase, LiftCharactersBanner>();
-        playerManager.MovePointerToInstant(AStarPathFinding.Instance.characterSelected.positionInGrid);
-        AStarPathFinding.Instance.characterSelected = null;
+        playerManager.MovePointerToInstant(playerManager.aStarPathFinding.characterSelected.positionInGrid);
+        playerManager.aStarPathFinding.characterSelected = null;
     }
 }

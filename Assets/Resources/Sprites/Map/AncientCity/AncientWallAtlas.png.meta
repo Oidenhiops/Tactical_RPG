@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8a03fd90ea8ec464d8732e2865c6f75d
+guid: 22a155b8f26093b40b20b12134f7b111
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -25,7 +25,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMipmapLimit: 1
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -39,7 +39,7 @@ TextureImporter:
     mipBias: 0
     wrapU: 1
     wrapV: 1
-    wrapW: 1
+    wrapW: 0
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -48,9 +48,9 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 64
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 0
+  spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -69,23 +69,10 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 1024
-    resizeAlgorithm: 1
-    textureFormat: 4
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -107,7 +94,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: iOS
+    buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -120,20 +107,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: 50
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Server
+    buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -153,19 +127,19 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 800
-        width: 80
-        height: 160
+        y: 966
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9aa7e54fae8a68447866e7501532a307
-      internalID: 1172353077
+      spriteID: bce02d4beeba5e24ca8b457f114fa827
+      internalID: 1180130844
       vertices: []
       indices: 
       edges: []
@@ -174,20 +148,20 @@ TextureImporter:
       name: AncientWallAtlas_1
       rect:
         serializedVersion: 2
-        x: 80
-        y: 800
-        width: 80
-        height: 160
+        x: 69
+        y: 966
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a719bd65867d71c4cb786c0fd86df215
-      internalID: 1793673435
+      spriteID: 7f40646471a0e4b4dabfe9c0f9f0f048
+      internalID: 1744999890
       vertices: []
       indices: 
       edges: []
@@ -196,20 +170,20 @@ TextureImporter:
       name: AncientWallAtlas_2
       rect:
         serializedVersion: 2
-        x: 160
-        y: 800
-        width: 80
-        height: 160
+        x: 138
+        y: 966
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ea75e8bafbad6c445b4e0307aaeb3220
-      internalID: 741495370
+      spriteID: 36274540183fecf44bd15fcc47b6b530
+      internalID: 1908579526
       vertices: []
       indices: 
       edges: []
@@ -218,20 +192,20 @@ TextureImporter:
       name: AncientWallAtlas_3
       rect:
         serializedVersion: 2
-        x: 240
-        y: 800
-        width: 80
-        height: 160
+        x: 207
+        y: 966
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4f184c8451f347a4ab975f9ad319233b
-      internalID: -109009306
+      spriteID: 9641d2181f74c7d40a913cadd410819d
+      internalID: -1526641239
       vertices: []
       indices: 
       edges: []
@@ -240,20 +214,20 @@ TextureImporter:
       name: AncientWallAtlas_4
       rect:
         serializedVersion: 2
-        x: 320
-        y: 800
-        width: 80
-        height: 160
+        x: 276
+        y: 966
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 769ca512aac867545b0417ee9ad5ad77
-      internalID: -101135263
+      spriteID: 22641f7f60b22eb4eb9cdfc33a8e3ada
+      internalID: 648356393
       vertices: []
       indices: 
       edges: []
@@ -262,20 +236,20 @@ TextureImporter:
       name: AncientWallAtlas_5
       rect:
         serializedVersion: 2
-        x: 400
-        y: 800
-        width: 80
-        height: 160
+        x: 345
+        y: 966
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 89525076e29bce14e83a2320714a459a
-      internalID: -1105531193
+      spriteID: 9e91f54225493a44e818cd9cf358ab21
+      internalID: -439985682
       vertices: []
       indices: 
       edges: []
@@ -284,20 +258,20 @@ TextureImporter:
       name: AncientWallAtlas_6
       rect:
         serializedVersion: 2
-        x: 480
-        y: 800
-        width: 80
-        height: 160
+        x: 414
+        y: 966
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 69b1815bd49580340a4c9f09f4116060
-      internalID: -293319068
+      spriteID: b761eb6f9a3c44049b8b488a169553c0
+      internalID: -1271467366
       vertices: []
       indices: 
       edges: []
@@ -307,19 +281,19 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 640
-        width: 80
-        height: 160
+        y: 828
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 983300127a816724a8f6923fac796363
-      internalID: 1996889962
+      spriteID: 0de23dc5c47dc954d92afeb806ea1833
+      internalID: 155642397
       vertices: []
       indices: 
       edges: []
@@ -328,20 +302,20 @@ TextureImporter:
       name: AncientWallAtlas_8
       rect:
         serializedVersion: 2
-        x: 80
-        y: 640
-        width: 80
-        height: 160
+        x: 69
+        y: 828
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ddaf2a7b2b022f44c8cbc9f7543f50e6
-      internalID: 662331234
+      spriteID: 19a4a6f7f12f3304185e8b564c0a794e
+      internalID: 1927262939
       vertices: []
       indices: 
       edges: []
@@ -350,20 +324,20 @@ TextureImporter:
       name: AncientWallAtlas_9
       rect:
         serializedVersion: 2
-        x: 160
-        y: 640
-        width: 80
-        height: 160
+        x: 138
+        y: 828
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 73f469c28350d544ea76c69751e7ccad
-      internalID: -1435213776
+      spriteID: ccd3d7297ffc144489dbe319964263f3
+      internalID: -526127710
       vertices: []
       indices: 
       edges: []
@@ -372,20 +346,20 @@ TextureImporter:
       name: AncientWallAtlas_10
       rect:
         serializedVersion: 2
-        x: 240
-        y: 640
-        width: 80
-        height: 160
+        x: 207
+        y: 828
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5a6b152133b79fe48b96e0d86574f58e
-      internalID: 2140916412
+      spriteID: 906683f5eafaf0f4f9622d042e4dc23d
+      internalID: -797457054
       vertices: []
       indices: 
       edges: []
@@ -394,20 +368,20 @@ TextureImporter:
       name: AncientWallAtlas_11
       rect:
         serializedVersion: 2
-        x: 320
-        y: 640
-        width: 80
-        height: 160
+        x: 276
+        y: 828
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b869e37ce67c41a4bb2927e2ac21692a
-      internalID: -35718252
+      spriteID: 03d9ea088fe922249bcd9ed4d3e7ca50
+      internalID: 453940896
       vertices: []
       indices: 
       edges: []
@@ -416,20 +390,20 @@ TextureImporter:
       name: AncientWallAtlas_12
       rect:
         serializedVersion: 2
-        x: 400
-        y: 640
-        width: 80
-        height: 160
+        x: 345
+        y: 828
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: de91c9e48fe2fdc4294db440f81baebd
-      internalID: -1022832148
+      spriteID: d339849588d59f241893e61f3dbd2dd0
+      internalID: -699887617
       vertices: []
       indices: 
       edges: []
@@ -438,20 +412,20 @@ TextureImporter:
       name: AncientWallAtlas_13
       rect:
         serializedVersion: 2
-        x: 480
-        y: 640
-        width: 80
-        height: 160
+        x: 414
+        y: 828
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b2576e889aa240a479c2e2cbe1ccb44e
-      internalID: -1892907365
+      spriteID: ef317e71cf986994aba6b2c9506c24d3
+      internalID: -48384819
       vertices: []
       indices: 
       edges: []
@@ -460,20 +434,20 @@ TextureImporter:
       name: AncientWallAtlas_14
       rect:
         serializedVersion: 2
-        x: 560
-        y: 640
-        width: 80
-        height: 160
+        x: 483
+        y: 828
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d6c8cc895b2e5fb4a9ed254442249314
-      internalID: -536928198
+      spriteID: 9e914515cb4a5f4448ff6289e6f4c903
+      internalID: 1531217779
       vertices: []
       indices: 
       edges: []
@@ -483,19 +457,19 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 480
-        width: 80
-        height: 160
+        y: 690
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aed46a67bf2cb844fafd3c039269e835
-      internalID: 1080149579
+      spriteID: aa0371b048346164e83f38548887cdce
+      internalID: 1837180264
       vertices: []
       indices: 
       edges: []
@@ -504,20 +478,20 @@ TextureImporter:
       name: AncientWallAtlas_16
       rect:
         serializedVersion: 2
-        x: 80
-        y: 480
-        width: 80
-        height: 160
+        x: 69
+        y: 690
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7595bd8da1d7fab4f8332fa4eccb3172
-      internalID: -222056124
+      spriteID: 5a183eaa03ef69f4c9f355d1bb3eed3f
+      internalID: 806659766
       vertices: []
       indices: 
       edges: []
@@ -526,20 +500,20 @@ TextureImporter:
       name: AncientWallAtlas_17
       rect:
         serializedVersion: 2
-        x: 160
-        y: 480
-        width: 80
-        height: 160
+        x: 138
+        y: 690
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 861f47e2d6a6f06428ff602faca94267
-      internalID: 966099149
+      spriteID: a2820308d6cf48e41a3bd34e20b89452
+      internalID: -781162568
       vertices: []
       indices: 
       edges: []
@@ -548,20 +522,20 @@ TextureImporter:
       name: AncientWallAtlas_18
       rect:
         serializedVersion: 2
-        x: 240
-        y: 480
-        width: 80
-        height: 160
+        x: 207
+        y: 690
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f6a22849ae12a564bb3c177827ee1ca2
-      internalID: -501074748
+      spriteID: 5c2e79ca3524a6740a78db163484b502
+      internalID: 1373847745
       vertices: []
       indices: 
       edges: []
@@ -570,20 +544,20 @@ TextureImporter:
       name: AncientWallAtlas_19
       rect:
         serializedVersion: 2
-        x: 320
-        y: 480
-        width: 80
-        height: 160
+        x: 276
+        y: 690
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9cd3152ab5e95fd44829948038966561
-      internalID: 1916582633
+      spriteID: dea21b545bb6bbe42a5fe585565f0ec3
+      internalID: -1563276621
       vertices: []
       indices: 
       edges: []
@@ -592,20 +566,20 @@ TextureImporter:
       name: AncientWallAtlas_20
       rect:
         serializedVersion: 2
-        x: 400
-        y: 480
-        width: 80
-        height: 160
+        x: 345
+        y: 690
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d4bf9e06bb3d1274db1f4037c07dc065
-      internalID: 1578572199
+      spriteID: 906971423a2d2944dbcf57c4109d5ec9
+      internalID: -1531123962
       vertices: []
       indices: 
       edges: []
@@ -614,20 +588,20 @@ TextureImporter:
       name: AncientWallAtlas_21
       rect:
         serializedVersion: 2
-        x: 480
-        y: 480
-        width: 80
-        height: 160
+        x: 414
+        y: 690
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 826b7cef4c096ec4fa154582280c3b91
-      internalID: -1411543723
+      spriteID: 52ac70e78ed3d4d409f5b549e9e521ff
+      internalID: -1410948417
       vertices: []
       indices: 
       edges: []
@@ -636,20 +610,20 @@ TextureImporter:
       name: AncientWallAtlas_22
       rect:
         serializedVersion: 2
-        x: 560
-        y: 480
-        width: 80
-        height: 160
+        x: 483
+        y: 690
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b4a1511efccf681439ef7cb1c89bcc0e
-      internalID: 2053247739
+      spriteID: c07ec2a96792ff144b146e6689dc108f
+      internalID: -814156346
       vertices: []
       indices: 
       edges: []
@@ -659,19 +633,19 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 320
-        width: 80
-        height: 160
+        y: 552
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6aed52243bb374d4795b9d0caf24c62a
-      internalID: 115781804
+      spriteID: 139a04befb6cff543a9c219d30535751
+      internalID: -1679339994
       vertices: []
       indices: 
       edges: []
@@ -680,20 +654,20 @@ TextureImporter:
       name: AncientWallAtlas_24
       rect:
         serializedVersion: 2
-        x: 80
-        y: 320
-        width: 80
-        height: 160
+        x: 69
+        y: 552
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fd163d7891fc34346a6dad6e52601c7f
-      internalID: 834338737
+      spriteID: 75bda4aa527eb5d47b5699bb1aeb0fb5
+      internalID: 159893996
       vertices: []
       indices: 
       edges: []
@@ -702,20 +676,20 @@ TextureImporter:
       name: AncientWallAtlas_25
       rect:
         serializedVersion: 2
-        x: 160
-        y: 320
-        width: 80
-        height: 160
+        x: 138
+        y: 552
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6c4344d0643b2ff4ead697645565b563
-      internalID: -1772140261
+      spriteID: 46156399469d22b4ebdaf3be8c8cee88
+      internalID: 1466935422
       vertices: []
       indices: 
       edges: []
@@ -724,20 +698,20 @@ TextureImporter:
       name: AncientWallAtlas_26
       rect:
         serializedVersion: 2
-        x: 240
-        y: 320
-        width: 80
-        height: 160
+        x: 207
+        y: 552
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3768aac7b551fc948889b6515a645381
-      internalID: 824465569
+      spriteID: 53f7b6923db48aa4eab3c89225c1b2bd
+      internalID: 1067857814
       vertices: []
       indices: 
       edges: []
@@ -746,20 +720,20 @@ TextureImporter:
       name: AncientWallAtlas_27
       rect:
         serializedVersion: 2
-        x: 320
-        y: 320
-        width: 80
-        height: 160
+        x: 276
+        y: 552
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2b3901079e19cbd45ac5caacf07a4543
-      internalID: -306956747
+      spriteID: 742bbc7846392f944aa92dfe94733c5e
+      internalID: 1459465378
       vertices: []
       indices: 
       edges: []
@@ -768,20 +742,20 @@ TextureImporter:
       name: AncientWallAtlas_28
       rect:
         serializedVersion: 2
-        x: 400
-        y: 320
-        width: 80
-        height: 160
+        x: 345
+        y: 552
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 74ab1f76b3c6c964c8697fe35968b0d6
-      internalID: -1711577687
+      spriteID: 508273f47fc608a468a1c2a45b781231
+      internalID: -1790602899
       vertices: []
       indices: 
       edges: []
@@ -790,20 +764,20 @@ TextureImporter:
       name: AncientWallAtlas_29
       rect:
         serializedVersion: 2
-        x: 480
-        y: 320
-        width: 80
-        height: 160
+        x: 414
+        y: 552
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fef45ef6818f2cc4d8f21713501479f1
-      internalID: -1649930033
+      spriteID: 0d6a934b62072714eb15dee6aedf0939
+      internalID: -22632342
       vertices: []
       indices: 
       edges: []
@@ -812,20 +786,20 @@ TextureImporter:
       name: AncientWallAtlas_30
       rect:
         serializedVersion: 2
-        x: 560
-        y: 320
-        width: 80
-        height: 160
+        x: 483
+        y: 552
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 65fd84682b3a2694ba2c4f57ce68b925
-      internalID: -2104583673
+      spriteID: 3155e55806df75d4ebf3f6dad27d5a2f
+      internalID: 1895421628
       vertices: []
       indices: 
       edges: []
@@ -835,19 +809,19 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 160
-        width: 80
-        height: 160
+        y: 414
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 55abd92db203cca478395683191afdf7
-      internalID: -1417093984
+      spriteID: c73f45c6d019bd9469b1404dc8b4d9fc
+      internalID: 2004937107
       vertices: []
       indices: 
       edges: []
@@ -856,20 +830,20 @@ TextureImporter:
       name: AncientWallAtlas_32
       rect:
         serializedVersion: 2
-        x: 80
-        y: 160
-        width: 80
-        height: 160
+        x: 69
+        y: 414
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1877cd772c4cb8a4dba8a640f095ff12
-      internalID: -2094297687
+      spriteID: cff0dca10e7d9e847b237720fac41b78
+      internalID: -2059459808
       vertices: []
       indices: 
       edges: []
@@ -878,20 +852,20 @@ TextureImporter:
       name: AncientWallAtlas_33
       rect:
         serializedVersion: 2
-        x: 160
-        y: 160
-        width: 80
-        height: 160
+        x: 138
+        y: 414
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e3f9fbd787105b747b337b6f6a2d8ec0
-      internalID: 1757717915
+      spriteID: 07b82637538e1aa4c8215732adab28f6
+      internalID: 2040137523
       vertices: []
       indices: 
       edges: []
@@ -900,20 +874,20 @@ TextureImporter:
       name: AncientWallAtlas_34
       rect:
         serializedVersion: 2
-        x: 240
-        y: 160
-        width: 80
-        height: 160
+        x: 207
+        y: 414
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7c18f80ceed4d2148872172875f6e4c0
-      internalID: 92008306
+      spriteID: 820ca5019ea3b6d4bb8833c04d1b56ee
+      internalID: -620966774
       vertices: []
       indices: 
       edges: []
@@ -922,20 +896,20 @@ TextureImporter:
       name: AncientWallAtlas_35
       rect:
         serializedVersion: 2
-        x: 320
-        y: 160
-        width: 80
-        height: 160
+        x: 276
+        y: 414
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b053396374793934ca054a4ed8d56547
-      internalID: -1591669831
+      spriteID: 743d788e36a42e741892c05a44960025
+      internalID: -756566015
       vertices: []
       indices: 
       edges: []
@@ -944,20 +918,20 @@ TextureImporter:
       name: AncientWallAtlas_36
       rect:
         serializedVersion: 2
-        x: 400
-        y: 160
-        width: 80
-        height: 160
+        x: 345
+        y: 414
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f1218c9ba77812141b361400268864bf
-      internalID: -684180618
+      spriteID: ced5f8b9449160b41ac7930ea133a40c
+      internalID: 1793953087
       vertices: []
       indices: 
       edges: []
@@ -966,20 +940,20 @@ TextureImporter:
       name: AncientWallAtlas_37
       rect:
         serializedVersion: 2
-        x: 480
-        y: 160
-        width: 80
-        height: 160
+        x: 414
+        y: 414
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 86c7cde8fdfc4de41bd226b12e1c5999
-      internalID: -1972526544
+      spriteID: e127cd83989c2ee4c922249d8e837bae
+      internalID: -1703792837
       vertices: []
       indices: 
       edges: []
@@ -988,20 +962,20 @@ TextureImporter:
       name: AncientWallAtlas_38
       rect:
         serializedVersion: 2
-        x: 560
-        y: 160
-        width: 80
-        height: 160
+        x: 483
+        y: 414
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9d216642c334ec14cbee157d323bebc0
-      internalID: -1715675098
+      spriteID: 480e7d28c1841714fa986744bbd6c14c
+      internalID: 1048671424
       vertices: []
       indices: 
       edges: []
@@ -1011,19 +985,19 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 80
-        height: 160
+        y: 276
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: baa635cb49325f441b5afe5383243ef1
-      internalID: 1156232910
+      spriteID: 36a9118b6ad5f4a4db583c16db8799c2
+      internalID: -310330387
       vertices: []
       indices: 
       edges: []
@@ -1032,20 +1006,20 @@ TextureImporter:
       name: AncientWallAtlas_40
       rect:
         serializedVersion: 2
-        x: 80
-        y: 0
-        width: 80
-        height: 160
+        x: 69
+        y: 276
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 87b8fdc3435c3ba4cae4b807f400b16f
-      internalID: 788608287
+      spriteID: 287c124cf69506b4982a31b8629608b7
+      internalID: 1265602878
       vertices: []
       indices: 
       edges: []
@@ -1054,20 +1028,20 @@ TextureImporter:
       name: AncientWallAtlas_41
       rect:
         serializedVersion: 2
-        x: 160
-        y: 0
-        width: 80
-        height: 160
+        x: 138
+        y: 276
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bc226f7916a0df64481aa984aaa07d74
-      internalID: 1728488320
+      spriteID: 03cc1cb701a939b4a8fcb536c8b52782
+      internalID: 40017134
       vertices: []
       indices: 
       edges: []
@@ -1076,20 +1050,20 @@ TextureImporter:
       name: AncientWallAtlas_42
       rect:
         serializedVersion: 2
-        x: 240
-        y: 0
-        width: 80
-        height: 160
+        x: 207
+        y: 276
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1f16bf7c6b1d4b043a9e06eda4ad2fcf
-      internalID: 1379110390
+      spriteID: d51f07ff45e6a93438ff93c7a36b36e7
+      internalID: -13324488
       vertices: []
       indices: 
       edges: []
@@ -1098,20 +1072,20 @@ TextureImporter:
       name: AncientWallAtlas_43
       rect:
         serializedVersion: 2
-        x: 320
-        y: 0
-        width: 80
-        height: 160
+        x: 276
+        y: 276
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1dd6bfac26685f64aa05faa00a38e79f
-      internalID: -571968859
+      spriteID: 969ad423897d6ad468ae6a04f277e64c
+      internalID: 1783430284
       vertices: []
       indices: 
       edges: []
@@ -1120,20 +1094,20 @@ TextureImporter:
       name: AncientWallAtlas_44
       rect:
         serializedVersion: 2
-        x: 400
-        y: 0
-        width: 80
-        height: 160
+        x: 345
+        y: 276
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6b09c4c1123712441bd9469e8290e730
-      internalID: 1855932946
+      spriteID: 3b72ef9d424b2f74e8fcd16f2f69bf1a
+      internalID: 1612218935
       vertices: []
       indices: 
       edges: []
@@ -1142,20 +1116,20 @@ TextureImporter:
       name: AncientWallAtlas_45
       rect:
         serializedVersion: 2
-        x: 480
-        y: 0
-        width: 80
-        height: 160
+        x: 414
+        y: 276
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0a882807be58b654d9af06cbf8bcea04
-      internalID: -1754503259
+      spriteID: 13309c3dbee1c3d4884c2ba62ee3e195
+      internalID: 592823420
       vertices: []
       indices: 
       edges: []
@@ -1164,20 +1138,350 @@ TextureImporter:
       name: AncientWallAtlas_46
       rect:
         serializedVersion: 2
-        x: 560
-        y: 0
-        width: 80
-        height: 160
+        x: 483
+        y: 276
+        width: 69
+        height: 138
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a735e8d07b1e3df4c94b949a4aa2f3f9
-      internalID: -410095843
+      spriteID: 12a06686d745ede459435a980b1881f4
+      internalID: 1153861361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AncientWallAtlas_47
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 138
+        width: 69
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a2234da05f97eb4bab7a568c7ae89f8
+      internalID: -814547950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AncientWallAtlas_48
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 138
+        width: 69
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5bfeb64977b037f49bc6bbd10b463d62
+      internalID: 1606321661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AncientWallAtlas_49
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 138
+        width: 69
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8fb78adb989633143ae6d784a3903855
+      internalID: -1681262170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AncientWallAtlas_50
+      rect:
+        serializedVersion: 2
+        x: 207
+        y: 138
+        width: 69
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e11890055ad87646a85d4aee23bad95
+      internalID: -1630233875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AncientWallAtlas_51
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 138
+        width: 69
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 981a236d102900a4598c05e285efaaf6
+      internalID: -1986778601
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AncientWallAtlas_52
+      rect:
+        serializedVersion: 2
+        x: 345
+        y: 138
+        width: 69
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9478c078efe720544a16f1814f2b1717
+      internalID: -1084706814
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AncientWallAtlas_53
+      rect:
+        serializedVersion: 2
+        x: 414
+        y: 138
+        width: 69
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c49eaf7382714e41b6a25f1d517dde5
+      internalID: -1643247343
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AncientWallAtlas_54
+      rect:
+        serializedVersion: 2
+        x: 483
+        y: 138
+        width: 69
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 030c8b7ca26b7224c949aa819a72fca6
+      internalID: 1144302337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AncientWallAtlas_55
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 69
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc8a3ef8168b6f54bb2a1a6cda08e2c7
+      internalID: -1693393090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AncientWallAtlas_56
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 0
+        width: 69
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d89970f33e85574b93bd40f96e5b1dd
+      internalID: -1740839790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AncientWallAtlas_57
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 0
+        width: 69
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b4238c0739f17e4490a28d4b88b70b4
+      internalID: -1469540120
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AncientWallAtlas_58
+      rect:
+        serializedVersion: 2
+        x: 207
+        y: 0
+        width: 69
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe2e25f4331fd5d4794a1ac6d5a3f24e
+      internalID: -23088975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AncientWallAtlas_59
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 0
+        width: 69
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 87c31abe22bb397438e8eda14f2686ef
+      internalID: 409146663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AncientWallAtlas_60
+      rect:
+        serializedVersion: 2
+        x: 345
+        y: 0
+        width: 69
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3143b26113e65ee4a9ef9b9d921de136
+      internalID: -612958659
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AncientWallAtlas_61
+      rect:
+        serializedVersion: 2
+        x: 414
+        y: 0
+        width: 69
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff6ff45fad775334b9562c96b0390403
+      internalID: -460514622
       vertices: []
       indices: 
       edges: []
@@ -1186,7 +1490,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 8c656313c681c284482149f37386bde2
     internalID: 0
     vertices: []
     indices: 
@@ -1194,55 +1498,72 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":69.0,"y":138.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      AncientWallAtlas_0: 1172353077
-      AncientWallAtlas_1: 1793673435
-      AncientWallAtlas_10: 2140916412
-      AncientWallAtlas_11: -35718252
-      AncientWallAtlas_12: -1022832148
-      AncientWallAtlas_13: -1892907365
-      AncientWallAtlas_14: -536928198
-      AncientWallAtlas_15: 1080149579
-      AncientWallAtlas_16: -222056124
-      AncientWallAtlas_17: 966099149
-      AncientWallAtlas_18: -501074748
-      AncientWallAtlas_19: 1916582633
-      AncientWallAtlas_2: 741495370
-      AncientWallAtlas_20: 1578572199
-      AncientWallAtlas_21: -1411543723
-      AncientWallAtlas_22: 2053247739
-      AncientWallAtlas_23: 115781804
-      AncientWallAtlas_24: 834338737
-      AncientWallAtlas_25: -1772140261
-      AncientWallAtlas_26: 824465569
-      AncientWallAtlas_27: -306956747
-      AncientWallAtlas_28: -1711577687
-      AncientWallAtlas_29: -1649930033
-      AncientWallAtlas_3: -109009306
-      AncientWallAtlas_30: -2104583673
-      AncientWallAtlas_31: -1417093984
-      AncientWallAtlas_32: -2094297687
-      AncientWallAtlas_33: 1757717915
-      AncientWallAtlas_34: 92008306
-      AncientWallAtlas_35: -1591669831
-      AncientWallAtlas_36: -684180618
-      AncientWallAtlas_37: -1972526544
-      AncientWallAtlas_38: -1715675098
-      AncientWallAtlas_39: 1156232910
-      AncientWallAtlas_4: -101135263
-      AncientWallAtlas_40: 788608287
-      AncientWallAtlas_41: 1728488320
-      AncientWallAtlas_42: 1379110390
-      AncientWallAtlas_43: -571968859
-      AncientWallAtlas_44: 1855932946
-      AncientWallAtlas_45: -1754503259
-      AncientWallAtlas_46: -410095843
-      AncientWallAtlas_5: -1105531193
-      AncientWallAtlas_6: -293319068
-      AncientWallAtlas_7: 1996889962
-      AncientWallAtlas_8: 662331234
-      AncientWallAtlas_9: -1435213776
+      AncientWallAtlas_0: 1180130844
+      AncientWallAtlas_1: 1744999890
+      AncientWallAtlas_10: -797457054
+      AncientWallAtlas_11: 453940896
+      AncientWallAtlas_12: -699887617
+      AncientWallAtlas_13: -48384819
+      AncientWallAtlas_14: 1531217779
+      AncientWallAtlas_15: 1837180264
+      AncientWallAtlas_16: 806659766
+      AncientWallAtlas_17: -781162568
+      AncientWallAtlas_18: 1373847745
+      AncientWallAtlas_19: -1563276621
+      AncientWallAtlas_2: 1908579526
+      AncientWallAtlas_20: -1531123962
+      AncientWallAtlas_21: -1410948417
+      AncientWallAtlas_22: -814156346
+      AncientWallAtlas_23: -1679339994
+      AncientWallAtlas_24: 159893996
+      AncientWallAtlas_25: 1466935422
+      AncientWallAtlas_26: 1067857814
+      AncientWallAtlas_27: 1459465378
+      AncientWallAtlas_28: -1790602899
+      AncientWallAtlas_29: -22632342
+      AncientWallAtlas_3: -1526641239
+      AncientWallAtlas_30: 1895421628
+      AncientWallAtlas_31: 2004937107
+      AncientWallAtlas_32: -2059459808
+      AncientWallAtlas_33: 2040137523
+      AncientWallAtlas_34: -620966774
+      AncientWallAtlas_35: -756566015
+      AncientWallAtlas_36: 1793953087
+      AncientWallAtlas_37: -1703792837
+      AncientWallAtlas_38: 1048671424
+      AncientWallAtlas_39: -310330387
+      AncientWallAtlas_4: 648356393
+      AncientWallAtlas_40: 1265602878
+      AncientWallAtlas_41: 40017134
+      AncientWallAtlas_42: -13324488
+      AncientWallAtlas_43: 1783430284
+      AncientWallAtlas_44: 1612218935
+      AncientWallAtlas_45: 592823420
+      AncientWallAtlas_46: 1153861361
+      AncientWallAtlas_47: -814547950
+      AncientWallAtlas_48: 1606321661
+      AncientWallAtlas_49: -1681262170
+      AncientWallAtlas_5: -439985682
+      AncientWallAtlas_50: -1630233875
+      AncientWallAtlas_51: -1986778601
+      AncientWallAtlas_52: -1084706814
+      AncientWallAtlas_53: -1643247343
+      AncientWallAtlas_54: 1144302337
+      AncientWallAtlas_55: -1693393090
+      AncientWallAtlas_56: -1740839790
+      AncientWallAtlas_57: -1469540120
+      AncientWallAtlas_58: -23088975
+      AncientWallAtlas_59: 409146663
+      AncientWallAtlas_6: -1271467366
+      AncientWallAtlas_60: -612958659
+      AncientWallAtlas_61: -460514622
+      AncientWallAtlas_7: 155642397
+      AncientWallAtlas_8: 1927262939
+      AncientWallAtlas_9: -526127710
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

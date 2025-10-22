@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: bf909fab1c14af446b0a854de42289b2
 timeCreated: 1510086220
-licenseType: Free
+licenseType: Store
 PluginImporter:
   serializedVersion: 2
   iconMap: {}
@@ -31,3 +31,10 @@ PluginImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 68068
+  packageName: In-game Debug Console
+  packageVersion: 1.8.2
+  assetPath: Assets/Plugins/IngameDebugConsole/Android/IngameDebugConsole.aar
+  uploadId: 764785

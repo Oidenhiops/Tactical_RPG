@@ -6815,6 +6815,7 @@ MonoBehaviour:
   menuThrowCharacter: {fileID: 726234702}
   menuItemsCharacter: {fileID: 726234705}
   menuSkillsCharacter: {fileID: 726234706}
+  aStarPathFinding: {fileID: 726234704}
   mouseDecal: {fileID: 469652713}
   currentMousePos: {x: 0, y: 0, z: 0}
   cameraRot: {fileID: 1353228496}
@@ -6824,7 +6825,7 @@ MonoBehaviour:
   roundStateLanguage: {fileID: 95383181}
   charactersContainer: {fileID: 1088174141}
   _characterPlayerMakingActions: 0
-  generalCharacterPrefab: {fileID: 2412411816279942414, guid: e77d950606ee0e94dbae5b47c9c40c14,
+  characterBattlePrefab: {fileID: 2412411816279942414, guid: 042fa333b810e3a4eb4cfa8834eaea0a,
     type: 3}
   isDecalMovement: 0
 --- !u!224 &726234691
@@ -7151,6 +7152,7 @@ MonoBehaviour:
   gridMaterial: {fileID: 2100000, guid: 755e289abd815d74ca6fc09a1da5afd0, type: 2}
   subGridMaterial: {fileID: 2100000, guid: b64d48b2f5a652240903cd3eca34de72, type: 2}
   onlyForMap: 0
+  useEightDirections: 0
 --- !u!114 &726234705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15934,11 +15936,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 825f8ddb353aec44b997183550d4eb69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentAtlasMap: {fileID: 1172353077, guid: 8a03fd90ea8ec464d8732e2865c6f75d, type: 3}
+  aStarPathFinding: {fileID: 726234704}
+  currentAtlasMap: {fileID: -2031154871, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
   blocks: []
-  showGizmos: 0
-  showHandles: 0
-  autoInit: 0
+  isWorldMap: 0
+  findMapInfo: 1
 --- !u!4 &1686166484
 Transform:
   m_ObjectHideFlags: 0
@@ -15968,12 +15970,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d4cb5fa16d3294db154a194cb2dcc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  generateMap: {fileID: 1686166483}
   mazeSize: 21
   blockPrefab: {fileID: 3654539373334881833, guid: e1ce28cf769e2b54c96c7292e8182135,
     type: 3}
   spawnBlockPrefab: {fileID: 3654539373334881833, guid: 0ab022e51c14ec84e825408a1ce2fe0f,
     type: 3}
   sizeCell: 3
+  testGeneration: 0
 --- !u!1 &1711826922
 GameObject:
   m_ObjectHideFlags: 0

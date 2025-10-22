@@ -246,7 +246,7 @@ public class MenuCharacterInfo : MonoBehaviour
         menuCharacterInfo.SetActive(false);
         isMenuActive = false;
         subMenuIndex = 0;
-        if (!conservCharacter && AStarPathFinding.Instance) AStarPathFinding.Instance.characterSelected = null;
+        if (!conservCharacter && PlayerManager.Instance) PlayerManager.Instance.aStarPathFinding.characterSelected = null;
     }
     [Serializable]
     public class ItemInfo

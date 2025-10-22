@@ -39,7 +39,7 @@ public class MenuSkillsCharacter : MonoBehaviour
     }
     public async Task SpawnBanners()
     {
-        CharacterBase character = AStarPathFinding.Instance.characterSelected;
+        CharacterBase character = playerManager.aStarPathFinding.characterSelected;
         if (character.characterData.skills.Count > 0)
         {
             skillDescription.transform.parent.gameObject.SetActive(true);
@@ -93,9 +93,9 @@ public class MenuSkillsCharacter : MonoBehaviour
     {
         if (!GameManager.Instance.isPause)
         {
-            AStarPathFinding.Instance.GetPositionsToUseSkill(currentSkill.skill.skillsBaseSO, out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions);
-            AStarPathFinding.Instance.EnableGrid(positions, Color.blue);
-            AStarPathFinding.Instance.EnableSubGrid(currentSkill.skill.skillsBaseSO.positionsSkillForm, Color.red);
+            playerManager.aStarPathFinding.GetPositionsToUseSkill(currentSkill.skill.skillsBaseSO, out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions);
+            playerManager.aStarPathFinding.EnableGrid(positions, Color.blue);
+            playerManager.aStarPathFinding.EnableSubGrid(currentSkill.skill.skillsBaseSO.positionsSkillForm, Color.red);
             canMovePointer = currentSkill.skill.skillsBaseSO.isFreeMovementSkill;
             menuSkillSelectSkill.SetActive(false);
             mobileJoystick.SetActive(true);
@@ -112,10 +112,10 @@ public class MenuSkillsCharacter : MonoBehaviour
             }
             else
             {
-                foreach (KeyValuePair<Vector3Int, GameObject> pos in AStarPathFinding.Instance.currentSubGrid)
+                foreach (KeyValuePair<Vector3Int, GameObject> pos in playerManager.aStarPathFinding.currentSubGrid)
                 {
-                    AStarPathFinding.Instance.GetHighestBlockAt(new Vector3Int(Mathf.RoundToInt(pos.Value.transform.position.x), 0, Mathf.RoundToInt(pos.Value.transform.position.z)), out GenerateMap.WalkablePositionInfo block);
-                    if (block != null && AStarPathFinding.Instance.grid.ContainsKey(block.pos) && AStarPathFinding.Instance.grid[block.pos].hasCharacter)
+                    playerManager.aStarPathFinding.GetHighestBlockAt(new Vector3Int(Mathf.RoundToInt(pos.Value.transform.position.x), 0, Mathf.RoundToInt(pos.Value.transform.position.z)), out GenerateMap.WalkablePositionInfo block);
+                    if (block != null && playerManager.aStarPathFinding.grid.ContainsKey(block.pos) && playerManager.aStarPathFinding.grid[block.pos].hasCharacter)
                     {
                         characterFinded = true;
                         break;
@@ -184,9 +184,9 @@ public class MenuSkillsCharacter : MonoBehaviour
         currentSkill = null;
         menuSkillSelectSkill.SetActive(true);
         mobileJoystick.SetActive(false);
-        AStarPathFinding.Instance.DisableGrid();
-        AStarPathFinding.Instance.DisableSubGrid();
-        playerManager.MovePointerToInstant(Vector3Int.RoundToInt(AStarPathFinding.Instance.characterSelected.transform.position));
+        playerManager.aStarPathFinding.DisableGrid();
+        playerManager.aStarPathFinding.DisableSubGrid();
+        playerManager.MovePointerToInstant(Vector3Int.RoundToInt(playerManager.aStarPathFinding.characterSelected.transform.position));
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(banners.ElementAt(index).Value.gameObject);
     }
@@ -194,23 +194,23 @@ public class MenuSkillsCharacter : MonoBehaviour
     {
         List<Vector3Int> positionsToMakeSkill = new List<Vector3Int>();
 
-        foreach (KeyValuePair<Vector3Int, GameObject> pos in AStarPathFinding.Instance.currentSubGrid)
+        foreach (KeyValuePair<Vector3Int, GameObject> pos in playerManager.aStarPathFinding.currentSubGrid)
         {
             positionsToMakeSkill.Add(new Vector3Int(Mathf.RoundToInt(pos.Value.transform.position.x), 0, Mathf.RoundToInt(pos.Value.transform.position.z)));
         }
 
-        if (playerManager.actionsManager.characterActions.TryGetValue(AStarPathFinding.Instance.characterSelected, out List<ActionsManager.ActionInfo> actions))
+        if (playerManager.actionsManager.characterActions.TryGetValue(playerManager.aStarPathFinding.characterSelected, out List<ActionsManager.ActionInfo> actions))
         {
             actions.Add(new ActionsManager.ActionInfo
             {
-                characterMakeAction = AStarPathFinding.Instance.characterSelected,
+                characterMakeAction = playerManager.aStarPathFinding.characterSelected,
                 typeAction = ActionsManager.TypeAction.Skill,
                 skillInfo = currentSkill.skill,
                 positionsToMakeSkill = positionsToMakeSkill
             });
-            playerManager.actionsManager.characterFinalActions.Add(AStarPathFinding.Instance.characterSelected, new ActionsManager.ActionInfo
+            playerManager.actionsManager.characterFinalActions.Add(playerManager.aStarPathFinding.characterSelected, new ActionsManager.ActionInfo
             {
-                characterMakeAction = AStarPathFinding.Instance.characterSelected,
+                characterMakeAction = playerManager.aStarPathFinding.characterSelected,
                 typeAction = ActionsManager.TypeAction.Skill,
                 skillInfo = currentSkill.skill,
                 positionsToMakeSkill = positionsToMakeSkill
@@ -219,25 +219,25 @@ public class MenuSkillsCharacter : MonoBehaviour
         else
         {
             playerManager.actionsManager.characterActions.Add(
-                AStarPathFinding.Instance.characterSelected,
+                playerManager.aStarPathFinding.characterSelected,
                 new List<ActionsManager.ActionInfo> {
                     new ActionsManager.ActionInfo{
-                        characterMakeAction = AStarPathFinding.Instance.characterSelected,
+                        characterMakeAction = playerManager.aStarPathFinding.characterSelected,
                         typeAction = ActionsManager.TypeAction.Skill,
                         skillInfo = currentSkill.skill,
                         positionsToMakeSkill = positionsToMakeSkill
                     }
                 }
             );
-            playerManager.actionsManager.characterFinalActions.Add(AStarPathFinding.Instance.characterSelected, new ActionsManager.ActionInfo
+            playerManager.actionsManager.characterFinalActions.Add(playerManager.aStarPathFinding.characterSelected, new ActionsManager.ActionInfo
             {
-                characterMakeAction = AStarPathFinding.Instance.characterSelected,
+                characterMakeAction = playerManager.aStarPathFinding.characterSelected,
                 typeAction = ActionsManager.TypeAction.Skill,
                 skillInfo = currentSkill.skill,
                 positionsToMakeSkill = positionsToMakeSkill
             });
         }
-        AStarPathFinding.Instance.characterSelected.lastAction = ActionsManager.TypeAction.Skill;
+        playerManager.aStarPathFinding.characterSelected.lastAction = ActionsManager.TypeAction.Skill;
 
         await Awaitable.NextFrameAsync();
         index = 0;
@@ -245,16 +245,16 @@ public class MenuSkillsCharacter : MonoBehaviour
         menuSkillSelectSkill.SetActive(false);
         menuSkillsCharacter.SetActive(false);
         mobileJoystick.SetActive(false);
-        AStarPathFinding.Instance.DisableGrid();
-        AStarPathFinding.Instance.DisableSubGrid();
+        playerManager.aStarPathFinding.DisableGrid();
+        playerManager.aStarPathFinding.DisableSubGrid();
         foreach (Transform child in containerBanners.transform)
         {
             Destroy(child.gameObject);
         }
         banners = new SerializedDictionary<SkillsBaseSO, SkillCharacterBanner>();
-        playerManager.MovePointerToInstant(Vector3Int.RoundToInt(AStarPathFinding.Instance.characterSelected.transform.position));
+        playerManager.MovePointerToInstant(Vector3Int.RoundToInt(playerManager.aStarPathFinding.characterSelected.transform.position));
         playerManager.actionsManager.EnableMobileInputs();
-        AStarPathFinding.Instance.characterSelected = null;
+        playerManager.aStarPathFinding.characterSelected = null;
         isMenuActive = false;
     }
 }

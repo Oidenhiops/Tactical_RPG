@@ -106,22 +106,22 @@ public class ActionsManager : MonoBehaviour
         {
             _= playerManager.menuThrowCharacter.DisableMenu();
         }
-        else if (AStarPathFinding.Instance.characterSelected)
+        else if (playerManager.aStarPathFinding.characterSelected)
         {
-            AStarPathFinding.Instance.characterSelected = null;
-            AStarPathFinding.Instance.DisableGrid();
+            playerManager.aStarPathFinding.characterSelected = null;
+            playerManager.aStarPathFinding.DisableGrid();
         }
         else if (
-            AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)].hasCharacter != null &&
-            characterActions.TryGetValue(AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)].hasCharacter, out List<ActionInfo> actions))
+            playerManager.aStarPathFinding.grid[Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)].hasCharacter != null &&
+            characterActions.TryGetValue(playerManager.aStarPathFinding.grid[Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)].hasCharacter, out List<ActionInfo> actions))
         {
             if (actions.Count > 0 && actions[actions.Count - 1].cantUndo) return;
             switch (actions[actions.Count - 1].typeAction)
             {
                 case TypeAction.Move:
-                    if (AStarPathFinding.Instance.grid[actions[actions.Count - 1].positionInGrid].hasCharacter == null)
+                    if (playerManager.aStarPathFinding.grid[actions[actions.Count - 1].positionInGrid].hasCharacter == null)
                     {
-                        AStarPathFinding.Instance.grid[actions[actions.Count - 1].characterMakeAction.positionInGrid].hasCharacter = null;
+                        playerManager.aStarPathFinding.grid[actions[actions.Count - 1].characterMakeAction.positionInGrid].hasCharacter = null;
                         actions[actions.Count - 1].characterMakeAction.transform.position = actions[actions.Count - 1].positionInGrid;
                         StartCoroutine(playerManager.MovePointerTo(actions[actions.Count - 1].positionInGrid));
                         if (actions[actions.Count - 1].positionInGrid == Vector3Int.zero)
@@ -133,7 +133,7 @@ public class ActionsManager : MonoBehaviour
                         }
                         else
                         {
-                            AStarPathFinding.Instance.grid[actions[actions.Count - 1].positionInGrid].hasCharacter = actions[actions.Count - 1].characterMakeAction;
+                            playerManager.aStarPathFinding.grid[actions[actions.Count - 1].positionInGrid].hasCharacter = actions[actions.Count - 1].characterMakeAction;
                             actions[actions.Count - 1].characterMakeAction.positionInGrid = actions[actions.Count - 1].positionInGrid;
                             if (actions.Count > 1)
                             {
@@ -147,7 +147,7 @@ public class ActionsManager : MonoBehaviour
                     }
                     else if (actions[actions.Count - 1].positionInGrid == Vector3Int.zero)
                     {
-                        AStarPathFinding.Instance.grid[actions[actions.Count - 1].characterMakeAction.positionInGrid].hasCharacter = null;
+                        playerManager.aStarPathFinding.grid[actions[actions.Count - 1].characterMakeAction.positionInGrid].hasCharacter = null;
                         actions[actions.Count - 1].characterMakeAction.positionInGrid = Vector3Int.zero;
                         playerManager.menuCharacterSelector.amountCharacters++;
                         StartCoroutine(playerManager.MovePointerTo(actions[actions.Count - 1].positionInGrid));
@@ -156,7 +156,7 @@ public class ActionsManager : MonoBehaviour
                     }
                     break;
                 case TypeAction.Lift:
-                    if (!AStarPathFinding.Instance.grid[actions[actions.Count - 1].characterToMakeAction[0].positionInGrid].hasCharacter)
+                    if (!playerManager.aStarPathFinding.grid[actions[actions.Count - 1].characterToMakeAction[0].positionInGrid].hasCharacter)
                     {
                         actions[actions.Count - 1].characterMakeAction.lastAction = TypeAction.None;
                         characterFinalActions.Remove(actions[actions.Count - 1].characterMakeAction);
@@ -165,7 +165,7 @@ public class ActionsManager : MonoBehaviour
                         actions[actions.Count - 1].characterToMakeAction[0].character.transform.SetParent(null);
                         if (actions[actions.Count - 1].characterToMakeAction[0].character.characterAnimations.currentAnimation.name != "Lift") actions[actions.Count - 1].characterToMakeAction[0].character.characterAnimations.MakeAnimation("Idle");
                         actions[actions.Count - 1].characterToMakeAction[0].character.transform.position = actions[actions.Count - 1].characterToMakeAction[0].positionInGrid;
-                        AStarPathFinding.Instance.grid[actions[actions.Count - 1].characterToMakeAction[0].positionInGrid].hasCharacter = actions[actions.Count - 1].characterToMakeAction[0].character;
+                        playerManager.aStarPathFinding.grid[actions[actions.Count - 1].characterToMakeAction[0].positionInGrid].hasCharacter = actions[actions.Count - 1].characterToMakeAction[0].character;
                         actions.RemoveAt(actions.Count - 1);
                         if (actions.Count == 0) characterActions.Remove(actions[actions.Count - 1].characterMakeAction);
                     }
@@ -182,12 +182,12 @@ public class ActionsManager : MonoBehaviour
         }
         else
         {
-            if (AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)].hasCharacter &&
-                Vector3Int.RoundToInt(AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)].hasCharacter.transform.position) == Vector3Int.zero)
+            if (playerManager.aStarPathFinding.grid[Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)].hasCharacter &&
+                Vector3Int.RoundToInt(playerManager.aStarPathFinding.grid[Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)].hasCharacter.transform.position) == Vector3Int.zero)
             {
                 playerManager.menuCharacterSelector.amountCharacters++;
-                AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)].hasCharacter.gameObject.SetActive(false);
-                AStarPathFinding.Instance.grid[Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)].hasCharacter = null;
+                playerManager.aStarPathFinding.grid[Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)].hasCharacter.gameObject.SetActive(false);
+                playerManager.aStarPathFinding.grid[Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)].hasCharacter = null;
             }
         }
     }
@@ -246,12 +246,12 @@ public class ActionsManager : MonoBehaviour
                             }
                             foreach (Vector3Int position in actions.Value.positionsToMakeSkill)
                             {
-                                AStarPathFinding.Instance.GetHighestBlockAt(new Vector3Int(position.x, 0, position.z), out GenerateMap.WalkablePositionInfo block);
+                                playerManager.aStarPathFinding.GetHighestBlockAt(new Vector3Int(position.x, 0, position.z), out GenerateMap.WalkablePositionInfo block);
                                 GameObject skillEffect = Instantiate(actions.Value.skillInfo.skillsBaseSO.skillVFXPrefab, block != null ? block.pos : position, Quaternion.identity);
                                 Destroy(skillEffect, actions.Value.skillInfo.skillsBaseSO.skillVFXDuration);
-                                if (block != null && AStarPathFinding.Instance.grid[block.pos].hasCharacter)
+                                if (block != null && playerManager.aStarPathFinding.grid[block.pos].hasCharacter)
                                 {
-                                    actions.Value.skillInfo.skillsBaseSO.UseSkill(actions.Value.characterMakeAction, AStarPathFinding.Instance.grid[block.pos].hasCharacter);
+                                    actions.Value.skillInfo.skillsBaseSO.UseSkill(actions.Value.characterMakeAction, playerManager.aStarPathFinding.grid[block.pos].hasCharacter);
                                 }
                             }
                             actions.Value.skillInfo.skillsBaseSO.DiscountMpAfterUseSkill(actions.Value.characterMakeAction);
@@ -301,7 +301,7 @@ public class ActionsManager : MonoBehaviour
     public async Task EndTurn()
     {
         isChangingTurn = true;
-        AStarPathFinding.Instance.characterSelected = null;
+        playerManager.aStarPathFinding.characterSelected = null;
         await MakeActions();
         characterActions = new SerializedDictionary<CharacterBase, List<ActionInfo>>();
         characterFinalActions = new SerializedDictionary<CharacterBase, ActionInfo>();

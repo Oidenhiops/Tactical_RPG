@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: c3cc1b407f337e641ad32a2e91d5b478
 timeCreated: 1658741613
-licenseType: Free
+licenseType: Store
 MonoImporter:
   serializedVersion: 2
   defaultReferences: []
@@ -10,3 +10,10 @@ MonoImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 68068
+  packageName: In-game Debug Console
+  packageVersion: 1.8.2
+  assetPath: Assets/Plugins/IngameDebugConsole/Scripts/EventSystemHandler.cs
+  uploadId: 764785

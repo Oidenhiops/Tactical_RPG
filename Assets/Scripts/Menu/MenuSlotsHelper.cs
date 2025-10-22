@@ -39,7 +39,7 @@ public class MenuSlotsHelper : MonoBehaviour
                 slotInfos[i].playTime.text = GetPlayTime(GameData.Instance.gameDataInfo.gameDataSlots[i].createdDate, GameData.Instance.gameDataInfo.gameDataSlots[i].lastSaveDate);
                 slotInfos[i].mainCharacter.text = GetMainCharacterName(GameData.Instance.gameDataInfo.gameDataSlots[i]);
                 slotInfos[i].level.text = GetMainCharacterLevel(GameData.Instance.gameDataInfo.gameDataSlots[i]);
-                slotInfos[i].currentZone.text = GameData.Instance.gameDataInfo.gameDataSlots[i].currentZone;
+                slotInfos[i].currentZone.text = GameData.Instance.gameDataInfo.gameDataSlots[i].currentZone.ToString().Replace("Scene", "");
             }
             else
             {
@@ -93,7 +93,7 @@ public class MenuSlotsHelper : MonoBehaviour
         GameData.Instance.systemDataInfo.currentGameDataIndex = slotIndex;
         if (GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].isUse)
         {
-            gameManagerHelper.ChangeScene(7);
+            gameManagerHelper.ChangeScene(GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].currentZone);
             gameManagerHelper.SaveSystemData();
         }
         else

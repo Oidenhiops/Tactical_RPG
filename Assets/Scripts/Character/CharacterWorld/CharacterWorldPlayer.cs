@@ -20,12 +20,13 @@ public class CharacterWorldPlayer : CharacterBase
     }
     void Update()
     {
-        if (!WorldManager.Instance.enemyHitted && !GameManager.Instance.isPause)
+        if (!WorldManager.Instance.enemyHitted && !GameManager.Instance.isPause && GameManager.Instance.startGame)
         {
             if (WorldManager.Instance.characterActions.CharacterInputs.Movement.IsPressed())
             {
                 Vector2 input = WorldManager.Instance.characterActions.CharacterInputs.Movement.ReadValue<Vector2>();
-                movementDirection = new Vector3Int(Mathf.RoundToInt(input.x), 0, Mathf.RoundToInt(input.y));
+                CameraInfo.Instance.CamDirection(new Vector3(input.x, 0, input.y), out Vector3 directionFromCamera);
+                movementDirection = Vector3Int.RoundToInt(directionFromCamera);
                 MoveCharacter(movementDirection);
             }
             else if (characterAnimations.currentAnimation.name == "Walk" && !isOnMovement)
@@ -34,13 +35,13 @@ public class CharacterWorldPlayer : CharacterBase
             }
             if (EnemyHit())
             {
-                WorldManager.Instance.enemyHitted = true;
+                _ = WorldManager.Instance.OnEnemyHit();
             }
         }
     }
     void HandleMovement(InputAction.CallbackContext context)
     {
-        if (!WorldManager.Instance.enemyHitted && !GameManager.Instance.isPause && !isOnMovement)
+        if (!WorldManager.Instance.enemyHitted && !GameManager.Instance.isPause && GameManager.Instance.startGame && !isOnMovement)
         {
             if (!context.performed)
             {
@@ -50,14 +51,14 @@ public class CharacterWorldPlayer : CharacterBase
     }
     void HandleAction(InputAction.CallbackContext context)
     {
-        if (!WorldManager.Instance.enemyHitted && !GameManager.Instance.isPause)
+        if (!WorldManager.Instance.enemyHitted && !GameManager.Instance.isPause && GameManager.Instance.startGame)
         {
             
         }
     }
     bool EnemyHit()
     {
-        Collider[] colliders = Physics.OverlapBox(transform.position + detectorOffset, detectorSize / 2, Quaternion.identity, LayerMask.GetMask("Character"));
+        Collider[] colliders = Physics.OverlapBox(transform.position + detectorOffset, detectorSize / 2, Quaternion.identity, LayerMask.GetMask("CharacterEnemy"));
 
         foreach (var col in colliders)
         {
@@ -73,7 +74,7 @@ public class CharacterWorldPlayer : CharacterBase
         if (isOnMovement) return;
 
         Vector3Int finalPosition = targetPosition + positionInGrid;
-        AStarPathFinding.Instance.GetHighestBlockAt(finalPosition, out GenerateMap.WalkablePositionInfo block);
+        WorldManager.Instance.aStarPathFinding.GetHighestBlockAt(finalPosition, out GenerateMap.WalkablePositionInfo block);
         if (block != null)
         {
             if (block.pos.y < transform.position.y + characterData.GetMovementMaxHeight())

@@ -18,7 +18,7 @@ public class MenuGeneralActions : MonoBehaviour
         playerManager.actionsManager.DisableMobileInputs();
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(GetSelectedButton());
-        AStarPathFinding.Instance.DisableGrid();
+        playerManager.aStarPathFinding.DisableGrid();
         menuGeneralActions.SetActive(true);
     }
     public void BackToMenuWhitButton(GameObject button)
@@ -30,7 +30,7 @@ public class MenuGeneralActions : MonoBehaviour
     {
         await Awaitable.NextFrameAsync();
         playerManager.actionsManager.EnableMobileInputs();
-        if (AStarPathFinding.Instance.characterSelected && AStarPathFinding.Instance.LastCharacterActionPermitActions()) AStarPathFinding.Instance.EnableGrid(AStarPathFinding.Instance.GetWalkableTiles(), Color.magenta);
+        if (playerManager.aStarPathFinding.characterSelected && playerManager.aStarPathFinding.LastCharacterActionPermitActions()) playerManager.aStarPathFinding.EnableGrid(playerManager.aStarPathFinding.GetWalkableTiles(), Color.magenta);
         executeButton.interactable = false;
         menuGeneralActions.SetActive(false);
     }

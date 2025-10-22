@@ -273,15 +273,14 @@ public class GameData : MonoBehaviour
         systemDataInfo.configurationsInfo.currentLanguage = TypeLanguage.English;
         SetStartingDataSound(ref systemData);
         GetInitialConfigBGMS(ref systemData);
-        SetStartingItems(ref gameData);
         if (GameManager.Instance.currentDevice == GameManager.TypeDevice.PC) SetStartingResolution(ref systemData);
         gameDataInfo = gameData;
         systemDataInfo = systemData;
         SaveGameData();
     }
-    void SetStartingItems(ref GameDataInfo dataInfo)
+    public void SetStartingItems()
     {
-        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems = new SerializedDictionary<int, CharacterData.CharacterItem>()
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems = new SerializedDictionary<int, CharacterData.CharacterItem>()
         {
             {0, new CharacterData.CharacterItem()},
             {1, new CharacterData.CharacterItem()},
@@ -301,24 +300,24 @@ public class GameData : MonoBehaviour
             {15, new CharacterData.CharacterItem()},
         };
 
-        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[0].itemId = itemsDBSO.data[1].id;
-        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[0].itemBaseSO = itemsDBSO.data[1];
-        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[0].itemStatistics = itemsDBSO.data[1].itemStatistics;
-        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[1].itemId = itemsDBSO.data[2].id;
-        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[1].itemBaseSO = itemsDBSO.data[2];
-        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[1].itemStatistics = itemsDBSO.data[2].itemStatistics;
-        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[2].itemId = itemsDBSO.data[321].id;
-        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[2].itemBaseSO = itemsDBSO.data[321];
-        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[2].itemStatistics = itemsDBSO.data[321].itemStatistics;
-        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[3].itemId = itemsDBSO.data[322].id;
-        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[3].itemBaseSO = itemsDBSO.data[322];
-        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[3].itemStatistics = itemsDBSO.data[322].itemStatistics;
-        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[4].itemId = itemsDBSO.data[323].id;
-        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[4].itemBaseSO = itemsDBSO.data[323];
-        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[4].itemStatistics = itemsDBSO.data[323].itemStatistics;
-        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[5].itemId = itemsDBSO.data[324].id;
-        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[5].itemBaseSO = itemsDBSO.data[324];
-        dataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[5].itemStatistics = itemsDBSO.data[324].itemStatistics;
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[0].itemId = itemsDBSO.data[1].id;
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[0].itemBaseSO = itemsDBSO.data[1];
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[0].itemStatistics = itemsDBSO.data[1].itemStatistics;
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[1].itemId = itemsDBSO.data[2].id;
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[1].itemBaseSO = itemsDBSO.data[2];
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[1].itemStatistics = itemsDBSO.data[2].itemStatistics;
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[2].itemId = itemsDBSO.data[321].id;
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[2].itemBaseSO = itemsDBSO.data[321];
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[2].itemStatistics = itemsDBSO.data[321].itemStatistics;
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[3].itemId = itemsDBSO.data[322].id;
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[3].itemBaseSO = itemsDBSO.data[322];
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[3].itemStatistics = itemsDBSO.data[322].itemStatistics;
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[4].itemId = itemsDBSO.data[323].id;
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[4].itemBaseSO = itemsDBSO.data[323];
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[4].itemStatistics = itemsDBSO.data[323].itemStatistics;
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[5].itemId = itemsDBSO.data[324].id;
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[5].itemBaseSO = itemsDBSO.data[324];
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[5].itemStatistics = itemsDBSO.data[324].itemStatistics;
     }
     private void GetInitialConfigBGMS(ref SystemDataInfo dataInfo)
     {
@@ -407,7 +406,8 @@ public class GameData : MonoBehaviour
         public string createdDate = "";
         public string lastSaveDate = "";
         public string principalCharacterName = "";
-        public string currentZone = "";
+        public GameManager.TypeScene currentZone;
+        public Vector3Int positionSave = Vector3Int.zero;
         public SerializedDictionary<string, CharacterData> characters = new SerializedDictionary<string, CharacterData>();
         public SerializedDictionary<string, CharacterData> dieCharacters = new SerializedDictionary<string, CharacterData>();
         public SerializedDictionary<int, CharacterData.CharacterItem> bagItems = new SerializedDictionary<int, CharacterData.CharacterItem>();

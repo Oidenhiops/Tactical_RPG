@@ -367,7 +367,7 @@ GameObject:
   - component: {fileID: 4979965488519511710}
   - component: {fileID: 6082543882202247507}
   m_Layer: 0
-  m_Name: TestCube
+  m_Name: MapBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -445,7 +445,7 @@ MonoBehaviour:
     - Key: 120
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 1137728938, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -2031154871, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 163864
       Value:
@@ -460,12 +460,12 @@ MonoBehaviour:
     - Key: 327800
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 281183329, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 1518431117, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 491640
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -1393592081, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -978724912, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 393312
       Value:
@@ -474,37 +474,37 @@ MonoBehaviour:
     - Key: 229496
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 1236666312, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 962547960, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 229432
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -639930119, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -71565637, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 360504
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -639930119, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -71565637, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 360568
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 962547960, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 195528181, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 229480
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -482110032, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 1924828573, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 360560
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 1317299955, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -482110032, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 98424
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -2031154871, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -1393592081, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 98400
       Value:
@@ -513,7 +513,7 @@ MonoBehaviour:
     - Key: 56
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -1777276541, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -639930119, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 196632
       Value:
@@ -523,7 +523,7 @@ MonoBehaviour:
     - Key: 80
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -471963569, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -44991029, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 65632
       Value:
@@ -540,17 +540,17 @@ MonoBehaviour:
     - Key: 262192
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 1588676872, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -925361609, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 294984
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -44991029, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 1184806218, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 32816
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 1588676872, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -925361609, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 16
       Value:
@@ -570,7 +570,7 @@ MonoBehaviour:
     - Key: 65576
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -925361609, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 329845053, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 8
       Value:
@@ -580,7 +580,7 @@ MonoBehaviour:
     - Key: 196688
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -471963569, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -44991029, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 294936
       Value:
@@ -590,7 +590,7 @@ MonoBehaviour:
     - Key: 72
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -44991029, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 1184806218, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 32864
       Value:
@@ -603,32 +603,32 @@ MonoBehaviour:
     - Key: 131112
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -925361609, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 329845053, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 491576
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -639930119, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -71565637, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 98352
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -978724912, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 202917199, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 98360
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -639930119, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -71565637, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 98344
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 202917199, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 1588676872, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 65656
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 1966042493, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 2103658738, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 131072
       Value:
@@ -638,22 +638,22 @@ MonoBehaviour:
     - Key: 196680
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 2125613318, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -471963569, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 294992
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 2118977197, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 2125613318, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 196656
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -978724912, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 202917199, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 294952
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 202917199, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 1588676872, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 294928
       Value:
@@ -663,17 +663,17 @@ MonoBehaviour:
     - Key: 262216
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -44991029, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 1184806218, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 294960
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 1588676872, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -925361609, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 32840
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -44991029, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 1184806218, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 32800
       Value:
@@ -688,17 +688,17 @@ MonoBehaviour:
     - Key: 131152
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -471963569, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -44991029, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 196648
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -925361609, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 329845053, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 65616
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -471963569, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -44991029, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 65568
       Value:
@@ -722,7 +722,7 @@ MonoBehaviour:
     - Key: 48
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 1588676872, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -925361609, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 295008
       Value:
@@ -736,7 +736,7 @@ MonoBehaviour:
     - Key: 32888
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 2103658738, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -1818411256, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 262144
       Value:
@@ -760,7 +760,7 @@ MonoBehaviour:
     - Key: 40
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -925361609, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 329845053, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 196704
       Value:
@@ -774,67 +774,67 @@ MonoBehaviour:
     - Key: 426088
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -482110032, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 1924828573, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 458864
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 1317299955, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -482110032, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 426104
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 1518431117, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 1683445351, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 426072
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 776267276, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 1317299955, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 458840
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 776267276, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 1317299955, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 458872
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 1683445351, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 1966042493, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 393336
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 195528181, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 1137728938, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 196728
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -1840421283, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -1474657303, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 163866
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -1393592081, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -978724912, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 14
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -1393592081, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -978724912, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 163962
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -1393592081, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -978724912, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 491642
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -1393592081, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -978724912, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 30
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -1393592081, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -978724912, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 28
       Value:
@@ -844,7 +844,7 @@ MonoBehaviour:
     - Key: 112
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 544507002, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 416796197, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 262168
       Value:
@@ -872,7 +872,7 @@ MonoBehaviour:
     - Key: 22
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -1393592081, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -978724912, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 20
       Value:
@@ -887,32 +887,32 @@ MonoBehaviour:
     - Key: 491632
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 1317299955, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -482110032, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 491608
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 776267276, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 1317299955, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 393296
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 2118977197, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 2125613318, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 393304
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 776267276, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 1317299955, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 393288
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 2125613318, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -471963569, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 88
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -695387787, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 776267276, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 393240
       Value:
@@ -922,7 +922,7 @@ MonoBehaviour:
     - Key: 262264
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -1474657303, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -539548351, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 32768
       Value:
@@ -937,7 +937,7 @@ MonoBehaviour:
     - Key: 131192
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -539548351, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 1236666312, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 65536
       Value:
@@ -952,32 +952,32 @@ MonoBehaviour:
     - Key: 327760
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 2118977197, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 2125613318, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 327792
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 1317299955, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -482110032, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 327728
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -978724912, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 202917199, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 295032
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -1818411256, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -1840421283, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 163960
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -1151626442, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 281183329, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 104
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 416796197, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 1952501472, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 163936
       Value:
@@ -986,37 +986,37 @@ MonoBehaviour:
     - Key: 163944
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -482110032, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 1924828573, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 491624
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -482110032, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 1924828573, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 163912
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 2125613318, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -471963569, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 163880
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 202917199, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 1588676872, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 65586
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -1393592081, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -978724912, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 52
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 1588676872, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -925361609, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 327794
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -1393592081, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 2118977197, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 262244
       Value:
@@ -1033,17 +1033,17 @@ MonoBehaviour:
     - Key: 116
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 544507002, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 416796197, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 262226
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -1393592081, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -978724912, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 84
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -471963569, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -44991029, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 98362
       Value:
@@ -1063,7 +1063,7 @@ MonoBehaviour:
     - Key: 393306
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -1393592081, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -978724912, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 131100
       Value:
@@ -1102,7 +1102,7 @@ MonoBehaviour:
     - Key: 60
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -1777276541, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -639930119, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 426084
       Value:
@@ -1111,7 +1111,7 @@ MonoBehaviour:
     - Key: 76
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -44991029, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 1184806218, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 295012
       Value:
@@ -1120,7 +1120,7 @@ MonoBehaviour:
     - Key: 108
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 416796197, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 1952501472, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 163940
       Value:
@@ -1133,7 +1133,7 @@ MonoBehaviour:
     - Key: 92
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -695387787, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 776267276, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 131172
       Value:
@@ -1152,7 +1152,7 @@ MonoBehaviour:
     - Key: 44
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -925361609, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 329845053, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 98332
       Value:
@@ -1174,7 +1174,7 @@ MonoBehaviour:
     - Key: 124
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 1137728938, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -2031154871, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 196636
       Value:
@@ -1194,12 +1194,12 @@ MonoBehaviour:
     - Key: 32810
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -1393592081, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -978724912, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 163946
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -1393592081, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -978724912, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 32868
       Value:
@@ -1208,7 +1208,7 @@ MonoBehaviour:
     - Key: 131146
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -1393592081, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -978724912, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 491620
       Value:
@@ -1239,97 +1239,97 @@ MonoBehaviour:
     - Key: 65652
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 1952501472, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 987522577, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 262228
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 2118977197, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 2125613318, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 229436
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -639930119, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -71565637, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 393308
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 776267276, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 1317299955, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 98364
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -639930119, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -71565637, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 360508
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -639930119, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -71565637, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 98428
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -2031154871, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -1393592081, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 65596
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 760786055, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -1777276541, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 458868
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 1317299955, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -482110032, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 327796
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 1317299955, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -482110032, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 360564
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 1317299955, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -482110032, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 327804
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 281183329, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 1518431117, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 491636
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 1317299955, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -482110032, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 360572
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 962547960, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 195528181, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 32812
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 202917199, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 1588676872, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 163948
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -482110032, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 1924828573, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 131148
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 2125613318, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -471963569, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 491580
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -639930119, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -71565637, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 262236
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 1690526457, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -695387787, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 491548
       Value:
@@ -1375,22 +1375,22 @@ MonoBehaviour:
     - Key: 65592
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 760786055, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -1777276541, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 262232
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 1690526457, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -695387787, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 32808
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 202917199, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 1588676872, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 131144
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 2125613318, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -471963569, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 0
       Value:
@@ -1405,12 +1405,12 @@ MonoBehaviour:
     - Key: 262224
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 2118977197, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 2125613318, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 65584
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -978724912, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 202917199, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 491616
       Value:
@@ -1419,12 +1419,12 @@ MonoBehaviour:
     - Key: 262256
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 1924828573, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -1349165290, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 32824
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: 329845053, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 760786055, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 38
       Value:
@@ -1454,13 +1454,32 @@ MonoBehaviour:
     - Key: 491644
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -1393592081, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: -978724912, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
     - Key: 65588
       Value:
         blockGeneratedRule: {fileID: 0}
-        targetSprite: {fileID: -978724912, guid: d64c0359c796dab4baf19ad7460c56d7,
+        targetSprite: {fileID: 202917199, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
+  variationsSprites:
+    _serializedList:
+    - Key: {fileID: -978724912, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
+      Value:
+      - {fileID: 844457666, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
+      - {fileID: -299328741, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
+      - {fileID: -407683928, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
+      - {fileID: -2052119156, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
+      - {fileID: 633044836, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
+      - {fileID: -970123103, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
+      - {fileID: 1526160820, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
+      - {fileID: 1823776435, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
+      - {fileID: 1247351432, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
+      - {fileID: -1112247322, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
+      - {fileID: 616540735, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
+      - {fileID: -1212519855, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
+      - {fileID: 30813929, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
+      - {fileID: -1852411526, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
+      - {fileID: -250802342, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
   neighbors: 
   directions:
     _serializedList:

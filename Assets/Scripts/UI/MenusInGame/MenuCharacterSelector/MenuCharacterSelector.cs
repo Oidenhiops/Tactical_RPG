@@ -69,9 +69,9 @@ public class MenuCharacterSelector : MonoBehaviour
             CharacterBase character = banners.FirstOrDefault(x => x.Value.gameObject == banner.gameObject).Key;
             character.gameObject.SetActive(true);
             character.transform.position = Vector3.zero;
-            AStarPathFinding.Instance.characterSelected = character;
-            AStarPathFinding.Instance.grid[Vector3Int.zero].hasCharacter = character;
-            AStarPathFinding.Instance.EnableGrid(AStarPathFinding.Instance.GetWalkableTiles(), Color.magenta);
+            playerManager.aStarPathFinding.characterSelected = character;
+            playerManager.aStarPathFinding.grid[Vector3Int.zero].hasCharacter = character;
+            playerManager.aStarPathFinding.EnableGrid(playerManager.aStarPathFinding.GetWalkableTiles(), Color.magenta);
             _ = DisableMenu();
         }
     }

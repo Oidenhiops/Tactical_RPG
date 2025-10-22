@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 6136cb3c00eac0149901b8e7f2fecef8
 timeCreated: 1550943949
-licenseType: Free
+licenseType: Store
 MonoImporter:
   serializedVersion: 2
   defaultReferences: []
@@ -10,3 +10,10 @@ MonoImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 68068
+  packageName: In-game Debug Console
+  packageVersion: 1.8.2
+  assetPath: Assets/Plugins/IngameDebugConsole/Scripts/CircularBuffer.cs
+  uploadId: 764785

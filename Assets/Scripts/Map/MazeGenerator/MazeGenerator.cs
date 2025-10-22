@@ -1,15 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using UnityEngine;
 
 public class MazeGenerator : MonoBehaviour
 {
+    public GenerateMap generateMap;
     public int mazeSize = 21;
     public GameObject blockPrefab;
     public GameObject spawnBlockPrefab;
     private int[,] maze;
     public int sizeCell;
+    public bool testGeneration = true;
     void Start()
     {
         GenerateMaze();
@@ -162,23 +163,23 @@ public class MazeGenerator : MonoBehaviour
                 }
             }
         }
-        GenerateMap.Instance.blocks = blocks.ToArray();
+        generateMap.blocks = blocks.ToArray();
         yield return null;
         if (sizeCell <= 1)
         {
-            AStarPathFinding.Instance.limitX.x = -1;
-            AStarPathFinding.Instance.limitX.y = -mazeSize;
-            AStarPathFinding.Instance.limitZ.x = -1;
-            AStarPathFinding.Instance.limitZ.y = -mazeSize;
+            generateMap.aStarPathFinding.limitX.x = -1;
+            generateMap.aStarPathFinding.limitX.y = -mazeSize;
+            generateMap.aStarPathFinding.limitZ.x = -1;
+            generateMap.aStarPathFinding.limitZ.y = -mazeSize;
         }
         else
         {
-            AStarPathFinding.Instance.limitX.x = -(sizeCell - 1) / 2;
-            AStarPathFinding.Instance.limitX.y = endPos.x;
-            AStarPathFinding.Instance.limitZ.x = -(sizeCell - 1) / 2;
-            AStarPathFinding.Instance.limitZ.y = endPos.z;
+            generateMap.aStarPathFinding.limitX.x = -(sizeCell - 1) / 2;
+            generateMap.aStarPathFinding.limitX.y = endPos.x;
+            generateMap.aStarPathFinding.limitZ.x = -(sizeCell - 1) / 2;
+            generateMap.aStarPathFinding.limitZ.y = endPos.z;
         }
-        StartCoroutine(GenerateMap.Instance.GenerateGrid());
+        if (testGeneration || generateMap.findMapInfo) _ = generateMap.GenerateGrid();
     }
     public List<Vector3Int> GetAroundPos(out List<Vector3Int> positions)
     {

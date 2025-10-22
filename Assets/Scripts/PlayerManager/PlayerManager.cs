@@ -20,6 +20,7 @@ public class PlayerManager : MonoBehaviour
     public MenuThrowCharacter menuThrowCharacter;
     public MenuItemsCharacter menuItemsCharacter;
     public MenuSkillsCharacter menuSkillsCharacter;
+    public AStarPathFinding aStarPathFinding;
     public MouseDecalAnim mouseDecal;
     public Vector3Int currentMousePos;
     public Transform cameraRot;
@@ -42,7 +43,7 @@ public class PlayerManager : MonoBehaviour
             }
         }
     }
-    public GameObject generalCharacterPrefab;
+    public GameObject characterBattlePrefab;
     public bool isDecalMovement;
     Vector3Int direction;
     Vector3 camDirection;
@@ -102,7 +103,7 @@ public class PlayerManager : MonoBehaviour
         List<CharacterBase> charactersSpawned = new List<CharacterBase>();
         foreach (KeyValuePair<string, CharacterData> characterInfo in GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].characters)
         {
-            CharacterBase character = Instantiate(generalCharacterPrefab, Vector3Int.down * 2, Quaternion.identity, charactersContainer).GetComponent<CharacterBase>();
+            CharacterBase character = Instantiate(characterBattlePrefab, Vector3Int.down * 2, Quaternion.identity, charactersContainer).GetComponent<CharacterBase>();
             character.initialDataSO = GameData.Instance.charactersDataDBSO.data[characterInfo.Value.id][characterInfo.Value.subId].initialDataSO;
             character.isCharacterPlayer = true;
             character.characterData = characterInfo.Value;
@@ -127,12 +128,12 @@ public class PlayerManager : MonoBehaviour
     public void DisableVisuals()
     {
         mouseDecal.decal.gameObject.SetActive(false);
-        if (AStarPathFinding.Instance.currentGrid.Count > 0) AStarPathFinding.Instance.DisableGrid();
+        if (aStarPathFinding.currentGrid.Count > 0) aStarPathFinding.DisableGrid();
     }
     public void EnableVisuals()
     {
         mouseDecal.decal.gameObject.SetActive(true);
-        if (AStarPathFinding.Instance.characterSelected) AStarPathFinding.Instance.EnableGrid(AStarPathFinding.Instance.GetWalkableTiles(), Color.magenta);
+        if (aStarPathFinding.characterSelected) aStarPathFinding.EnableGrid(aStarPathFinding.GetWalkableTiles(), Color.magenta);
     }
     void HandleMovement(InputAction.CallbackContext context)
     {
@@ -158,7 +159,7 @@ public class PlayerManager : MonoBehaviour
         if (actionsManager.isPlayerTurn && !characterPlayerMakingActions && !actionsManager.isChangingTurn && !cantRotateCamera && !AnyMenuIsActive() &&
             !menuThrowCharacter.menuThrowCharacter.activeSelf && !GameManager.Instance.isPause)
         {
-            AStarPathFinding.Instance.ValidateAction(new Vector3Int(Mathf.RoundToInt(mouseDecal.transform.position.x), Mathf.RoundToInt(mouseDecal.transform.position.y), Mathf.RoundToInt(mouseDecal.transform.position.z)));
+            aStarPathFinding.ValidateAction(new Vector3Int(Mathf.RoundToInt(mouseDecal.transform.position.x), Mathf.RoundToInt(mouseDecal.transform.position.y), Mathf.RoundToInt(mouseDecal.transform.position.z)));
         }
     }
     void HandleRotateCamera(InputAction.CallbackContext context)
@@ -196,32 +197,32 @@ public class PlayerManager : MonoBehaviour
         if (direction != Vector3Int.zero && !isDecalMovement)
         {
             Vector3Int lastPos = currentMousePos;
-            CameraInfo.Instance.CamDirection(out Vector3 camForward, out Vector3 camRight);
-            camDirection = (direction.x * camRight + direction.z * camForward).normalized;
+            CameraInfo.Instance.CamDirection(direction, out Vector3 directionFromCamera);
+            camDirection = directionFromCamera;
             Vector3Int currentPos = new Vector3Int(Mathf.RoundToInt(mouseDecal.transform.position.x), Mathf.RoundToInt(mouseDecal.transform.position.y), Mathf.RoundToInt(mouseDecal.transform.position.z));
             currentMousePos = currentPos + new Vector3Int(Mathf.RoundToInt(camDirection.x), Mathf.RoundToInt(camDirection.y), Mathf.RoundToInt(camDirection.z));
             FixHeight(currentMousePos, out GenerateMap.WalkablePositionInfo blockFinded);
             currentMousePos.y = blockFinded != null ? blockFinded.pos.y : 0;
             isDecalMovement = true;
-            if (AStarPathFinding.Instance.currentGrid.Count == 0)
+            if (aStarPathFinding.currentGrid.Count == 0)
             {
-                if (currentMousePos.x < AStarPathFinding.Instance.limitX.x || currentMousePos.x > AStarPathFinding.Instance.limitX.y)
+                if (currentMousePos.x < aStarPathFinding.limitX.x || currentMousePos.x > aStarPathFinding.limitX.y)
                 {
-                    currentMousePos.x = Math.Clamp(currentMousePos.x, AStarPathFinding.Instance.limitX.x, AStarPathFinding.Instance.limitX.y);
+                    currentMousePos.x = Math.Clamp(currentMousePos.x, aStarPathFinding.limitX.x, aStarPathFinding.limitX.y);
                 }
-                if (currentMousePos.z < AStarPathFinding.Instance.limitZ.x || currentMousePos.z > AStarPathFinding.Instance.limitZ.y)
+                if (currentMousePos.z < aStarPathFinding.limitZ.x || currentMousePos.z > aStarPathFinding.limitZ.y)
                 {
-                    currentMousePos.z = Math.Clamp(currentMousePos.z, AStarPathFinding.Instance.limitZ.x, AStarPathFinding.Instance.limitZ.y);
+                    currentMousePos.z = Math.Clamp(currentMousePos.z, aStarPathFinding.limitZ.x, aStarPathFinding.limitZ.y);
                 }
-                AStarPathFinding.Instance.GetHighestBlockAt(currentMousePos, out GenerateMap.WalkablePositionInfo block);
+                aStarPathFinding.GetHighestBlockAt(currentMousePos, out GenerateMap.WalkablePositionInfo block);
                 currentMousePos.y = block != null ? block.pos.y : 0;
                 StartCoroutine(MovePointerTo(currentMousePos));
             }
             else
             {
-                if (!AStarPathFinding.Instance.currentGrid.ContainsKey(currentMousePos))
+                if (!aStarPathFinding.currentGrid.ContainsKey(currentMousePos))
                 {
-                    if (AStarPathFinding.Instance.currentGrid.ContainsKey(GetNearestPositionAccordingDirection(lastPos, out Vector3Int newPos)) && newPos != lastPos)
+                    if (aStarPathFinding.currentGrid.ContainsKey(GetNearestPositionAccordingDirection(lastPos, out Vector3Int newPos)) && newPos != lastPos)
                     {
                         currentMousePos = newPos;
                         StartCoroutine(MovePointerTo(currentMousePos));
@@ -243,8 +244,8 @@ public class PlayerManager : MonoBehaviour
         newPos = lastPos;
         for (int i = 0; i < 10; i++)
         {
-            AStarPathFinding.Instance.GetHighestBlockAt(currentMousePos + Vector3Int.RoundToInt(camDirection * i), out GenerateMap.WalkablePositionInfo blockFinded);
-            if (blockFinded != null && AStarPathFinding.Instance.currentGrid.ContainsKey(blockFinded.pos))
+            aStarPathFinding.GetHighestBlockAt(currentMousePos + Vector3Int.RoundToInt(camDirection * i), out GenerateMap.WalkablePositionInfo blockFinded);
+            if (blockFinded != null && aStarPathFinding.currentGrid.ContainsKey(blockFinded.pos))
             {
                 newPos = blockFinded.pos;
                 return newPos;
@@ -274,7 +275,7 @@ public class PlayerManager : MonoBehaviour
     }
     private void FixHeight(Vector3Int posToFix, out GenerateMap.WalkablePositionInfo blockFinded)
     {
-        AStarPathFinding.Instance.GetHighestBlockAt(posToFix, out GenerateMap.WalkablePositionInfo block);
+        aStarPathFinding.GetHighestBlockAt(posToFix, out GenerateMap.WalkablePositionInfo block);
         blockFinded = block;
     }
     public IEnumerator MovePointerTo(Vector3Int posToGo)
@@ -293,25 +294,25 @@ public class PlayerManager : MonoBehaviour
         mouseDecal.transform.position = posToGo;
         isDecalMovement = false;
 
-        if (AStarPathFinding.Instance.characterSelected)
+        if (aStarPathFinding.characterSelected)
         {
-            if (AStarPathFinding.Instance.characterSelected.positionInGrid != posToGo)
+            if (aStarPathFinding.characterSelected.positionInGrid != posToGo)
             {
-                if (AStarPathFinding.Instance.characterSelected.positionInGrid.x == posToGo.x)
+                if (aStarPathFinding.characterSelected.positionInGrid.x == posToGo.x)
                 {
-                    AStarPathFinding.Instance.characterSelected.nextDirection.x = AStarPathFinding.Instance.characterSelected.positionInGrid.z < posToGo.z ? 1 : -1;
+                    aStarPathFinding.characterSelected.nextDirection.x = aStarPathFinding.characterSelected.positionInGrid.z < posToGo.z ? 1 : -1;
                 }
                 else
                 {
-                    AStarPathFinding.Instance.characterSelected.nextDirection.x = AStarPathFinding.Instance.characterSelected.positionInGrid.x < posToGo.x ? -1 : 1;
+                    aStarPathFinding.characterSelected.nextDirection.x = aStarPathFinding.characterSelected.positionInGrid.x < posToGo.x ? -1 : 1;
                 }
-                if (AStarPathFinding.Instance.characterSelected.positionInGrid.z == posToGo.z)
+                if (aStarPathFinding.characterSelected.positionInGrid.z == posToGo.z)
                 {
-                    AStarPathFinding.Instance.characterSelected.nextDirection.z = AStarPathFinding.Instance.characterSelected.positionInGrid.x < posToGo.x ? 1 : -1;
+                    aStarPathFinding.characterSelected.nextDirection.z = aStarPathFinding.characterSelected.positionInGrid.x < posToGo.x ? 1 : -1;
                 }
                 else
                 {
-                    AStarPathFinding.Instance.characterSelected.nextDirection.z = AStarPathFinding.Instance.characterSelected.positionInGrid.z < posToGo.z ? 1 : -1;
+                    aStarPathFinding.characterSelected.nextDirection.z = aStarPathFinding.characterSelected.positionInGrid.z < posToGo.z ? 1 : -1;
                 }
             }
         }
@@ -320,25 +321,25 @@ public class PlayerManager : MonoBehaviour
     {
         mouseDecal.transform.position = posToGo;
 
-        if (AStarPathFinding.Instance.characterSelected)
+        if (aStarPathFinding.characterSelected)
         {
-            if (AStarPathFinding.Instance.characterSelected.positionInGrid != posToGo)
+            if (aStarPathFinding.characterSelected.positionInGrid != posToGo)
             {
-                if (AStarPathFinding.Instance.characterSelected.positionInGrid.x == posToGo.x)
+                if (aStarPathFinding.characterSelected.positionInGrid.x == posToGo.x)
                 {
-                    AStarPathFinding.Instance.characterSelected.nextDirection.x = AStarPathFinding.Instance.characterSelected.positionInGrid.z < posToGo.z ? 1 : -1;
+                    aStarPathFinding.characterSelected.nextDirection.x = aStarPathFinding.characterSelected.positionInGrid.z < posToGo.z ? 1 : -1;
                 }
                 else
                 {
-                    AStarPathFinding.Instance.characterSelected.nextDirection.x = AStarPathFinding.Instance.characterSelected.positionInGrid.x < posToGo.x ? -1 : 1;
+                    aStarPathFinding.characterSelected.nextDirection.x = aStarPathFinding.characterSelected.positionInGrid.x < posToGo.x ? -1 : 1;
                 }
-                if (AStarPathFinding.Instance.characterSelected.positionInGrid.z == posToGo.z)
+                if (aStarPathFinding.characterSelected.positionInGrid.z == posToGo.z)
                 {
-                    AStarPathFinding.Instance.characterSelected.nextDirection.z = AStarPathFinding.Instance.characterSelected.positionInGrid.x < posToGo.x ? 1 : -1;
+                    aStarPathFinding.characterSelected.nextDirection.z = aStarPathFinding.characterSelected.positionInGrid.x < posToGo.x ? 1 : -1;
                 }
                 else
                 {
-                    AStarPathFinding.Instance.characterSelected.nextDirection.z = AStarPathFinding.Instance.characterSelected.positionInGrid.z < posToGo.z ? 1 : -1;
+                    aStarPathFinding.characterSelected.nextDirection.z = aStarPathFinding.characterSelected.positionInGrid.z < posToGo.z ? 1 : -1;
                 }
             }
         }
