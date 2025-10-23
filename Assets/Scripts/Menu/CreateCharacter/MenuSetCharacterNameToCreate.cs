@@ -63,7 +63,7 @@ public class MenuSetCharacterNameToCreate : MonoBehaviour
     }
     public void OnButtonRandom()
     {
-        nameLabel.text = GenerateFantasyName();
+        nameLabel.text = GameData.Instance.charactersDataDBSO.GenerateFantasyName();
     }
     public void OnButtonAccept()
     {
@@ -108,7 +108,7 @@ public class MenuSetCharacterNameToCreate : MonoBehaviour
                 {
                     id = companion.initialDataSO.id,
                     subId = companion.initialDataSO.subId,
-                    name = GenerateFantasyName(),
+                    name = GameData.Instance.charactersDataDBSO.GenerateFantasyName(),
                     level = 1,
                     mastery = new SerializedDictionary<CharacterData.TypeMastery, CharacterData.CharacterMasteryInfo>()
                 };
@@ -132,36 +132,6 @@ public class MenuSetCharacterNameToCreate : MonoBehaviour
             }
             _ = DisableMenuAfterSetName();
         }
-    }
-    string GenerateFantasyName()
-    {
-        string[] syllablesStart = { "Ka", "Lo", "Mi", "Ra", "Th", "El", "Ar", "Va", "Zy", "Xe", "Lu", "Na" };
-        string[] syllablesMiddle = { "ra", "en", "or", "il", "um", "ar", "is", "al", "on", "ir" };
-        string[] syllablesEnd = { "th", "dor", "ion", "mir", "rak", "len", "var", "oth", "us", "iel" };
-
-        int pattern = UnityEngine.Random.Range(0, 3);
-        string name = "";
-
-        switch (pattern)
-        {
-            case 0:
-                name = syllablesStart[UnityEngine.Random.Range(0, syllablesStart.Length)] +
-                        syllablesEnd[UnityEngine.Random.Range(0, syllablesEnd.Length)];
-                break;
-            case 1:
-                name = syllablesStart[UnityEngine.Random.Range(0, syllablesStart.Length)] +
-                        syllablesMiddle[UnityEngine.Random.Range(0, syllablesMiddle.Length)] +
-                        syllablesEnd[UnityEngine.Random.Range(0, syllablesEnd.Length)];
-                break;
-            case 2:
-                name = syllablesStart[UnityEngine.Random.Range(0, syllablesStart.Length)] +
-                        syllablesMiddle[UnityEngine.Random.Range(0, syllablesMiddle.Length)] +
-                        syllablesMiddle[UnityEngine.Random.Range(0, syllablesMiddle.Length)] +
-                        syllablesEnd[UnityEngine.Random.Range(0, syllablesEnd.Length)];
-                break;
-        }
-
-        return name;
     }
     public async Task DisableMenuAfterSetName()
     {

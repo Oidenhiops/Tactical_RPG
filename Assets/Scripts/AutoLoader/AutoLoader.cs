@@ -13,7 +13,7 @@ public class AutoLoader : MonoBehaviour
         while (true)
         {
             GameManager.Instance.openCloseScene.AdjustLoading(10 * i);
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.05f);
             i++;
             if (i > 10) break;
         }

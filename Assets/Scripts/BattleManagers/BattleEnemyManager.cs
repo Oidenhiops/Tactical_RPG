@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AYellowpaper.SerializedCollections;
 using UnityEngine;
 
 public class BattleEnemyManager : MonoBehaviour
@@ -9,29 +10,46 @@ public class BattleEnemyManager : MonoBehaviour
     public CharacterBase[] characters;
     public GameObject characterBattlePrefab;
     public Transform charactersContainer;
-    public List<CharacterBase> charactersList;
+    public List<InitialDataSO> charactersList;
     public CharacterBase principalCharacter;
     void Start()
     {
-        
-    }
-    void Update()
-    {
+        if (ManagementBattleInfo.Instance) principalCharacter = ManagementBattleInfo.Instance.principalCharacterEnemy;
 
+    }
+    public void GetCharactersInitialData()
+    {
+        charactersList.Add(principalCharacter.initialDataSO);
     }
     public async Task InitializeCharacterData()
     {
         List<CharacterBase> charactersSpawned = new List<CharacterBase>();
-        foreach (KeyValuePair<string, CharacterData> characterInfo in GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].characters)
+        foreach (InitialDataSO characterInfo in charactersList)
         {
-            CharacterBase character = Instantiate(characterBattlePrefab, Vector3Int.down * 2, Quaternion.identity, charactersContainer).GetComponent<CharacterBase>();
-            character.initialDataSO = GameData.Instance.charactersDataDBSO.data[characterInfo.Value.id][characterInfo.Value.subId].initialDataSO;
-            character.isCharacterPlayer = true;
-            character.characterData = characterInfo.Value;
-            character.name = character.characterData.name;
-            charactersSpawned.Add(character);
-            await character.InitializeCharacter();
-            character.gameObject.SetActive(false);
+            CharacterData character = new CharacterData
+            {
+                id = characterInfo.id,
+                subId = characterInfo.subId,
+                name = GameData.Instance.charactersDataDBSO.GenerateFantasyName(),
+                level = 1,
+                mastery = new SerializedDictionary<CharacterData.TypeMastery, CharacterData.CharacterMasteryInfo>()
+            };
+            character.statistics = GameData.Instance.charactersDataDBSO.data[character.id][character.subId].initialDataSO.CloneStatistics();
+            character.mastery = GameData.Instance.charactersDataDBSO.data[character.id][character.subId].initialDataSO.CloneMastery();
+            character.skills = GameData.Instance.charactersDataDBSO.data[character.id][character.subId].initialDataSO.CloneSkills();
+            foreach (KeyValuePair<CharacterData.TypeStatistic, CharacterData.Statistic> statistic in character.statistics)
+            {
+                if (statistic.Key != CharacterData.TypeStatistic.Exp)
+                {
+                    statistic.Value.RefreshValue();
+                    statistic.Value.SetMaxValue();
+                }
+                else
+                {
+                    statistic.Value.baseValue = 15;
+                    statistic.Value.RefreshValue();
+                }
+            }
         }
         characters = charactersSpawned.ToArray();
     }

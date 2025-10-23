@@ -10,7 +10,7 @@ public class WorldManager : MonoBehaviour
     public static WorldManager Instance { get; private set; }
     public CharacterActions characterActions;
     public GameObject worldContainer;
-    public CharacterBase characterWorld;
+    public CharacterWorldPlayer characterWorld;
     public GenerateMap currentWorldMap;
     public AStarPathFinding aStarPathFinding;
     bool cantRotateCamera = false;
@@ -69,6 +69,7 @@ public class WorldManager : MonoBehaviour
     {
         enemyHitted = true;
         ManagementBattleInfo.Instance.generateMap = currentWorldMap;
+        ManagementBattleInfo.Instance.principalCharacterEnemy = characterWorld.characterHitted;
         _ = GameManager.Instance.ChangeScene(GameManager.TypeScene.BattleScene, LoadSceneMode.Additive);
         worldContainer.gameObject.SetActive(false);
     }

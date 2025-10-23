@@ -8,6 +8,7 @@ public class CharacterWorldPlayer : CharacterBase
     public bool isOnMovement;
     public Vector3 detectorOffset;
     public Vector3 detectorSize = Vector3.one;
+    public CharacterBase characterHitted;
     void Start()
     {
         WorldManager.Instance.characterActions.CharacterInputs.Movement.started += HandleMovement;
@@ -64,6 +65,7 @@ public class CharacterWorldPlayer : CharacterBase
         {
             if (col.transform != transform)
             {
+                characterHitted = col.GetComponent<CharacterBase>();
                 return true;
             }
         }
