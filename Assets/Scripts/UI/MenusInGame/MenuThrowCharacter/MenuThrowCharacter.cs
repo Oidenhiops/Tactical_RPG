@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 public class MenuThrowCharacter : MonoBehaviour
 {
-    public PlayerManager playerManager;
+    public BattlePlayerManager playerManager;
     public GameObject menuThrowCharacter;
     public TMP_Text heightTextValue;
     public TMP_Text distanceTextValue;
@@ -128,11 +128,11 @@ public class MenuThrowCharacter : MonoBehaviour
     }
     void CancelCharacterActions(CharacterBase character)
     {
-        if (PlayerManager.Instance.actionsManager.characterActions.TryGetValue(character, out List<ActionsManager.ActionInfo> actions))
+        if (BattlePlayerManager.Instance.actionsManager.characterActions.TryGetValue(character, out List<ActionsManager.ActionInfo> actions))
         {
             if (actions[actions.Count - 1].characterToMakeAction != null && actions[actions.Count - 1].characterToMakeAction.Count > 0)
             {
-                if (PlayerManager.Instance.actionsManager.characterActions.TryGetValue(actions[actions.Count - 1].characterToMakeAction[0].character, out List<ActionsManager.ActionInfo> otherActions))
+                if (BattlePlayerManager.Instance.actionsManager.characterActions.TryGetValue(actions[actions.Count - 1].characterToMakeAction[0].character, out List<ActionsManager.ActionInfo> otherActions))
                 {
                     otherActions[otherActions.Count - 1].cantUndo = true;
                 }
@@ -144,12 +144,12 @@ public class MenuThrowCharacter : MonoBehaviour
             }
             else
             {
-                PlayerManager.Instance.actionsManager.characterActions[character].Add(new ActionsManager.ActionInfo
+                BattlePlayerManager.Instance.actionsManager.characterActions[character].Add(new ActionsManager.ActionInfo
                 {
                     cantUndo = true,
                     characterMakeAction = character,
                     typeAction = ActionsManager.TypeAction.EndTurn,
-                    positionInGrid = Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)
+                    positionInGrid = Vector3Int.RoundToInt(BattlePlayerManager.Instance.mouseDecal.transform.position)
                 });
             }
         }

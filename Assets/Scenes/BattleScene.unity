@@ -6774,6 +6774,7 @@ GameObject:
   - component: {fileID: 726234698}
   - component: {fileID: 726234697}
   - component: {fileID: 726234690}
+  - component: {fileID: 726234707}
   - component: {fileID: 726234692}
   - component: {fileID: 726234693}
   - component: {fileID: 726234695}
@@ -6786,7 +6787,7 @@ GameObject:
   - component: {fileID: 726234706}
   - component: {fileID: 726234704}
   m_Layer: 0
-  m_Name: PlayerManager
+  m_Name: BattleManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6821,8 +6822,6 @@ MonoBehaviour:
   cameraRot: {fileID: 1353228496}
   canShowGridAndDecal: 0
   characters: []
-  roundStateAnimator: {fileID: 2107388843}
-  roundStateLanguage: {fileID: 95383181}
   charactersContainer: {fileID: 1088174141}
   _characterPlayerMakingActions: 0
   characterBattlePrefab: {fileID: 2412411816279942414, guid: 042fa333b810e3a4eb4cfa8834eaea0a,
@@ -6872,6 +6871,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerManager: {fileID: 726234690}
+  roundStateAnimator: {fileID: 2107388843}
+  roundStateLanguage: {fileID: 95383181}
   endTurnTest:
     m_Name: End Turn Test
     m_Type: 0
@@ -7244,6 +7245,18 @@ MonoBehaviour:
   index: 0
   canMovePointer: 0
   currentSkill: {fileID: 0}
+--- !u!114 &726234707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 726234689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e123da279239ee4e992e6c9404b728c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BattleEnemyManager
 --- !u!1 &729194104
 GameObject:
   m_ObjectHideFlags: 0

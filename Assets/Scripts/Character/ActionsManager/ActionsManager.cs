@@ -8,7 +8,9 @@ using UnityEngine.InputSystem;
 
 public class ActionsManager : MonoBehaviour
 {
-    public PlayerManager playerManager;
+    public BattlePlayerManager playerManager;
+    public Animator roundStateAnimator;
+    public ManagementLanguage roundStateLanguage;
     public InputAction endTurnTest;
     public SerializedDictionary<CharacterBase, List<ActionInfo>> characterActions = new SerializedDictionary<CharacterBase, List<ActionInfo>>();
     public SerializedDictionary<CharacterBase, ActionInfo> characterFinalActions = new SerializedDictionary<CharacterBase, ActionInfo>();
@@ -36,6 +38,7 @@ public class ActionsManager : MonoBehaviour
     void Start()
     {
         playerManager.characterActions.CharacterInputs.Back.performed += OnUndoAction;
+        GameManager.Instance.openCloseScene.OnFinishOpenAnimation += OnFinishOpenAnimation;
         endTurnTest.started += OnEndTurnTest;
         endTurnTest.Enable();
     }
@@ -43,7 +46,26 @@ public class ActionsManager : MonoBehaviour
     {
         endTurnTest.started -= OnEndTurnTest;
         playerManager.characterActions.CharacterInputs.Back.performed -= OnUndoAction;
+        GameManager.Instance.openCloseScene.OnFinishOpenAnimation -= OnFinishOpenAnimation;
 
+    }
+    void OnFinishOpenAnimation()
+    {
+        _ = ChangeRoundState("game_scene_menu_round_state_start");
+    }
+    public async Task ChangeRoundState(string idText)
+    {
+        roundStateLanguage.ChangeTextById(idText);
+        roundStateAnimator.Play("ShowStateOpen");
+        while (true)
+        {
+            await Awaitable.NextFrameAsync();
+            if (roundStateAnimator.GetCurrentAnimatorStateInfo(0).IsName("ShowStateIdle"))
+            {
+                isPlayerTurn = !isPlayerTurn;
+                break;
+            }
+        }
     }
     public void OnEndTurnTest(InputAction.CallbackContext context)
     {
@@ -112,8 +134,8 @@ public class ActionsManager : MonoBehaviour
             playerManager.aStarPathFinding.DisableGrid();
         }
         else if (
-            playerManager.aStarPathFinding.grid[Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)].hasCharacter != null &&
-            characterActions.TryGetValue(playerManager.aStarPathFinding.grid[Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)].hasCharacter, out List<ActionInfo> actions))
+            playerManager.aStarPathFinding.grid[Vector3Int.RoundToInt(BattlePlayerManager.Instance.mouseDecal.transform.position)].hasCharacter != null &&
+            characterActions.TryGetValue(playerManager.aStarPathFinding.grid[Vector3Int.RoundToInt(BattlePlayerManager.Instance.mouseDecal.transform.position)].hasCharacter, out List<ActionInfo> actions))
         {
             if (actions.Count > 0 && actions[actions.Count - 1].cantUndo) return;
             switch (actions[actions.Count - 1].typeAction)
@@ -182,12 +204,12 @@ public class ActionsManager : MonoBehaviour
         }
         else
         {
-            if (playerManager.aStarPathFinding.grid[Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)].hasCharacter &&
-                Vector3Int.RoundToInt(playerManager.aStarPathFinding.grid[Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)].hasCharacter.transform.position) == Vector3Int.zero)
+            if (playerManager.aStarPathFinding.grid[Vector3Int.RoundToInt(BattlePlayerManager.Instance.mouseDecal.transform.position)].hasCharacter &&
+                Vector3Int.RoundToInt(playerManager.aStarPathFinding.grid[Vector3Int.RoundToInt(BattlePlayerManager.Instance.mouseDecal.transform.position)].hasCharacter.transform.position) == Vector3Int.zero)
             {
                 playerManager.menuCharacterSelector.amountCharacters++;
-                playerManager.aStarPathFinding.grid[Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)].hasCharacter.gameObject.SetActive(false);
-                playerManager.aStarPathFinding.grid[Vector3Int.RoundToInt(PlayerManager.Instance.mouseDecal.transform.position)].hasCharacter = null;
+                playerManager.aStarPathFinding.grid[Vector3Int.RoundToInt(BattlePlayerManager.Instance.mouseDecal.transform.position)].hasCharacter.gameObject.SetActive(false);
+                playerManager.aStarPathFinding.grid[Vector3Int.RoundToInt(BattlePlayerManager.Instance.mouseDecal.transform.position)].hasCharacter = null;
             }
         }
     }
@@ -331,7 +353,7 @@ public class ActionsManager : MonoBehaviour
     }
     public async Task ChangeRoundState()
     {
-        await playerManager.ChangeRoundState(!isChangingTurn ? isPlayerTurn ? "game_scene_menu_round_state_player_turn" : "game_scene_menu_round_state_enemy_turn" : !isPlayerTurn ? "game_scene_menu_round_state_player_turn" : "game_scene_menu_round_state_enemy_turn");
+        await ChangeRoundState(!isChangingTurn ? isPlayerTurn ? "game_scene_menu_round_state_player_turn" : "game_scene_menu_round_state_enemy_turn" : !isPlayerTurn ? "game_scene_menu_round_state_player_turn" : "game_scene_menu_round_state_enemy_turn");
         isChangingTurn = false;
     }
     public void ActionForExecuteExist(out bool actionExist)

@@ -94,15 +94,15 @@ public class AStarPathFinding : MonoBehaviour
         {
             StopCoroutine(_ToggleSubGrid);
         }
-        PlayerManager.Instance.mouseDecal.subGridContainer.transform.localRotation = Quaternion.Euler(0, 0, 0);
+        BattlePlayerManager.Instance.mouseDecal.subGridContainer.transform.localRotation = Quaternion.Euler(0, 0, 0);
         foreach (Vector3Int cell in positions)
         {
             if (!currentSubGrid.ContainsKey(cell))
             {
                 GameObject poolingGrid = GetPoolingGrid();
                 poolingGrid.GetComponent<Renderer>().material = subGridMaterial;
-                poolingGrid.transform.SetParent(PlayerManager.Instance.mouseDecal.subGridContainer.transform);
-                poolingGrid.transform.position = PlayerManager.Instance.mouseDecal.transform.position + cell + Vector3.up * 0.125f;
+                poolingGrid.transform.SetParent(BattlePlayerManager.Instance.mouseDecal.subGridContainer.transform);
+                poolingGrid.transform.position = BattlePlayerManager.Instance.mouseDecal.transform.position + cell + Vector3.up * 0.125f;
                 currentSubGrid.Add(cell, poolingGrid);
             }
         }
@@ -217,16 +217,16 @@ public class AStarPathFinding : MonoBehaviour
                             {
                                 EnableGrid(GetWalkableTiles(), Color.magenta);
                             }
-                            else _= PlayerManager.Instance.menuCharacterActions.EnableMenu();
+                            else _= BattlePlayerManager.Instance.menuCharacterActions.EnableMenu();
                         }
                         else
                         {
-                            _= PlayerManager.Instance.menuCharacterInfo.ReloadInfo(characterSelected);
+                            _= BattlePlayerManager.Instance.menuCharacterInfo.ReloadInfo(characterSelected);
                         }
                     }
                     else
                     {
-                        _= PlayerManager.Instance.menuCharacterActions.EnableMenu();
+                        _= BattlePlayerManager.Instance.menuCharacterActions.EnableMenu();
                     }
                 }
                 else if (characterSelected && characterSelected.isCharacterPlayer)
@@ -251,12 +251,12 @@ public class AStarPathFinding : MonoBehaviour
                         }
                         else
                         {
-                            _= PlayerManager.Instance.menuCharacterActions.EnableMenu();
+                            _= BattlePlayerManager.Instance.menuCharacterActions.EnableMenu();
                         }
                     }
                     else
                     {
-                        _= PlayerManager.Instance.menuCharacterActions.EnableMenu();
+                        _= BattlePlayerManager.Instance.menuCharacterActions.EnableMenu();
                     }
                 }
                 else if (characterSelected && characterSelected.isCharacterPlayer)
@@ -265,7 +265,7 @@ public class AStarPathFinding : MonoBehaviour
                 }
                 else
                 {
-                    _= PlayerManager.Instance.menuCharacterSelector.EnableMenu();
+                    _= BattlePlayerManager.Instance.menuCharacterSelector.EnableMenu();
                 }
             }
         }

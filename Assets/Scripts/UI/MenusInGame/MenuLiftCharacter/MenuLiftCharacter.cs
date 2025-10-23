@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 public class MenuLiftCharacter : MonoBehaviour
 {
-    public PlayerManager playerManager;
+    public BattlePlayerManager playerManager;
     public SerializedDictionary<CharacterBase, LiftCharactersBanner> banners = new SerializedDictionary<CharacterBase, LiftCharactersBanner>();
     public RectTransform containerBanners;
     public GameObject menuLiftCharacter;

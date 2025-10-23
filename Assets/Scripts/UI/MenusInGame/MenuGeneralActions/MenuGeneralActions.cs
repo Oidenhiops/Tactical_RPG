@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class MenuGeneralActions : MonoBehaviour
 {
-    public PlayerManager playerManager;
+    public BattlePlayerManager playerManager;
     public GameObject menuGeneralActions;
     public Button executeButton;
     public GameObject charactersButton;
@@ -53,28 +53,28 @@ public class MenuGeneralActions : MonoBehaviour
     {
         await Awaitable.NextFrameAsync();
         menuGeneralActions.SetActive(false);
-        PlayerManager.Instance.canShowGridAndDecal = false;
-        PlayerManager.Instance.characterPlayerMakingActions = true;
-        PlayerManager.Instance.DisableVisuals();
-        await PlayerManager.Instance.actionsManager.MakeActions();
-        PlayerManager.Instance.canShowGridAndDecal = true;
-        PlayerManager.Instance.characterPlayerMakingActions = false;
+        BattlePlayerManager.Instance.canShowGridAndDecal = false;
+        BattlePlayerManager.Instance.characterPlayerMakingActions = true;
+        BattlePlayerManager.Instance.DisableVisuals();
+        await BattlePlayerManager.Instance.actionsManager.MakeActions();
+        BattlePlayerManager.Instance.canShowGridAndDecal = true;
+        BattlePlayerManager.Instance.characterPlayerMakingActions = false;
         _= EnableMenu();
-        PlayerManager.Instance.mouseDecal.decal.gameObject.SetActive(true);
+        BattlePlayerManager.Instance.mouseDecal.decal.gameObject.SetActive(true);
     }
     public void EndTurnButton()
     {
         if (!GameManager.Instance.isPause)
         {
-            PlayerManager.Instance.canShowGridAndDecal = false;
-            PlayerManager.Instance.DisableVisuals();
+            BattlePlayerManager.Instance.canShowGridAndDecal = false;
+            BattlePlayerManager.Instance.DisableVisuals();
             menuGeneralActions.SetActive(false);
-            _ = PlayerManager.Instance.actionsManager.EndTurn();
+            _ = BattlePlayerManager.Instance.actionsManager.EndTurn();
         }
     }
     public void CharactersButton()
     {
-        if (!GameManager.Instance.isPause) _= PlayerManager.Instance.menuAllCharacters.EnableMenu();
+        if (!GameManager.Instance.isPause) _= BattlePlayerManager.Instance.menuAllCharacters.EnableMenu();
     }
     public void BonusButton()
     {

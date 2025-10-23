@@ -9,15 +9,15 @@ public class CharacterStatusEffect : MonoBehaviour
     public SerializedDictionary<StatusEffectBaseSO, int> statusEffects = new SerializedDictionary<StatusEffectBaseSO, int>();
     public void Start()
     {
-        if(PlayerManager.Instance) PlayerManager.Instance.actionsManager.OnEndTurn += DiscountStatusEffects;
+        if(BattlePlayerManager.Instance) BattlePlayerManager.Instance.actionsManager.OnEndTurn += DiscountStatusEffects;
     }
     public void OnDestroy()
     {
-        if(PlayerManager.Instance) PlayerManager.Instance.actionsManager.OnEndTurn -= DiscountStatusEffects;
+        if(BattlePlayerManager.Instance) BattlePlayerManager.Instance.actionsManager.OnEndTurn -= DiscountStatusEffects;
     }
     public void DiscountStatusEffects()
     {
-        if (character.isCharacterPlayer && PlayerManager.Instance.actionsManager.isPlayerTurn)
+        if (character.isCharacterPlayer && BattlePlayerManager.Instance.actionsManager.isPlayerTurn)
         {
             foreach (KeyValuePair<StatusEffectBaseSO, int> statusEffect in statusEffects)
             {
@@ -31,7 +31,7 @@ public class CharacterStatusEffect : MonoBehaviour
                 }
             }
         }
-        else if (!character.isCharacterPlayer && !PlayerManager.Instance.actionsManager.isPlayerTurn)
+        else if (!character.isCharacterPlayer && !BattlePlayerManager.Instance.actionsManager.isPlayerTurn)
         {
             foreach (KeyValuePair<StatusEffectBaseSO, int> statusEffect in statusEffects)
             {

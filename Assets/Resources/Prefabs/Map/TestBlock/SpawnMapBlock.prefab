@@ -1375,24 +1375,7 @@ MonoBehaviour:
         targetSprite: {fileID: 202917199, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
   variationsSprites:
-    _serializedList:
-    - Key: {fileID: -978724912, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
-      Value:
-      - {fileID: 844457666, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
-      - {fileID: -299328741, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
-      - {fileID: -407683928, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
-      - {fileID: -2052119156, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
-      - {fileID: 633044836, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
-      - {fileID: -970123103, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
-      - {fileID: 1526160820, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
-      - {fileID: 1823776435, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
-      - {fileID: 1247351432, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
-      - {fileID: -1112247322, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
-      - {fileID: 616540735, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
-      - {fileID: -1212519855, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
-      - {fileID: 30813929, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
-      - {fileID: -1852411526, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
-      - {fileID: -250802342, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
+    _serializedList: []
   neighbors: 
   directions:
     _serializedList:

@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 public class MenuSkillsCharacter : MonoBehaviour
 {
-    public PlayerManager playerManager;
+    public BattlePlayerManager playerManager;
     public SerializedDictionary<SkillsBaseSO, SkillCharacterBanner> banners = new SerializedDictionary<SkillsBaseSO, SkillCharacterBanner>();
     public GameObject menuSkillsCharacter;
     public GameObject menuSkillSelectSkill;

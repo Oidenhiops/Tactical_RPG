@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq.Expressions;
 using UnityEngine;
 
 public class CharacterBase : MonoBehaviour
@@ -52,6 +53,15 @@ public class CharacterBase : MonoBehaviour
             await Awaitable.NextFrameAsync();
         }
     }
+    [NaughtyAttributes.Button]
+    public void UpdateLevelCharacter()
+    {
+        CharacterData.Statistic statistic = new CharacterData.Statistic
+        {
+            maxValue = characterData.statistics[CharacterData.TypeStatistic.Exp].maxValue * 10
+        };
+        TakeExp(statistic);
+    }
     async Awaitable InitializeAnimations()
     {
         try
@@ -79,7 +89,22 @@ public class CharacterBase : MonoBehaviour
         await Awaitable.NextFrameAsync();
     }
     public virtual void MoveCharacter(Vector3Int targetPosition) { }
-    public virtual void TakeExp(CharacterBase characterMakeDamage) { }
+    public virtual void TakeExp(CharacterData.Statistic statistic)
+    {
+        int amount = Mathf.CeilToInt(statistic.maxValue * 0.1f);
+        characterData.statistics[CharacterData.TypeStatistic.Exp].currentValue += amount;
+        int level = 0; 
+        while (characterData.statistics[CharacterData.TypeStatistic.Exp].currentValue >= characterData.statistics[CharacterData.TypeStatistic.Exp].maxValue)
+        {
+            int spare = characterData.statistics[CharacterData.TypeStatistic.Exp].currentValue > characterData.statistics[CharacterData.TypeStatistic.Exp].maxValue ?
+                Mathf.CeilToInt(characterData.statistics[CharacterData.TypeStatistic.Exp].currentValue - characterData.statistics[CharacterData.TypeStatistic.Exp].maxValue) : 0;
+            characterData.statistics[CharacterData.TypeStatistic.Exp].baseValue = Mathf.CeilToInt(characterData.statistics[CharacterData.TypeStatistic.Exp].maxValue * 2.2f);
+            characterData.statistics[CharacterData.TypeStatistic.Exp].maxValue = characterData.statistics[CharacterData.TypeStatistic.Exp].baseValue;
+            characterData.statistics[CharacterData.TypeStatistic.Exp].currentValue = spare;
+            characterData.LevelUp();
+            level++;
+        }
+    }
     void ChangeDirectionModel()
     {
         characterModel.characterMeshRenderer.transform.localRotation = direction.x > 0 ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 180, 0);

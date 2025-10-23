@@ -85,6 +85,23 @@ public class CharacterData
     {
         mastery[typeMastery].currentExp += amount;
     }
+    public void LevelUp()
+    {
+        level++;
+
+        foreach (KeyValuePair<TypeStatistic, Statistic> statistic in statistics)
+        {
+            if (statistic.Key != TypeStatistic.Exp)
+            {
+                statistic.Value.baseValue = Mathf.CeilToInt(statistic.Value.baseValue * (1.25f * statistic.Value.aptitudeValue / 100));
+                statistic.Value.RefreshValue();
+                if (statistic.Key != TypeStatistic.Hp && statistic.Key != TypeStatistic.Sp)
+                {
+                    statistic.Value.SetMaxValue();
+                }
+            }
+        }
+    }
     [Serializable]
     public class CharacterItem
     {

@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerManager : MonoBehaviour
+public class BattlePlayerManager : MonoBehaviour
 {
-    public static PlayerManager Instance { get; private set; }
+    public static BattlePlayerManager Instance { get; private set; }
     public CharacterActions characterActions;
     public ActionsManager actionsManager;
     public MenuCharacterSelector menuCharacterSelector;
@@ -26,8 +26,6 @@ public class PlayerManager : MonoBehaviour
     public Transform cameraRot;
     public bool canShowGridAndDecal;
     public CharacterBase[] characters;
-    public Animator roundStateAnimator;
-    public ManagementLanguage roundStateLanguage;
     public Transform charactersContainer;
     public bool _characterPlayerMakingActions;
     public Action<bool, bool> OnCharacterPlayerMakingActions;
@@ -67,7 +65,6 @@ public class PlayerManager : MonoBehaviour
         characterActions.CharacterInputs.RotateCamera.performed -= HandleRotateCamera;
         characterActions.CharacterInputs.ActiveGeneralActions.performed -= HandleMenuGeneralActions;
         OnCharacterPlayerMakingActions -= OnToggleCharacterPlayerMove;
-        GameManager.Instance.openCloseScene.OnFinishOpenAnimation -= OnFinishOpenAnimation;
     }
     void InitializeActions()
     {
@@ -78,26 +75,9 @@ public class PlayerManager : MonoBehaviour
         characterActions.CharacterInputs.RotateCamera.started += HandleRotateCamera;
         characterActions.CharacterInputs.ActiveGeneralActions.performed += HandleMenuGeneralActions;
         OnCharacterPlayerMakingActions += OnToggleCharacterPlayerMove;
-        GameManager.Instance.openCloseScene.OnFinishOpenAnimation += OnFinishOpenAnimation;
+
     }
-    void OnFinishOpenAnimation()
-    {
-        _ = ChangeRoundState("game_scene_menu_round_state_start");
-    }
-    public async Task ChangeRoundState(string idText)
-    {
-        roundStateLanguage.ChangeTextById(idText);
-        roundStateAnimator.Play("ShowStateOpen");
-        while (true)
-        {
-            await Awaitable.NextFrameAsync();
-            if (roundStateAnimator.GetCurrentAnimatorStateInfo(0).IsName("ShowStateIdle"))
-            {
-                actionsManager.isPlayerTurn = !actionsManager.isPlayerTurn;
-                break;
-            }
-        }
-    }
+
     public async Task InitializeCharacterData()
     {
         List<CharacterBase> charactersSpawned = new List<CharacterBase>();

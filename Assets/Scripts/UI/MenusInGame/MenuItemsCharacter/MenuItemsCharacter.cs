@@ -11,7 +11,7 @@ public class MenuItemsCharacter : MonoBehaviour
 {
     public GameObject panelGear;
     public GameObject panelBag;
-    public PlayerManager playerManager;
+    public BattlePlayerManager playerManager;
     public GameObject menuItemCharacters;
     public int bagIndex;
     public int gearIndex;

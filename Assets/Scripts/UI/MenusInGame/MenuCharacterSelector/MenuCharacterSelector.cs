@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 public class MenuCharacterSelector : MonoBehaviour
 {
-    public PlayerManager playerManager;
+    public BattlePlayerManager playerManager;
     public SerializedDictionary<CharacterBase, CharacterSelectorBanner> banners = new SerializedDictionary<CharacterBase, CharacterSelectorBanner>();
     public RectTransform containerBanners;
     public ScrollRect ScrollRect;

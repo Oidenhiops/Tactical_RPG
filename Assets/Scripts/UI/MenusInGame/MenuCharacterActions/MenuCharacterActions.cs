@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class MenuCharacterActions : MonoBehaviour
 {
-    public PlayerManager playerManager;
+    public BattlePlayerManager playerManager;
     public GameObject menuCharacterActions;
     public SerializedDictionary<TypeButton, Button> buttons = new SerializedDictionary<TypeButton, Button>();
     List<TypeButton> buttonsExepts = new List<TypeButton>();

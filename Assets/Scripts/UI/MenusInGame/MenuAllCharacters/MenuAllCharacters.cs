@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class MenuAllCharacters : MonoBehaviour
 {
-    public PlayerManager playerManager;
+    public BattlePlayerManager playerManager;
     public SerializedDictionary<CharacterBase, AllCharactersBanner> banners = new SerializedDictionary<CharacterBase, AllCharactersBanner>();
     public RectTransform containerBanners;
     public GameObject menuAllCharacters;

@@ -7,11 +7,11 @@ public class CharacterBattle : CharacterBase
     public override void Awake()
     {
         if (autoInit) _ = InitializeCharacter();
-        PlayerManager.Instance.actionsManager.OnEndTurn += OnEndTurn;
+        BattlePlayerManager.Instance.actionsManager.OnEndTurn += OnEndTurn;
     }
     void OnDestroy()
     {
-        PlayerManager.Instance.actionsManager.OnEndTurn -= OnEndTurn;
+        BattlePlayerManager.Instance.actionsManager.OnEndTurn -= OnEndTurn;
     }
     void OnEndTurn()
     {
@@ -20,18 +20,6 @@ public class CharacterBattle : CharacterBase
             lastAction = ActionsManager.TypeAction.None;
         }
         startPositionInGrid = positionInGrid;
-    }
-    public override void TakeExp(CharacterBase characterDie)
-    {
-        int amount = Mathf.CeilToInt(characterDie.characterData.statistics[CharacterData.TypeStatistic.Exp].maxValue * 0.1f);
-        characterData.statistics[CharacterData.TypeStatistic.Exp].currentValue += amount;
-        while (characterData.statistics[CharacterData.TypeStatistic.Exp].currentValue > characterData.statistics[CharacterData.TypeStatistic.Exp].maxValue)
-        {
-            int spare = Mathf.CeilToInt(characterData.statistics[CharacterData.TypeStatistic.Exp].currentValue - characterData.statistics[CharacterData.TypeStatistic.Exp].maxValue);
-            characterData.statistics[CharacterData.TypeStatistic.Exp].baseValue = Mathf.CeilToInt(characterData.statistics[CharacterData.TypeStatistic.Exp].maxValue * 2.2f);
-            characterData.statistics[CharacterData.TypeStatistic.Exp].maxValue = characterData.statistics[CharacterData.TypeStatistic.Exp].baseValue;
-            characterData.statistics[CharacterData.TypeStatistic.Exp].currentValue = spare;
-        }
     }
     public override IEnumerator Die(CharacterBase characterMakeDamage)
     {
@@ -46,7 +34,7 @@ public class CharacterBattle : CharacterBase
                 {
                     component.MakeAnimation("Idle");
                 }
-                PlayerManager.Instance.aStarPathFinding.grid[Vector3Int.RoundToInt(gameObject.transform.position)].hasCharacter = component.character;
+                BattlePlayerManager.Instance.aStarPathFinding.grid[Vector3Int.RoundToInt(gameObject.transform.position)].hasCharacter = component.character;
                 component.transform.position = transform.position;
                 component.character.positionInGrid = positionInGrid;
                 component.character.startPositionInGrid = startPositionInGrid;
@@ -55,14 +43,14 @@ public class CharacterBattle : CharacterBase
         }
         else
         {
-            PlayerManager.Instance.aStarPathFinding.grid[Vector3Int.RoundToInt(gameObject.transform.position)].hasCharacter = null;
+            BattlePlayerManager.Instance.aStarPathFinding.grid[Vector3Int.RoundToInt(gameObject.transform.position)].hasCharacter = null;
         }
         yield return new WaitForSeconds(1);
         Destroy(dieEffect);
         gameObject.transform.position = Vector3.zero + Vector3.down;
         if (characterMakeDamage)
         {
-            characterMakeDamage.TakeExp(this);
+            characterMakeDamage.TakeExp(characterData.statistics[CharacterData.TypeStatistic.Exp]);
         }
         characterStatusEffect.statusEffects = new AYellowpaper.SerializedCollections.SerializedDictionary<StatusEffectBaseSO, int>();
         GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].dieCharacters.Add(characterData.name, characterData);
@@ -70,13 +58,13 @@ public class CharacterBattle : CharacterBase
     }
     public override void MoveCharacter(Vector3Int targetPosition)
     {
-        List<Vector3Int> path = PlayerManager.Instance.aStarPathFinding.FindPath(positionInGrid, targetPosition);
+        List<Vector3Int> path = BattlePlayerManager.Instance.aStarPathFinding.FindPath(positionInGrid, targetPosition);
 
         if (path != null && path.Count > 0)
         {
-            PlayerManager.Instance.aStarPathFinding.grid[path[0]].hasCharacter = null;
-            if (isCharacterPlayer) PlayerManager.Instance.characterPlayerMakingActions = true;
-            PlayerManager.Instance.aStarPathFinding.grid[targetPosition].hasCharacter = this;
+            BattlePlayerManager.Instance.aStarPathFinding.grid[path[0]].hasCharacter = null;
+            if (isCharacterPlayer) BattlePlayerManager.Instance.characterPlayerMakingActions = true;
+            BattlePlayerManager.Instance.aStarPathFinding.grid[targetPosition].hasCharacter = this;
             StartCoroutine(FollowPath(path));
         }
     }
@@ -114,23 +102,23 @@ public class CharacterBattle : CharacterBase
         }
         if (isCharacterPlayer)
         {
-            PlayerManager.Instance.characterPlayerMakingActions = false;
+            BattlePlayerManager.Instance.characterPlayerMakingActions = false;
             if (positionInGrid == Vector3Int.zero)
             {
                 gameObject.SetActive(false);
-                PlayerManager.Instance.aStarPathFinding.characterSelected = null;
-                PlayerManager.Instance.aStarPathFinding.grid[Vector3Int.zero].hasCharacter = null;
-                if (PlayerManager.Instance.actionsManager.characterActions.ContainsKey(this))
+                BattlePlayerManager.Instance.aStarPathFinding.characterSelected = null;
+                BattlePlayerManager.Instance.aStarPathFinding.grid[Vector3Int.zero].hasCharacter = null;
+                if (BattlePlayerManager.Instance.actionsManager.characterActions.ContainsKey(this))
                 {
-                    PlayerManager.Instance.actionsManager.characterActions.Remove(this);
+                    BattlePlayerManager.Instance.actionsManager.characterActions.Remove(this);
                 }
-                PlayerManager.Instance.menuCharacterSelector.amountCharacters++;
+                BattlePlayerManager.Instance.menuCharacterSelector.amountCharacters++;
                 startPositionInGrid = Vector3Int.zero;
-                PlayerManager.Instance.aStarPathFinding.DisableGrid();
+                BattlePlayerManager.Instance.aStarPathFinding.DisableGrid();
             }
             else
             {
-                if (PlayerManager.Instance.actionsManager.characterActions.TryGetValue(this, out List<ActionsManager.ActionInfo> actions))
+                if (BattlePlayerManager.Instance.actionsManager.characterActions.TryGetValue(this, out List<ActionsManager.ActionInfo> actions))
                 {
                     actions.Add(new ActionsManager.ActionInfo
                     {
@@ -141,7 +129,7 @@ public class CharacterBattle : CharacterBase
                 }
                 else
                 {
-                    PlayerManager.Instance.actionsManager.characterActions.Add(this, new List<ActionsManager.ActionInfo> { new ActionsManager.ActionInfo{
+                    BattlePlayerManager.Instance.actionsManager.characterActions.Add(this, new List<ActionsManager.ActionInfo> { new ActionsManager.ActionInfo{
                         characterMakeAction = this,
                         typeAction = ActionsManager.TypeAction.Move,
                         positionInGrid = path[0]
