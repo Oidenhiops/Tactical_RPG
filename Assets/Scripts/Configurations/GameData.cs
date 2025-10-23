@@ -79,7 +79,7 @@ public class GameData : MonoBehaviour
                 {
                     if (item.Value.itemId != 0)
                     {
-                        item.Value.itemBaseSO = itemsDBSO.data[item.Value.itemId];
+                        item.Value.itemBaseSO = itemsDBSO.data[ItemBaseSO.TypeObject.None][item.Value.itemId];
                     }
                 }
             }
@@ -115,7 +115,7 @@ public class GameData : MonoBehaviour
             {
                 if (item.Value.itemId != 0)
                 {
-                    item.Value.itemBaseSO = itemsDBSO.data[item.Value.itemId];
+                    item.Value.itemBaseSO = itemsDBSO.data[ItemBaseSO.TypeObject.None][item.Value.itemId];
                 }
             }
         }
@@ -300,24 +300,24 @@ public class GameData : MonoBehaviour
             {15, new CharacterData.CharacterItem()},
         };
 
-        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[0].itemId = itemsDBSO.data[1].id;
-        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[0].itemBaseSO = itemsDBSO.data[1];
-        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[0].itemStatistics = itemsDBSO.data[1].itemStatistics;
-        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[1].itemId = itemsDBSO.data[2].id;
-        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[1].itemBaseSO = itemsDBSO.data[2];
-        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[1].itemStatistics = itemsDBSO.data[2].itemStatistics;
-        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[2].itemId = itemsDBSO.data[321].id;
-        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[2].itemBaseSO = itemsDBSO.data[321];
-        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[2].itemStatistics = itemsDBSO.data[321].itemStatistics;
-        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[3].itemId = itemsDBSO.data[322].id;
-        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[3].itemBaseSO = itemsDBSO.data[322];
-        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[3].itemStatistics = itemsDBSO.data[322].itemStatistics;
-        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[4].itemId = itemsDBSO.data[323].id;
-        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[4].itemBaseSO = itemsDBSO.data[323];
-        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[4].itemStatistics = itemsDBSO.data[323].itemStatistics;
-        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[5].itemId = itemsDBSO.data[324].id;
-        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[5].itemBaseSO = itemsDBSO.data[324];
-        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[5].itemStatistics = itemsDBSO.data[324].itemStatistics;
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[0].itemId = itemsDBSO.data[ItemBaseSO.TypeObject.None][1].id;
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[0].itemBaseSO = itemsDBSO.data[ItemBaseSO.TypeObject.None][1];
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[0].itemStatistics = itemsDBSO.data[ItemBaseSO.TypeObject.None][1].itemStatistics;
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[1].itemId = itemsDBSO.data[ItemBaseSO.TypeObject.None][2].id;
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[1].itemBaseSO = itemsDBSO.data[ItemBaseSO.TypeObject.None][2];
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[1].itemStatistics = itemsDBSO.data[ItemBaseSO.TypeObject.None][2].itemStatistics;
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[2].itemId = itemsDBSO.data[ItemBaseSO.TypeObject.None][321].id;
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[2].itemBaseSO = itemsDBSO.data[ItemBaseSO.TypeObject.None][321];
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[2].itemStatistics = itemsDBSO.data[ItemBaseSO.TypeObject.None][321].itemStatistics;
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[3].itemId = itemsDBSO.data[ItemBaseSO.TypeObject.None][322].id;
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[3].itemBaseSO = itemsDBSO.data[ItemBaseSO.TypeObject.None][322];
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[3].itemStatistics = itemsDBSO.data[ItemBaseSO.TypeObject.None][322].itemStatistics;
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[4].itemId = itemsDBSO.data[ItemBaseSO.TypeObject.None][323].id;
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[4].itemBaseSO = itemsDBSO.data[ItemBaseSO.TypeObject.None][323];
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[4].itemStatistics = itemsDBSO.data[ItemBaseSO.TypeObject.None][323].itemStatistics;
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[5].itemId = itemsDBSO.data[ItemBaseSO.TypeObject.None][324].id;
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[5].itemBaseSO = itemsDBSO.data[ItemBaseSO.TypeObject.None][324];
+        gameDataInfo.gameDataSlots[systemDataInfo.currentGameDataIndex].bagItems[5].itemStatistics = itemsDBSO.data[ItemBaseSO.TypeObject.None][324].itemStatistics;
     }
     private void GetInitialConfigBGMS(ref SystemDataInfo dataInfo)
     {
