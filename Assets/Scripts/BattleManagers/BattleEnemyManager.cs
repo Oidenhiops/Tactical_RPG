@@ -13,6 +13,7 @@ public class BattleEnemyManager : MonoBehaviour
     public Transform charactersContainer;
     public List<InitialDataSO> initialDataSelected;
     public CharacterBase principalCharacter;
+    public Material materialCharacterEnemy;
     void Start()
     {
         if (ManagementBattleInfo.Instance) principalCharacter = ManagementBattleInfo.Instance.principalCharacterEnemy;
@@ -77,6 +78,8 @@ public class BattleEnemyManager : MonoBehaviour
             CharacterBase character = Instantiate(characterBattlePrefab, Vector3Int.down * 2, Quaternion.identity, charactersContainer).GetComponent<CharacterBase>();
             character.initialDataSO = GameData.Instance.charactersDataDBSO.data[initialData.id][initialData.subId].initialDataSO;
             character.characterData = characterData;
+            character.characterModel.characterMeshRenderer.material = materialCharacterEnemy;
+            character.characterModel.characterMeshRendererHand.material = materialCharacterEnemy;
             character.name = character.characterData.name;
             charactersSpawned.Add(character);
             await character.InitializeCharacter();

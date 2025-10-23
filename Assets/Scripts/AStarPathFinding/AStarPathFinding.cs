@@ -94,6 +94,10 @@ public class AStarPathFinding : MonoBehaviour
         {
             StopCoroutine(_ToggleSubGrid);
         }
+        foreach (KeyValuePair<Vector3Int, GameObject> cell in currentSubGrid)
+        {
+            ReturnPoolingGridToQueue(cell.Value);
+        }
         BattlePlayerManager.Instance.mouseDecal.subGridContainer.transform.localRotation = Quaternion.Euler(0, 0, 0);
         foreach (Vector3Int cell in positions)
         {
@@ -309,9 +313,11 @@ public class AStarPathFinding : MonoBehaviour
     }
     public SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> GetWalkableTiles()
     {
+        SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positionsToValidate = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
         SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> availablePositions = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
         Vector2Int startPos = new Vector2Int(characterSelected.startPositionInGrid.x, characterSelected.startPositionInGrid.z);
         Vector2Int checkPos = new Vector2Int();
+        Vector3Int checkPos3D = new Vector3Int();
         int radius = characterSelected.characterData.GetMovementRadius();
         for (int x = -radius; x <= radius; x++)
         {
@@ -319,7 +325,8 @@ public class AStarPathFinding : MonoBehaviour
             {
                 checkPos.x = startPos.x + x;
                 checkPos.y = startPos.y + z;
-
+                checkPos3D.x = checkPos.x;
+                checkPos3D.z = checkPos.y;
                 if (Vector2Int.Distance(startPos, checkPos) <= radius &&
                     GetHighestBlockAt(checkPos.x, checkPos.y, out GenerateMap.WalkablePositionInfo block) &&
                     block.pos.y <= characterSelected.positionInGrid.y + characterSelected.characterData.GetMovementMaxHeight())
@@ -328,11 +335,20 @@ public class AStarPathFinding : MonoBehaviour
                         block.isWalkable && block.hasCharacter && block.hasCharacter.isCharacterPlayer && characterSelected.isCharacterPlayer ||
                         block.isWalkable && block.hasCharacter && !block.hasCharacter.isCharacterPlayer && !characterSelected.isCharacterPlayer)
                     {
-                        availablePositions.Add(block.pos, block);
+                        positionsToValidate.Add(block.pos, block);
                     }
                 }
             }
         }
+
+        foreach (KeyValuePair<Vector3Int, GenerateMap.WalkablePositionInfo> kvp in positionsToValidate)
+        {
+            if (PathExistsWithinRadius(characterSelected.positionInGrid, kvp.Key, positionsToValidate))
+            {
+                availablePositions.Add(kvp.Key, kvp.Value);
+            }
+        }
+
         return availablePositions;
     }
     public bool GetHighestBlockAt(Vector3Int pos, out GenerateMap.WalkablePositionInfo block)
@@ -567,48 +583,34 @@ public class AStarPathFinding : MonoBehaviour
         return null;
     }
 
-    public bool PathExists(Vector3 startPos, Vector3 endPos)
+    public bool PathExistsWithinRadius(Vector3Int start, Vector3Int end, SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> validPositions)
     {
-        Vector3Int start = Vector3Int.FloorToInt(startPos);
-        Vector3Int end = Vector3Int.FloorToInt(endPos);
-
-        if (!grid.TryGetValue(start, out var startTile) || !startTile.isWalkable ||
-            !grid.TryGetValue(end, out var endTile) || !endTile.isWalkable)
-        {
+        if (!validPositions.ContainsKey(start) || !validPositions[start].isWalkable ||
+            !validPositions.ContainsKey(end) || !validPositions[end].isWalkable)
             return false;
-        }
 
-        Node startNode = new Node(start.x, start.y, start.z);
-        Node endNode = new Node(end.x, end.y, end.z);
-
-        var queue = new Queue<Node>();
+        var queue = new Queue<Vector3Int>();
         var visited = new HashSet<Vector3Int>();
-
-        queue.Enqueue(startNode);
+        queue.Enqueue(start);
         visited.Add(start);
 
         while (queue.Count > 0)
         {
             var current = queue.Dequeue();
-
-            if (current.Equals(endNode))
+            if (current == end)
                 return true;
 
-            foreach (var neighbor in GetNeighbors(current))
+            foreach (var dir in useEightDirections ? eightDirections : fourDirections)
             {
-                Vector3Int neighborPos = new Vector3Int(neighbor.X, neighbor.Y, neighbor.Z);
-
-                if (!grid.TryGetValue(neighborPos, out var neighborTile) || !neighborTile.isWalkable)
+                var neighbor = new Vector3Int(current.x + dir.x, current.y, current.z + dir.z);
+                if (!validPositions.ContainsKey(neighbor) || !validPositions[neighbor].isWalkable)
                     continue;
-
-                if (visited.Contains(neighborPos))
+                if (visited.Contains(neighbor))
                     continue;
-
-                visited.Add(neighborPos);
+                visited.Add(neighbor);
                 queue.Enqueue(neighbor);
             }
         }
-
         return false;
     }
 
