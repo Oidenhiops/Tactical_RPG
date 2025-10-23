@@ -12,7 +12,11 @@ public class CharacterDataDBSO : ScriptableObject
         public InitialDataSO initialDataSO;
     }
     public List<CharacterInfo> companionsCharacters = new List<CharacterInfo>();
-
+    public InitialDataSO GetRandomInitialDataSO()
+    {
+        int randomKey = Random.Range(1, data.Count);
+        return data[randomKey][Random.Range(0, data[randomKey].Count)].initialDataSO;
+    }
     public string GenerateFantasyName()
     {
         string[] syllablesStart = { "Ka", "Lo", "Mi", "Ra", "Th", "El", "Ar", "Va", "Zy", "Xe", "Lu", "Na" };

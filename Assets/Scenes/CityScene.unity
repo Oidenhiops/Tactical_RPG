@@ -39798,7 +39798,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3982bd1db4f142c4388941ebe23b96af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ManagementBattleInfo
-  worldMapSprite: {fileID: -1002281485, guid: 2641a5bacb6fe0b408d3ff42df0b1e44, type: 3}
+  generateMap: {fileID: 0}
+  principalCharacterEnemy: {fileID: 0}
 --- !u!4 &747268924
 Transform:
   m_ObjectHideFlags: 0
@@ -75754,7 +75755,7 @@ PrefabInstance:
     - target: {fileID: 9200859857825963379, guid: 34f883db011487a4496e9fc7653ab002,
         type: 3}
       propertyPath: setDataWhitInitialValues
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

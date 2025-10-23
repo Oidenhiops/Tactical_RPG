@@ -7288,13 +7288,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e123da279239ee4e992e6c9404b728c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleEnemyManager
+  generateMap: {fileID: 1686166483}
   battlePlayerManager: {fileID: 726234690}
   aStarPathFinding: {fileID: 726234704}
   characters: []
   characterBattlePrefab: {fileID: 2412411816279942414, guid: 042fa333b810e3a4eb4cfa8834eaea0a,
     type: 3}
   charactersContainer: {fileID: 624594866}
-  charactersList: []
+  initialDataSelected: []
   principalCharacter: {fileID: 0}
 --- !u!1 &729194104
 GameObject:

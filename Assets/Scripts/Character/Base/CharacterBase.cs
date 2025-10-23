@@ -20,7 +20,6 @@ public class CharacterBase : MonoBehaviour
     public ActionsManager.TypeAction lastAction;
     public GameObject floatingTextPrefab;
     public GameObject dieEffectPrefab;
-    public bool setDataWhitInitialValues;
     public bool autoInit;
     public void OnEnable()
     {
@@ -43,7 +42,7 @@ public class CharacterBase : MonoBehaviour
     {
         try
         {
-            if (setDataWhitInitialValues) await InitializeDataWhitInitialValues();
+            if (!isCharacterPlayer) await InitializeDataWhitInitialValues();
             await InitializeAnimations();
             isInitialize = true;
         }
@@ -77,6 +76,11 @@ public class CharacterBase : MonoBehaviour
     }
     async Awaitable InitializeDataWhitInitialValues()
     {
+        characterData.name = GameData.Instance.charactersDataDBSO.GenerateFantasyName();
+        characterData.level = 1;
+        characterData.id = initialDataSO.id;
+        characterData.subId = initialDataSO.subId;
+        gameObject.name = characterData.name;
         characterData.statistics = initialDataSO.CloneStatistics();
         characterData.skills = initialDataSO.CloneSkills();
         characterData.mastery = initialDataSO.CloneMastery();

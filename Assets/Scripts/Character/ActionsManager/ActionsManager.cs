@@ -74,7 +74,12 @@ public class ActionsManager : MonoBehaviour
     void OnUndoAction(InputAction.CallbackContext context)
     {
         if (GameManager.Instance.isPause) return;
-        if (playerManager.menuItemsCharacter.menuItemCharacters.activeSelf)
+        if (playerManager.aStarPathFinding.characterSelected && !playerManager.aStarPathFinding.characterSelected.isCharacterPlayer)
+        {
+            playerManager.menuCharacterInfo.DisableMenu();
+            playerManager.aStarPathFinding.DisableGrid();
+        }
+        else if (playerManager.menuItemsCharacter.menuItemCharacters.activeSelf)
         {
             if (playerManager.menuItemsCharacter.currentBagItem)
             {
@@ -82,43 +87,43 @@ public class ActionsManager : MonoBehaviour
             }
             else
             {
-                _= playerManager.menuItemsCharacter.DisableMenu();
+                _ = playerManager.menuItemsCharacter.DisableMenu();
             }
         }
         else if (playerManager.menuSkillsCharacter.menuSkillsCharacter.activeSelf)
         {
             if (!playerManager.menuSkillsCharacter.menuSkillSelectSkill.activeSelf)
             {
-                _= playerManager.menuSkillsCharacter.DisableMenuForSelectCharacterToMakeSkill();
+                _ = playerManager.menuSkillsCharacter.DisableMenuForSelectCharacterToMakeSkill();
             }
             else
             {
-                _= playerManager.menuSkillsCharacter.DisableMenu();
+                _ = playerManager.menuSkillsCharacter.DisableMenu();
             }
         }
         else if (playerManager.menuAllCharacters.menuAllCharacters.activeSelf)
         {
-            _= playerManager.menuAllCharacters.DisableMenu();
+            _ = playerManager.menuAllCharacters.DisableMenu();
         }
         else if (playerManager.menuLiftCharacter.menuLiftCharacter.activeSelf)
         {
-            _= playerManager.menuLiftCharacter.DisableMenu();
+            _ = playerManager.menuLiftCharacter.DisableMenu();
         }
         else if (playerManager.menuAttackCharacter.menuAttackCharacter.activeSelf)
         {
-            _= playerManager.menuAttackCharacter.DisableMenu();
+            _ = playerManager.menuAttackCharacter.DisableMenu();
         }
         else if (playerManager.menuCharacterSelector.menuCharacterSelector.activeSelf)
         {
-            _= playerManager.menuCharacterSelector.DisableMenu();
+            _ = playerManager.menuCharacterSelector.DisableMenu();
         }
         else if (playerManager.menuCharacterActions.menuCharacterActions.activeSelf)
         {
-            _= playerManager.menuCharacterActions.DisableMenu();
+            _ = playerManager.menuCharacterActions.DisableMenu();
         }
         else if (playerManager.menuGeneralActions.menuGeneralActions.activeSelf)
         {
-            _= playerManager.menuGeneralActions.DisableMenu();
+            _ = playerManager.menuGeneralActions.DisableMenu();
         }
         else if (playerManager.menuCharacterInfo.menuCharacterInfo.activeSelf)
         {
@@ -126,7 +131,7 @@ public class ActionsManager : MonoBehaviour
         }
         else if (playerManager.menuThrowCharacter.menuThrowCharacter.activeSelf)
         {
-            _= playerManager.menuThrowCharacter.DisableMenu();
+            _ = playerManager.menuThrowCharacter.DisableMenu();
         }
         else if (playerManager.aStarPathFinding.characterSelected)
         {

@@ -9,6 +9,7 @@ public class GenerateMap : MonoBehaviour
     public Block[] blocks;
     public bool isWorldMap;
     public bool findMapInfo;
+    public Action OnFinishGenerateMap;
     void Start()
     {
         if (isWorldMap) _ = GenerateGrid();
@@ -41,6 +42,7 @@ public class GenerateMap : MonoBehaviour
                 }
                 await Awaitable.NextFrameAsync();
                 DrawBlocks();
+                OnFinishGenerateMap?.Invoke();
                 if (isWorldMap) aStarPathFinding.currentGrid = aStarPathFinding.grid;
             }
         }

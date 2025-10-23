@@ -121,7 +121,7 @@ public class BattlePlayerManager : MonoBehaviour
         if (actionsManager.isPlayerTurn && !characterPlayerMakingActions && !actionsManager.isChangingTurn && !cantRotateCamera &&
             !AnyMenuIsActive() && !menuThrowCharacter.isThrowingCharacter || menuThrowCharacter.menuThrowCharacter.activeSelf &&
             !menuThrowCharacter.isThrowingCharacter || menuSkillsCharacter.menuSkillsCharacter.activeSelf && !menuSkillsCharacter.menuSkillSelectSkill.activeSelf &&
-            menuSkillsCharacter.canMovePointer)
+            menuSkillsCharacter.canMovePointer || aStarPathFinding.characterSelected && !aStarPathFinding.characterSelected.isCharacterPlayer)
         {
             if (context.performed)
             {
@@ -136,8 +136,9 @@ public class BattlePlayerManager : MonoBehaviour
     }
     void HandleAction(InputAction.CallbackContext context)
     {
+        if (GameManager.Instance.isPause) return;
         if (actionsManager.isPlayerTurn && !characterPlayerMakingActions && !actionsManager.isChangingTurn && !cantRotateCamera && !AnyMenuIsActive() &&
-            !menuThrowCharacter.menuThrowCharacter.activeSelf && !GameManager.Instance.isPause)
+            !menuThrowCharacter.menuThrowCharacter.activeSelf || aStarPathFinding.characterSelected && !aStarPathFinding.characterSelected.isCharacterPlayer)
         {
             aStarPathFinding.ValidateAction(new Vector3Int(Mathf.RoundToInt(mouseDecal.transform.position.x), Mathf.RoundToInt(mouseDecal.transform.position.y), Mathf.RoundToInt(mouseDecal.transform.position.z)));
         }
@@ -274,7 +275,7 @@ public class BattlePlayerManager : MonoBehaviour
         mouseDecal.transform.position = posToGo;
         isDecalMovement = false;
 
-        if (aStarPathFinding.characterSelected)
+        if (aStarPathFinding.characterSelected && aStarPathFinding.characterSelected.isCharacterPlayer)
         {
             if (aStarPathFinding.characterSelected.positionInGrid != posToGo)
             {

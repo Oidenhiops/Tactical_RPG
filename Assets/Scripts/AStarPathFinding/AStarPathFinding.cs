@@ -200,6 +200,25 @@ public class AStarPathFinding : MonoBehaviour
             yield return null;
         }
     }
+    public void GetRandomAvailablePosition(out GenerateMap.WalkablePositionInfo positionBlock)
+    {
+        int x = 0;
+        while (x < 100)
+        {
+            Vector3Int randomPos = new Vector3Int(UnityEngine.Random.Range(limitX.x, limitX.y), 0, UnityEngine.Random.Range(limitZ.x, limitZ.y));
+            GetHighestBlockAt(randomPos.x, randomPos.z, out GenerateMap.WalkablePositionInfo blockFinded);
+            if (blockFinded != null)
+            {
+                if (grid.TryGetValue(randomPos, out GenerateMap.WalkablePositionInfo block) && block.blockInfo.typeBlock == Block.TypeBlock.Normal && !block.hasCharacter)
+                {
+                    positionBlock = block;
+                    return;
+                }
+            }
+            x++;
+        }
+        positionBlock = grid[Vector3Int.zero];
+    }
     public void ValidateAction(Vector3Int pointerPos)
     {
         if (grid.TryGetValue(pointerPos, out GenerateMap.WalkablePositionInfo block))
@@ -208,34 +227,39 @@ public class AStarPathFinding : MonoBehaviour
             {
                 if (block.hasCharacter)
                 {
-                    if (currentGrid.Count == 0 || grid[pointerPos].hasCharacter != characterSelected)
+                    if (block.hasCharacter.isCharacterPlayer)
                     {
-                        characterSelected = block.hasCharacter;
-                        if (characterSelected.isCharacterPlayer)
+                        if (currentGrid.Count == 0 || grid[pointerPos].hasCharacter != characterSelected)
                         {
-                            if (LastCharacterActionPermitActions())
+                            characterSelected = block.hasCharacter;
+                            if (characterSelected.isCharacterPlayer)
                             {
-                                EnableGrid(GetWalkableTiles(), Color.magenta);
+                                if (LastCharacterActionPermitActions())
+                                {
+                                    EnableGrid(GetWalkableTiles(), Color.magenta);
+                                }
+                                else _ = BattlePlayerManager.Instance.menuCharacterActions.EnableMenu();
                             }
-                            else _= BattlePlayerManager.Instance.menuCharacterActions.EnableMenu();
+                            else
+                            {
+                                _ = BattlePlayerManager.Instance.menuCharacterInfo.ReloadInfo(characterSelected);
+                            }
                         }
                         else
                         {
-                            _= BattlePlayerManager.Instance.menuCharacterInfo.ReloadInfo(characterSelected);
+                            _ = BattlePlayerManager.Instance.menuCharacterActions.EnableMenu();
                         }
                     }
                     else
                     {
-                        _= BattlePlayerManager.Instance.menuCharacterActions.EnableMenu();
+                        characterSelected = block.hasCharacter;
+                        EnableGrid(GetWalkableTiles(), Color.magenta);
+                        _ = BattlePlayerManager.Instance.menuCharacterInfo.ReloadInfo(characterSelected);
                     }
                 }
                 else if (characterSelected && characterSelected.isCharacterPlayer)
                 {
                     characterSelected.MoveCharacter(pointerPos);
-                }
-                else
-                {
-                    print("No hay nada en el bloque wey");
                 }
             }
             else if (block.blockInfo.typeBlock == Block.TypeBlock.Spawn)
@@ -300,7 +324,9 @@ public class AStarPathFinding : MonoBehaviour
                     GetHighestBlockAt(checkPos.x, checkPos.y, out GenerateMap.WalkablePositionInfo block) &&
                     block.pos.y <= characterSelected.positionInGrid.y + characterSelected.characterData.GetMovementMaxHeight())
                 {
-                    if (block.isWalkable && !block.hasCharacter || block.isWalkable && block.hasCharacter && block.hasCharacter.isCharacterPlayer)
+                    if (block.isWalkable && !block.hasCharacter ||
+                        block.isWalkable && block.hasCharacter && block.hasCharacter.isCharacterPlayer && characterSelected.isCharacterPlayer ||
+                        block.isWalkable && block.hasCharacter && !block.hasCharacter.isCharacterPlayer && !characterSelected.isCharacterPlayer)
                     {
                         availablePositions.Add(block.pos, block);
                     }
