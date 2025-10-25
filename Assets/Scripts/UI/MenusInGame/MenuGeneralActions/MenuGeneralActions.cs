@@ -30,7 +30,7 @@ public class MenuGeneralActions : MonoBehaviour
     {
         await Awaitable.NextFrameAsync();
         playerManager.actionsManager.EnableMobileInputs();
-        if (playerManager.aStarPathFinding.characterSelected && playerManager.aStarPathFinding.LastCharacterActionPermitActions()) playerManager.aStarPathFinding.EnableGrid(playerManager.aStarPathFinding.GetWalkableTiles(), Color.magenta);
+        if (playerManager.aStarPathFinding.characterSelected && playerManager.aStarPathFinding.LastCharacterActionPermitActions()) playerManager.aStarPathFinding.EnableGrid(playerManager.aStarPathFinding.GetWalkableTiles(playerManager.aStarPathFinding.characterSelected), Color.magenta);
         executeButton.interactable = false;
         menuGeneralActions.SetActive(false);
     }

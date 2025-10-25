@@ -20,6 +20,7 @@ public class CharacterBase : MonoBehaviour
     public ActionsManager.TypeAction lastAction;
     public GameObject floatingTextPrefab;
     public GameObject dieEffectPrefab;
+    public bool canMoveAfterFinishTurn;
     public bool autoInit;
     public void OnEnable()
     {

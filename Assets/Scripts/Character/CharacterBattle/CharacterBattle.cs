@@ -19,6 +19,7 @@ public class CharacterBattle : CharacterBase
         {
             lastAction = ActionsManager.TypeAction.None;
         }
+        canMoveAfterFinishTurn = false;
         startPositionInGrid = positionInGrid;
     }
     public override IEnumerator Die(CharacterBase characterMakeDamage)

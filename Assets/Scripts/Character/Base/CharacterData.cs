@@ -69,17 +69,18 @@ public class CharacterData
     {
         return 5 + statistics[TypeStatistic.Int].currentValue > 5 ? 5 : statistics[TypeStatistic.Int].currentValue;
     }
-    public void GetCurrentWeapon(out CharacterItem weapon)
+    public bool GetCurrentWeapon(out CharacterItem weapon)
     {
         foreach (KeyValuePair<CharacterItemInfo, CharacterItem> item in items)
         {
             if (item.Value.itemBaseSO && item.Value.itemBaseSO.typeObject == ItemBaseSO.TypeObject.Weapon)
             {
                 weapon = item.Value;
-                return;
+                return true;
             }
         }
         weapon = null;
+        return false;
     }
     public void UpdateMastery(TypeMastery typeMastery, int amount)
     {

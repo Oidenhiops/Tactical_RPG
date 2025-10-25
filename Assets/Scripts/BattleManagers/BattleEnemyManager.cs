@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
@@ -14,14 +15,82 @@ public class BattleEnemyManager : MonoBehaviour
     public List<InitialDataSO> initialDataSelected;
     public CharacterBase principalCharacter;
     public Material materialCharacterEnemy;
+    public SerializedDictionary<CharacterBase, List<AiAction>> possibleActions = new SerializedDictionary<CharacterBase, List<AiAction>>();
     void Start()
     {
         if (ManagementBattleInfo.Instance) principalCharacter = ManagementBattleInfo.Instance.principalCharacterEnemy;
         generateMap.OnFinishGenerateMap += InitializeCharacters;
+        battlePlayerManager.actionsManager.OnEndTurn += CreateStrategy;
     }
     void OnDestroy()
     {
         generateMap.OnFinishGenerateMap -= InitializeCharacters;
+        battlePlayerManager.actionsManager.OnEndTurn -= CreateStrategy;
+    }
+    public void CreateStrategy()
+    {
+        if (!battlePlayerManager.actionsManager.isPlayerTurn)
+        {
+
+        }
+    }
+    public CharacterBase GetLowestHealthAlly()
+    {
+        return characters.OrderBy(a => a.characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue / a.characterData.statistics[CharacterData.TypeStatistic.Hp].maxValue).FirstOrDefault();
+    }
+    [NaughtyAttributes.Button]
+    public void GetEnemiesNear()
+    {
+        List<CharacterBase> enemiesNear;
+        Vector2 playerPos;
+        Vector2 enemyPos;
+        int weaponRange;
+        int moveRadius;
+        foreach (var characterEnemy in characters)
+        {
+            enemiesNear = new List<CharacterBase>();
+            foreach (var characterPlayer in battlePlayerManager.characters)
+            {
+                moveRadius = characterEnemy.characterData.GetMovementRadius();
+                weaponRange = 0;
+                if (characterEnemy.characterData.GetCurrentWeapon(out CharacterData.CharacterItem weaponData))
+                {
+                    weaponRange = weaponData.itemBaseSO.gridSize;
+                }
+
+                playerPos = new Vector2(characterPlayer.transform.position.x, characterPlayer.transform.position.z);
+                enemyPos = new Vector2(characterEnemy.transform.position.x, characterEnemy.transform.position.z);
+
+                if (characterPlayer.gameObject.activeSelf && Vector2.Distance(enemyPos, playerPos) <= moveRadius + weaponRange)
+                {
+                    enemiesNear.Add(characterPlayer);
+                }
+            }
+            if (enemiesNear.Count > 0)
+            {
+                if (possibleActions.ContainsKey(characterEnemy))
+                {
+                    possibleActions[characterEnemy].Add(new AiAction
+                    {
+                        characterMakeAction = characterEnemy,
+                        typeAction = TypeAction.EnemiesNear,
+                        posibleTargets = enemiesNear
+                    });
+                }
+                else
+                {
+                    possibleActions.Add(characterEnemy, new List<AiAction>
+                    {
+                        new AiAction
+                        {
+                            characterMakeAction = characterEnemy,
+                            typeAction = TypeAction.EnemiesNear,
+                            posibleTargets = enemiesNear
+                        }
+                    });
+                }
+            }
+        }
     }
     public void InitializeCharacters()
     {
@@ -127,5 +196,20 @@ public class BattleEnemyManager : MonoBehaviour
             block.hasCharacter = character;
         }
         await Awaitable.NextFrameAsync();
+    }
+    [System.Serializable]
+    public class AiAction
+    {
+        public CharacterBase characterMakeAction;
+        public TypeAction typeAction;
+        public List<CharacterBase> posibleTargets;
+    }
+    public enum TypeAction
+    {
+        Move,
+        Attack,
+        UseItem,
+        Wait,
+        EnemiesNear
     }
 }

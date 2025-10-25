@@ -49,16 +49,25 @@ public class ItemBaseSOEditor : Editor
 
                 if (GUILayout.Button("", GUILayout.Width(cellSize), GUILayout.Height(cellSize)))
                 {
-                    Undo.RecordObject(referenceItem, "Edit Grid Positions");
+                    bool newState = !isActive;
 
-                    List<Vector3Int> positions = new List<Vector3Int>(referenceItem.positionsToAttack);
+                    foreach (var t in targets)
+                    {
+                        ItemBaseSO item = (ItemBaseSO)t;
+                        Undo.RecordObject(item, "Edit Grid Positions");
 
-                    if (isActive) positions.Remove(pos);
-                    else positions.Add(pos);
+                        List<Vector3Int> positions = new List<Vector3Int>(item.positionsToAttack);
 
-                    referenceItem.positionsToAttack = positions.ToArray();
+                        bool currentlyActive = positions.Contains(pos);
 
-                    EditorUtility.SetDirty(referenceItem);
+                        if (newState && !currentlyActive)
+                            positions.Add(pos);
+                        else if (!newState && currentlyActive)
+                            positions.Remove(pos);
+
+                        item.positionsToAttack = positions.ToArray();
+                        EditorUtility.SetDirty(item);
+                    }
                 }
 
                 GUI.backgroundColor = original;

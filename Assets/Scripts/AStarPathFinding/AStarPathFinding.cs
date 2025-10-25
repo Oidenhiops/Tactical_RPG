@@ -238,33 +238,24 @@ public class AStarPathFinding : MonoBehaviour
                             characterSelected = block.hasCharacter;
                             if (characterSelected.isCharacterPlayer)
                             {
-                                if (LastCharacterActionPermitActions())
+                                if (LastCharacterActionPermitActions() || CanMoveAfterFinishTurn())
                                 {
-                                    EnableGrid(GetWalkableTiles(), Color.magenta);
+                                    EnableGrid(GetWalkableTiles(characterSelected), Color.magenta);
                                 }
                                 else _ = BattlePlayerManager.Instance.menuCharacterActions.EnableMenu();
                             }
-                            else
-                            {
-                                _ = BattlePlayerManager.Instance.menuCharacterInfo.ReloadInfo(characterSelected);
-                            }
+                            else _ = BattlePlayerManager.Instance.menuCharacterInfo.ReloadInfo(characterSelected);
                         }
-                        else
-                        {
-                            _ = BattlePlayerManager.Instance.menuCharacterActions.EnableMenu();
-                        }
+                        else _ = BattlePlayerManager.Instance.menuCharacterActions.EnableMenu();
                     }
                     else
                     {
                         characterSelected = block.hasCharacter;
-                        EnableGrid(GetWalkableTiles(), Color.magenta);
+                        EnableGrid(GetWalkableTiles(characterSelected), Color.magenta);
                         _ = BattlePlayerManager.Instance.menuCharacterInfo.ReloadInfo(characterSelected);
                     }
                 }
-                else if (characterSelected && characterSelected.isCharacterPlayer)
-                {
-                    characterSelected.MoveCharacter(pointerPos);
-                }
+                else if (characterSelected && characterSelected.isCharacterPlayer) characterSelected.MoveCharacter(pointerPos);
             }
             else if (block.blockInfo.typeBlock == Block.TypeBlock.Spawn)
             {
@@ -273,33 +264,17 @@ public class AStarPathFinding : MonoBehaviour
                     if (currentGrid.Count == 0 || grid[pointerPos].hasCharacter != characterSelected)
                     {
                         characterSelected = block.hasCharacter;
-                        if (LastCharacterActionPermitActions())
+                        if (LastCharacterActionPermitActions() || CanMoveAfterFinishTurn())
                         {
-                            EnableGrid(GetWalkableTiles(), Color.magenta);
+                            EnableGrid(GetWalkableTiles(characterSelected), Color.magenta);
                         }
-                        else
-                        {
-                            _= BattlePlayerManager.Instance.menuCharacterActions.EnableMenu();
-                        }
+                        else _ = BattlePlayerManager.Instance.menuCharacterActions.EnableMenu();
                     }
-                    else
-                    {
-                        _= BattlePlayerManager.Instance.menuCharacterActions.EnableMenu();
-                    }
+                    else _ = BattlePlayerManager.Instance.menuCharacterActions.EnableMenu();
                 }
-                else if (characterSelected && characterSelected.isCharacterPlayer)
-                {
-                    characterSelected.MoveCharacter(pointerPos);
-                }
-                else
-                {
-                    _= BattlePlayerManager.Instance.menuCharacterSelector.EnableMenu();
-                }
+                else if (characterSelected && characterSelected.isCharacterPlayer) characterSelected.MoveCharacter(pointerPos);
+                else _ = BattlePlayerManager.Instance.menuCharacterSelector.EnableMenu();
             }
-        }
-        else
-        {
-            print("Estás en el vacío wey");
         }
     }
     public bool LastCharacterActionPermitActions()
@@ -311,7 +286,11 @@ public class AStarPathFinding : MonoBehaviour
                 characterSelected.lastAction != ActionsManager.TypeAction.Skill &&
                 characterSelected.lastAction != ActionsManager.TypeAction.EndTurn;
     }
-    public SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> GetWalkableTiles()
+    public bool CanMoveAfterFinishTurn()
+    {
+        return characterSelected.lastAction == ActionsManager.TypeAction.EndTurn && characterSelected.canMoveAfterFinishTurn;
+    }
+    public SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> GetWalkableTiles(CharacterBase characterSelected)
     {
         SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positionsToValidate = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
         SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> availablePositions = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();

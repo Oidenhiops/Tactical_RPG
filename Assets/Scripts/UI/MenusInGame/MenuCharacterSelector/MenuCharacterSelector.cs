@@ -71,7 +71,7 @@ public class MenuCharacterSelector : MonoBehaviour
             character.transform.position = Vector3.zero;
             playerManager.aStarPathFinding.characterSelected = character;
             playerManager.aStarPathFinding.grid[Vector3Int.zero].hasCharacter = character;
-            playerManager.aStarPathFinding.EnableGrid(playerManager.aStarPathFinding.GetWalkableTiles(), Color.magenta);
+            playerManager.aStarPathFinding.EnableGrid(playerManager.aStarPathFinding.GetWalkableTiles(playerManager.aStarPathFinding.characterSelected), Color.magenta);
             _ = DisableMenu();
         }
     }

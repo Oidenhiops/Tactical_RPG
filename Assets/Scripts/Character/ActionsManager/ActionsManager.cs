@@ -316,6 +316,22 @@ public class ActionsManager : MonoBehaviour
                         break;
                 }
             }
+            foreach (KeyValuePair<CharacterBase, List<ActionInfo>> action in characterActions)
+            {
+                bool containsMovementActions = false;
+                foreach (ActionInfo actionInfo in action.Value)
+                {
+                    if (actionInfo.typeAction == TypeAction.Move)
+                    {
+                        containsMovementActions = true;
+                        break;
+                    }
+                }
+                if (!containsMovementActions)
+                {
+                    action.Key.canMoveAfterFinishTurn = true;
+                }
+            }
         }
         characterFinalActions = new SerializedDictionary<CharacterBase, ActionInfo>();
         await Awaitable.NextFrameAsync();

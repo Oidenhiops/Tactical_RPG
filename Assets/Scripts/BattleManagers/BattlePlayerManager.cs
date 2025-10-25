@@ -113,7 +113,7 @@ public class BattlePlayerManager : MonoBehaviour
     public void EnableVisuals()
     {
         mouseDecal.decal.gameObject.SetActive(true);
-        if (aStarPathFinding.characterSelected) aStarPathFinding.EnableGrid(aStarPathFinding.GetWalkableTiles(), Color.magenta);
+        if (aStarPathFinding.characterSelected) aStarPathFinding.EnableGrid(aStarPathFinding.GetWalkableTiles(aStarPathFinding.characterSelected), Color.magenta);
     }
     void HandleMovement(InputAction.CallbackContext context)
     {
