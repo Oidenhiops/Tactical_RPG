@@ -17,15 +17,15 @@ public class InitialDataSO : ScriptableObject
     public Sprite icon;
     public SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic> initialStats = new SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic>
     {
-        {CharacterData.TypeStatistic.Hp, new CharacterData.Statistic()},
-        {CharacterData.TypeStatistic.Sp, new CharacterData.Statistic()},
-        {CharacterData.TypeStatistic.Atk, new CharacterData.Statistic()},
-        {CharacterData.TypeStatistic.Hit, new CharacterData.Statistic()},
-        {CharacterData.TypeStatistic.Int, new CharacterData.Statistic()},
-        {CharacterData.TypeStatistic.Def, new CharacterData.Statistic()},
-        {CharacterData.TypeStatistic.Res, new CharacterData.Statistic()},
-        {CharacterData.TypeStatistic.Spd, new CharacterData.Statistic()},
-        {CharacterData.TypeStatistic.Exp, new CharacterData.Statistic()},
+        {CharacterData.TypeStatistic.Hp, new CharacterData.Statistic{ aptitudeValue = 100 }},
+        {CharacterData.TypeStatistic.Sp, new CharacterData.Statistic{ aptitudeValue = 100 }},
+        {CharacterData.TypeStatistic.Atk, new CharacterData.Statistic{ aptitudeValue = 100 }},
+        {CharacterData.TypeStatistic.Hit, new CharacterData.Statistic{ aptitudeValue = 100 }},
+        {CharacterData.TypeStatistic.Int, new CharacterData.Statistic{ aptitudeValue = 100 }},
+        {CharacterData.TypeStatistic.Def, new CharacterData.Statistic{ aptitudeValue = 100 }},
+        {CharacterData.TypeStatistic.Res, new CharacterData.Statistic{ aptitudeValue = 100 }},
+        {CharacterData.TypeStatistic.Spd, new CharacterData.Statistic{ aptitudeValue = 100 }},
+        {CharacterData.TypeStatistic.Exp, new CharacterData.Statistic{ aptitudeValue = 100 }},
     };
     public SerializedDictionary<CharacterData.TypeMastery, CharacterData.CharacterMasteryInfo> initialMastery = new SerializedDictionary<CharacterData.TypeMastery, CharacterData.CharacterMasteryInfo>()
     {

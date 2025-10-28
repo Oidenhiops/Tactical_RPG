@@ -44,7 +44,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _ApplyOutline: 0
+    - _ApplyOutline: 1
     - _DissolveAmount: 0
     - _DissolveScale: 0
     - _DisssolveColor: 0.02
@@ -54,7 +54,7 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DissolveColor: {r: 2.129867, g: 0.8605422, b: 5.884999, a: 0}
-    - _OutlineColor: {r: 0, g: 0.6496902, b: 1, a: 1}
+    - _OutlineColor: {r: 0, g: 1, b: 0.07855177, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &933534153591823447
