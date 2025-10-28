@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -22,60 +21,74 @@ public class MenuSelectCharacterToCreate : MonoBehaviour
     public InitialDataSO characterSelected;
     public MenuCharacterInfo menuCharacterInfo;
     public bool isMenuActive;
-    public async Task SpawnCharacters()
+    public async Awaitable SpawnCharacters()
     {
-        int xPos = -1;
-        bool xPosLock = false;
-        for (int x = 1; x <= GameData.Instance.charactersDataDBSO.data.Count; x++)
+        try
         {
-            for (int y = 0; y < GameData.Instance.charactersDataDBSO.data[x].Count; y++)
+            int xPos = -1;
+            bool xPosLock = false;
+            for (int x = 1; x <= GameData.Instance.charactersDataDBSO.data.Count; x++)
             {
-                if (GameData.Instance.charactersDataDBSO.data[x][y].isUnlocked)
+                for (int y = 0; y < GameData.Instance.charactersDataDBSO.data[x].Count; y++)
                 {
-                    if (!xPosLock)
+                    if (GameData.Instance.charactersDataDBSO.data[x][y].isUnlocked)
                     {
-                        xPosLock = true;
-                        xPos++;
-                    }
-                    CharacterBase character = Instantiate(characterPreviewPrefab, charactersContainer).GetComponent<CharacterBase>();
-                    character.initialDataSO = GameData.Instance.charactersDataDBSO.data[x][y].initialDataSO;
-                    _ = character.InitializeCharacter();
-                    character.transform.localPosition = new Vector3(y, 0, xPos);
-                    if (characters.ContainsKey(xPos))
-                    {
-                        characters[xPos].Add(character.gameObject);
+                        if (!xPosLock)
+                        {
+                            xPosLock = true;
+                            xPos++;
+                        }
+                        CharacterBase character = Instantiate(characterPreviewPrefab, charactersContainer).GetComponent<CharacterBase>();
+                        character.initialDataSO = GameData.Instance.charactersDataDBSO.data[x][y].initialDataSO;
+                        _ = character.InitializeCharacter();
+                        character.transform.localPosition = new Vector3(y, 0, xPos);
+                        if (characters.ContainsKey(xPos))
+                        {
+                            characters[xPos].Add(character.gameObject);
+                        }
+                        else
+                        {
+
+                            characters.Add(xPos, new List<GameObject> { character.gameObject });
+                        }
                     }
                     else
                     {
-
-                        characters.Add(xPos, new List<GameObject> { character.gameObject });
+                        break;
                     }
                 }
-                else
-                {
-                    break;
-                }
+                xPosLock = false;
             }
-            xPosLock = false;
+            AddCharactersToInfiniteLoop();
+            await Awaitable.NextFrameAsync();
         }
-        AddCharactersToInfiniteLoop();
-        await Task.Yield();
+        catch (System.Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
-    public async Task EnableMenu()
+    public async Awaitable EnableMenu()
     {
-        backButton.started += UnloadMenuCreateCharacter;
-        movementButton.started += ChangeIndex;
-        selectButton.started += SelectCharacter;
-        backButton.Enable();
-        movementButton.Enable();
-        selectButton.Enable();
-        lastButtonSelected = EventSystem.current.currentSelectedGameObject;
-        await SpawnCharacters();
-        await Awaitable.NextFrameAsync();
-        otherMenu.SetActive(false);
-        _= menuCharacterInfo.ReloadInfo(characters[index.x][index.y].GetComponent<CharacterBase>());
-        gameObject.SetActive(true);
-        isMenuActive = true;
+        try
+        {
+            backButton.started += UnloadMenuCreateCharacter;
+            movementButton.started += ChangeIndex;
+            selectButton.started += SelectCharacter;
+            backButton.Enable();
+            movementButton.Enable();
+            selectButton.Enable();
+            lastButtonSelected = EventSystem.current.currentSelectedGameObject;
+            await SpawnCharacters();
+            await Awaitable.NextFrameAsync();
+            otherMenu.SetActive(false);
+            _ = menuCharacterInfo.ReloadInfo(characters[index.x][index.y].GetComponent<CharacterBase>());
+            gameObject.SetActive(true);
+            isMenuActive = true;
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
     public void AddCharactersToInfiniteLoop()
     {

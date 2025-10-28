@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d773741b1771804f9162c2f66581841, type: 3}
+  m_Script: {fileID: 11500000, guid: c3045136b1a397b44aa70db0fd92f782, type: 3}
   m_Name: DeathSaber
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::InitialDataSO
   id: 5
   subId: 0
   isHumanoid: 0
@@ -22,8 +22,8 @@ MonoBehaviour:
     _serializedList:
     - Key: 1
       Value:
-        baseValue: 22
-        aptitudeValue: 100
+        baseValue: 0
+        aptitudeValue: 0
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -31,8 +31,8 @@ MonoBehaviour:
         maxValue: 0
     - Key: 2
       Value:
-        baseValue: 5
-        aptitudeValue: 100
+        baseValue: 0
+        aptitudeValue: 0
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -40,8 +40,8 @@ MonoBehaviour:
         maxValue: 0
     - Key: 3
       Value:
-        baseValue: 17
-        aptitudeValue: 100
+        baseValue: 0
+        aptitudeValue: 0
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -49,8 +49,8 @@ MonoBehaviour:
         maxValue: 0
     - Key: 4
       Value:
-        baseValue: 11
-        aptitudeValue: 100
+        baseValue: 0
+        aptitudeValue: 0
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -58,8 +58,8 @@ MonoBehaviour:
         maxValue: 0
     - Key: 5
       Value:
-        baseValue: 10
-        aptitudeValue: 100
+        baseValue: 0
+        aptitudeValue: 0
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -67,8 +67,8 @@ MonoBehaviour:
         maxValue: 0
     - Key: 6
       Value:
-        baseValue: 11
-        aptitudeValue: 100
+        baseValue: 0
+        aptitudeValue: 0
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -76,8 +76,8 @@ MonoBehaviour:
         maxValue: 0
     - Key: 7
       Value:
-        baseValue: 9
-        aptitudeValue: 100
+        baseValue: 0
+        aptitudeValue: 0
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -85,8 +85,8 @@ MonoBehaviour:
         maxValue: 0
     - Key: 8
       Value:
-        baseValue: 13
-        aptitudeValue: 100
+        baseValue: 0
+        aptitudeValue: 0
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -94,8 +94,8 @@ MonoBehaviour:
         maxValue: 0
     - Key: 9
       Value:
-        baseValue: 15
-        aptitudeValue: 100
+        baseValue: 0
+        aptitudeValue: 0
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -714,11 +714,11 @@ MonoBehaviour:
           _serializedList: []
         loop: 0
         needInstance: 0
-        frameToInstance: 2
+        frameToInstance: 0
         instanceObj: {fileID: 0}
         instance: {fileID: 0}
   generateAllAnimations:
     baseSprite: {fileID: -1139427592, guid: 6bde0e5effe3d0441bdc221a040c4da6, type: 3}
     atlas: {fileID: 2800000, guid: 6bde0e5effe3d0441bdc221a040c4da6, type: 3}
     atlasHands: {fileID: 0}
-    icon: {fileID: -1120103654, guid: 5ad2e935482f278468588df16e4f60b8, type: 3}
+    icon: {fileID: -1716302013, guid: 5ad2e935482f278468588df16e4f60b8, type: 3}

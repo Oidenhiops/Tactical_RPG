@@ -50,7 +50,6 @@ public class CharacterBase : MonoBehaviour
         catch (Exception e)
         {
             Debug.LogError(e);
-            await Awaitable.NextFrameAsync();
         }
     }
     [NaughtyAttributes.Button]
@@ -72,7 +71,6 @@ public class CharacterBase : MonoBehaviour
         catch (Exception e)
         {
             Debug.LogError(e);
-            await Awaitable.NextFrameAsync();
         }
     }
     async Awaitable InitializeDataWhitInitialValues()

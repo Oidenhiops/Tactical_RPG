@@ -15,7 +15,18 @@ public class InitialDataSO : ScriptableObject
     public Texture2D atlas;
     public Texture2D atlasHands;
     public Sprite icon;
-    public SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic> initialStats = new SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic>();
+    public SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic> initialStats = new SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic>
+    {
+        {CharacterData.TypeStatistic.Hp, new CharacterData.Statistic()},
+        {CharacterData.TypeStatistic.Sp, new CharacterData.Statistic()},
+        {CharacterData.TypeStatistic.Atk, new CharacterData.Statistic()},
+        {CharacterData.TypeStatistic.Hit, new CharacterData.Statistic()},
+        {CharacterData.TypeStatistic.Int, new CharacterData.Statistic()},
+        {CharacterData.TypeStatistic.Def, new CharacterData.Statistic()},
+        {CharacterData.TypeStatistic.Res, new CharacterData.Statistic()},
+        {CharacterData.TypeStatistic.Spd, new CharacterData.Statistic()},
+        {CharacterData.TypeStatistic.Exp, new CharacterData.Statistic()},
+    };
     public SerializedDictionary<CharacterData.TypeMastery, CharacterData.CharacterMasteryInfo> initialMastery = new SerializedDictionary<CharacterData.TypeMastery, CharacterData.CharacterMasteryInfo>()
     {
         {CharacterData.TypeMastery.Fist, new CharacterData.CharacterMasteryInfo{masteryRange = CharacterData.MasteryRange.N, masteryLevel = 0, maxExp = 15}},

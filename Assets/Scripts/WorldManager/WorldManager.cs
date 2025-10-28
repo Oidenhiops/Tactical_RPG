@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -29,31 +28,49 @@ public class WorldManager : MonoBehaviour
     {
         characterActions.CharacterInputs.RotateCamera.performed -= HandleRotateCamera;
     }
-    async Task InitializeData()
+    async Awaitable InitializeData()
     {
-        await InitializeActions();
-        await InitializeCharacterData();
+        try
+        {
+            await InitializeActions();
+            await InitializeCharacterData();
+            print("Initialice World Manager");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
-    async Task InitializeActions()
+    async Awaitable InitializeActions()
     {
-        characterActions.CharacterInputs.RotateCamera.started += HandleRotateCamera;
-        await Awaitable.NextFrameAsync();
-        GameManager.Instance.openCloseScene.AdjustLoading(50);
-        await Awaitable.NextFrameAsync();
+        try
+        {
+            characterActions.CharacterInputs.RotateCamera.started += HandleRotateCamera;
+            await Awaitable.NextFrameAsync();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
-    async Task InitializeCharacterData()
+    async Awaitable InitializeCharacterData()
     {
-        var characterInfo = GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].
-            characters[GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].principalCharacterName];
-        characterWorld.initialDataSO = GameData.Instance.charactersDataDBSO.data[characterInfo.id][characterInfo.subId].initialDataSO;
-        characterWorld.isCharacterPlayer = true;
-        characterWorld.name = characterInfo.name;
-        characterWorld.characterData = characterInfo;
-        characterWorld.transform.position = GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].positionSave;
-        await characterWorld.InitializeCharacter();
-        await Awaitable.NextFrameAsync();
-        GameManager.Instance.openCloseScene.AdjustLoading(100);
-        await Awaitable.NextFrameAsync();
+        try
+        {
+            var characterInfo = GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].
+                characters[GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].principalCharacterName];
+            characterWorld.initialDataSO = GameData.Instance.charactersDataDBSO.data[characterInfo.id][characterInfo.subId].initialDataSO;
+            characterWorld.isCharacterPlayer = true;
+            characterWorld.name = characterInfo.name;
+            characterWorld.characterData = characterInfo;
+            characterWorld.transform.position = GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].positionSave;
+            await characterWorld.InitializeCharacter();
+            await Awaitable.NextFrameAsync();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
     void HandleRotateCamera(InputAction.CallbackContext context)
     {
@@ -65,13 +82,20 @@ public class WorldManager : MonoBehaviour
             StartCoroutine(RotateCamera());
         }
     }
-    public async Task OnEnemyHit()
+    public async Awaitable OnEnemyHit()
     {
-        enemyHitted = true;
-        ManagementBattleInfo.Instance.generateMap = currentWorldMap;
-        ManagementBattleInfo.Instance.principalCharacterEnemy = characterWorld.characterHitted;
-        _ = GameManager.Instance.ChangeScene(GameManager.TypeScene.BattleScene, LoadSceneMode.Additive);
-        worldContainer.gameObject.SetActive(false);
+        try
+        {
+            enemyHitted = true;
+            ManagementBattleInfo.Instance.generateMap = currentWorldMap;
+            ManagementBattleInfo.Instance.principalCharacterEnemy = characterWorld.characterHitted;
+            _ = GameManager.Instance.ChangeScene(GameManager.TypeScene.BattleScene, LoadSceneMode.Additive);
+            worldContainer.gameObject.SetActive(false);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
     IEnumerator RotateCamera()
     {

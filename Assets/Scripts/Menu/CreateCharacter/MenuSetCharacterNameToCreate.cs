@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using AYellowpaper.SerializedCollections;
 using TMPro;
 using UnityEngine;
@@ -17,37 +16,51 @@ public class MenuSetCharacterNameToCreate : MonoBehaviour
     public CharacterBase characterView;
     public InputAction backAction;
     public bool isMenuActive;
-    public async Task EnableMenu()
+    public async Awaitable EnableMenu()
     {
-        characterView.initialDataSO = menuSelectCharacterToCreate.characterSelected;
-        await characterView.InitializeCharacter();
-        backAction.Enable();
-        backAction.performed += OnHandleBack;
-        menuSelectCharacterToCreate.menuCharacterInfo.isMenuActive = false;
-        menuSelectCharacterToCreate.isMenuActive = false;
-        menuSelectCharacterToCreate.container.SetActive(false);
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(characterNameButtons.ElementAt(0).Key.gameObject);
-        isMenuActive = true;
-        gameObject.SetActive(true);
+        try
+        {
+            characterView.initialDataSO = menuSelectCharacterToCreate.characterSelected;
+            await characterView.InitializeCharacter();
+            backAction.Enable();
+            backAction.performed += OnHandleBack;
+            menuSelectCharacterToCreate.menuCharacterInfo.isMenuActive = false;
+            menuSelectCharacterToCreate.isMenuActive = false;
+            menuSelectCharacterToCreate.container.SetActive(false);
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(characterNameButtons.ElementAt(0).Key.gameObject);
+            isMenuActive = true;
+            gameObject.SetActive(true);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
     public void OnHandleBack(InputAction.CallbackContext context)
     {
         if (isMenuActive) _ = DisableMenu();
     }
-    async Task DisableMenu()
+    async Awaitable DisableMenu()
     {
-        if (isMenuActive)
+        try
         {
-            isMenuActive = false;
-            backAction.Disable();
-            backAction.performed -= OnHandleBack;
-            nameLabel.text = "";
-            await Awaitable.NextFrameAsync();
-            menuSelectCharacterToCreate.menuCharacterInfo.isMenuActive = true;
-            menuSelectCharacterToCreate.isMenuActive = true;
-            menuSelectCharacterToCreate.container.SetActive(true);
-            gameObject.SetActive(false);
+            if (isMenuActive)
+            {
+                isMenuActive = false;
+                backAction.Disable();
+                backAction.performed -= OnHandleBack;
+                nameLabel.text = "";
+                await Awaitable.NextFrameAsync();
+                menuSelectCharacterToCreate.menuCharacterInfo.isMenuActive = true;
+                menuSelectCharacterToCreate.isMenuActive = true;
+                menuSelectCharacterToCreate.container.SetActive(true);
+                gameObject.SetActive(false);
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
         }
     }
     public void OnButtonSelect(Button buttonSelected)
@@ -133,21 +146,28 @@ public class MenuSetCharacterNameToCreate : MonoBehaviour
             _ = DisableMenuAfterSetName();
         }
     }
-    public async Task DisableMenuAfterSetName()
+    public async Awaitable DisableMenuAfterSetName()
     {
-        if (isMenuActive)
+        try
         {
-            backAction.Disable();
-            backAction.performed -= OnHandleBack;
-            nameLabel.text = "";
-            GameData.Instance.SaveGameData();
-            GameData.Instance.LoadGameDataInfo();
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(menuSelectCharacterToCreate.lastButtonSelected);
-            gameObject.SetActive(false);
-            menuSelectCharacterToCreate.container.SetActive(true);
-            menuSelectCharacterToCreate.gameObject.SetActive(false);
-            menuSelectCharacterToCreate.otherMenu.SetActive(true);
+            if (isMenuActive)
+            {
+                backAction.Disable();
+                backAction.performed -= OnHandleBack;
+                nameLabel.text = "";
+                GameData.Instance.SaveGameData();
+                GameData.Instance.LoadGameDataInfo();
+                EventSystem.current.SetSelectedGameObject(null);
+                EventSystem.current.SetSelectedGameObject(menuSelectCharacterToCreate.lastButtonSelected);
+                gameObject.SetActive(false);
+                menuSelectCharacterToCreate.container.SetActive(true);
+                menuSelectCharacterToCreate.gameObject.SetActive(false);
+                menuSelectCharacterToCreate.otherMenu.SetActive(true);
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
         }
     }
 }

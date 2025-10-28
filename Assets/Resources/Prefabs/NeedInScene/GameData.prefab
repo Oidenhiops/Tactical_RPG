@@ -67,6 +67,6 @@ MonoBehaviour:
   allResolutions: []
   initialBGMSoundsConfigSO: {fileID: 11400000, guid: e0794015d6e098949a0ed3bcec3c4570,
     type: 2}
-  charactersDataDBSO: {fileID: 11400000, guid: 42372b129047047479af51c6e0df299f, type: 2}
+  charactersDataDBSO: {fileID: 11400000, guid: 531313ff13345ad4fa1312acb11008c2, type: 2}
   itemsDBSO: {fileID: 11400000, guid: 68c84c9b952137347842bd55f2920dbe, type: 2}
   skillsDBSO: {fileID: 11400000, guid: 0053e4031ce50c54c823b834917bff4f, type: 2}

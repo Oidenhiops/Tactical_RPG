@@ -8,14 +8,12 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    public ManagementOpenCloseScene openCloseScene;
     public bool isPause;
     public bool isWebGlBuild;
     public bool lockDevice = false;
     public TypeDevice principalDevice;
     public TypeDevice _currentDevice;
     public event Action<TypeDevice, TypeDevice> OnDeviceChanged;
-    public Action OnChangeScene;
     public TypeDevice currentDevice
     {
         get => _currentDevice;
@@ -69,10 +67,10 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
         currentDevice = principalDevice;
-        openCloseScene.OnFinishOpenAnimation += () => { startGame = true; };
+        ManagementOpenCloseScene.Instance.OnFinishOpenAnimation += () => { startGame = true; };
     }
     void LateUpdate()
     {
@@ -122,11 +120,10 @@ public class GameManager : MonoBehaviour
         {
             startGame = false;
             currentScene = typeScene.ToString();
-            openCloseScene.openCloseSceneAnimator.SetBool("Out", true);
-            OnChangeScene?.Invoke();
+            ManagementOpenCloseScene.Instance.openCloseSceneAnimator.SetBool("Out", true);
             await AudioManager.Instance.FadeOut();
             AudioManager.Instance.ChangeBGM(GameData.Instance.systemDataInfo.bgmSceneData[currentScene]);
-            while (!openCloseScene.openCloseSceneAnimator.GetCurrentAnimatorStateInfo(0).IsName("OpenCloseSceneIdle")) await Task.Delay(TimeSpan.FromSeconds(0.01)); ;
+            while (!ManagementOpenCloseScene.Instance.openCloseSceneAnimator.GetCurrentAnimatorStateInfo(0).IsName("OpenCloseSceneIdle")) await Awaitable.NextFrameAsync();
             if (typeScene == TypeScene.Reload)
             {
                 SceneManager.LoadScene(SceneManager.GetSceneAt(0).name, loadSceneMode);
@@ -144,15 +141,13 @@ public class GameManager : MonoBehaviour
             {
                 SceneManager.LoadScene(typeScene.ToString(), loadSceneMode);
             }
-            await Task.Delay(TimeSpan.FromSeconds(0.05));
-            _ = openCloseScene.WaitFinishCloseAnimation();
-            _ = AudioManager.Instance.FadeIn();
-            await Task.Delay(TimeSpan.FromSeconds(0.05));
+            await ManagementOpenCloseScene.Instance.WaitFinishCloseAnimation();
+            await AudioManager.Instance.FadeIn();
+            await Task.Delay(TimeSpan.FromSeconds(0.5f));
         }
         catch (Exception e)
         {
             Debug.LogError(e);
-            await Task.Delay(TimeSpan.FromSeconds(0.05));
         }
     }
     void CheckCurrentDevice()

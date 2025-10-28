@@ -1,19 +1,19 @@
-using System.Collections;
 using UnityEngine;
 
 public class AutoLoader : MonoBehaviour
 {
     void Start()
     {
-        StartCoroutine(AutoCharge());
+        _ = AutoCharge();
     }
-    public IEnumerator AutoCharge()
+    public async Awaitable AutoCharge()
     {
+        ManagementOpenCloseScene.Instance.Charge();
         int i = 0;
         while (true)
         {
-            GameManager.Instance.openCloseScene.AdjustLoading(10 * i);
-            yield return new WaitForSeconds(0.05f);
+            ManagementOpenCloseScene.Instance.AdjustLoading(10 * i);
+            await Awaitable.NextFrameAsync();
             i++;
             if (i > 10) break;
         }

@@ -1,66 +1,53 @@
 using System;
-using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ManagementOpenCloseScene : MonoBehaviour
 {
+    public static ManagementOpenCloseScene Instance { get; private set; }
     public Animator openCloseSceneAnimator;
     public bool _finishLoad;
     public Action OnFinishOpenAnimation;
     public float speedFill;
-    public bool finishLoad;
-    float _currentLoad = 0;
+    public float currentLoad;
     public Image loaderImage;
-    void Start()
+    void Awake()
     {
-        ResetValues();
-        GameManager.Instance.OnChangeScene += Charge;
-        Charge();
-    }
-    void OnDestroy()
-    {
-        GameManager.Instance.OnChangeScene -= Charge;
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
     public void Charge()
     {
-        StartCoroutine(ValidateChargeIsComplete());
+        _ = ValidateChargeIsComplete();
     }
-    public IEnumerator ValidateChargeIsComplete()
+    public async Awaitable ValidateChargeIsComplete()
     {
-        while (true)
+        loaderImage.fillAmount = 0;
+        try
         {
-            if (!finishLoad)
+            while (loaderImage.fillAmount < 1)
             {
-                float value = _currentLoad / 100;
-                loaderImage.fillAmount = Mathf.MoveTowards(loaderImage.fillAmount, value, speedFill * Time.unscaledDeltaTime);
-                if (loaderImage.fillAmount == 1)
-                {
-                    finishLoad = true;
-                    _ = FinishLoad();
-                    break;
-                }
+                print($"currentLoad {currentLoad}");
+                float value = currentLoad / 100;
+                loaderImage.fillAmount = Mathf.MoveTowards(loaderImage.fillAmount, value, speedFill * Time.deltaTime);
+                await Awaitable.NextFrameAsync();
             }
-            yield return new WaitForSecondsRealtime(0.01f);
+            _ = FinishLoad();
         }
-    }
-    public IEnumerator AutoCharge()
-    {
-        while (true)
+        catch (Exception e)
         {
-            if (_currentLoad >= 100)
-            {
-                break;
-            }
-            _currentLoad += 20;
-            yield return new WaitForSecondsRealtime(0.3f);
+            Debug.LogError(e);
         }
     }
     public void AdjustLoading(float amount)
     {
-        _currentLoad = amount;
+        currentLoad = amount;
     }
     public async Awaitable FinishLoad()
     {
@@ -69,7 +56,7 @@ public class ManagementOpenCloseScene : MonoBehaviour
             await Task.Delay(TimeSpan.FromSeconds(0.1));
             while (openCloseSceneAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
             {
-                await Task.Delay(TimeSpan.FromSeconds(0.05));
+                await Awaitable.NextFrameAsync();
             }
             openCloseSceneAnimator.SetBool("Out", false);
             while (true)
@@ -86,7 +73,6 @@ public class ManagementOpenCloseScene : MonoBehaviour
         catch (Exception e)
         {
             Debug.LogError(e);
-            await Task.Delay(TimeSpan.FromSeconds(0.05));
         }
     }
     public async Awaitable WaitFinishCloseAnimation()
@@ -95,32 +81,13 @@ public class ManagementOpenCloseScene : MonoBehaviour
         {
             while (openCloseSceneAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
             {
-                await Task.Delay(TimeSpan.FromSeconds(0.05));
+                await Awaitable.NextFrameAsync();
             }
-            ResetValues();
-            await Task.Delay(TimeSpan.FromSeconds(0.05));
+            await Awaitable.NextFrameAsync();
         }
         catch (Exception e)
         {
             Debug.LogError(e);
-            await Task.Delay(TimeSpan.FromSeconds(0.05));
-        }
-    }
-    public void ResetValues()
-    {
-        try
-        {
-            loaderImage.fillAmount = 0;
-            _currentLoad = 0;
-            finishLoad = false;
-            if (GameManager.Instance.currentScene == "HomeScene" || GameManager.Instance.currentScene == "")
-            {
-                StartCoroutine(AutoCharge());
-            }
-        }
-        catch (Exception e)
-        {
-            print(e);
         }
     }
 }

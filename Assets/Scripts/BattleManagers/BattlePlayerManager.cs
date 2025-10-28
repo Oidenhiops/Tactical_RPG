@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -78,21 +77,28 @@ public class BattlePlayerManager : MonoBehaviour
 
     }
 
-    public async Task InitializeCharacterData()
+    public async Awaitable InitializeCharacterData()
     {
-        List<CharacterBase> charactersSpawned = new List<CharacterBase>();
-        foreach (KeyValuePair<string, CharacterData> characterInfo in GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].characters)
+        try
         {
-            CharacterBase character = Instantiate(characterBattlePrefab, Vector3Int.down * 2, Quaternion.identity, charactersContainer).GetComponent<CharacterBase>();
-            character.initialDataSO = GameData.Instance.charactersDataDBSO.data[characterInfo.Value.id][characterInfo.Value.subId].initialDataSO;
-            character.isCharacterPlayer = true;
-            character.characterData = characterInfo.Value;
-            character.name = character.characterData.name;
-            charactersSpawned.Add(character);
-            await character.InitializeCharacter();
-            character.gameObject.SetActive(false);
+            List<CharacterBase> charactersSpawned = new List<CharacterBase>();
+            foreach (KeyValuePair<string, CharacterData> characterInfo in GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].characters)
+            {
+                CharacterBase character = Instantiate(characterBattlePrefab, Vector3Int.down * 2, Quaternion.identity, charactersContainer).GetComponent<CharacterBase>();
+                character.initialDataSO = GameData.Instance.charactersDataDBSO.data[characterInfo.Value.id][characterInfo.Value.subId].initialDataSO;
+                character.isCharacterPlayer = true;
+                character.characterData = characterInfo.Value;
+                character.name = character.characterData.name;
+                charactersSpawned.Add(character);
+                await character.InitializeCharacter();
+                character.gameObject.SetActive(false);
+            }
+            characters = charactersSpawned.ToArray();
         }
-        characters = charactersSpawned.ToArray();
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
     void OnToggleCharacterPlayerMove(bool state, bool canShowGridAndDecal)
     {

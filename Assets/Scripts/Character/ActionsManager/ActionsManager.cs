@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AYellowpaper.SerializedCollections;
@@ -38,7 +37,7 @@ public class ActionsManager : MonoBehaviour
     void Start()
     {
         playerManager.characterActions.CharacterInputs.Back.performed += OnUndoAction;
-        GameManager.Instance.openCloseScene.OnFinishOpenAnimation += OnFinishOpenAnimation;
+        ManagementOpenCloseScene.Instance.OnFinishOpenAnimation += OnFinishOpenAnimation;
         endTurnTest.started += OnEndTurnTest;
         endTurnTest.Enable();
     }
@@ -46,25 +45,32 @@ public class ActionsManager : MonoBehaviour
     {
         endTurnTest.started -= OnEndTurnTest;
         playerManager.characterActions.CharacterInputs.Back.performed -= OnUndoAction;
-        GameManager.Instance.openCloseScene.OnFinishOpenAnimation -= OnFinishOpenAnimation;
+        ManagementOpenCloseScene.Instance.OnFinishOpenAnimation -= OnFinishOpenAnimation;
 
     }
     void OnFinishOpenAnimation()
     {
         _ = ChangeRoundState("game_scene_menu_round_state_start");
     }
-    public async Task ChangeRoundState(string idText)
+    public async Awaitable ChangeRoundState(string idText)
     {
-        roundStateLanguage.ChangeTextById(idText);
-        roundStateAnimator.Play("ShowStateOpen");
-        while (true)
+        try
         {
-            await Awaitable.NextFrameAsync();
-            if (roundStateAnimator.GetCurrentAnimatorStateInfo(0).IsName("ShowStateIdle"))
+            roundStateLanguage.ChangeTextById(idText);
+            roundStateAnimator.Play("ShowStateOpen");
+            while (true)
             {
-                isPlayerTurn = !isPlayerTurn;
-                break;
+                await Awaitable.NextFrameAsync();
+                if (roundStateAnimator.GetCurrentAnimatorStateInfo(0).IsName("ShowStateIdle"))
+                {
+                    isPlayerTurn = !isPlayerTurn;
+                    break;
+                }
             }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
         }
     }
     public void OnEndTurnTest(InputAction.CallbackContext context)
@@ -222,160 +228,195 @@ public class ActionsManager : MonoBehaviour
     {
         return characterActions[character][characterActions[character].Count - 1];
     }
-    public async Task MakeActions()
+    public async Awaitable MakeActions()
     {
-        foreach (KeyValuePair<CharacterBase, ActionInfo> actions in characterFinalActions)
+        try
         {
-            if (actions.Value.characterMakeAction.characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue > 0)
+            foreach (KeyValuePair<CharacterBase, ActionInfo> actions in characterFinalActions)
             {
-                switch (actions.Value.typeAction)
+                if (actions.Value.characterMakeAction.characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue > 0)
                 {
-                    case TypeAction.Attack:
-                        actions.Value.characterMakeAction.characterAnimations.MakeAnimation(actions.Value.characterMakeAction.characterAnimations.GetAnimationAttack());
-                        await Awaitable.NextFrameAsync();
-                        bool makedDamage = false;
-                        while (true)
-                        {
-                            if (actions.Value.characterMakeAction.characterAnimations.currentAnimation.frameToInstance == actions.Value.characterMakeAction.characterAnimations.currentSpriteIndex && !makedDamage)
+                    switch (actions.Value.typeAction)
+                    {
+                        case TypeAction.Attack:
+                            actions.Value.characterMakeAction.characterAnimations.MakeAnimation(actions.Value.characterMakeAction.characterAnimations.GetAnimationAttack());
+                            await Awaitable.NextFrameAsync();
+                            bool makedDamage = false;
+                            while (true)
                             {
-                                makedDamage = true;
-                                foreach (OtherCharacterInfo otherCharacter in actions.Value.characterToMakeAction)
+                                if (actions.Value.characterMakeAction.characterAnimations.currentAnimation.frameToInstance == actions.Value.characterMakeAction.characterAnimations.currentSpriteIndex && !makedDamage)
                                 {
-                                    if (otherCharacter.character.characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue > 0)
+                                    makedDamage = true;
+                                    foreach (OtherCharacterInfo otherCharacter in actions.Value.characterToMakeAction)
                                     {
-                                        otherCharacter.character.TakeDamage(actions.Value.characterMakeAction, actions.Value.characterMakeAction.characterData.statistics[CharacterData.TypeStatistic.Atk].currentValue);
+                                        if (otherCharacter.character.characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue > 0)
+                                        {
+                                            otherCharacter.character.TakeDamage(actions.Value.characterMakeAction, actions.Value.characterMakeAction.characterData.statistics[CharacterData.TypeStatistic.Atk].currentValue);
+                                        }
                                     }
                                 }
+                                if (actions.Value.characterMakeAction.characterAnimations.currentAnimation.name == "Idle") break;
+                                await Awaitable.NextFrameAsync();
                             }
-                            if (actions.Value.characterMakeAction.characterAnimations.currentAnimation.name == "Idle") break;
-                            await Awaitable.NextFrameAsync();
-                        }
-                        actions.Key.lastAction = TypeAction.EndTurn;
-                        await Task.Delay(TimeSpan.FromSeconds(0.25f));
-                        characterActions[actions.Key].Add(new ActionInfo()
-                        {
-                            cantUndo = false,
-                            positionInGrid = actions.Key.positionInGrid,
-                            typeAction = TypeAction.EndTurn
-                        });
-                        await Task.Delay(TimeSpan.FromSeconds(0.5f));
-                        break;
-                    case TypeAction.Skill:
-                        if (!actions.Value.skillInfo.skillsBaseSO.needSceneAnimation)
-                        {
-                            if (actions.Value.characterMakeAction.initialDataSO.animations.ContainsKey(actions.Value.skillInfo.skillsBaseSO.animationSkillName))
+                            actions.Key.lastAction = TypeAction.EndTurn;
+                            await Task.Delay(TimeSpan.FromSeconds(0.25f));
+                            characterActions[actions.Key].Add(new ActionInfo()
                             {
-                                actions.Value.characterMakeAction.characterAnimations.MakeAnimation(actions.Value.skillInfo.skillsBaseSO.animationSkillName);
+                                cantUndo = false,
+                                positionInGrid = actions.Key.positionInGrid,
+                                typeAction = TypeAction.EndTurn
+                            });
+                            await Task.Delay(TimeSpan.FromSeconds(0.5f));
+                            break;
+                        case TypeAction.Skill:
+                            if (!actions.Value.skillInfo.skillsBaseSO.needSceneAnimation)
+                            {
+                                if (actions.Value.characterMakeAction.initialDataSO.animations.ContainsKey(actions.Value.skillInfo.skillsBaseSO.animationSkillName))
+                                {
+                                    actions.Value.characterMakeAction.characterAnimations.MakeAnimation(actions.Value.skillInfo.skillsBaseSO.animationSkillName);
+                                }
+                                else
+                                {
+                                    actions.Value.characterMakeAction.characterAnimations.MakeAnimation(actions.Value.skillInfo.skillsBaseSO.generalAnimationSkillName);
+                                }
+                                foreach (Vector3Int position in actions.Value.positionsToMakeSkill)
+                                {
+                                    playerManager.aStarPathFinding.GetHighestBlockAt(new Vector3Int(position.x, 0, position.z), out GenerateMap.WalkablePositionInfo block);
+                                    GameObject skillEffect = Instantiate(actions.Value.skillInfo.skillsBaseSO.skillVFXPrefab, block != null ? block.pos : position, Quaternion.identity);
+                                    Destroy(skillEffect, actions.Value.skillInfo.skillsBaseSO.skillVFXDuration);
+                                    if (block != null && playerManager.aStarPathFinding.grid[block.pos].hasCharacter)
+                                    {
+                                        actions.Value.skillInfo.skillsBaseSO.UseSkill(actions.Value.characterMakeAction, playerManager.aStarPathFinding.grid[block.pos].hasCharacter);
+                                    }
+                                }
+                                actions.Value.skillInfo.skillsBaseSO.DiscountMpAfterUseSkill(actions.Value.characterMakeAction);
+                                float elapsedTime = 0f;
+                                while (elapsedTime < actions.Value.skillInfo.skillsBaseSO.skillVFXDuration)
+                                {
+                                    elapsedTime += Time.deltaTime;
+                                    await Awaitable.NextFrameAsync();
+                                }
                             }
                             else
                             {
-                                actions.Value.characterMakeAction.characterAnimations.MakeAnimation(actions.Value.skillInfo.skillsBaseSO.generalAnimationSkillName);
+                                print("Need Scene Animation Non Implemented");
                             }
-                            foreach (Vector3Int position in actions.Value.positionsToMakeSkill)
+                            actions.Key.lastAction = TypeAction.EndTurn;
+                            await Task.Delay(TimeSpan.FromSeconds(0.25f));
+                            characterActions[actions.Key].Add(new ActionInfo()
                             {
-                                playerManager.aStarPathFinding.GetHighestBlockAt(new Vector3Int(position.x, 0, position.z), out GenerateMap.WalkablePositionInfo block);
-                                GameObject skillEffect = Instantiate(actions.Value.skillInfo.skillsBaseSO.skillVFXPrefab, block != null ? block.pos : position, Quaternion.identity);
-                                Destroy(skillEffect, actions.Value.skillInfo.skillsBaseSO.skillVFXDuration);
-                                if (block != null && playerManager.aStarPathFinding.grid[block.pos].hasCharacter)
-                                {
-                                    actions.Value.skillInfo.skillsBaseSO.UseSkill(actions.Value.characterMakeAction, playerManager.aStarPathFinding.grid[block.pos].hasCharacter);
-                                }
-                            }
-                            actions.Value.skillInfo.skillsBaseSO.DiscountMpAfterUseSkill(actions.Value.characterMakeAction);
-                            float elapsedTime = 0f;
-                            while (elapsedTime < actions.Value.skillInfo.skillsBaseSO.skillVFXDuration)
+                                cantUndo = false,
+                                positionInGrid = actions.Key.positionInGrid,
+                                typeAction = TypeAction.EndTurn
+                            });
+                            await Task.Delay(TimeSpan.FromSeconds(0.5f));
+                            break;
+                        case TypeAction.Defend:
+                            await DefendAction(actions.Key);
+                            actions.Key.lastAction = TypeAction.EndTurn;
+                            characterActions[actions.Key].Add(new ActionInfo()
                             {
-                                elapsedTime += Time.deltaTime;
-                                await Awaitable.NextFrameAsync();
-                            }
-                        }
-                        else
-                        {
-                            print("Need Scene Animation Non Implemented");
-                        }
-                        actions.Key.lastAction = TypeAction.EndTurn;
-                        await Task.Delay(TimeSpan.FromSeconds(0.25f));
-                        characterActions[actions.Key].Add(new ActionInfo()
-                        {
-                            cantUndo = false,
-                            positionInGrid = actions.Key.positionInGrid,
-                            typeAction = TypeAction.EndTurn
-                        });
-                        await Task.Delay(TimeSpan.FromSeconds(0.5f));
-                        break;
-                    case TypeAction.Defend:
-                        await DefendAction(actions.Key);
-                        actions.Key.lastAction = TypeAction.EndTurn;
-                        characterActions[actions.Key].Add(new ActionInfo()
-                        {
-                            cantUndo = false,
-                            positionInGrid = actions.Key.positionInGrid,
-                            typeAction = TypeAction.EndTurn
-                        });
-                        await Awaitable.NextFrameAsync();
-                        break;
-                }
-            }
-            foreach (KeyValuePair<CharacterBase, List<ActionInfo>> action in characterActions)
-            {
-                bool containsMovementActions = false;
-                foreach (ActionInfo actionInfo in action.Value)
-                {
-                    if (actionInfo.typeAction == TypeAction.Move)
-                    {
-                        containsMovementActions = true;
-                        break;
+                                cantUndo = false,
+                                positionInGrid = actions.Key.positionInGrid,
+                                typeAction = TypeAction.EndTurn
+                            });
+                            await Awaitable.NextFrameAsync();
+                            break;
                     }
                 }
-                if (!containsMovementActions)
+                foreach (KeyValuePair<CharacterBase, List<ActionInfo>> action in characterActions)
                 {
-                    action.Key.canMoveAfterFinishTurn = true;
+                    bool containsMovementActions = false;
+                    foreach (ActionInfo actionInfo in action.Value)
+                    {
+                        if (actionInfo.typeAction == TypeAction.Move)
+                        {
+                            containsMovementActions = true;
+                            break;
+                        }
+                    }
+                    if (!containsMovementActions)
+                    {
+                        action.Key.canMoveAfterFinishTurn = true;
+                    }
                 }
             }
-        }
-        characterFinalActions = new SerializedDictionary<CharacterBase, ActionInfo>();
-        await Awaitable.NextFrameAsync();
-    }
-    private async Task DiscountStatusEffects()
-    {
-        OnEndTurn?.Invoke();
-        await Awaitable.NextFrameAsync();
-    }
-    public async Task EndTurn()
-    {
-        isChangingTurn = true;
-        playerManager.aStarPathFinding.characterSelected = null;
-        await MakeActions();
-        characterActions = new SerializedDictionary<CharacterBase, List<ActionInfo>>();
-        characterFinalActions = new SerializedDictionary<CharacterBase, ActionInfo>();
-        await ChangeRoundState();
-        await DiscountStatusEffects();
-    }
-    public async Task DefendAction(CharacterBase character)
-    {
-        StatusEffectDefendSO statusEffectDefendSO = Resources.Load<StatusEffectDefendSO>("Prefabs/ScriptableObjects/StatusEffects/StatusEffectDefend");
-        if (character.characterStatusEffect.statusEffects.ContainsKey(statusEffectDefendSO))
-        {
-            statusEffectDefendSO.ReloadEffect(character);
-        }
-        else
-        {
-            character.characterStatusEffect.statusEffects.Add(statusEffectDefendSO, 0);
-            statusEffectDefendSO.ApplyEffect(character);
-        }
-        character.characterAnimations.MakeAnimation("Defend");
-        await Awaitable.NextFrameAsync();
-        while (true)
-        {
-            if (character.characterAnimations.currentAnimation.name == "Idle") break;
+            characterFinalActions = new SerializedDictionary<CharacterBase, ActionInfo>();
             await Awaitable.NextFrameAsync();
         }
-        await Awaitable.NextFrameAsync();
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
-    public async Task ChangeRoundState()
+    private async Awaitable DiscountStatusEffects()
     {
-        await ChangeRoundState(!isChangingTurn ? isPlayerTurn ? "game_scene_menu_round_state_player_turn" : "game_scene_menu_round_state_enemy_turn" : !isPlayerTurn ? "game_scene_menu_round_state_player_turn" : "game_scene_menu_round_state_enemy_turn");
-        isChangingTurn = false;
+        try
+        {
+            OnEndTurn?.Invoke();
+            await Awaitable.NextFrameAsync();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
+    }
+    public async Awaitable EndTurn()
+    {
+        try
+        {
+            isChangingTurn = true;
+            playerManager.aStarPathFinding.characterSelected = null;
+            await MakeActions();
+            characterActions = new SerializedDictionary<CharacterBase, List<ActionInfo>>();
+            characterFinalActions = new SerializedDictionary<CharacterBase, ActionInfo>();
+            await ChangeRoundState();
+            await DiscountStatusEffects();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
+    }
+    public async Awaitable DefendAction(CharacterBase character)
+    {
+        try
+        {
+            StatusEffectDefendSO statusEffectDefendSO = Resources.Load<StatusEffectDefendSO>("Prefabs/ScriptableObjects/StatusEffects/StatusEffectDefend");
+            if (character.characterStatusEffect.statusEffects.ContainsKey(statusEffectDefendSO))
+            {
+                statusEffectDefendSO.ReloadEffect(character);
+            }
+            else
+            {
+                character.characterStatusEffect.statusEffects.Add(statusEffectDefendSO, 0);
+                statusEffectDefendSO.ApplyEffect(character);
+            }
+            character.characterAnimations.MakeAnimation("Defend");
+            await Awaitable.NextFrameAsync();
+            while (true)
+            {
+                if (character.characterAnimations.currentAnimation.name == "Idle") break;
+                await Awaitable.NextFrameAsync();
+            }
+            await Awaitable.NextFrameAsync();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
+    }
+    public async Awaitable ChangeRoundState()
+    {
+        try
+        {
+            await ChangeRoundState(!isChangingTurn ? isPlayerTurn ? "game_scene_menu_round_state_player_turn" : "game_scene_menu_round_state_enemy_turn" : !isPlayerTurn ? "game_scene_menu_round_state_player_turn" : "game_scene_menu_round_state_enemy_turn");
+            isChangingTurn = false;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
     public void ActionForExecuteExist(out bool actionExist)
     {

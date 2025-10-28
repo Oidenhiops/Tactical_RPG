@@ -51,7 +51,6 @@ public class GameData : MonoBehaviour
         catch (Exception e)
         {
             Debug.LogError(e);
-            await Awaitable.NextFrameAsync();
         }
     }
     public void LoadGameDataInfo()
@@ -257,7 +256,6 @@ public class GameData : MonoBehaviour
         catch (Exception e)
         {
             Debug.LogError(e);
-            await Awaitable.NextFrameAsync();
         }
     }
     public void SetStartingData()

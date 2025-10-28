@@ -165,36 +165,50 @@ public class CharacterAnimation : MonoBehaviour
     #region AnimationsEffects
     async Awaitable Shake()
     {
-        float tiempoTranscurrido = 0f;
-        Vector3 initialPos = character.characterModel.characterMeshRenderer.transform.localPosition;
-
-        while (tiempoTranscurrido < currentSpritePerTime * currentAnimation.spritesInfoUp.Length)
+        try
         {
-            float desplazamientoX = Mathf.Sin(Time.time * currentAnimation.animationsEffects[TypeAnimationsEffects.Shake].frequency) * currentAnimation.animationsEffects[TypeAnimationsEffects.Shake].amplitude;
-            character.characterModel.characterMeshRenderer.transform.localPosition = initialPos + new Vector3(desplazamientoX, 0, 0);
-            tiempoTranscurrido += Time.deltaTime;
-            await Awaitable.NextFrameAsync();
+            float tiempoTranscurrido = 0f;
+            Vector3 initialPos = character.characterModel.characterMeshRenderer.transform.localPosition;
+
+            while (tiempoTranscurrido < currentSpritePerTime * currentAnimation.spritesInfoUp.Length)
+            {
+                float desplazamientoX = Mathf.Sin(Time.time * currentAnimation.animationsEffects[TypeAnimationsEffects.Shake].frequency) * currentAnimation.animationsEffects[TypeAnimationsEffects.Shake].amplitude;
+                character.characterModel.characterMeshRenderer.transform.localPosition = initialPos + new Vector3(desplazamientoX, 0, 0);
+                tiempoTranscurrido += Time.deltaTime;
+                await Awaitable.NextFrameAsync();
+            }
+            initialPos.x = 0f;
+            character.characterModel.characterMeshRenderer.transform.localPosition = initialPos;
         }
-        initialPos.x = 0f;
-        character.characterModel.characterMeshRenderer.transform.localPosition = initialPos;
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
     async Awaitable Blink()
     {
-        float tiempoTranscurrido = 0f;
-        while (tiempoTranscurrido < currentSpritePerTime * currentAnimation.spritesInfoUp.Length)
+        try
         {
-            if (character.characterModel.characterMeshRenderer.material.color == Color.white)
+            float tiempoTranscurrido = 0f;
+            while (tiempoTranscurrido < currentSpritePerTime * currentAnimation.spritesInfoUp.Length)
             {
-                character.characterModel.characterMeshRenderer.material.SetColor("_Color", currentAnimation.animationsEffects[TypeAnimationsEffects.Blink].colorBlink);
+                if (character.characterModel.characterMeshRenderer.material.color == Color.white)
+                {
+                    character.characterModel.characterMeshRenderer.material.SetColor("_Color", currentAnimation.animationsEffects[TypeAnimationsEffects.Blink].colorBlink);
+                }
+                else
+                {
+                    character.characterModel.characterMeshRenderer.material.SetColor("_Color", Color.white);
+                }
+                tiempoTranscurrido += currentSpritePerTime;
+                await Task.Delay(TimeSpan.FromSeconds(currentSpritePerTime));
             }
-            else
-            {
-                character.characterModel.characterMeshRenderer.material.SetColor("_Color", Color.white);
-            }
-            tiempoTranscurrido += currentSpritePerTime;
-            await Task.Delay(TimeSpan.FromSeconds(currentSpritePerTime));
+            character.characterModel.characterMeshRenderer.material.SetColor("_Color", Color.white);
         }
-        character.characterModel.characterMeshRenderer.material.SetColor("_Color", Color.white);
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
     #endregion
     [Serializable] public class AnimationEffectInfo

@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public class GenerateMap : MonoBehaviour
@@ -15,7 +14,7 @@ public class GenerateMap : MonoBehaviour
         if (isWorldMap) _ = GenerateGrid();
         if (findMapInfo && ManagementBattleInfo.Instance) currentAtlasMap = ManagementBattleInfo.Instance.generateMap.currentAtlasMap;
     }
-    public async Task GenerateGrid()
+    public async Awaitable GenerateGrid()
     {
         try
         {
@@ -48,7 +47,7 @@ public class GenerateMap : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.LogError($"Error generating grid: {e.Message}");
+            Debug.LogError(e);
         }
     }
     public void DrawBlocks()

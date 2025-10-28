@@ -1,6 +1,6 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -12,29 +12,50 @@ public class MenuThrowCharacter : MonoBehaviour
     public TMP_Text heightTextValue;
     public TMP_Text distanceTextValue;
     public bool isThrowingCharacter;
-    public async Task EnableMenu()
+    public async Awaitable EnableMenu()
     {
-        await Awaitable.NextFrameAsync();
-        menuThrowCharacter.SetActive(true);
-        _= playerManager.menuCharacterActions.DisableMenu(true, true);
-        playerManager.menuCharacterInfo.menuCharacterInfo.SetActive(false);
-        heightTextValue.text = playerManager.aStarPathFinding.characterSelected.characterData.GetMovementMaxHeight().ToString();
-        distanceTextValue.text = playerManager.aStarPathFinding.characterSelected.characterData.GetThrowRadius().ToString();
-        playerManager.aStarPathFinding.EnableGrid(playerManager.aStarPathFinding.GetTilesToThrow(), playerManager.menuLiftCharacter.gridColor);
+        try
+        {
+            await Awaitable.NextFrameAsync();
+            menuThrowCharacter.SetActive(true);
+            _ = playerManager.menuCharacterActions.DisableMenu(true, true);
+            playerManager.menuCharacterInfo.menuCharacterInfo.SetActive(false);
+            heightTextValue.text = playerManager.aStarPathFinding.characterSelected.characterData.GetMovementMaxHeight().ToString();
+            distanceTextValue.text = playerManager.aStarPathFinding.characterSelected.characterData.GetThrowRadius().ToString();
+            playerManager.aStarPathFinding.EnableGrid(playerManager.aStarPathFinding.GetTilesToThrow(), playerManager.menuLiftCharacter.gridColor);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
-    public async Task DisableMenu()
+    public async Awaitable DisableMenu()
     {
-        await Awaitable.NextFrameAsync();
-        menuThrowCharacter.SetActive(false);
-        _ = playerManager.menuCharacterActions.EnableMenu();
-        playerManager.MovePointerToInstant(playerManager.aStarPathFinding.characterSelected.positionInGrid);
+        try
+        {
+            await Awaitable.NextFrameAsync();
+            menuThrowCharacter.SetActive(false);
+            _ = playerManager.menuCharacterActions.EnableMenu();
+            playerManager.MovePointerToInstant(playerManager.aStarPathFinding.characterSelected.positionInGrid);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
-    public async Task DisableMenuAfterThrowCharacter()
+    public async Awaitable DisableMenuAfterThrowCharacter()
     {
-        await Awaitable.NextFrameAsync();
-        menuThrowCharacter.SetActive(false);
-        playerManager.aStarPathFinding.characterSelected = null;
-        playerManager.actionsManager.EnableMobileInputs();
+        try
+        {
+            await Awaitable.NextFrameAsync();
+            menuThrowCharacter.SetActive(false);
+            playerManager.aStarPathFinding.characterSelected = null;
+            playerManager.actionsManager.EnableMobileInputs();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
     public void OnHandleTrow(InputAction.CallbackContext context)
     {

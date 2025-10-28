@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using AYellowpaper.SerializedCollections;
 using TMPro;
 using UnityEngine;
@@ -42,23 +40,30 @@ public class MenuCharacterSelector : MonoBehaviour
         OnAmountCharacterChange += ValidateBlockBanner;
         ValidateBlockBanner(amountCharacters);
     }
-    public async Task SpawnBanners()
+    public async Awaitable SpawnBanners()
     {
-        for (int i = 0; i < playerManager.characters.Count(); i++)
+        try
         {
-            if (!playerManager.characters[i].gameObject.activeSelf)
+            for (int i = 0; i < playerManager.characters.Count(); i++)
             {
-                CharacterSelectorBanner characterSelectorBanner = Instantiate(characterSelectorBannerPrefab, containerBanners).GetComponent<CharacterSelectorBanner>();
-                characterSelectorBanner.menuCharacterSelector = this;
-                characterSelectorBanner.onObjectSelect.container = containerBanners;
-                characterSelectorBanner.onObjectSelect.scrollRect = ScrollRect;
-                characterSelectorBanner.onObjectSelect.viewport = viewport;
-                characterSelectorBanner.SetBannerData(playerManager.characters[i]);
-                characterSelectorBanner.name = playerManager.characters[i].characterData.name;
-                banners.Add(playerManager.characters[i], characterSelectorBanner);
+                if (!playerManager.characters[i].gameObject.activeSelf)
+                {
+                    CharacterSelectorBanner characterSelectorBanner = Instantiate(characterSelectorBannerPrefab, containerBanners).GetComponent<CharacterSelectorBanner>();
+                    characterSelectorBanner.menuCharacterSelector = this;
+                    characterSelectorBanner.onObjectSelect.container = containerBanners;
+                    characterSelectorBanner.onObjectSelect.scrollRect = ScrollRect;
+                    characterSelectorBanner.onObjectSelect.viewport = viewport;
+                    characterSelectorBanner.SetBannerData(playerManager.characters[i]);
+                    characterSelectorBanner.name = playerManager.characters[i].characterData.name;
+                    banners.Add(playerManager.characters[i], characterSelectorBanner);
+                }
             }
+            await Awaitable.NextFrameAsync();
         }
-        await Awaitable.NextFrameAsync();
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
     public void OnCharacterSelect(GameObject banner)
     {
@@ -75,35 +80,49 @@ public class MenuCharacterSelector : MonoBehaviour
             _ = DisableMenu();
         }
     }
-    public async Task EnableMenu()
+    public async Awaitable EnableMenu()
     {
-        await SpawnBanners();
-        playerManager.actionsManager.DisableMobileInputs();
-        menuCharacterSelector.SetActive(true);
-        if (banners.Count > 0)
+        try
         {
-            EventSystem.current.SetSelectedGameObject(null);
-            if (index > banners.Count - 1)
+            await SpawnBanners();
+            playerManager.actionsManager.DisableMobileInputs();
+            menuCharacterSelector.SetActive(true);
+            if (banners.Count > 0)
             {
-                index--;
+                EventSystem.current.SetSelectedGameObject(null);
+                if (index > banners.Count - 1)
+                {
+                    index--;
+                }
+                EventSystem.current.SetSelectedGameObject(banners.ElementAt(index).Value.gameObject);
+                banners.ElementAt(index).Value.onObjectSelect.ScrollTo(index);
             }
-            EventSystem.current.SetSelectedGameObject(banners.ElementAt(index).Value.gameObject);
-            banners.ElementAt(index).Value.onObjectSelect.ScrollTo(index);
+            await Awaitable.NextFrameAsync();
+            isMenuActive = true;
         }
-        await Awaitable.NextFrameAsync();
-        isMenuActive = true;
-    }
-    public async Task DisableMenu()
-    {
-        await Awaitable.NextFrameAsync();
-        playerManager.actionsManager.EnableMobileInputs();
-        menuCharacterSelector.SetActive(false);
-        isMenuActive = false;
-        foreach (Transform child in containerBanners.transform)
+        catch (Exception e)
         {
-            Destroy(child.gameObject);
+            Debug.LogError(e);
         }
-        banners = new SerializedDictionary<CharacterBase, CharacterSelectorBanner>();
+    }
+    public async Awaitable DisableMenu()
+    {
+        try
+        {
+            await Awaitable.NextFrameAsync();
+            playerManager.actionsManager.EnableMobileInputs();
+            menuCharacterSelector.SetActive(false);
+            isMenuActive = false;
+            foreach (Transform child in containerBanners.transform)
+            {
+                Destroy(child.gameObject);
+            }
+            banners = new SerializedDictionary<CharacterBase, CharacterSelectorBanner>();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
     void ValidateBlockBanner(int amountCharacters)
     {

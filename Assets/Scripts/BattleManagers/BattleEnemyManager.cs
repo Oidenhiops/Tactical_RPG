@@ -1,6 +1,6 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
 
@@ -39,7 +39,7 @@ public class BattleEnemyManager : MonoBehaviour
         return characters.OrderBy(a => a.characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue / a.characterData.statistics[CharacterData.TypeStatistic.Hp].maxValue).FirstOrDefault();
     }
     [NaughtyAttributes.Button]
-    public void GetEnemiesNear()
+    public void GetEnemiesForAttack()
     {
         List<CharacterBase> enemiesNear;
         Vector2 playerPos;
@@ -73,7 +73,7 @@ public class BattleEnemyManager : MonoBehaviour
                     possibleActions[characterEnemy].Add(new AiAction
                     {
                         characterMakeAction = characterEnemy,
-                        typeAction = TypeAction.EnemiesNear,
+                        typeAction = TypeAction.Attack,
                         posibleTargets = enemiesNear
                     });
                 }
@@ -84,7 +84,7 @@ public class BattleEnemyManager : MonoBehaviour
                         new AiAction
                         {
                             characterMakeAction = characterEnemy,
-                            typeAction = TypeAction.EnemiesNear,
+                            typeAction = TypeAction.Attack,
                             posibleTargets = enemiesNear
                         }
                     });
@@ -96,108 +96,136 @@ public class BattleEnemyManager : MonoBehaviour
     {
         _ = GetCharactersInitialData();
     }
-    public async Task GetCharactersInitialData()
+    public async Awaitable GetCharactersInitialData()
     {
-        initialDataSelected.Add(principalCharacter.initialDataSO);
-        for (int i = 0; i < Random.Range(5, 20); i++)
+        try
         {
-            initialDataSelected.Add(GameData.Instance.charactersDataDBSO.GetRandomInitialDataSO());
-        }
-        await CreateCharacters();
-        await LevelUpCharacters();
-        await SpawnCharactersInBattle();
-    }
-    public async Task CreateCharacters()
-    {
-        List<CharacterBase> charactersSpawned = new List<CharacterBase>();
-        foreach (InitialDataSO initialData in initialDataSelected)
-        {
-            CharacterData characterData = new CharacterData
+            initialDataSelected.Add(principalCharacter.initialDataSO);
+            for (int i = 0; i < UnityEngine.Random.Range(5, 20); i++)
             {
-                id = initialData.id,
-                subId = initialData.subId,
-                name = GameData.Instance.charactersDataDBSO.GenerateFantasyName(),
-                level = 1,
-                mastery = new SerializedDictionary<CharacterData.TypeMastery, CharacterData.CharacterMasteryInfo>()
-            };
-            characterData.items = new SerializedDictionary<CharacterData.CharacterItemInfo, CharacterData.CharacterItem>
+                initialDataSelected.Add(GameData.Instance.charactersDataDBSO.GetRandomInitialDataSO());
+            }
+            await CreateCharacters();
+            await LevelUpCharacters();
+            await SpawnCharactersInBattle();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
+    }
+    public async Awaitable CreateCharacters()
+    {
+        try
+        {
+            List<CharacterBase> charactersSpawned = new List<CharacterBase>();
+            foreach (InitialDataSO initialData in initialDataSelected)
+            {
+                CharacterData characterData = new CharacterData
+                {
+                    id = initialData.id,
+                    subId = initialData.subId,
+                    name = GameData.Instance.charactersDataDBSO.GenerateFantasyName(),
+                    level = 1,
+                    mastery = new SerializedDictionary<CharacterData.TypeMastery, CharacterData.CharacterMasteryInfo>()
+                };
+                characterData.items = new SerializedDictionary<CharacterData.CharacterItemInfo, CharacterData.CharacterItem>
             {
                 {new CharacterData.CharacterItemInfo{index = 0, typeCharacterItem = CharacterData.TypeCharacterItem.Weapon}, new CharacterData.CharacterItem()},
                 {new CharacterData.CharacterItemInfo{index = 1, typeCharacterItem = CharacterData.TypeCharacterItem.Object1}, new CharacterData.CharacterItem()},
                 {new CharacterData.CharacterItemInfo{index = 2, typeCharacterItem = CharacterData.TypeCharacterItem.Object2}, new CharacterData.CharacterItem()},
                 {new CharacterData.CharacterItemInfo{index = 3, typeCharacterItem = CharacterData.TypeCharacterItem.Object3}, new CharacterData.CharacterItem()}
             };
-            characterData.statistics = GameData.Instance.charactersDataDBSO.data[characterData.id][characterData.subId].initialDataSO.CloneStatistics();
-            characterData.mastery = GameData.Instance.charactersDataDBSO.data[characterData.id][characterData.subId].initialDataSO.CloneMastery();
-            characterData.skills = GameData.Instance.charactersDataDBSO.data[characterData.id][characterData.subId].initialDataSO.CloneSkills();
-            
-            foreach (KeyValuePair<CharacterData.TypeStatistic, CharacterData.Statistic> statistic in characterData.statistics)
-            {
-                if (statistic.Key != CharacterData.TypeStatistic.Exp)
-                {
-                    statistic.Value.RefreshValue();
-                    statistic.Value.SetMaxValue();
-                }
-                else
-                {
-                    statistic.Value.baseValue = 15;
-                    statistic.Value.RefreshValue();
-                }
-            }
-            CharacterBase character = Instantiate(characterBattlePrefab, Vector3Int.down * 2, Quaternion.identity, charactersContainer).GetComponent<CharacterBase>();
-            character.initialDataSO = GameData.Instance.charactersDataDBSO.data[initialData.id][initialData.subId].initialDataSO;
-            character.characterData = characterData;
-            character.characterModel.characterMeshRenderer.material = materialCharacterEnemy;
-            character.characterModel.characterMeshRendererHand.material = materialCharacterEnemy;
-            character.name = character.characterData.name;
-            charactersSpawned.Add(character);
-            await character.InitializeCharacter();
-        }
-        characters = charactersSpawned.ToArray();
-    }
-    public async Task LevelUpCharacters()
-    {
-        foreach (var character in characters)
-        {
-            int targetLevel = Random.Range(-5, 5);
-            if (character.characterData.level + targetLevel <= 0) targetLevel = 1;
-            while (character.characterData.level < targetLevel)
-            {
-                CharacterData.Statistic statistic = new CharacterData.Statistic
-                {
-                    maxValue = character.characterData.statistics[CharacterData.TypeStatistic.Exp].maxValue
-                };
-                character.TakeExp(statistic);
-            }
+                characterData.statistics = GameData.Instance.charactersDataDBSO.data[characterData.id][characterData.subId].initialDataSO.CloneStatistics();
+                characterData.mastery = GameData.Instance.charactersDataDBSO.data[characterData.id][characterData.subId].initialDataSO.CloneMastery();
+                characterData.skills = GameData.Instance.charactersDataDBSO.data[characterData.id][characterData.subId].initialDataSO.CloneSkills();
 
-            foreach (KeyValuePair<CharacterData.TypeStatistic, CharacterData.Statistic> statistic in character.characterData.statistics)
-            {
-                if (statistic.Key != CharacterData.TypeStatistic.Exp)
+                foreach (KeyValuePair<CharacterData.TypeStatistic, CharacterData.Statistic> statistic in characterData.statistics)
                 {
-                    statistic.Value.RefreshValue();
-                    statistic.Value.SetMaxValue();
+                    if (statistic.Key != CharacterData.TypeStatistic.Exp)
+                    {
+                        statistic.Value.RefreshValue();
+                        statistic.Value.SetMaxValue();
+                    }
+                    else
+                    {
+                        statistic.Value.baseValue = 15;
+                        statistic.Value.RefreshValue();
+                    }
                 }
-                else
+                CharacterBase character = Instantiate(characterBattlePrefab, Vector3Int.down * 2, Quaternion.identity, charactersContainer).GetComponent<CharacterBase>();
+                character.initialDataSO = GameData.Instance.charactersDataDBSO.data[initialData.id][initialData.subId].initialDataSO;
+                character.characterData = characterData;
+                character.characterModel.characterMeshRenderer.material = materialCharacterEnemy;
+                character.characterModel.characterMeshRendererHand.material = materialCharacterEnemy;
+                character.name = character.characterData.name;
+                charactersSpawned.Add(character);
+                await character.InitializeCharacter();
+            }
+            characters = charactersSpawned.ToArray();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
+    }
+    public async Awaitable LevelUpCharacters()
+    {
+        try
+        {
+            foreach (var character in characters)
+            {
+                int targetLevel = UnityEngine.Random.Range(-5, 5);
+                if (character.characterData.level + targetLevel <= 0) targetLevel = 1;
+                while (character.characterData.level < targetLevel)
                 {
-                    statistic.Value.baseValue = 15;
-                    statistic.Value.RefreshValue();
+                    CharacterData.Statistic statistic = new CharacterData.Statistic
+                    {
+                        maxValue = character.characterData.statistics[CharacterData.TypeStatistic.Exp].maxValue
+                    };
+                    character.TakeExp(statistic);
+                }
+
+                foreach (KeyValuePair<CharacterData.TypeStatistic, CharacterData.Statistic> statistic in character.characterData.statistics)
+                {
+                    if (statistic.Key != CharacterData.TypeStatistic.Exp)
+                    {
+                        statistic.Value.RefreshValue();
+                        statistic.Value.SetMaxValue();
+                    }
+                    else
+                    {
+                        statistic.Value.baseValue = 15;
+                        statistic.Value.RefreshValue();
+                    }
                 }
             }
         }
-    }
-    public async Task SpawnCharactersInBattle()
-    {
-        foreach (var character in characters)
+        catch (Exception e)
         {
-            aStarPathFinding.GetRandomAvailablePosition(out GenerateMap.WalkablePositionInfo block);
-            character.gameObject.transform.position = block.pos;
-            character.positionInGrid = block.pos;
-            character.startPositionInGrid = block.pos;
-            block.hasCharacter = character;
+            Debug.LogError(e);
         }
-        await Awaitable.NextFrameAsync();
     }
-    [System.Serializable]
+    public async Awaitable SpawnCharactersInBattle()
+    {
+        try
+        {
+            foreach (var character in characters)
+            {
+                aStarPathFinding.GetRandomAvailablePosition(out GenerateMap.WalkablePositionInfo block);
+                character.gameObject.transform.position = block.pos;
+                character.positionInGrid = block.pos;
+                character.startPositionInGrid = block.pos;
+                block.hasCharacter = character;
+            }
+            await Awaitable.NextFrameAsync();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
+    }
+    [Serializable]
     public class AiAction
     {
         public CharacterBase characterMakeAction;
@@ -210,6 +238,5 @@ public class BattleEnemyManager : MonoBehaviour
         Attack,
         UseItem,
         Wait,
-        EnemiesNear
     }
 }

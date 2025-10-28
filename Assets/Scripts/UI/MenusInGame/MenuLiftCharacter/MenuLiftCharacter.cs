@@ -1,8 +1,7 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -23,21 +22,28 @@ public class MenuLiftCharacter : MonoBehaviour
     public GameObject liftCharactersBannerPrefab;
     public int index;
     public StatusEffectBaseSO statusEffectLiftSO;
-    public async Task SpawnBanners()
+    public async Awaitable SpawnBanners()
     {
-        for (int i = 0; i < characters.Length; i++)
+        try
         {
-            LiftCharactersBanner characterBanner = Instantiate(liftCharactersBannerPrefab, containerBanners).GetComponent<LiftCharactersBanner>();
-            characterBanner.menuLiftCharacter = this;
-            characterBanner.onObjectSelect.container = containerBanners;
-            characterBanner.onObjectSelect.scrollRect = ScrollRect;
-            characterBanner.onObjectSelect.viewport = viewport;
-            characterBanner.SetBannerData(characters[i]);
-            characterBanner.name = characters[i].characterData.name;
-            characterBanner.character = characters[i];
-            banners.Add(characters[i], characterBanner);
+            for (int i = 0; i < characters.Length; i++)
+            {
+                LiftCharactersBanner characterBanner = Instantiate(liftCharactersBannerPrefab, containerBanners).GetComponent<LiftCharactersBanner>();
+                characterBanner.menuLiftCharacter = this;
+                characterBanner.onObjectSelect.container = containerBanners;
+                characterBanner.onObjectSelect.scrollRect = ScrollRect;
+                characterBanner.onObjectSelect.viewport = viewport;
+                characterBanner.SetBannerData(characters[i]);
+                characterBanner.name = characters[i].characterData.name;
+                characterBanner.character = characters[i];
+                banners.Add(characters[i], characterBanner);
+            }
+            await Awaitable.NextFrameAsync();
         }
-        await Awaitable.NextFrameAsync();
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
     public CharacterBase[] SortCharacters(CharacterBase[] charactersToSort)
     {
@@ -122,57 +128,78 @@ public class MenuLiftCharacter : MonoBehaviour
             _ = DisableMenuAfterCharacterSelect();
         }
     }
-    public async Task EnableMenu()
+    public async Awaitable EnableMenu()
     {
-        await SpawnBanners();
-        playerManager.aStarPathFinding.EnableGrid(positionsToLift, gridColor);
-        index = 0;
-        if (banners.Count > 0)
+        try
         {
-            EventSystem.current.SetSelectedGameObject(null);
-            if (index > banners.Count - 1)
+            await SpawnBanners();
+            playerManager.aStarPathFinding.EnableGrid(positionsToLift, gridColor);
+            index = 0;
+            if (banners.Count > 0)
             {
-                index--;
+                EventSystem.current.SetSelectedGameObject(null);
+                if (index > banners.Count - 1)
+                {
+                    index--;
+                }
+                EventSystem.current.SetSelectedGameObject(banners.ElementAt(index).Value.gameObject);
+                _ = playerManager.menuCharacterInfo.ReloadInfo(banners.ElementAt(index).Value.character);
+                banners.ElementAt(index).Value.onObjectSelect.ScrollTo(index);
+                await Awaitable.NextFrameAsync();
             }
-            EventSystem.current.SetSelectedGameObject(banners.ElementAt(index).Value.gameObject);
-            _= playerManager.menuCharacterInfo.ReloadInfo(banners.ElementAt(index).Value.character);
-            banners.ElementAt(index).Value.onObjectSelect.ScrollTo(index);
             await Awaitable.NextFrameAsync();
+            isMenuActive = true;
+            _ = playerManager.menuCharacterActions.DisableMenu(true, true);
+            menuLiftCharacter.SetActive(true);
+            playerManager.MovePointerToInstant(Vector3Int.RoundToInt(banners.ElementAt(0).Key.transform.position));
         }
-        await Awaitable.NextFrameAsync();
-        isMenuActive = true;
-        _= playerManager.menuCharacterActions.DisableMenu(true, true);
-        menuLiftCharacter.SetActive(true);
-        playerManager.MovePointerToInstant(Vector3Int.RoundToInt(banners.ElementAt(0).Key.transform.position));
-    }
-    public async Task DisableMenu()
-    {
-        await Awaitable.NextFrameAsync();
-        playerManager.aStarPathFinding.DisableGrid();
-        menuLiftCharacter.SetActive(false);
-        isMenuActive = false;
-        foreach (Transform child in containerBanners.transform)
+        catch (Exception e)
         {
-            Destroy(child.gameObject);
+            Debug.LogError(e);
         }
-        banners = new SerializedDictionary<CharacterBase, LiftCharactersBanner>();
-        playerManager.menuCharacterActions.BackToMenuWhitButton(MenuCharacterActions.TypeButton.Lift);
-        playerManager.MovePointerToInstant(playerManager.aStarPathFinding.characterSelected.positionInGrid);
     }
-    public async Task DisableMenuAfterCharacterSelect()
+    public async Awaitable DisableMenu()
     {
-        await Awaitable.NextFrameAsync();
-        playerManager.aStarPathFinding.DisableGrid();
-        menuLiftCharacter.SetActive(false);
-        playerManager.menuCharacterInfo.DisableMenu(true);
-        isMenuActive = false;
-        foreach (Transform child in containerBanners.transform)
+        try
         {
-            Destroy(child.gameObject);
+            await Awaitable.NextFrameAsync();
+            playerManager.aStarPathFinding.DisableGrid();
+            menuLiftCharacter.SetActive(false);
+            isMenuActive = false;
+            foreach (Transform child in containerBanners.transform)
+            {
+                Destroy(child.gameObject);
+            }
+            banners = new SerializedDictionary<CharacterBase, LiftCharactersBanner>();
+            playerManager.menuCharacterActions.BackToMenuWhitButton(MenuCharacterActions.TypeButton.Lift);
+            playerManager.MovePointerToInstant(playerManager.aStarPathFinding.characterSelected.positionInGrid);
         }
-        playerManager.actionsManager.EnableMobileInputs();
-        banners = new SerializedDictionary<CharacterBase, LiftCharactersBanner>();
-        playerManager.MovePointerToInstant(playerManager.aStarPathFinding.characterSelected.positionInGrid);
-        playerManager.aStarPathFinding.characterSelected = null;
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
+    }
+    public async Awaitable DisableMenuAfterCharacterSelect()
+    {
+        try
+        {
+            await Awaitable.NextFrameAsync();
+            playerManager.aStarPathFinding.DisableGrid();
+            menuLiftCharacter.SetActive(false);
+            playerManager.menuCharacterInfo.DisableMenu(true);
+            isMenuActive = false;
+            foreach (Transform child in containerBanners.transform)
+            {
+                Destroy(child.gameObject);
+            }
+            playerManager.actionsManager.EnableMobileInputs();
+            banners = new SerializedDictionary<CharacterBase, LiftCharactersBanner>();
+            playerManager.MovePointerToInstant(playerManager.aStarPathFinding.characterSelected.positionInGrid);
+            playerManager.aStarPathFinding.characterSelected = null;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
 }

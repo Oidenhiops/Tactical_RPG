@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d773741b1771804f9162c2f66581841, type: 3}
+  m_Script: {fileID: 11500000, guid: c3045136b1a397b44aa70db0fd92f782, type: 3}
   m_Name: Warrior
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::InitialDataSO
   id: 1
   subId: 0
-  isHumanoid: 1
+  isHumanoid: 0
   atlas: {fileID: 2800000, guid: 28ba607fe7aaf0248a6d0c1da3c60b3d, type: 3}
   atlasHands: {fileID: 2800000, guid: 4065f90a94fe85e44a5e6838f5cc4fd8, type: 3}
   icon: {fileID: 1760192908, guid: 5ad2e935482f278468588df16e4f60b8, type: 3}
@@ -22,8 +22,8 @@ MonoBehaviour:
     _serializedList:
     - Key: 1
       Value:
-        baseValue: 19
-        aptitudeValue: 100
+        baseValue: 0
+        aptitudeValue: 0
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -31,8 +31,8 @@ MonoBehaviour:
         maxValue: 0
     - Key: 2
       Value:
-        baseValue: 8
-        aptitudeValue: 100
+        baseValue: 0
+        aptitudeValue: 0
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -40,8 +40,8 @@ MonoBehaviour:
         maxValue: 0
     - Key: 3
       Value:
-        baseValue: 14
-        aptitudeValue: 100
+        baseValue: 0
+        aptitudeValue: 0
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -49,8 +49,8 @@ MonoBehaviour:
         maxValue: 0
     - Key: 4
       Value:
-        baseValue: 14
-        aptitudeValue: 100
+        baseValue: 0
+        aptitudeValue: 0
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -58,8 +58,8 @@ MonoBehaviour:
         maxValue: 0
     - Key: 5
       Value:
-        baseValue: 10
-        aptitudeValue: 100
+        baseValue: 0
+        aptitudeValue: 0
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -67,8 +67,8 @@ MonoBehaviour:
         maxValue: 0
     - Key: 6
       Value:
-        baseValue: 10
-        aptitudeValue: 100
+        baseValue: 0
+        aptitudeValue: 0
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -76,8 +76,8 @@ MonoBehaviour:
         maxValue: 0
     - Key: 7
       Value:
-        baseValue: 10
-        aptitudeValue: 100
+        baseValue: 0
+        aptitudeValue: 0
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -85,8 +85,8 @@ MonoBehaviour:
         maxValue: 0
     - Key: 8
       Value:
-        baseValue: 13
-        aptitudeValue: 100
+        baseValue: 0
+        aptitudeValue: 0
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -94,8 +94,8 @@ MonoBehaviour:
         maxValue: 0
     - Key: 9
       Value:
-        baseValue: 15
-        aptitudeValue: 100
+        baseValue: 0
+        aptitudeValue: 0
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -592,9 +592,9 @@ MonoBehaviour:
         frameToInstance: 0
         instanceObj: {fileID: 0}
         instance: {fileID: 0}
-    - Key: Lift
+    - Key: FistAttack
       Value:
-        name: Lift
+        name: FistAttack
         linkAnimation: 
         spritesInfoDown:
         - characterSprite: {fileID: -345354437, guid: 28ba607fe7aaf0248a6d0c1da3c60b3d,
@@ -616,14 +616,14 @@ MonoBehaviour:
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
         animationsEffects:
           _serializedList: []
-        loop: 1
+        loop: 0
         needInstance: 0
         frameToInstance: 0
         instanceObj: {fileID: 0}
         instance: {fileID: 0}
-    - Key: Throw
+    - Key: 6
       Value:
-        name: Throw
+        name: 6
         linkAnimation: 
         spritesInfoDown:
         - characterSprite: {fileID: 442729953, guid: 28ba607fe7aaf0248a6d0c1da3c60b3d,
@@ -666,9 +666,9 @@ MonoBehaviour:
         frameToInstance: 0
         instanceObj: {fileID: 0}
         instance: {fileID: 0}
-    - Key: FistAttack
+    - Key: 7
       Value:
-        name: FistAttack
+        name: 7
         linkAnimation: 
         spritesInfoDown:
         - characterSprite: {fileID: -170647612, guid: 28ba607fe7aaf0248a6d0c1da3c60b3d,
@@ -756,12 +756,12 @@ MonoBehaviour:
           _serializedList: []
         loop: 0
         needInstance: 0
-        frameToInstance: 2
+        frameToInstance: 0
         instanceObj: {fileID: 0}
         instance: {fileID: 0}
-    - Key: SwordAttack
+    - Key: 8
       Value:
-        name: SwordAttack
+        name: 8
         linkAnimation: 
         spritesInfoDown:
         - characterSprite: {fileID: 67438614, guid: 28ba607fe7aaf0248a6d0c1da3c60b3d,
@@ -881,7 +881,7 @@ MonoBehaviour:
           _serializedList: []
         loop: 0
         needInstance: 0
-        frameToInstance: 3
+        frameToInstance: 0
         instanceObj: {fileID: 0}
         instance: {fileID: 0}
   generateAllAnimations:

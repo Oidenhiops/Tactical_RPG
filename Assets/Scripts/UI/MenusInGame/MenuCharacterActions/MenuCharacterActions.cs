@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -14,76 +12,83 @@ public class MenuCharacterActions : MonoBehaviour
     public SerializedDictionary<TypeButton, Button> buttons = new SerializedDictionary<TypeButton, Button>();
     List<TypeButton> buttonsExepts = new List<TypeButton>();
     public bool isMenuActive;
-    public async Task EnableMenu()
+    public async Awaitable EnableMenu()
     {
-        playerManager.actionsManager.DisableMobileInputs();
-        if (!playerManager.AnyMenuIsActive())
+        try
         {
-            _= playerManager.menuCharacterInfo.ReloadInfo(playerManager.aStarPathFinding.characterSelected);
-            buttonsExepts = new List<TypeButton>();
-            EventSystem.current.SetSelectedGameObject(null);
-            playerManager.aStarPathFinding.DisableGrid();
-            if (playerManager.aStarPathFinding.characterSelected.lastAction != ActionsManager.TypeAction.EndTurn)
+            playerManager.actionsManager.DisableMobileInputs();
+            if (!playerManager.AnyMenuIsActive())
             {
-                switch (playerManager.aStarPathFinding.characterSelected.lastAction)
+                _ = playerManager.menuCharacterInfo.ReloadInfo(playerManager.aStarPathFinding.characterSelected);
+                buttonsExepts = new List<TypeButton>();
+                EventSystem.current.SetSelectedGameObject(null);
+                playerManager.aStarPathFinding.DisableGrid();
+                if (playerManager.aStarPathFinding.characterSelected.lastAction != ActionsManager.TypeAction.EndTurn)
                 {
-                    case ActionsManager.TypeAction.Attack:
-                    case ActionsManager.TypeAction.Skill:
-                    case ActionsManager.TypeAction.Defend:
-                    case ActionsManager.TypeAction.Item:
-                        break;
-                    case ActionsManager.TypeAction.Lift:
-                        buttons[TypeButton.Lift].gameObject.SetActive(false);
-                        buttons[TypeButton.Throw].gameObject.SetActive(true);
-                        buttonsExepts.Add(TypeButton.Throw);
-                        break;
-                    default:
-                        for (int i = 1; i < Enum.GetValues(typeof(TypeButton)).Length; i++)
-                        {
-                            if ((TypeButton)i != TypeButton.Lift && (TypeButton)i != TypeButton.Attack && (TypeButton)i != TypeButton.Skill)
+                    switch (playerManager.aStarPathFinding.characterSelected.lastAction)
+                    {
+                        case ActionsManager.TypeAction.Attack:
+                        case ActionsManager.TypeAction.Skill:
+                        case ActionsManager.TypeAction.Defend:
+                        case ActionsManager.TypeAction.Item:
+                            break;
+                        case ActionsManager.TypeAction.Lift:
+                            buttons[TypeButton.Lift].gameObject.SetActive(false);
+                            buttons[TypeButton.Throw].gameObject.SetActive(true);
+                            buttonsExepts.Add(TypeButton.Throw);
+                            break;
+                        default:
+                            for (int i = 1; i < Enum.GetValues(typeof(TypeButton)).Length; i++)
                             {
-                                buttonsExepts.Add((TypeButton)i);
-                            }
-                            else if ((TypeButton)i == TypeButton.Attack)
-                            {
-                                if (playerManager.aStarPathFinding.GetPositionsToAttack(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions))
+                                if ((TypeButton)i != TypeButton.Lift && (TypeButton)i != TypeButton.Attack && (TypeButton)i != TypeButton.Skill)
                                 {
-                                    buttonsExepts.Add(TypeButton.Attack);
-                                    SendCharactersToAttack(positions);
+                                    buttonsExepts.Add((TypeButton)i);
+                                }
+                                else if ((TypeButton)i == TypeButton.Attack)
+                                {
+                                    if (playerManager.aStarPathFinding.GetPositionsToAttack(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions))
+                                    {
+                                        buttonsExepts.Add(TypeButton.Attack);
+                                        SendCharactersToAttack(positions);
+                                    }
+                                }
+                                else if ((TypeButton)i == TypeButton.Skill)
+                                {
+                                    if (playerManager.aStarPathFinding.characterSelected.characterData.skills.Count > 0)
+                                    {
+                                        buttons[TypeButton.Skill].interactable = true;
+                                        buttonsExepts.Add(TypeButton.Skill);
+                                    }
+                                    else
+                                    {
+                                        buttons[TypeButton.Skill].interactable = false;
+                                    }
+                                }
+                                else if ((TypeButton)i == TypeButton.Lift)
+                                {
+                                    buttons[TypeButton.Lift].gameObject.SetActive(true);
+                                    buttons[TypeButton.Throw].gameObject.SetActive(false);
+                                    if (playerManager.aStarPathFinding.GetPositionsToLift(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions))
+                                    {
+                                        buttonsExepts.Add(TypeButton.Lift);
+                                        SendCharactersToLift(positions);
+                                    }
                                 }
                             }
-                            else if ((TypeButton)i == TypeButton.Skill)
-                            {
-                                if (playerManager.aStarPathFinding.characterSelected.characterData.skills.Count > 0)
-                                {
-                                    buttons[TypeButton.Skill].interactable = true;
-                                    buttonsExepts.Add(TypeButton.Skill);
-                                }
-                                else
-                                {
-                                    buttons[TypeButton.Skill].interactable = false;
-                                }
-                            }
-                            else if ((TypeButton)i == TypeButton.Lift)
-                            {
-                                buttons[TypeButton.Lift].gameObject.SetActive(true);
-                                buttons[TypeButton.Throw].gameObject.SetActive(false);
-                                if (playerManager.aStarPathFinding.GetPositionsToLift(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions))
-                                {
-                                    buttonsExepts.Add(TypeButton.Lift);
-                                    SendCharactersToLift(positions);
-                                }
-                            }
-                        }
-                        break;
+                            break;
+                    }
                 }
+                DisableButtonsExept();
+                EventSystem.current.SetSelectedGameObject(null);
+                EventSystem.current.SetSelectedGameObject(GetFirtsButtonActive());
+                menuCharacterActions.SetActive(true);
+                await Awaitable.NextFrameAsync();
+                isMenuActive = true;
             }
-            DisableButtonsExept();
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(GetFirtsButtonActive());
-            menuCharacterActions.SetActive(true);
-            await Awaitable.NextFrameAsync();
-            isMenuActive = true;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
         }
     }
     public void SendCharactersToLift(SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> data)
@@ -119,19 +124,26 @@ public class MenuCharacterActions : MonoBehaviour
         _= playerManager.menuCharacterInfo.ReloadInfo(playerManager.aStarPathFinding.characterSelected);
         isMenuActive = true;
     }
-    public async Task DisableMenu(bool conservSelectedCharacter = false, bool conservCharacterInfo = false)
+    public async Awaitable DisableMenu(bool conservSelectedCharacter = false, bool conservCharacterInfo = false)
     {
-        await Awaitable.NextFrameAsync();
-        menuCharacterActions.SetActive(false);
-        playerManager.menuAttackCharacter.positionsToAttack = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
-        playerManager.menuAttackCharacter.characters = new CharacterBase[0];
-        if (!conservSelectedCharacter) playerManager.aStarPathFinding.characterSelected = null;
-        if (!conservCharacterInfo)
+        try
         {
-            playerManager.actionsManager.EnableMobileInputs();
-            playerManager.menuCharacterInfo.menuCharacterInfo.SetActive(false);
+            await Awaitable.NextFrameAsync();
+            menuCharacterActions.SetActive(false);
+            playerManager.menuAttackCharacter.positionsToAttack = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
+            playerManager.menuAttackCharacter.characters = new CharacterBase[0];
+            if (!conservSelectedCharacter) playerManager.aStarPathFinding.characterSelected = null;
+            if (!conservCharacterInfo)
+            {
+                playerManager.actionsManager.EnableMobileInputs();
+                playerManager.menuCharacterInfo.menuCharacterInfo.SetActive(false);
+            }
+            isMenuActive = false;
         }
-        isMenuActive = false;
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
     public GameObject GetFirtsButtonActive()
     {

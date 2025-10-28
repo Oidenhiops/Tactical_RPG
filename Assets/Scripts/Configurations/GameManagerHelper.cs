@@ -92,9 +92,9 @@ public class GameManagerHelper : MonoBehaviour
         {
             _unloadAnimator.SetBool("exit", true);
             await Task.Delay(TimeSpan.FromSeconds(0.25f));
-            while (GameManager.Instance.openCloseScene.openCloseSceneAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+            while (ManagementOpenCloseScene.Instance.openCloseSceneAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
             {
-                await Task.Delay(TimeSpan.FromSeconds(0.05));
+                await Awaitable.NextFrameAsync();
             }
             Scene scene = SceneManager.GetSceneByName("HomeScene");
             if (sceneForUnload == "OptionsScene")
@@ -114,7 +114,6 @@ public class GameManagerHelper : MonoBehaviour
         catch (Exception e)
         {
             Debug.LogError(e);
-            await Task.Delay(TimeSpan.FromSeconds(0.05f));
         }
     }
 }

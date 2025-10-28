@@ -86,7 +86,6 @@ public class AudioManager : MonoBehaviour
         catch (Exception e)
         {
             Debug.LogError(e);
-            await Awaitable.NextFrameAsync();
         }
     }
     public async Awaitable FadeOut()
@@ -119,7 +118,6 @@ public class AudioManager : MonoBehaviour
         catch (Exception e)
         {
             Debug.LogError(e);
-            await Awaitable.NextFrameAsync();
         }
     }
     public AudioClip GetAudioClip(SoundsDBSO.TypeSound typeSound, string soundId)

@@ -1,5 +1,5 @@
 using Febucci.UI;
-using System.Threading.Tasks;
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -13,22 +13,29 @@ public class FloatingText : MonoBehaviour
         Material clonedMaterial = Instantiate(label.fontMaterial);
         label.fontMaterial = clonedMaterial;
     }
-    public async Task SendText(string value, Color color, bool isCritic)
+    public async Awaitable SendText(string value, Color color, bool isCritic)
     {
-        await Awaitable.WaitForSecondsAsync(0.1f);
-        label.text = value;
-        label.color = color;
-        if (isCritic)
+        try
         {
-            label.fontMaterial.SetColor("_FaceColor", color * 2);
-            label.fontMaterial.EnableKeyword("_EMISSION");
-            label.fontMaterial.SetColor("_EmissionColor", color * 2);
-            label.fontStyle = FontStyles.Bold;
+            await Awaitable.WaitForSecondsAsync(0.1f);
+            label.text = value;
+            label.color = color;
+            if (isCritic)
+            {
+                label.fontMaterial.SetColor("_FaceColor", color * 2);
+                label.fontMaterial.EnableKeyword("_EMISSION");
+                label.fontMaterial.SetColor("_EmissionColor", color * 2);
+                label.fontStyle = FontStyles.Bold;
+            }
+            typewriterByCharacter.StartShowingText();
+            await Awaitable.WaitForSecondsAsync(1);
+            typewriterByCharacter.StartDisappearingText();
+            await Awaitable.WaitForSecondsAsync(1);
+            Destroy(gameObject);
         }
-        typewriterByCharacter.StartShowingText();
-        await Awaitable.WaitForSecondsAsync(1);
-        typewriterByCharacter.StartDisappearingText();
-        await Awaitable.WaitForSecondsAsync(1);
-        Destroy(gameObject);
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
 }

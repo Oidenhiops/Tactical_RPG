@@ -1,7 +1,6 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -18,40 +17,54 @@ public class MenuItemsCharacter : MonoBehaviour
     public SerializedDictionary<int, BannerItemsCharacter> gearBanners = new SerializedDictionary<int, BannerItemsCharacter>();
     public SerializedDictionary<int, BannerItemsCharacter> bagBanners = new SerializedDictionary<int, BannerItemsCharacter>();
     public BannerItemsCharacter currentBagItem;
-    public async Task ReloadGearBanners()
+    public async Awaitable ReloadGearBanners()
     {
-        var character = playerManager.aStarPathFinding.characterSelected;
-        foreach (KeyValuePair<CharacterData.CharacterItemInfo, CharacterData.CharacterItem> item in character.characterData.items)
+        try
         {
-            if (item.Value.itemBaseSO)
+            var character = playerManager.aStarPathFinding.characterSelected;
+            foreach (KeyValuePair<CharacterData.CharacterItemInfo, CharacterData.CharacterItem> item in character.characterData.items)
             {
-                gearBanners[item.Key.index].SetBannerData(character.characterData.items[item.Key]);
-                gearBanners[item.Key.index].EnableBanner();
+                if (item.Value.itemBaseSO)
+                {
+                    gearBanners[item.Key.index].SetBannerData(character.characterData.items[item.Key]);
+                    gearBanners[item.Key.index].EnableBanner();
+                }
+                else
+                {
+                    gearBanners[item.Key.index].item = new CharacterData.CharacterItem();
+                    gearBanners[item.Key.index].DisableBanner();
+                }
             }
-            else
-            {
-                gearBanners[item.Key.index].item = new CharacterData.CharacterItem();
-                gearBanners[item.Key.index].DisableBanner();
-            }
+            await Awaitable.NextFrameAsync();
         }
-        await Awaitable.NextFrameAsync();
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
-    public async Task ReloadBagBanners()
+    public async Awaitable ReloadBagBanners()
     {
-        for (int i = 0; i < bagBanners.Count; i++)
+        try
         {
-            if (GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].bagItems[i].itemBaseSO)
+            for (int i = 0; i < bagBanners.Count; i++)
             {
-                bagBanners[i].SetBannerData(GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].bagItems[i]);
-                bagBanners[i].EnableBanner();
+                if (GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].bagItems[i].itemBaseSO)
+                {
+                    bagBanners[i].SetBannerData(GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].bagItems[i]);
+                    bagBanners[i].EnableBanner();
+                }
+                else
+                {
+                    bagBanners[i].item = new CharacterData.CharacterItem();
+                    bagBanners[i].DisableBanner();
+                }
             }
-            else
-            {
-                bagBanners[i].item = new CharacterData.CharacterItem();
-                bagBanners[i].DisableBanner();
-            }
+            await Awaitable.NextFrameAsync();
         }
-        await Awaitable.NextFrameAsync();
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
     public void OnItemBagSelect(BannerItemsCharacter bagItem)
     {
@@ -171,41 +184,62 @@ public class MenuItemsCharacter : MonoBehaviour
             bagBanners.ElementAt(bagIndex).Value.onObjectSelect.ScrollTo(bagIndex);
         }
     }
-    public async Task ReloadItems()
+    public async Awaitable ReloadItems()
     {
-        await Awaitable.NextFrameAsync();
-        await ReloadGearBanners();
-        await ReloadBagBanners();
-        _= playerManager.menuCharacterInfo.ReloadInfo(playerManager.aStarPathFinding.characterSelected, true);
-    }
-    public async Task EnableMenu()
-    {
-        await ReloadGearBanners();
-        await ReloadBagBanners();
-        bagIndex = 0;
-        if (bagBanners.Count > 0)
+        try
         {
-            if (bagIndex > bagBanners.Count - 1)
-            {
-                bagIndex--;
-            }
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(bagBanners.ElementAt(bagIndex).Value.gameObject);
-            bagBanners.ElementAt(bagIndex).Value.onObjectSelect.ScrollTo(bagIndex);
             await Awaitable.NextFrameAsync();
-            _= playerManager.menuCharacterInfo.ReloadInfo(playerManager.aStarPathFinding.characterSelected, true);
-            playerManager.menuCharacterInfo.menuCharacterInfo.SetActive(true);
+            await ReloadGearBanners();
+            await ReloadBagBanners();
+            _ = playerManager.menuCharacterInfo.ReloadInfo(playerManager.aStarPathFinding.characterSelected, true);
         }
-        playerManager.menuCharacterActions.menuCharacterActions.SetActive(false);
-        menuItemCharacters.SetActive(true);
-        TogglePanels(false);
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
-    public async Task DisableMenu()
+    public async Awaitable EnableMenu()
     {
-        await Awaitable.NextFrameAsync();
-        menuItemCharacters.SetActive(false);
-        gearIndex = 0;
-        bagIndex = 0;
-        playerManager.menuCharacterActions.BackToMenuWhitButton(MenuCharacterActions.TypeButton.Item);
+        try
+        {
+            await ReloadGearBanners();
+            await ReloadBagBanners();
+            bagIndex = 0;
+            if (bagBanners.Count > 0)
+            {
+                if (bagIndex > bagBanners.Count - 1)
+                {
+                    bagIndex--;
+                }
+                EventSystem.current.SetSelectedGameObject(null);
+                EventSystem.current.SetSelectedGameObject(bagBanners.ElementAt(bagIndex).Value.gameObject);
+                bagBanners.ElementAt(bagIndex).Value.onObjectSelect.ScrollTo(bagIndex);
+                await Awaitable.NextFrameAsync();
+                _ = playerManager.menuCharacterInfo.ReloadInfo(playerManager.aStarPathFinding.characterSelected, true);
+                playerManager.menuCharacterInfo.menuCharacterInfo.SetActive(true);
+            }
+            playerManager.menuCharacterActions.menuCharacterActions.SetActive(false);
+            menuItemCharacters.SetActive(true);
+            TogglePanels(false);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
+    }
+    public async Awaitable DisableMenu()
+    {
+        try
+        {
+            await Awaitable.NextFrameAsync();
+            menuItemCharacters.SetActive(false);
+            gearIndex = 0;
+            bagIndex = 0;
+            playerManager.menuCharacterActions.BackToMenuWhitButton(MenuCharacterActions.TypeButton.Item);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
 }

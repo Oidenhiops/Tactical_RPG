@@ -39,7 +39,6 @@ public class DropdownSelected : MonoBehaviour, ISubmitHandler, IPointerDownHandl
         catch (Exception e)
         {
             Debug.LogError(e);
-            await Awaitable.NextFrameAsync();
         }
     }
     public void OnSubmit(BaseEventData eventData)

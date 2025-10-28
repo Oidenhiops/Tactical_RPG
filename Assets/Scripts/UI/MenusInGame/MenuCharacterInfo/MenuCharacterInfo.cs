@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using AYellowpaper.SerializedCollections;
 using TMPro;
 using UnityEngine;
@@ -47,98 +46,84 @@ public class MenuCharacterInfo : MonoBehaviour
         changeSubMenuInput.started -= OnHandleChangeSubMenu;
         changeSkillInput.started -= OnHandleChangeSkill;
     }
-    public async Task ReloadInfo(CharacterBase character, bool disableItemsContainer = false)
+    public async Awaitable ReloadInfo(CharacterBase character, bool disableItemsContainer = false)
     {
-        characterSprite.sprite = character.initialDataSO.icon;
-        characterName.text = character.characterData.name;
-        characterLevel.text = character.characterData.level.ToString();
-        characterMovementMaxHeight.text = character.characterData.GetMovementMaxHeight().ToString();
-        characterMovementRadius.text = character.characterData.GetMovementRadius().ToString();
-        foreach (KeyValuePair<CharacterData.TypeStatistic, UiInfo> statisticsUi in uiInfo)
+        try
         {
-            if (statisticsUi.Key != CharacterData.TypeStatistic.None)
+            characterSprite.sprite = character.initialDataSO.icon;
+            characterName.text = character.characterData.name;
+            characterLevel.text = character.characterData.level.ToString();
+            characterMovementMaxHeight.text = character.characterData.GetMovementMaxHeight().ToString();
+            characterMovementRadius.text = character.characterData.GetMovementRadius().ToString();
+            foreach (KeyValuePair<CharacterData.TypeStatistic, UiInfo> statisticsUi in uiInfo)
             {
-                statisticsUi.Value.characterStatistic.text = character.characterData.statistics[statisticsUi.Key].currentValue.ToString();
-            }
-            else
-            {
-                statisticsUi.Value.characterStatistic.text = (character.characterData.statistics[CharacterData.TypeStatistic.Exp].maxValue - character.characterData.statistics[CharacterData.TypeStatistic.Exp].currentValue).ToString();
-            }
-        }
-
-        foreach (Transform child in statusEffectsContainer.transform)
-        {
-            Destroy(child.gameObject);
-        }
-        foreach (KeyValuePair<StatusEffectBaseSO, int> statusEffect in character.characterStatusEffect.statusEffects)
-        {
-            StatusEffectBanner banner = Instantiate(statusEffectBanner, statusEffectsContainer.transform).GetComponent<StatusEffectBanner>();
-            banner.SetData(statusEffect.Key, statusEffect.Value);
-        }
-
-        if (!disableItemsContainer)
-        {
-            itemsButton.interactable = true;
-            itemsButton.gameObject.SetActive(true);
-            foreach (KeyValuePair<CharacterData.CharacterItemInfo, CharacterData.CharacterItem> item in character.characterData.items)
-            {
-                if (item.Value.itemBaseSO)
+                if (statisticsUi.Key != CharacterData.TypeStatistic.None)
                 {
-                    itemsInfo[item.Key.index].disableBanner.SetActive(false);
-                    itemsInfo[item.Key.index].enabledBanner.SetActive(true);
-                    itemsInfo[item.Key.index].managementLanguage.id = item.Value.itemBaseSO.idText;
-                    itemsInfo[item.Key.index].managementLanguage.RefreshDialog();
-                    itemsInfo[item.Key.index].itemSprite.sprite = item.Value.itemBaseSO.icon;
+                    statisticsUi.Value.characterStatistic.text = character.characterData.statistics[statisticsUi.Key].currentValue.ToString();
                 }
                 else
                 {
-                    itemsInfo[item.Key.index].disableBanner.SetActive(true);
-                    itemsInfo[item.Key.index].enabledBanner.SetActive(false);
+                    statisticsUi.Value.characterStatistic.text = (character.characterData.statistics[CharacterData.TypeStatistic.Exp].maxValue - character.characterData.statistics[CharacterData.TypeStatistic.Exp].currentValue).ToString();
                 }
             }
-        }
-        else
-        {
-            itemsButton.interactable = false;
-            itemsButton.gameObject.SetActive(false);
-        }
 
-        foreach (KeyValuePair<CharacterData.TypeStatistic, TMP_Text> aptitude in aptitudes)
-        {
-            aptitude.Value.text = character.characterData.statistics[aptitude.Key].aptitudeValue + "%";
-        }
-        foreach (KeyValuePair<CharacterData.TypeMastery, MasteryInfo> mastery in masteries)
-        {
-            mastery.Value.masteryRange.text = character.characterData.mastery[mastery.Key].masteryRange.ToString();
-            mastery.Value.masteryLevel.text = character.characterData.mastery[mastery.Key].masteryLevel.ToString();
-            mastery.Value.masteryLevelFill.fillAmount = character.characterData.mastery[mastery.Key].currentExp / (float)character.characterData.mastery[mastery.Key].maxExp;
-        }
-
-        skillBannerIndex = 0;
-        foreach (Transform child in skillsContainer.transform)
-        {
-            Destroy(child.gameObject);
-        }
-        if (character.characterData.skills.Count > 0)
-        {
-            skillDescription.transform.parent.gameObject.SetActive(true);
-            foreach (KeyValuePair<SkillsBaseSO.TypeSkill, UnityEngine.Rendering.SerializedDictionary<string, CharacterData.CharacterSkillInfo>> typeSkill in character.characterData.skills[ItemBaseSO.TypeWeapon.None])
+            foreach (Transform child in statusEffectsContainer.transform)
             {
-                foreach (KeyValuePair<string, CharacterData.CharacterSkillInfo> skill in typeSkill.Value)
+                Destroy(child.gameObject);
+            }
+            foreach (KeyValuePair<StatusEffectBaseSO, int> statusEffect in character.characterStatusEffect.statusEffects)
+            {
+                StatusEffectBanner banner = Instantiate(statusEffectBanner, statusEffectsContainer.transform).GetComponent<StatusEffectBanner>();
+                banner.SetData(statusEffect.Key, statusEffect.Value);
+            }
+
+            if (!disableItemsContainer)
+            {
+                itemsButton.interactable = true;
+                itemsButton.gameObject.SetActive(true);
+                foreach (KeyValuePair<CharacterData.CharacterItemInfo, CharacterData.CharacterItem> item in character.characterData.items)
                 {
-                    SkillBannerCharacterInfo banner = Instantiate(skillBanner, skillsContainer.transform).GetComponent<SkillBannerCharacterInfo>();
-                    banner.onObjectSelect.container = skillsContainer;
-                    banner.onObjectSelect.viewport = skillsViewport;
-                    banner.onObjectSelect.scrollRect = skillsScrollRect;
-                    banner.menuCharacterInfo = this;
-                    banner.SetBannerData(skill.Value);
+                    if (item.Value.itemBaseSO)
+                    {
+                        itemsInfo[item.Key.index].disableBanner.SetActive(false);
+                        itemsInfo[item.Key.index].enabledBanner.SetActive(true);
+                        itemsInfo[item.Key.index].managementLanguage.id = item.Value.itemBaseSO.idText;
+                        itemsInfo[item.Key.index].managementLanguage.RefreshDialog();
+                        itemsInfo[item.Key.index].itemSprite.sprite = item.Value.itemBaseSO.icon;
+                    }
+                    else
+                    {
+                        itemsInfo[item.Key.index].disableBanner.SetActive(true);
+                        itemsInfo[item.Key.index].enabledBanner.SetActive(false);
+                    }
                 }
             }
-            character.characterData.GetCurrentWeapon(out CharacterData.CharacterItem weapon);
-
-            if (weapon != null && character.characterData.skills.ContainsKey(weapon.itemBaseSO.typeWeapon))
+            else
             {
-                foreach (KeyValuePair<SkillsBaseSO.TypeSkill, UnityEngine.Rendering.SerializedDictionary<string, CharacterData.CharacterSkillInfo>> typeSkill in character.characterData.skills[weapon.itemBaseSO.typeWeapon])
+                itemsButton.interactable = false;
+                itemsButton.gameObject.SetActive(false);
+            }
+
+            foreach (KeyValuePair<CharacterData.TypeStatistic, TMP_Text> aptitude in aptitudes)
+            {
+                aptitude.Value.text = character.characterData.statistics[aptitude.Key].aptitudeValue + "%";
+            }
+            foreach (KeyValuePair<CharacterData.TypeMastery, MasteryInfo> mastery in masteries)
+            {
+                mastery.Value.masteryRange.text = character.characterData.mastery[mastery.Key].masteryRange.ToString();
+                mastery.Value.masteryLevel.text = character.characterData.mastery[mastery.Key].masteryLevel.ToString();
+                mastery.Value.masteryLevelFill.fillAmount = character.characterData.mastery[mastery.Key].currentExp / (float)character.characterData.mastery[mastery.Key].maxExp;
+            }
+
+            skillBannerIndex = 0;
+            foreach (Transform child in skillsContainer.transform)
+            {
+                Destroy(child.gameObject);
+            }
+            if (character.characterData.skills.Count > 0)
+            {
+                skillDescription.transform.parent.gameObject.SetActive(true);
+                foreach (KeyValuePair<SkillsBaseSO.TypeSkill, UnityEngine.Rendering.SerializedDictionary<string, CharacterData.CharacterSkillInfo>> typeSkill in character.characterData.skills[ItemBaseSO.TypeWeapon.None])
                 {
                     foreach (KeyValuePair<string, CharacterData.CharacterSkillInfo> skill in typeSkill.Value)
                     {
@@ -150,29 +135,50 @@ public class MenuCharacterInfo : MonoBehaviour
                         banner.SetBannerData(skill.Value);
                     }
                 }
+                character.characterData.GetCurrentWeapon(out CharacterData.CharacterItem weapon);
+
+                if (weapon != null && character.characterData.skills.ContainsKey(weapon.itemBaseSO.typeWeapon))
+                {
+                    foreach (KeyValuePair<SkillsBaseSO.TypeSkill, UnityEngine.Rendering.SerializedDictionary<string, CharacterData.CharacterSkillInfo>> typeSkill in character.characterData.skills[weapon.itemBaseSO.typeWeapon])
+                    {
+                        foreach (KeyValuePair<string, CharacterData.CharacterSkillInfo> skill in typeSkill.Value)
+                        {
+                            SkillBannerCharacterInfo banner = Instantiate(skillBanner, skillsContainer.transform).GetComponent<SkillBannerCharacterInfo>();
+                            banner.onObjectSelect.container = skillsContainer;
+                            banner.onObjectSelect.viewport = skillsViewport;
+                            banner.onObjectSelect.scrollRect = skillsScrollRect;
+                            banner.menuCharacterInfo = this;
+                            banner.SetBannerData(skill.Value);
+                        }
+                    }
+                }
+                skillDescription.id = skillsContainer.GetChild(skillBannerIndex).GetComponent<SkillBannerCharacterInfo>().skill.skillsBaseSO.skillIdText;
+                skillDescription.otherInfo = skillsContainer.GetChild(skillBannerIndex).GetComponent<SkillBannerCharacterInfo>().skill.skillsBaseSO.GetSkillDescription(skillsContainer.GetChild(0).GetComponent<SkillBannerCharacterInfo>().skill.statistics);
+                skillDescription.RefreshDescription();
+                await Awaitable.NextFrameAsync();
+                skillsContainer.GetChild(skillBannerIndex).GetComponent<SkillBannerCharacterInfo>().OnSelectBanner();
             }
-            skillDescription.id = skillsContainer.GetChild(skillBannerIndex).GetComponent<SkillBannerCharacterInfo>().skill.skillsBaseSO.skillIdText;
-            skillDescription.otherInfo = skillsContainer.GetChild(skillBannerIndex).GetComponent<SkillBannerCharacterInfo>().skill.skillsBaseSO.GetSkillDescription(skillsContainer.GetChild(0).GetComponent<SkillBannerCharacterInfo>().skill.statistics);
-            skillDescription.RefreshDescription();
-            await Awaitable.NextFrameAsync();
-            skillsContainer.GetChild(skillBannerIndex).GetComponent<SkillBannerCharacterInfo>().OnSelectBanner();
-        }
-        else
-        {
-            skillDescription.transform.parent.gameObject.SetActive(false);
-        }
+            else
+            {
+                skillDescription.transform.parent.gameObject.SetActive(false);
+            }
 
-        if (disableItemsContainer && subMenuIndex == 2)
-        {
-            EnableSubMenu(1);
-        }
-        else
-        {
-            EnableSubMenu(subMenuIndex);
-        }
+            if (disableItemsContainer && subMenuIndex == 2)
+            {
+                EnableSubMenu(1);
+            }
+            else
+            {
+                EnableSubMenu(subMenuIndex);
+            }
 
-        menuCharacterInfo.SetActive(true);
-        isMenuActive = true;
+            menuCharacterInfo.SetActive(true);
+            isMenuActive = true;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
     public void ChangeSubMenu()
     {

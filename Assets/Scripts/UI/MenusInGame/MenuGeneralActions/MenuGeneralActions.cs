@@ -1,8 +1,6 @@
 using System;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class MenuGeneralActions : MonoBehaviour
@@ -12,27 +10,41 @@ public class MenuGeneralActions : MonoBehaviour
     public Button executeButton;
     public GameObject charactersButton;
     public GameObject endTurnButton;
-    public async Task EnableMenu()
+    public async Awaitable EnableMenu()
     {
-        await Awaitable.NextFrameAsync();        
-        playerManager.actionsManager.DisableMobileInputs();
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(GetSelectedButton());
-        playerManager.aStarPathFinding.DisableGrid();
-        menuGeneralActions.SetActive(true);
+        try
+        {
+            await Awaitable.NextFrameAsync();
+            playerManager.actionsManager.DisableMobileInputs();
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(GetSelectedButton());
+            playerManager.aStarPathFinding.DisableGrid();
+            menuGeneralActions.SetActive(true);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
     public void BackToMenuWhitButton(GameObject button)
     {
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(button);
     }
-    public async Task DisableMenu()
+    public async Awaitable DisableMenu()
     {
-        await Awaitable.NextFrameAsync();
-        playerManager.actionsManager.EnableMobileInputs();
-        if (playerManager.aStarPathFinding.characterSelected && playerManager.aStarPathFinding.LastCharacterActionPermitActions()) playerManager.aStarPathFinding.EnableGrid(playerManager.aStarPathFinding.GetWalkableTiles(playerManager.aStarPathFinding.characterSelected), Color.magenta);
-        executeButton.interactable = false;
-        menuGeneralActions.SetActive(false);
+        try
+        {
+            await Awaitable.NextFrameAsync();
+            playerManager.actionsManager.EnableMobileInputs();
+            if (playerManager.aStarPathFinding.characterSelected && playerManager.aStarPathFinding.LastCharacterActionPermitActions()) playerManager.aStarPathFinding.EnableGrid(playerManager.aStarPathFinding.GetWalkableTiles(playerManager.aStarPathFinding.characterSelected), Color.magenta);
+            executeButton.interactable = false;
+            menuGeneralActions.SetActive(false);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
     public GameObject GetSelectedButton()
     {
@@ -49,18 +61,25 @@ public class MenuGeneralActions : MonoBehaviour
     {
         if (!GameManager.Instance.isPause) _ = ExecuteAction();
     }
-    public async Task ExecuteAction()
+    public async Awaitable ExecuteAction()
     {
-        await Awaitable.NextFrameAsync();
-        menuGeneralActions.SetActive(false);
-        BattlePlayerManager.Instance.canShowGridAndDecal = false;
-        BattlePlayerManager.Instance.characterPlayerMakingActions = true;
-        BattlePlayerManager.Instance.DisableVisuals();
-        await BattlePlayerManager.Instance.actionsManager.MakeActions();
-        BattlePlayerManager.Instance.canShowGridAndDecal = true;
-        BattlePlayerManager.Instance.characterPlayerMakingActions = false;
-        _= EnableMenu();
-        BattlePlayerManager.Instance.mouseDecal.decal.gameObject.SetActive(true);
+        try
+        {
+            await Awaitable.NextFrameAsync();
+            menuGeneralActions.SetActive(false);
+            BattlePlayerManager.Instance.canShowGridAndDecal = false;
+            BattlePlayerManager.Instance.characterPlayerMakingActions = true;
+            BattlePlayerManager.Instance.DisableVisuals();
+            await BattlePlayerManager.Instance.actionsManager.MakeActions();
+            BattlePlayerManager.Instance.canShowGridAndDecal = true;
+            BattlePlayerManager.Instance.characterPlayerMakingActions = false;
+            _ = EnableMenu();
+            BattlePlayerManager.Instance.mouseDecal.decal.gameObject.SetActive(true);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
     public void EndTurnButton()
     {
