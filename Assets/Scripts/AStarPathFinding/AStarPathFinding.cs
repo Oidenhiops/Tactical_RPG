@@ -290,46 +290,6 @@ public class AStarPathFinding : MonoBehaviour
     {
         return characterSelected.lastAction == ActionsManager.TypeAction.EndTurn && characterSelected.canMoveAfterFinishTurn;
     }
-    public SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> GetWalkableTiles(CharacterBase characterSelected)
-    {
-        SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positionsToValidate = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
-        SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> availablePositions = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
-        Vector2Int startPos = new Vector2Int(characterSelected.startPositionInGrid.x, characterSelected.startPositionInGrid.z);
-        Vector2Int checkPos = new Vector2Int();
-        Vector3Int checkPos3D = new Vector3Int();
-        int radius = characterSelected.characterData.GetMovementRadius();
-        for (int x = -radius; x <= radius; x++)
-        {
-            for (int z = -radius; z <= radius; z++)
-            {
-                checkPos.x = startPos.x + x;
-                checkPos.y = startPos.y + z;
-                checkPos3D.x = checkPos.x;
-                checkPos3D.z = checkPos.y;
-                if (Vector2Int.Distance(startPos, checkPos) <= radius &&
-                    GetHighestBlockAt(checkPos.x, checkPos.y, out GenerateMap.WalkablePositionInfo block) &&
-                    block.pos.y <= characterSelected.positionInGrid.y + characterSelected.characterData.GetMovementMaxHeight())
-                {
-                    if (block.isWalkable && !block.hasCharacter ||
-                        block.isWalkable && block.hasCharacter && block.hasCharacter.isCharacterPlayer && characterSelected.isCharacterPlayer ||
-                        block.isWalkable && block.hasCharacter && !block.hasCharacter.isCharacterPlayer && !characterSelected.isCharacterPlayer)
-                    {
-                        positionsToValidate.Add(block.pos, block);
-                    }
-                }
-            }
-        }
-
-        foreach (KeyValuePair<Vector3Int, GenerateMap.WalkablePositionInfo> kvp in positionsToValidate)
-        {
-            if (PathExistsWithinRadius(characterSelected.positionInGrid, kvp.Key, positionsToValidate))
-            {
-                availablePositions.Add(kvp.Key, kvp.Value);
-            }
-        }
-
-        return availablePositions;
-    }
     public bool GetHighestBlockAt(Vector3Int pos, out GenerateMap.WalkablePositionInfo block)
     {
         Vector3Int posToValidate = new Vector3Int();
@@ -364,6 +324,46 @@ public class AStarPathFinding : MonoBehaviour
         block = null;
         return false;
     }
+    public SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> GetWalkableTiles(CharacterBase characterSelected)
+    {
+        SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positionsToValidate = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
+        SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> availablePositions = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
+        Vector2Int startPos = new Vector2Int(characterSelected.startPositionInGrid.x, characterSelected.startPositionInGrid.z);
+        Vector2Int checkPos = new Vector2Int();
+        Vector3Int checkPos3D = new Vector3Int();
+        int radius = characterSelected.characterData.GetMovementRadius();
+        for (int x = -radius; x <= radius; x++)
+        {
+            for (int z = -radius; z <= radius; z++)
+            {
+                checkPos.x = startPos.x + x;
+                checkPos.y = startPos.y + z;
+                checkPos3D.x = checkPos.x;
+                checkPos3D.z = checkPos.y;
+                if (Vector2Int.Distance(startPos, checkPos) <= radius &&
+                    GetHighestBlockAt(checkPos.x, checkPos.y, out GenerateMap.WalkablePositionInfo block) &&
+                    block.pos.y <= characterSelected.positionInGrid.y + characterSelected.characterData.GetMovementMaxHeight())
+                {
+                    if (block.isWalkable && !block.hasCharacter ||
+                        block.isWalkable && block.hasCharacter && block.hasCharacter.isCharacterPlayer && characterSelected.isCharacterPlayer ||
+                        block.isWalkable && block.hasCharacter && !block.hasCharacter.isCharacterPlayer && !characterSelected.isCharacterPlayer)
+                    {
+                        positionsToValidate.Add(block.pos, block);
+                    }
+                }
+            }
+        }
+
+        foreach (KeyValuePair<Vector3Int, GenerateMap.WalkablePositionInfo> kvp in positionsToValidate)
+        {
+            if (PathExists(characterSelected.positionInGrid, kvp.Key, positionsToValidate))
+            {
+                availablePositions.Add(kvp.Key, kvp.Value);
+            }
+        }
+
+        return availablePositions;
+    }
     public SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> GetTilesToThrow()
     {
         SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> availablePositions = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
@@ -396,7 +396,7 @@ public class AStarPathFinding : MonoBehaviour
         }
         return availablePositions;
     }
-    public bool GetPositionsToLift(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions)
+    public bool GetTilesToLift(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions)
     {
         positions = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
         Vector3Int[] directions = new Vector3Int[]
@@ -416,7 +416,7 @@ public class AStarPathFinding : MonoBehaviour
         }
         return positions.Count > 0;
     }
-    public bool GetPositionsToAttack(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions)
+    public bool GetTilesToAttack(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions)
     {
         positions = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
         Vector3Int[] directions;
@@ -447,16 +447,16 @@ public class AStarPathFinding : MonoBehaviour
         }
         return positions.Count > 0;
     }
-    public bool GetPositionsToUseSkill(SkillsBaseSO skill, out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions)
+    public bool GetTilesToUseSkill(CharacterData.CharacterSkillInfo skill, out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions)
     {
         positions = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
-        if (skill.isFreeMovementSkill)
+        if (skill.skillsBaseSO.isFreeMovementSkill)
         {
-            if (!skill.usePositionsToMakeSkill)
+            if (!skill.skillsBaseSO.usePositionsToMakeSkill)
             {
-                Vector2Int startPos = new Vector2Int(characterSelected.startPositionInGrid.x, characterSelected.startPositionInGrid.z);
+                Vector2Int startPos = new Vector2Int(characterSelected.positionInGrid.x, characterSelected.positionInGrid.z);
                 Vector2Int checkPos = new Vector2Int();
-                int radius = characterSelected.characterData.GetMovementRadius();
+                int radius = skill.statistics[CharacterData.TypeStatistic.Mvtr].baseValue;
                 for (int x = -radius; x <= radius; x++)
                 {
                     for (int z = -radius; z <= radius; z++)
@@ -478,7 +478,7 @@ public class AStarPathFinding : MonoBehaviour
             }
             else
             {
-                Vector3Int[] directions = skill.positionsToMakeSkill;
+                Vector3Int[] directions = skill.skillsBaseSO.positionsToMakeSkill;
                 if (directions.Length > 0)
                 {
                     foreach (var directionFounded in directions)
@@ -494,7 +494,7 @@ public class AStarPathFinding : MonoBehaviour
         }
         else
         {
-            Vector3Int[] directions = skill.positionsToMakeSkill;
+            Vector3Int[] directions = skill.skillsBaseSO.positionsToMakeSkill;
             if (directions.Length > 0)
             {
                 foreach (var directionFounded in directions)
@@ -508,10 +508,6 @@ public class AStarPathFinding : MonoBehaviour
             }
         }
         return positions.Count > 0;
-    }
-    public Vector3Int GetCercanousPosition(Vector3Int lastPost)
-    {
-        return currentGrid.Keys.OrderBy(pos => Vector3Int.Distance(pos, lastPost)).First();
     }
     public List<Vector3Int> FindPath(Vector3 startPos, Vector3 endPos)
     {
@@ -561,8 +557,71 @@ public class AStarPathFinding : MonoBehaviour
         }
         return null;
     }
-
-    public bool PathExistsWithinRadius(Vector3Int start, Vector3Int end, SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> validPositions)
+    public bool GetTilesForMakeAttack(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions, CharacterBase character, CharacterBase characterForAttack)
+    {
+        int attackRadius;
+        Vector2 tilePos;
+        Vector2 characterPos;
+        positions = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
+        var walkableTiles = GetWalkableTiles(character);
+        if (character.characterData.GetCurrentWeapon(out CharacterData.CharacterItem weapon))
+        {
+            attackRadius = weapon.itemBaseSO.attackRadius;
+        }
+        else
+        {
+            attackRadius = 1;
+        }
+        foreach (var tile in walkableTiles)
+        {
+            tilePos.x = tile.Key.x;
+            tilePos.y = tile.Key.z;
+            characterPos.x = characterForAttack.positionInGrid.x;
+            characterPos.y = characterForAttack.positionInGrid.z;
+            if (tile.Value.isWalkable && ManhattanDistance(tilePos, characterPos) <= attackRadius)
+            {
+                positions.Add(tile.Key, tile.Value);
+            }
+        }
+        return positions.Count > 0;
+    }
+    public bool GetTilesForMakeSkill(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions, CharacterBase character, CharacterBase characterForMakeSkill, CharacterData.CharacterSkillInfo skillInfo)
+    {
+        int skillRadius;
+        Vector2 tilePos;
+        Vector2 characterPos;
+        positions = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
+        var walkableTiles = GetWalkableTiles(character);
+        if (!skillInfo.skillsBaseSO.usePositionsToMakeSkill)
+        {
+            skillRadius = skillInfo.skillsBaseSO.skillRadius;
+        }
+        else
+        {
+            skillRadius = skillInfo.skillsBaseSO.skillInnerRadius;
+        }
+        foreach (var tile in walkableTiles)
+        {
+            tilePos.x = tile.Key.x;
+            tilePos.y = tile.Key.z;
+            characterPos.x = characterForMakeSkill.positionInGrid.x;
+            characterPos.y = characterForMakeSkill.positionInGrid.z;
+            if (tile.Value.isWalkable && ManhattanDistance(tilePos, characterPos) <= skillRadius)
+            {
+                positions.Add(tile.Key, tile.Value);
+            }
+        }
+        return positions.Count > 0;
+    }
+    public int ManhattanDistance(Vector3 start, Vector3 end)
+    {
+        return Mathf.RoundToInt(Mathf.Abs(start.x - end.x) + Mathf.Abs(start.z - end.z));
+    }
+    public int ManhattanDistance(Vector2 start, Vector2 end)
+    {
+        return Mathf.RoundToInt(Mathf.Abs(start.x - end.x) + Mathf.Abs(start.y - end.y));
+    }
+    public bool PathExists(Vector3Int start, Vector3Int end, SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> validPositions)
     {
         if (!validPositions.ContainsKey(start) || !validPositions[start].isWalkable ||
             !validPositions.ContainsKey(end) || !validPositions[end].isWalkable)
@@ -645,11 +704,5 @@ public class AStarPathFinding : MonoBehaviour
         {
             return (X, Y, Z).GetHashCode();
         }
-    }
-    [Serializable]
-    public class PoolingGridInfo
-    {
-        public Vector2Int pos;
-        public GameObject grid;
     }
 }

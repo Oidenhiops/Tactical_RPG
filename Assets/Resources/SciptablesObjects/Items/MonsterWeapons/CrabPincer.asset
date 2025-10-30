@@ -30,7 +30,7 @@ MonoBehaviour:
   - {x: -2, y: 0, z: 0}
   - {x: 2, y: 0, z: 0}
   - {x: 0, y: 0, z: -2}
-  gridSize: 2
+  attackRadius: 2
   animationName: 
   itemStatistics:
     _serializedList: []

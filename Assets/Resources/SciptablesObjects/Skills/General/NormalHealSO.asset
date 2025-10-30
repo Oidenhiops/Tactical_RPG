@@ -95,7 +95,7 @@ MonoBehaviour:
   - {x: -1, y: 0, z: -3}
   - {x: -2, y: 0, z: -2}
   - {x: -3, y: 0, z: -1}
-  positionsToMakeSkillGridSize: 4
+  skillRadius: 4
   usePositionsToMakeSkill: 1
   positionsSkillForm:
   - {x: -1, y: 0, z: 0}
@@ -103,6 +103,6 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}
   - {x: 0, y: 0, z: -1}
-  positionsSkillFormGridSize: 1
+  skillInnerRadius: 1
   isFreeMovementSkill: 1
   needCharacterToMakeSkill: 0

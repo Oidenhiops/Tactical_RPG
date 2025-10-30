@@ -33,7 +33,6 @@ public class ManagementOpenCloseScene : MonoBehaviour
         {
             while (loaderImage.fillAmount < 1)
             {
-                print($"currentLoad {currentLoad}");
                 float value = currentLoad / 100;
                 loaderImage.fillAmount = Mathf.MoveTowards(loaderImage.fillAmount, value, speedFill * Time.deltaTime);
                 await Awaitable.NextFrameAsync();

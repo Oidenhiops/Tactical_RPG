@@ -8,17 +8,17 @@ public class SkillBaseSOEditor : Editor
 {
     private float cellSize = 30f;
     private SerializedProperty positionsToMakeSkillProp;
-    private SerializedProperty positionsToMakeSkillGridSizeProp;
+    private SerializedProperty skillRadiusProp;
     private SerializedProperty positionsSkillFormProp;
-    private SerializedProperty positionsSkillFormGridSizeProp;
+    private SerializedProperty skillInnerRadiusProp;
 
     private void OnEnable()
     {
         positionsToMakeSkillProp = serializedObject.FindProperty("positionsToMakeSkill");
-        positionsToMakeSkillGridSizeProp = serializedObject.FindProperty("positionsToMakeSkillGridSize");
+        skillRadiusProp = serializedObject.FindProperty("skillRadius");
 
         positionsSkillFormProp = serializedObject.FindProperty("positionsSkillForm");
-        positionsSkillFormGridSizeProp = serializedObject.FindProperty("positionsSkillFormGridSize");
+        skillInnerRadiusProp = serializedObject.FindProperty("skillInnerRadius");
     }
 
     public override void OnInspectorGUI()
@@ -26,13 +26,13 @@ public class SkillBaseSOEditor : Editor
         serializedObject.Update();
 
         DrawPropertiesExcluding(serializedObject, "m_Script",
-            "positionsToMakeSkill", "positionsToMakeSkillGridSize",
-            "positionsSkillForm", "positionsSkillFormGridSize");
+            "positionsToMakeSkill", "skillRadius",
+            "positionsSkillForm", "skillInnerRadius");
 
         DrawGridSection(
             label: "Positions To Make Skill Grid",
             arrayProp: positionsToMakeSkillProp,
-            gridSizeProp: positionsToMakeSkillGridSizeProp,
+            gridSizeProp: skillRadiusProp,
             getPositions: skill => skill.positionsToMakeSkill,
             setPositions: (skill, arr) => skill.positionsToMakeSkill = arr
         );
@@ -42,7 +42,7 @@ public class SkillBaseSOEditor : Editor
         DrawGridSection(
             label: "Positions Skill Form Grid",
             arrayProp: positionsSkillFormProp,
-            gridSizeProp: positionsSkillFormGridSizeProp,
+            gridSizeProp: skillInnerRadiusProp,
             getPositions: skill => skill.positionsSkillForm,
             setPositions: (skill, arr) => skill.positionsSkillForm = arr
         );

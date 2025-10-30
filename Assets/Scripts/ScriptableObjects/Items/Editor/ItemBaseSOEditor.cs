@@ -24,7 +24,7 @@ public class ItemBaseSOEditor : Editor
         EditorGUILayout.PropertyField(positionsToAttackProp, true);
 
         ItemBaseSO referenceItem = (ItemBaseSO)target;
-        int gridSize = referenceItem.gridSize;
+        int gridSize = referenceItem.attackRadius;
 
         EditorGUILayout.Space();
         EditorGUILayout.LabelField($"Positions To Attack Grid (Grid Size: {gridSize})", EditorStyles.boldLabel);

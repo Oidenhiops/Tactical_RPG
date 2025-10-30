@@ -13,6 +13,7 @@ public class Block : MonoBehaviour
     [SerializeField] List<TypeNeighbors> neighbors = new List<TypeNeighbors>();
     public SerializedDictionary<Vector3Int, TypeNeighbors> directions;
     public GameObject poolingGrid;
+    public bool cantWalk;
     public enum TypeBlock
     {
         None = 0,

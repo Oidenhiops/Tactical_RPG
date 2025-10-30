@@ -161,7 +161,7 @@ public class MenuItemsCharacter : MonoBehaviour
         {
             statistics.Value.RefreshValue();
         }
-        playerManager.aStarPathFinding.GetPositionsToAttack(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions);
+        playerManager.aStarPathFinding.GetTilesToAttack(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions);
         playerManager.menuCharacterActions.SendCharactersToAttack(positions);
         TogglePanels(false);
         _= ReloadItems();

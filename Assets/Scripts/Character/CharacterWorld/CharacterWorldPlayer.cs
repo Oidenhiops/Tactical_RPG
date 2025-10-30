@@ -77,7 +77,7 @@ public class CharacterWorldPlayer : CharacterBase
 
         Vector3Int finalPosition = targetPosition + positionInGrid;
         WorldManager.Instance.aStarPathFinding.GetHighestBlockAt(finalPosition, out GenerateMap.WalkablePositionInfo block);
-        if (block != null)
+        if (block != null && block.isWalkable)
         {
             if (block.pos.y < transform.position.y + characterData.GetMovementMaxHeight())
             {

@@ -16,10 +16,12 @@ public class SkillsBaseSO : ScriptableObject
     public SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic> statistics = new SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic>();
     public ItemBaseSO.TypeWeapon weaponForUseSkill;
     public Vector3Int[] positionsToMakeSkill;
-    public int positionsToMakeSkillGridSize = 5;
+    public int skillRadius = 5;
+    [Tooltip("Si se usan posiciones fijas para usar la habilidad")]
     public bool usePositionsToMakeSkill;
     public Vector3Int[] positionsSkillForm;
-    public int positionsSkillFormGridSize = 5;
+    public int skillInnerRadius = 5;
+    [Tooltip("Permite mover el cursor de forma libre para seleccionar la posicion donde usar la habilidad")]
     public bool isFreeMovementSkill;
     public bool needCharacterToMakeSkill;
     public virtual void UseSkill(CharacterBase characterMakeSkill, CharacterBase characterToMakeSkill) { Debug.LogError("UseSkill non implemented"); }

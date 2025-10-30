@@ -9,7 +9,7 @@ public class ItemBaseSO : ScriptableObject
     public TypeObject typeObject;
     public TypeWeapon typeWeapon;
     public Vector3Int[] positionsToAttack;
-    public int gridSize = 5;
+    public int attackRadius = 5;
     public string animationName;
     public SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic> itemStatistics = new SerializedDictionary<CharacterData.TypeStatistic, CharacterData.Statistic>();
     public virtual void EquipItem(CharacterBase character, CharacterData.CharacterItem characterItem) { Debug.LogError("EquipItem not implemented"); }

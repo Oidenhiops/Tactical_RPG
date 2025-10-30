@@ -34,7 +34,6 @@ public class WorldManager : MonoBehaviour
         {
             await InitializeActions();
             await InitializeCharacterData();
-            print("Initialice World Manager");
         }
         catch (Exception e)
         {

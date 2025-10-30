@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Linq.Expressions;
 using UnityEngine;
 
 public class CharacterBase : MonoBehaviour
@@ -51,15 +50,6 @@ public class CharacterBase : MonoBehaviour
         {
             Debug.LogError(e);
         }
-    }
-    [NaughtyAttributes.Button]
-    public void UpdateLevelCharacter()
-    {
-        CharacterData.Statistic statistic = new CharacterData.Statistic
-        {
-            maxValue = characterData.statistics[CharacterData.TypeStatistic.Exp].maxValue * 10
-        };
-        TakeExp(statistic);
     }
     async Awaitable InitializeAnimations()
     {

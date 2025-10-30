@@ -98,7 +98,7 @@ public class MenuSkillsCharacter : MonoBehaviour
     {
         if (!GameManager.Instance.isPause)
         {
-            playerManager.aStarPathFinding.GetPositionsToUseSkill(currentSkill.skill.skillsBaseSO, out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions);
+            playerManager.aStarPathFinding.GetTilesToUseSkill(currentSkill.skill, out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions);
             playerManager.aStarPathFinding.EnableGrid(positions, Color.blue);
             playerManager.aStarPathFinding.EnableSubGrid(currentSkill.skill.skillsBaseSO.positionsSkillForm, Color.red);
             canMovePointer = currentSkill.skill.skillsBaseSO.isFreeMovementSkill;

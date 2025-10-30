@@ -55,19 +55,15 @@ public class CharacterData
     }
     public int GetMovementMaxHeight()
     {
-        return 2 + statistics[TypeStatistic.Spd].currentValue > 6 ? 6 : statistics[TypeStatistic.Spd].currentValue;
+        return statistics[TypeStatistic.Mvth].currentValue;
     }
     public int GetMovementRadius()
     {
-        return statistics[TypeStatistic.Spd].currentValue > 10 ? 10 : statistics[TypeStatistic.Spd].currentValue;
+        return statistics[TypeStatistic.Mvtr].currentValue;
     }
     public int GetThrowRadius()
     {
-        return 4 + statistics[TypeStatistic.Spd].currentValue > 6 ? 6 : statistics[TypeStatistic.Spd].currentValue;
-    }
-    public int GetSkillRadius()
-    {
-        return 5 + statistics[TypeStatistic.Int].currentValue > 5 ? 5 : statistics[TypeStatistic.Int].currentValue;
+        return statistics[TypeStatistic.Thwr].currentValue + 1;
     }
     public bool GetCurrentWeapon(out CharacterItem weapon)
     {
@@ -174,5 +170,10 @@ public class CharacterData
         Res = 7,
         Spd = 8,
         Exp = 9,
+        Mvtr = 10,
+        Mvth = 11,
+        Thwr = 12,
+        Crtv = 13,
+        Crtd = 14
     }
 }

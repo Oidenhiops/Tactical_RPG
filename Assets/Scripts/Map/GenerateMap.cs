@@ -7,11 +7,12 @@ public class GenerateMap : MonoBehaviour
     public Sprite currentAtlasMap;
     public Block[] blocks;
     public bool isWorldMap;
+    public bool autoStart;
     public bool findMapInfo;
     public Action OnFinishGenerateMap;
     void Start()
     {
-        if (isWorldMap) _ = GenerateGrid();
+        if (autoStart) _ = GenerateGrid();
         if (findMapInfo && ManagementBattleInfo.Instance) currentAtlasMap = ManagementBattleInfo.Instance.generateMap.currentAtlasMap;
     }
     public async Awaitable GenerateGrid()
@@ -28,7 +29,7 @@ public class GenerateMap : MonoBehaviour
                         aStarPathFinding.grid.Add(Vector3Int.RoundToInt(block.transform.position), new WalkablePositionInfo
                         {
                             pos = Vector3Int.RoundToInt(block.transform.position),
-                            isWalkable = true,
+                            isWalkable = block.cantWalk ? false : true,
                             hasCharacter = null,
                             blockInfo = block
                         });
@@ -37,7 +38,7 @@ public class GenerateMap : MonoBehaviour
                 foreach (Block blockEvaluate in blocks)
                 {
                     aStarPathFinding.GetHighestBlockAt(Vector3Int.RoundToInt(blockEvaluate.transform.position), out WalkablePositionInfo block);
-                    if (block != null) block.isWalkable = true;
+                    if (block != null) block.isWalkable = blockEvaluate.cantWalk ? false : true;
                 }
                 await Awaitable.NextFrameAsync();
                 DrawBlocks();

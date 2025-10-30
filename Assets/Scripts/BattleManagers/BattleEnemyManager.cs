@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
+using UnityEditor.XR;
 using UnityEngine;
 
 public class BattleEnemyManager : MonoBehaviour
@@ -15,7 +16,10 @@ public class BattleEnemyManager : MonoBehaviour
     public List<InitialDataSO> initialDataSelected;
     public CharacterBase principalCharacter;
     public Material materialCharacterEnemy;
-    public SerializedDictionary<CharacterBase, List<AiAction>> possibleActions = new SerializedDictionary<CharacterBase, List<AiAction>>();
+    public CharacterBase characterForTest;
+    public Vector2Int amountCharacters;
+    public bool manualCreateCharacters;
+    public int targetLevel;
     void Start()
     {
         if (ManagementBattleInfo.Instance) principalCharacter = ManagementBattleInfo.Instance.principalCharacterEnemy;
@@ -31,67 +35,140 @@ public class BattleEnemyManager : MonoBehaviour
     {
         if (!battlePlayerManager.actionsManager.isPlayerTurn)
         {
-
+            
         }
-    }
-    public CharacterBase GetLowestHealthAlly()
-    {
-        return characters.OrderBy(a => a.characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue / a.characterData.statistics[CharacterData.TypeStatistic.Hp].maxValue).FirstOrDefault();
     }
     [NaughtyAttributes.Button]
-    public void GetEnemiesForAttack()
+    public void GetCharacterActions()
     {
-        List<CharacterBase> enemiesNear;
-        Vector2 playerPos;
-        Vector2 enemyPos;
-        int weaponRange;
-        int moveRadius;
-        foreach (var characterEnemy in characters)
+        List<CharacterBase> posibleTargets = new List<CharacterBase>();
+        List<AiAction> posibleActions = new List<AiAction>();
+        GetPosibleCharactersForMakeAction(ref posibleTargets, characterForTest);
+        GetPosibleActionsForMakeAction(ref posibleActions, ref posibleTargets, characterForTest);
+    }
+    public void GetPosibleCharactersForMakeAction(ref List<CharacterBase> posibleTargets, CharacterBase characterForValidate)
+    {
+        Vector2 posCharacter;
+        Vector2 posTarget;
+        foreach (var posibleTarget in characters)
         {
-            enemiesNear = new List<CharacterBase>();
-            foreach (var characterPlayer in battlePlayerManager.characters)
+            posCharacter.x = characterForValidate.transform.position.x;
+            posCharacter.y = characterForValidate.transform.position.z;
+            posTarget.x = posibleTarget.transform.position.x;
+            posTarget.y = posibleTarget.transform.position.z;
+
+            if (posibleTarget.gameObject.activeSelf && Vector2.Distance(posCharacter, posTarget) <= characterForValidate.characterData.GetMovementRadius() * 2)
             {
-                moveRadius = characterEnemy.characterData.GetMovementRadius();
-                weaponRange = 0;
-                if (characterEnemy.characterData.GetCurrentWeapon(out CharacterData.CharacterItem weaponData))
-                {
-                    weaponRange = weaponData.itemBaseSO.gridSize;
-                }
-
-                playerPos = new Vector2(characterPlayer.transform.position.x, characterPlayer.transform.position.z);
-                enemyPos = new Vector2(characterEnemy.transform.position.x, characterEnemy.transform.position.z);
-
-                if (characterPlayer.gameObject.activeSelf && Vector2.Distance(enemyPos, playerPos) <= moveRadius + weaponRange)
-                {
-                    enemiesNear.Add(characterPlayer);
-                }
+                posibleTargets.Add(posibleTarget);
             }
-            if (enemiesNear.Count > 0)
+        }
+
+        foreach (var posibleTarget in battlePlayerManager.characters)
+        {
+            posCharacter.x = characterForValidate.transform.position.x;
+            posCharacter.y = characterForValidate.transform.position.z;
+            posTarget.x = posibleTarget.transform.position.x;
+            posTarget.y = posibleTarget.transform.position.z;
+
+            if (posibleTarget.gameObject.activeSelf && Vector2.Distance(posCharacter, posTarget) <= characterForValidate.characterData.GetMovementRadius() * 2)
             {
-                if (possibleActions.ContainsKey(characterEnemy))
+                posibleTargets.Add(posibleTarget);
+            }
+        }
+
+        posibleTargets.Remove(characterForValidate);
+        print("finish");
+    }
+    public void GetPosibleActionsForMakeAction(ref List<AiAction> posibleActions, ref List<CharacterBase> posibleTargets, CharacterBase characterForValidate)
+    {
+        foreach (var posibleTarget in posibleTargets)
+        {
+            if (posibleTarget.isCharacterPlayer)
+            {
+                //Enemy
+                #region Basic Attack Action
+
+                aStarPathFinding.GetTilesForMakeAttack(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> attackPositions, characterForValidate, posibleTarget);
+                if (attackPositions.Count > 0 && aStarPathFinding.PathExists(attackPositions.ElementAt(UnityEngine.Random.Range(0, attackPositions.Count)).Value.pos, characterForValidate.positionInGrid, aStarPathFinding.GetWalkableTiles(characterForValidate)))
                 {
-                    possibleActions[characterEnemy].Add(new AiAction
+                    AiAction aiAction = new AiAction
                     {
-                        characterMakeAction = characterEnemy,
-                        typeAction = TypeAction.Attack,
-                        posibleTargets = enemiesNear
-                    });
+                        characterMakeAction = characterForValidate,
+                        typeAction = PosibleActions.BasicAttack,
+                        posibleTargets = new List<CharacterBase> { posibleTarget }
+                    };
+                    posibleActions.Add(aiAction);
                 }
-                else
+
+                #endregion
+
+                #region Skill Attack Action
+
+                if (characterForValidate.characterData.skills.Count > 0)
                 {
-                    possibleActions.Add(characterEnemy, new List<AiAction>
+                    if (characterForValidate.characterData.skills.ContainsKey(ItemBaseSO.TypeWeapon.None) &&
+                        characterForValidate.characterData.skills[ItemBaseSO.TypeWeapon.None].ContainsKey(SkillsBaseSO.TypeSkill.Attack))
                     {
-                        new AiAction
+                        foreach (var skill in characterForValidate.characterData.skills[ItemBaseSO.TypeWeapon.None][SkillsBaseSO.TypeSkill.Attack])
                         {
-                            characterMakeAction = characterEnemy,
-                            typeAction = TypeAction.Attack,
-                            posibleTargets = enemiesNear
+                            if (skill.Value.statistics[CharacterData.TypeStatistic.Sp].baseValue <= characterForValidate.characterData.statistics[CharacterData.TypeStatistic.Sp].currentValue)
+                            {
+                                aStarPathFinding.GetTilesForMakeSkill(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> skillPositions,
+                                    characterForValidate, posibleTarget, skill.Value);
+                                if (skillPositions.Count > 0 && aStarPathFinding.PathExists(skillPositions.ElementAt(UnityEngine.Random.Range(0, skillPositions.Count)).Value.pos, characterForValidate.positionInGrid, aStarPathFinding.GetWalkableTiles(characterForValidate)))
+                                {
+                                    AiAction aiAction = new AiAction
+                                    {
+                                        characterMakeAction = characterForValidate,
+                                        typeAction = PosibleActions.SkillAttack,
+                                        posiblePositions = skillPositions
+                                    };
+                                    posibleActions.Add(aiAction);
+                                }
+                            }
                         }
-                    });
+                    }
                 }
+
+                #endregion
+                
+                #region Skill Debuff Action
+
+                if (characterForValidate.characterData.skills.Count > 0)
+                {
+                    if (characterForValidate.characterData.skills.ContainsKey(ItemBaseSO.TypeWeapon.None) && 
+                        characterForValidate.characterData.skills[ItemBaseSO.TypeWeapon.None].ContainsKey(SkillsBaseSO.TypeSkill.Debuff))
+                    {
+                        foreach (var skill in characterForValidate.characterData.skills[ItemBaseSO.TypeWeapon.None][SkillsBaseSO.TypeSkill.Debuff])
+                        {
+                            if (skill.Value.statistics[CharacterData.TypeStatistic.Sp].baseValue <= characterForValidate.characterData.statistics[CharacterData.TypeStatistic.Sp].currentValue)
+                            {
+                                aStarPathFinding.GetTilesForMakeSkill(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> skillPositions,
+                                    characterForValidate, posibleTarget, skill.Value);
+                                if (skillPositions.Count > 0 && aStarPathFinding.PathExists(skillPositions.ElementAt(UnityEngine.Random.Range(0, skillPositions.Count)).Value.pos, characterForValidate.positionInGrid, aStarPathFinding.GetWalkableTiles(characterForValidate)))
+                                {
+                                    AiAction aiAction = new AiAction
+                                    {
+                                        characterMakeAction = characterForValidate,
+                                        typeAction = PosibleActions.SkillAttack,
+                                        posiblePositions = skillPositions
+                                };
+                                    posibleActions.Add(aiAction);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                #endregion
+            }
+            else
+            {
+                //Ally
             }
         }
     }
+    #region Character Initialization
     public void InitializeCharacters()
     {
         _ = GetCharactersInitialData();
@@ -100,14 +177,28 @@ public class BattleEnemyManager : MonoBehaviour
     {
         try
         {
-            initialDataSelected.Add(principalCharacter.initialDataSO);
-            for (int i = 0; i < UnityEngine.Random.Range(5, 20); i++)
+            if (amountCharacters.y != 0)
             {
-                initialDataSelected.Add(GameData.Instance.charactersDataDBSO.GetRandomInitialDataSO());
+                if (!manualCreateCharacters)
+                {
+                    initialDataSelected.Add(principalCharacter.initialDataSO);
+                    if (amountCharacters.y > initialDataSelected.Count)
+                    {
+                        int range = UnityEngine.Random.Range(amountCharacters.x, amountCharacters.y + 1);
+                        for (int i = 0; i < range - 1; i++)
+                        {
+                            initialDataSelected.Add(GameData.Instance.charactersDataDBSO.GetRandomInitialDataSO());
+                        }
+                    }
+                }
+                await CreateCharacters();
+                await LevelUpCharacters(principalCharacter ? principalCharacter.characterData.level : targetLevel);
+                await SpawnCharactersInBattle();
             }
-            await CreateCharacters();
-            await LevelUpCharacters();
-            await SpawnCharactersInBattle();
+            else
+            {
+                Debug.LogError("El rango de cantidad de personajes debe ser mayor a 0 en el valor Y");
+            }
         }
         catch (Exception e)
         {
@@ -118,85 +209,145 @@ public class BattleEnemyManager : MonoBehaviour
     {
         try
         {
-            List<CharacterBase> charactersSpawned = new List<CharacterBase>();
-            foreach (InitialDataSO initialData in initialDataSelected)
+            if (characters.Length == 0)
             {
-                CharacterData characterData = new CharacterData
+                List<CharacterBase> charactersSpawned = new List<CharacterBase>();
+                foreach (InitialDataSO initialData in initialDataSelected)
                 {
-                    id = initialData.id,
-                    subId = initialData.subId,
-                    name = GameData.Instance.charactersDataDBSO.GenerateFantasyName(),
-                    level = 1,
-                    mastery = new SerializedDictionary<CharacterData.TypeMastery, CharacterData.CharacterMasteryInfo>()
-                };
-                characterData.items = new SerializedDictionary<CharacterData.CharacterItemInfo, CharacterData.CharacterItem>
-            {
-                {new CharacterData.CharacterItemInfo{index = 0, typeCharacterItem = CharacterData.TypeCharacterItem.Weapon}, new CharacterData.CharacterItem()},
-                {new CharacterData.CharacterItemInfo{index = 1, typeCharacterItem = CharacterData.TypeCharacterItem.Object1}, new CharacterData.CharacterItem()},
-                {new CharacterData.CharacterItemInfo{index = 2, typeCharacterItem = CharacterData.TypeCharacterItem.Object2}, new CharacterData.CharacterItem()},
-                {new CharacterData.CharacterItemInfo{index = 3, typeCharacterItem = CharacterData.TypeCharacterItem.Object3}, new CharacterData.CharacterItem()}
-            };
-                characterData.statistics = GameData.Instance.charactersDataDBSO.data[characterData.id][characterData.subId].initialDataSO.CloneStatistics();
-                characterData.mastery = GameData.Instance.charactersDataDBSO.data[characterData.id][characterData.subId].initialDataSO.CloneMastery();
-                characterData.skills = GameData.Instance.charactersDataDBSO.data[characterData.id][characterData.subId].initialDataSO.CloneSkills();
+                    CharacterData characterData = new CharacterData
+                    {
+                        id = initialData.id,
+                        subId = initialData.subId,
+                        level = 1,
+                        mastery = new SerializedDictionary<CharacterData.TypeMastery, CharacterData.CharacterMasteryInfo>()
+                    };
+                    characterData.items = new SerializedDictionary<CharacterData.CharacterItemInfo, CharacterData.CharacterItem>
+                    {
+                        {new CharacterData.CharacterItemInfo{index = 0, typeCharacterItem = CharacterData.TypeCharacterItem.Weapon}, new CharacterData.CharacterItem()},
+                        {new CharacterData.CharacterItemInfo{index = 1, typeCharacterItem = CharacterData.TypeCharacterItem.Object1}, new CharacterData.CharacterItem()},
+                        {new CharacterData.CharacterItemInfo{index = 2, typeCharacterItem = CharacterData.TypeCharacterItem.Object2}, new CharacterData.CharacterItem()},
+                        {new CharacterData.CharacterItemInfo{index = 3, typeCharacterItem = CharacterData.TypeCharacterItem.Object3}, new CharacterData.CharacterItem()}
+                    };
+                    characterData.statistics = initialData.CloneStatistics();
+                    characterData.mastery = initialData.CloneMastery();
+                    characterData.skills = initialData.CloneSkills();
 
-                foreach (KeyValuePair<CharacterData.TypeStatistic, CharacterData.Statistic> statistic in characterData.statistics)
-                {
-                    if (statistic.Key != CharacterData.TypeStatistic.Exp)
+                    foreach (KeyValuePair<CharacterData.TypeStatistic, CharacterData.Statistic> statistic in characterData.statistics)
                     {
-                        statistic.Value.RefreshValue();
-                        statistic.Value.SetMaxValue();
+                        if (statistic.Key != CharacterData.TypeStatistic.Exp)
+                        {
+                            statistic.Value.RefreshValue();
+                            statistic.Value.SetMaxValue();
+                        }
+                        else
+                        {
+                            statistic.Value.baseValue = 15;
+                            statistic.Value.RefreshValue();
+                        }
                     }
-                    else
-                    {
-                        statistic.Value.baseValue = 15;
-                        statistic.Value.RefreshValue();
-                    }
+                    CharacterBase character = Instantiate(characterBattlePrefab, Vector3Int.down * 2, Quaternion.identity, charactersContainer).GetComponent<CharacterBase>();
+                    character.initialDataSO = GameData.Instance.charactersDataDBSO.data[initialData.id][initialData.subId].initialDataSO;
+                    character.characterData = characterData;
+                    character.characterModel.characterMeshRenderer.material = materialCharacterEnemy;
+                    character.characterModel.characterMeshRendererHand.material = materialCharacterEnemy;
+                    charactersSpawned.Add(character);
+                    await character.InitializeCharacter();
                 }
-                CharacterBase character = Instantiate(characterBattlePrefab, Vector3Int.down * 2, Quaternion.identity, charactersContainer).GetComponent<CharacterBase>();
-                character.initialDataSO = GameData.Instance.charactersDataDBSO.data[initialData.id][initialData.subId].initialDataSO;
-                character.characterData = characterData;
-                character.characterModel.characterMeshRenderer.material = materialCharacterEnemy;
-                character.characterModel.characterMeshRendererHand.material = materialCharacterEnemy;
-                character.name = character.characterData.name;
-                charactersSpawned.Add(character);
-                await character.InitializeCharacter();
+                characters = charactersSpawned.ToArray();
             }
-            characters = charactersSpawned.ToArray();
+            else
+            {
+                foreach (var character in characters)
+                {
+                    character.characterData.statistics = character.initialDataSO.CloneStatistics();
+                    character.characterData.mastery = character.initialDataSO.CloneMastery();
+                    character.characterData.skills = character.initialDataSO.CloneSkills();
+                    character.characterData.id = character.initialDataSO.id;
+                    character.characterData.subId = character.initialDataSO.subId;
+                    character.characterModel.characterMeshRenderer.material = materialCharacterEnemy;
+                    character.characterModel.characterMeshRendererHand.material = materialCharacterEnemy;
+                    foreach (KeyValuePair<CharacterData.TypeStatistic, CharacterData.Statistic> statistic in character.characterData.statistics)
+                    {
+                        if (statistic.Key != CharacterData.TypeStatistic.Exp)
+                        {
+                            statistic.Value.RefreshValue();
+                            statistic.Value.SetMaxValue();
+                        }
+                        else
+                        {
+                            statistic.Value.baseValue = 15;
+                            statistic.Value.RefreshValue();
+                        }
+                    }
+                    await character.InitializeCharacter();
+                }
+            }
         }
         catch (Exception e)
         {
             Debug.LogError(e);
         }
     }
-    public async Awaitable LevelUpCharacters()
+    public async Awaitable LevelUpCharacters(int baseLevel)
     {
         try
         {
-            foreach (var character in characters)
+            if (!manualCreateCharacters)
             {
-                int targetLevel = UnityEngine.Random.Range(-5, 5);
-                if (character.characterData.level + targetLevel <= 0) targetLevel = 1;
-                while (character.characterData.level < targetLevel)
+                foreach (var character in characters)
                 {
-                    CharacterData.Statistic statistic = new CharacterData.Statistic
+                    int targetLevel = UnityEngine.Random.Range(-5, 5);
+                    if (character.characterData.level + targetLevel <= 0) targetLevel = 1;
+                    while (character.characterData.level < targetLevel)
                     {
-                        maxValue = character.characterData.statistics[CharacterData.TypeStatistic.Exp].maxValue
-                    };
-                    character.TakeExp(statistic);
-                }
-
-                foreach (KeyValuePair<CharacterData.TypeStatistic, CharacterData.Statistic> statistic in character.characterData.statistics)
-                {
-                    if (statistic.Key != CharacterData.TypeStatistic.Exp)
-                    {
-                        statistic.Value.RefreshValue();
-                        statistic.Value.SetMaxValue();
+                        CharacterData.Statistic statistic = new CharacterData.Statistic
+                        {
+                            maxValue = character.characterData.statistics[CharacterData.TypeStatistic.Exp].maxValue * 10
+                        };
+                        character.TakeExp(statistic);
                     }
-                    else
+
+                    foreach (KeyValuePair<CharacterData.TypeStatistic, CharacterData.Statistic> statistic in character.characterData.statistics)
                     {
-                        statistic.Value.baseValue = 15;
-                        statistic.Value.RefreshValue();
+                        if (statistic.Key != CharacterData.TypeStatistic.Exp)
+                        {
+                            statistic.Value.RefreshValue();
+                            statistic.Value.SetMaxValue();
+                        }
+                        else
+                        {
+                            statistic.Value.baseValue = 15;
+                            statistic.Value.RefreshValue();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                //Temporal, need change
+                foreach (var character in characters)
+                {
+                    while (character.characterData.level < baseLevel)
+                    {
+                        CharacterData.Statistic statistic = new CharacterData.Statistic
+                        {
+                            maxValue = character.characterData.statistics[CharacterData.TypeStatistic.Exp].maxValue * 10
+                        };
+                        character.TakeExp(statistic);
+                    }
+
+                    foreach (KeyValuePair<CharacterData.TypeStatistic, CharacterData.Statistic> statistic in character.characterData.statistics)
+                    {
+                        if (statistic.Key != CharacterData.TypeStatistic.Exp)
+                        {
+                            statistic.Value.RefreshValue();
+                            statistic.Value.SetMaxValue();
+                        }
+                        else
+                        {
+                            statistic.Value.baseValue = 15;
+                            statistic.Value.RefreshValue();
+                        }
                     }
                 }
             }
@@ -212,11 +363,21 @@ public class BattleEnemyManager : MonoBehaviour
         {
             foreach (var character in characters)
             {
-                aStarPathFinding.GetRandomAvailablePosition(out GenerateMap.WalkablePositionInfo block);
-                character.gameObject.transform.position = block.pos;
-                character.positionInGrid = block.pos;
-                character.startPositionInGrid = block.pos;
-                block.hasCharacter = character;
+                if (!manualCreateCharacters)
+                {
+                    aStarPathFinding.GetRandomAvailablePosition(out GenerateMap.WalkablePositionInfo block);
+                    character.gameObject.transform.position = block.pos;
+                    character.positionInGrid = block.pos;
+                    character.startPositionInGrid = block.pos;
+                    block.hasCharacter = character;
+                }
+                else
+                {
+                    character.gameObject.transform.position = Vector3Int.RoundToInt(character.gameObject.transform.position);
+                    character.positionInGrid = Vector3Int.RoundToInt(character.gameObject.transform.position);
+                    character.startPositionInGrid = Vector3Int.RoundToInt(character.gameObject.transform.position);
+                    aStarPathFinding.grid[Vector3Int.RoundToInt(character.gameObject.transform.position)].hasCharacter = character;
+                }
             }
             await Awaitable.NextFrameAsync();
         }
@@ -225,18 +386,23 @@ public class BattleEnemyManager : MonoBehaviour
             Debug.LogError(e);
         }
     }
+    #endregion
     [Serializable]
     public class AiAction
     {
         public CharacterBase characterMakeAction;
-        public TypeAction typeAction;
+        public PosibleActions typeAction;
         public List<CharacterBase> posibleTargets;
+        public SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> posiblePositions;
     }
-    public enum TypeAction
+    public enum PosibleActions
     {
-        Move,
-        Attack,
-        UseItem,
-        Wait,
+        Heal,
+        Buff,
+        Debuff,
+        BasicAttack,
+        SkillAttack,
+        SkillDebuff,
+        SkillBuff
     }
 }

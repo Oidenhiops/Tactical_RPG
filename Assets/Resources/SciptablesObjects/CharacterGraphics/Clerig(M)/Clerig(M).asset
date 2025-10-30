@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InitialDataSO
   id: 3
   subId: 0
-  isHumanoid: 0
+  isHumanoid: 1
   atlas: {fileID: 2800000, guid: cf5617fe2deeb7645bb997b5d684dcec, type: 3}
   atlasHands: {fileID: 2800000, guid: be64ab223c6f65543a661d5ac197e511, type: 3}
   icon: {fileID: -664206351, guid: 5ad2e935482f278468588df16e4f60b8, type: 3}
@@ -22,8 +22,8 @@ MonoBehaviour:
     _serializedList:
     - Key: 1
       Value:
-        baseValue: 0
-        aptitudeValue: 100
+        baseValue: 12
+        aptitudeValue: 70
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -31,7 +31,7 @@ MonoBehaviour:
         maxValue: 0
     - Key: 2
       Value:
-        baseValue: 0
+        baseValue: 12
         aptitudeValue: 100
         itemValue: 0
         buffValue:
@@ -40,8 +40,8 @@ MonoBehaviour:
         maxValue: 0
     - Key: 3
       Value:
-        baseValue: 0
-        aptitudeValue: 100
+        baseValue: 10
+        aptitudeValue: 80
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -49,8 +49,8 @@ MonoBehaviour:
         maxValue: 0
     - Key: 4
       Value:
-        baseValue: 0
-        aptitudeValue: 100
+        baseValue: 11
+        aptitudeValue: 80
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -58,7 +58,7 @@ MonoBehaviour:
         maxValue: 0
     - Key: 5
       Value:
-        baseValue: 0
+        baseValue: 12
         aptitudeValue: 100
         itemValue: 0
         buffValue:
@@ -67,8 +67,8 @@ MonoBehaviour:
         maxValue: 0
     - Key: 6
       Value:
-        baseValue: 0
-        aptitudeValue: 100
+        baseValue: 4
+        aptitudeValue: 60
         itemValue: 0
         buffValue:
           _serializedList: []
@@ -76,7 +76,7 @@ MonoBehaviour:
         maxValue: 0
     - Key: 7
       Value:
-        baseValue: 0
+        baseValue: 11
         aptitudeValue: 100
         itemValue: 0
         buffValue:
@@ -85,13 +85,58 @@ MonoBehaviour:
         maxValue: 0
     - Key: 8
       Value:
-        baseValue: 7
-        aptitudeValue: 100
+        baseValue: 10
+        aptitudeValue: 70
         itemValue: 0
         buffValue:
           _serializedList: []
         currentValue: 0
         maxValue: 0
+    - Key: 10
+      Value:
+        baseValue: 5
+        aptitudeValue: 100
+        itemValue: 0
+        buffValue:
+          _serializedList: []
+        currentValue: 0
+        maxValue: 15
+    - Key: 11
+      Value:
+        baseValue: 5
+        aptitudeValue: 100
+        itemValue: 0
+        buffValue:
+          _serializedList: []
+        currentValue: 0
+        maxValue: 15
+    - Key: 12
+      Value:
+        baseValue: 4
+        aptitudeValue: 100
+        itemValue: 0
+        buffValue:
+          _serializedList: []
+        currentValue: 0
+        maxValue: 15
+    - Key: 13
+      Value:
+        baseValue: 5
+        aptitudeValue: 100
+        itemValue: 0
+        buffValue:
+          _serializedList: []
+        currentValue: 0
+        maxValue: 15
+    - Key: 14
+      Value:
+        baseValue: 50
+        aptitudeValue: 100
+        itemValue: 0
+        buffValue:
+          _serializedList: []
+        currentValue: 0
+        maxValue: 15
     - Key: 9
       Value:
         baseValue: 0
@@ -624,9 +669,9 @@ MonoBehaviour:
         frameToInstance: 0
         instanceObj: {fileID: 0}
         instance: {fileID: 0}
-    - Key: FistAttack
+    - Key: Lift
       Value:
-        name: FistAttack
+        name: Lift
         linkAnimation: 
         spritesInfoDown:
         - characterSprite: {fileID: 80910688, guid: cf5617fe2deeb7645bb997b5d684dcec,
@@ -648,14 +693,14 @@ MonoBehaviour:
           rightHandRotation: {x: 0, y: 0, z: 0, w: 0}
         animationsEffects:
           _serializedList: []
-        loop: 0
+        loop: 1
         needInstance: 0
         frameToInstance: 0
         instanceObj: {fileID: 0}
         instance: {fileID: 0}
-    - Key: 6
+    - Key: Throw
       Value:
-        name: 6
+        name: Throw
         linkAnimation: 
         spritesInfoDown:
         - characterSprite: {fileID: -1825812097, guid: cf5617fe2deeb7645bb997b5d684dcec,
@@ -698,9 +743,9 @@ MonoBehaviour:
         frameToInstance: 0
         instanceObj: {fileID: 0}
         instance: {fileID: 0}
-    - Key: 7
+    - Key: FistAttack
       Value:
-        name: 7
+        name: FistAttack
         linkAnimation: 
         spritesInfoDown:
         - characterSprite: {fileID: -125677628, guid: cf5617fe2deeb7645bb997b5d684dcec,
@@ -788,12 +833,12 @@ MonoBehaviour:
           _serializedList: []
         loop: 0
         needInstance: 0
-        frameToInstance: 0
+        frameToInstance: 2
         instanceObj: {fileID: 0}
         instance: {fileID: 0}
-    - Key: 8
+    - Key: SwordAttack
       Value:
-        name: 8
+        name: SwordAttack
         linkAnimation: 
         spritesInfoDown:
         - characterSprite: {fileID: -1520594686, guid: cf5617fe2deeb7645bb997b5d684dcec,
@@ -913,7 +958,7 @@ MonoBehaviour:
           _serializedList: []
         loop: 0
         needInstance: 0
-        frameToInstance: 0
+        frameToInstance: 3
         instanceObj: {fileID: 0}
         instance: {fileID: 0}
   generateAllAnimations:
@@ -921,3 +966,4 @@ MonoBehaviour:
     atlas: {fileID: 2800000, guid: cf5617fe2deeb7645bb997b5d684dcec, type: 3}
     atlasHands: {fileID: 2800000, guid: be64ab223c6f65543a661d5ac197e511, type: 3}
     icon: {fileID: -664206351, guid: 5ad2e935482f278468588df16e4f60b8, type: 3}
+    isHumanoid: 1

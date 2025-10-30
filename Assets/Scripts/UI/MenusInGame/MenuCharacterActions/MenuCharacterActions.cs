@@ -46,7 +46,7 @@ public class MenuCharacterActions : MonoBehaviour
                                 }
                                 else if ((TypeButton)i == TypeButton.Attack)
                                 {
-                                    if (playerManager.aStarPathFinding.GetPositionsToAttack(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions))
+                                    if (playerManager.aStarPathFinding.GetTilesToAttack(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions))
                                     {
                                         buttonsExepts.Add(TypeButton.Attack);
                                         SendCharactersToAttack(positions);
@@ -68,7 +68,7 @@ public class MenuCharacterActions : MonoBehaviour
                                 {
                                     buttons[TypeButton.Lift].gameObject.SetActive(true);
                                     buttons[TypeButton.Throw].gameObject.SetActive(false);
-                                    if (playerManager.aStarPathFinding.GetPositionsToLift(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions))
+                                    if (playerManager.aStarPathFinding.GetTilesToLift(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions))
                                     {
                                         buttonsExepts.Add(TypeButton.Lift);
                                         SendCharactersToLift(positions);
@@ -113,7 +113,7 @@ public class MenuCharacterActions : MonoBehaviour
     }
     public void BackToMenuWhitButton(TypeButton typeButton)
     {
-        if (playerManager.aStarPathFinding.GetPositionsToAttack(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions))
+        if (playerManager.aStarPathFinding.GetTilesToAttack(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions))
         {
             buttonsExepts.Add(TypeButton.Attack);
             SendCharactersToAttack(positions);

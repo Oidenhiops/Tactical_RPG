@@ -25,6 +25,11 @@ public class InitialDataSO : ScriptableObject
         {CharacterData.TypeStatistic.Def, new CharacterData.Statistic{ aptitudeValue = 100 }},
         {CharacterData.TypeStatistic.Res, new CharacterData.Statistic{ aptitudeValue = 100 }},
         {CharacterData.TypeStatistic.Spd, new CharacterData.Statistic{ aptitudeValue = 100 }},
+        {CharacterData.TypeStatistic.Mvtr, new CharacterData.Statistic{ aptitudeValue = 100 }},
+        {CharacterData.TypeStatistic.Mvth, new CharacterData.Statistic{ aptitudeValue = 100 }},
+        {CharacterData.TypeStatistic.Thwr, new CharacterData.Statistic{ aptitudeValue = 100 }},
+        {CharacterData.TypeStatistic.Crtv, new CharacterData.Statistic{ aptitudeValue = 100 }},
+        {CharacterData.TypeStatistic.Crtd, new CharacterData.Statistic{ aptitudeValue = 100 }},
         {CharacterData.TypeStatistic.Exp, new CharacterData.Statistic{ aptitudeValue = 100 }},
     };
     public SerializedDictionary<CharacterData.TypeMastery, CharacterData.CharacterMasteryInfo> initialMastery = new SerializedDictionary<CharacterData.TypeMastery, CharacterData.CharacterMasteryInfo>()
@@ -48,6 +53,7 @@ public class InitialDataSO : ScriptableObject
     {
         if (generateAllAnimations.atlas == null || generateAllAnimations.baseSprite == null) return;
 
+        isHumanoid = generateAllAnimations.isHumanoid;
         Sprite[] allSprites = AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(generateAllAnimations.atlas)).OfType<Sprite>().ToArray();
         int spriteW = Mathf.RoundToInt(generateAllAnimations.baseSprite.rect.width);
         int indexSpriteForEvaluate = 0;
@@ -156,6 +162,12 @@ public class InitialDataSO : ScriptableObject
         atlas = generateAllAnimations.atlas;
         atlasHands = generateAllAnimations.atlasHands;
         icon = generateAllAnimations.icon;
+
+        if (isHumanoid)
+        {
+            animations["FistAttack"].frameToInstance = 2;
+            animations["SwordAttack"].frameToInstance = 3;
+        }
     }
 #endif
     [NaughtyAttributes.Button]
@@ -279,5 +291,6 @@ public class InitialDataSO : ScriptableObject
         public Texture2D atlas;
         public Texture2D atlasHands;
         public Sprite icon;
+        public bool isHumanoid;
     }
 }

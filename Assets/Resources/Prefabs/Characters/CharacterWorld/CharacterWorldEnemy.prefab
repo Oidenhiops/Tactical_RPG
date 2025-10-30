@@ -238,7 +238,7 @@ MonoBehaviour:
     type: 3}
   dieEffectPrefab: {fileID: 3328385887415025661, guid: f5ddebed183a2d947bd7dfdbb72a5cc5,
     type: 3}
-  setDataWhitInitialValues: 0
+  canMoveAfterFinishTurn: 0
   autoInit: 0
   detectorOffset: {x: 0, y: 0.5, z: 0}
   detectorSize: {x: 11, y: 1, z: 11}
@@ -458,7 +458,7 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: a5154e2507e8692459dcbe54ca98ac7b, type: 2}
+      objectReference: {fileID: 2100000, guid: 1f4e078730a00e045b171a29f909c53e, type: 2}
     - target: {fileID: 919132149155446097, guid: 4385848d124d476478957ebbe044aec6,
         type: 3}
       propertyPath: m_Name

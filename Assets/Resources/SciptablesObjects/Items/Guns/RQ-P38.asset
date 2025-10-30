@@ -162,7 +162,7 @@ MonoBehaviour:
   - {x: 5, y: 0, z: -1}
   - {x: 5, y: 0, z: -2}
   - {x: 6, y: 0, z: -1}
-  gridSize: 8
+  attackRadius: 8
   animationName: 
   itemStatistics:
     _serializedList: []

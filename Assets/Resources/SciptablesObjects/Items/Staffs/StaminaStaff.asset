@@ -238,7 +238,7 @@ MonoBehaviour:
   - {x: -3, y: 0, z: 1}
   - {x: -3, y: 0, z: 2}
   - {x: -2, y: 0, z: 2}
-  gridSize: 10
+  attackRadius: 10
   animationName: 
   itemStatistics:
     _serializedList: []
