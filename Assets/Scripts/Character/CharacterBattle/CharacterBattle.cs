@@ -53,13 +53,16 @@ public class CharacterBattle : CharacterBase
         {
             characterMakeDamage.TakeExp(characterData.statistics[CharacterData.TypeStatistic.Exp]);
         }
+        if (isCharacterPlayer) BattlePlayerManager.Instance.characters.Remove(this);
+        else BattleEnemyManager.Instance.characters.Remove(this);
         characterStatusEffect.statusEffects = new AYellowpaper.SerializedCollections.SerializedDictionary<StatusEffectBaseSO, int>();
         GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].dieCharacters.Add(characterData.name, characterData);
         GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].characters.Remove(characterData.name);
+        Destroy(gameObject);
     }
     public override void MoveCharacter(Vector3Int targetPosition)
     {
-        List<Vector3Int> path = BattlePlayerManager.Instance.aStarPathFinding.FindPath(positionInGrid, targetPosition);
+        List<Vector3Int> path = isCharacterPlayer ? BattlePlayerManager.Instance.aStarPathFinding.FindPath(positionInGrid, targetPosition) : BattlePlayerManager.Instance.aStarPathFinding.FindPath(positionInGrid, targetPosition, BattlePlayerManager.Instance.aStarPathFinding.GetWalkableTiles(this));
 
         if (path != null && path.Count > 0)
         {
@@ -76,22 +79,7 @@ public class CharacterBattle : CharacterBase
         characterAnimations.MakeAnimation("Walk");
         for (int i = 1; i < path.Count; i++)
         {
-            if (path[i - 1].x == path[i].x)
-            {
-                nextDirection.x = path[i - 1].z < path[i].z ? 1 : -1;
-            }
-            else
-            {
-                nextDirection.x = path[i - 1].x < path[i].x ? -1 : 1;
-            }
-            if (path[i - 1].z == path[i].z)
-            {
-                nextDirection.z = path[i - 1].x < path[i].x ? 1 : -1;
-            }
-            else
-            {
-                nextDirection.z = path[i - 1].z < path[i].z ? 1 : -1;
-            }
+            LookAt(path[i - 1], path[i]);
             if (path[i - 1].y != path[i].y)
             {
                 yield return StartCoroutine(JumpToPosition(path[i - 1], path[i], 0.5f));
@@ -140,6 +128,7 @@ public class CharacterBattle : CharacterBase
             }
         }
         else characterAnimations.MakeAnimation("Idle");
+        OnCharacterFinishMovement?.Invoke(this);
     }
     private IEnumerator MoveToPosition(Vector3Int targetPos)
     {

@@ -101,22 +101,7 @@ public class CharacterWorldPlayer : CharacterBase
     }
     public IEnumerator MoveTo(Vector3Int initialPos, Vector3Int finalPos)
     {
-        if (initialPos.x == finalPos.x)
-        {
-            nextDirection.x = initialPos.z < finalPos.z ? 1 : -1;
-        }
-        else
-        {
-            nextDirection.x = initialPos.x < finalPos.x ? -1 : 1;
-        }
-        if (initialPos.z == finalPos.z)
-        {
-            nextDirection.z = initialPos.x < finalPos.x ? 1 : -1;
-        }
-        else
-        {
-            nextDirection.z = initialPos.z < finalPos.z ? 1 : -1;
-        }
+        LookAt(initialPos, finalPos);
         if (initialPos.y != finalPos.y)
         {
             yield return StartCoroutine(JumpToPosition(initialPos, finalPos, 0.5f));

@@ -4722,6 +4722,98 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1001 &379093323
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 624594866}
+    m_Modifications:
+    - target: {fileID: 1791299666810847271, guid: 042fa333b810e3a4eb4cfa8834eaea0a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1791299666810847271, guid: 042fa333b810e3a4eb4cfa8834eaea0a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1791299666810847271, guid: 042fa333b810e3a4eb4cfa8834eaea0a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1791299666810847271, guid: 042fa333b810e3a4eb4cfa8834eaea0a,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1791299666810847271, guid: 042fa333b810e3a4eb4cfa8834eaea0a,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1791299666810847271, guid: 042fa333b810e3a4eb4cfa8834eaea0a,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1791299666810847271, guid: 042fa333b810e3a4eb4cfa8834eaea0a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1791299666810847271, guid: 042fa333b810e3a4eb4cfa8834eaea0a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1791299666810847271, guid: 042fa333b810e3a4eb4cfa8834eaea0a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1791299666810847271, guid: 042fa333b810e3a4eb4cfa8834eaea0a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2412411816279942414, guid: 042fa333b810e3a4eb4cfa8834eaea0a,
+        type: 3}
+      propertyPath: m_Name
+      value: CharacterBattle (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4956635268105822218, guid: 042fa333b810e3a4eb4cfa8834eaea0a,
+        type: 3}
+      propertyPath: initialDataSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 9ba369b4b97a4e048be1bddfbeda5e49,
+        type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 042fa333b810e3a4eb4cfa8834eaea0a, type: 3}
+--- !u!4 &379093324 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1791299666810847271, guid: 042fa333b810e3a4eb4cfa8834eaea0a,
+    type: 3}
+  m_PrefabInstance: {fileID: 379093323}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &379093325 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4956635268105822218, guid: 042fa333b810e3a4eb4cfa8834eaea0a,
+    type: 3}
+  m_PrefabInstance: {fileID: 379093323}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad876d25d22f69746a7d8f354b98610a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterBattle
 --- !u!1001 &390388563
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7940,6 +8032,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1415338130}
+  - {fileID: 379093324}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &627584928
@@ -9788,11 +9881,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e123da279239ee4e992e6c9404b728c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleEnemyManager
+  actionsManager: {fileID: 726234692}
   generateMap: {fileID: 1686166483}
   battlePlayerManager: {fileID: 726234690}
   aStarPathFinding: {fileID: 726234704}
   characters:
   - {fileID: 1415338131}
+  - {fileID: 379093325}
   characterBattlePrefab: {fileID: 2412411816279942414, guid: 042fa333b810e3a4eb4cfa8834eaea0a,
     type: 3}
   charactersContainer: {fileID: 624594866}
@@ -9803,6 +9898,7 @@ MonoBehaviour:
   characterForTest: {fileID: 1415338131}
   amountCharacters: {x: 1, y: 1}
   manualCreateCharacters: 1
+  _charactersMoving: 0
   targetLevel: 0
 --- !u!1 &729194104
 GameObject:

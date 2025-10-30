@@ -24,7 +24,7 @@ public class BattlePlayerManager : MonoBehaviour
     public Vector3Int currentMousePos;
     public Transform cameraRot;
     public bool canShowGridAndDecal;
-    public CharacterBase[] characters;
+    public List<CharacterBase> characters;
     public Transform charactersContainer;
     public bool _characterPlayerMakingActions;
     public Action<bool, bool> OnCharacterPlayerMakingActions;
@@ -93,7 +93,7 @@ public class BattlePlayerManager : MonoBehaviour
                 await character.InitializeCharacter();
                 character.gameObject.SetActive(false);
             }
-            characters = charactersSpawned.ToArray();
+            characters = charactersSpawned;
         }
         catch (Exception e)
         {
@@ -285,22 +285,7 @@ public class BattlePlayerManager : MonoBehaviour
         {
             if (aStarPathFinding.characterSelected.positionInGrid != posToGo)
             {
-                if (aStarPathFinding.characterSelected.positionInGrid.x == posToGo.x)
-                {
-                    aStarPathFinding.characterSelected.nextDirection.x = aStarPathFinding.characterSelected.positionInGrid.z < posToGo.z ? 1 : -1;
-                }
-                else
-                {
-                    aStarPathFinding.characterSelected.nextDirection.x = aStarPathFinding.characterSelected.positionInGrid.x < posToGo.x ? -1 : 1;
-                }
-                if (aStarPathFinding.characterSelected.positionInGrid.z == posToGo.z)
-                {
-                    aStarPathFinding.characterSelected.nextDirection.z = aStarPathFinding.characterSelected.positionInGrid.x < posToGo.x ? 1 : -1;
-                }
-                else
-                {
-                    aStarPathFinding.characterSelected.nextDirection.z = aStarPathFinding.characterSelected.positionInGrid.z < posToGo.z ? 1 : -1;
-                }
+                aStarPathFinding.characterSelected.LookAt(aStarPathFinding.characterSelected.positionInGrid, posToGo);
             }
         }
     }
@@ -312,22 +297,7 @@ public class BattlePlayerManager : MonoBehaviour
         {
             if (aStarPathFinding.characterSelected.positionInGrid != posToGo)
             {
-                if (aStarPathFinding.characterSelected.positionInGrid.x == posToGo.x)
-                {
-                    aStarPathFinding.characterSelected.nextDirection.x = aStarPathFinding.characterSelected.positionInGrid.z < posToGo.z ? 1 : -1;
-                }
-                else
-                {
-                    aStarPathFinding.characterSelected.nextDirection.x = aStarPathFinding.characterSelected.positionInGrid.x < posToGo.x ? -1 : 1;
-                }
-                if (aStarPathFinding.characterSelected.positionInGrid.z == posToGo.z)
-                {
-                    aStarPathFinding.characterSelected.nextDirection.z = aStarPathFinding.characterSelected.positionInGrid.x < posToGo.x ? 1 : -1;
-                }
-                else
-                {
-                    aStarPathFinding.characterSelected.nextDirection.z = aStarPathFinding.characterSelected.positionInGrid.z < posToGo.z ? 1 : -1;
-                }
+                aStarPathFinding.characterSelected.LookAt(aStarPathFinding.characterSelected.positionInGrid, posToGo);
             }
         }
 

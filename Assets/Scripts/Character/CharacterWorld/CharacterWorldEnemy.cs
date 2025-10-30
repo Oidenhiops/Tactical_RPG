@@ -73,22 +73,7 @@ public class CharacterWorldEnemy : CharacterBase
         {
             if (!remakePath)
             {
-                if (path[i - 1].x == path[i].x)
-                {
-                    nextDirection.x = path[i - 1].z < path[i].z ? 1 : -1;
-                }
-                else
-                {
-                    nextDirection.x = path[i - 1].x < path[i].x ? -1 : 1;
-                }
-                if (path[i - 1].z == path[i].z)
-                {
-                    nextDirection.z = path[i - 1].x < path[i].x ? 1 : -1;
-                }
-                else
-                {
-                    nextDirection.z = path[i - 1].z < path[i].z ? 1 : -1;
-                }
+                LookAt(path[i - 1], path[i]);
                 if (path[i - 1].y != path[i].y)
                 {
                     yield return StartCoroutine(JumpToPosition(path[i - 1], path[i], 0.5f));

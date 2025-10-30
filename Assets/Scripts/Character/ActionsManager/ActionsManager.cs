@@ -365,6 +365,7 @@ public class ActionsManager : MonoBehaviour
     {
         try
         {
+            await Awaitable.NextFrameAsync();
             isChangingTurn = true;
             playerManager.aStarPathFinding.characterSelected = null;
             await MakeActions();

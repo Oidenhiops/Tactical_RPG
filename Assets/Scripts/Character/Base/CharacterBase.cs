@@ -19,6 +19,7 @@ public class CharacterBase : MonoBehaviour
     public ActionsManager.TypeAction lastAction;
     public GameObject floatingTextPrefab;
     public GameObject dieEffectPrefab;
+    public Action<CharacterBase> OnCharacterFinishMovement;
     public bool canMoveAfterFinishTurn;
     public bool autoInit;
     public void OnEnable()
@@ -86,7 +87,7 @@ public class CharacterBase : MonoBehaviour
     {
         int amount = Mathf.CeilToInt(statistic.maxValue * 0.1f);
         characterData.statistics[CharacterData.TypeStatistic.Exp].currentValue += amount;
-        int level = 0; 
+        int level = 0;
         while (characterData.statistics[CharacterData.TypeStatistic.Exp].currentValue >= characterData.statistics[CharacterData.TypeStatistic.Exp].maxValue)
         {
             int spare = characterData.statistics[CharacterData.TypeStatistic.Exp].currentValue > characterData.statistics[CharacterData.TypeStatistic.Exp].maxValue ?
@@ -96,6 +97,25 @@ public class CharacterBase : MonoBehaviour
             characterData.statistics[CharacterData.TypeStatistic.Exp].currentValue = spare;
             characterData.LevelUp();
             level++;
+        }
+    }
+    public void LookAt(Vector3Int startPos, Vector3Int finalPos)
+    {
+        if (startPos.x == finalPos.x)
+        {
+            nextDirection.x = startPos.z < finalPos.z ? 1 : -1;
+        }
+        else
+        {
+            nextDirection.x = startPos.x < finalPos.x ? -1 : 1;
+        }
+        if (startPos.z == finalPos.z)
+        {
+            nextDirection.z = startPos.x < finalPos.x ? 1 : -1;
+        }
+        else
+        {
+            nextDirection.z = startPos.z < finalPos.z ? 1 : -1;
         }
     }
     void ChangeDirectionModel()

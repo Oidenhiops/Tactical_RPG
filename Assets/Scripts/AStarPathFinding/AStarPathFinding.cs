@@ -557,6 +557,54 @@ public class AStarPathFinding : MonoBehaviour
         }
         return null;
     }
+    public List<Vector3Int> FindPath(Vector3 startPos, Vector3 endPos, SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> gridPath)
+    {
+        Vector3Int start = Vector3Int.FloorToInt(startPos);
+        Vector3Int end = Vector3Int.FloorToInt(endPos);
+
+        if (!gridPath.TryGetValue(start, out var startTile) || !startTile.isWalkable ||
+            !gridPath.TryGetValue(end, out var endTile) || !endTile.isWalkable)
+        {
+            return null;
+        }
+        var openList = new List<Node>();
+        var closedList = new HashSet<Node>();
+        Node startNode = new Node(start.x, start.y, start.z);
+        Node endNode = new Node(end.x, end.y, end.z);
+        openList.Add(startNode);
+        while (openList.Count > 0)
+        {
+            openList.Sort((a, b) => a.F.CompareTo(b.F));
+            Node currentNode = openList[0];
+
+            if (currentNode.Equals(endNode))
+                return ReconstructPath(currentNode);
+            openList.RemoveAt(0);
+            closedList.Add(currentNode);
+
+            foreach (var neighbor in GetNeighbors(currentNode))
+            {
+                Vector3Int neighborPos = new Vector3Int(neighbor.X, neighbor.Y, neighbor.Z);
+                if (!gridPath.TryGetValue(neighborPos, out var neighborTile) || !neighborTile.isWalkable)
+                    continue;
+                if (closedList.Contains(neighbor))
+                    continue;
+                int tentativeG = currentNode.G + 1;
+                if (!openList.Contains(neighbor) || tentativeG < neighbor.G)
+                {
+                    neighbor.G = tentativeG;
+                    neighbor.H = Mathf.Abs(neighbor.X - endNode.X)
+                               + Mathf.Abs(neighbor.Y - endNode.Y)
+                               + Mathf.Abs(neighbor.Z - endNode.Z);
+                    neighbor.F = neighbor.G + neighbor.H;
+                    neighbor.Parent = currentNode;
+                    if (!openList.Contains(neighbor))
+                        openList.Add(neighbor);
+                }
+            }
+        }
+        return null;
+    }
     public bool GetTilesForMakeAttack(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions, CharacterBase character, CharacterBase characterForAttack)
     {
         int attackRadius;
@@ -578,7 +626,7 @@ public class AStarPathFinding : MonoBehaviour
             tilePos.y = tile.Key.z;
             characterPos.x = characterForAttack.positionInGrid.x;
             characterPos.y = characterForAttack.positionInGrid.z;
-            if (tile.Value.isWalkable && ManhattanDistance(tilePos, characterPos) <= attackRadius)
+            if (tile.Value.isWalkable && !tile.Value.hasCharacter && ManhattanDistance(tilePos, characterPos) <= attackRadius)
             {
                 positions.Add(tile.Key, tile.Value);
             }
@@ -606,7 +654,7 @@ public class AStarPathFinding : MonoBehaviour
             tilePos.y = tile.Key.z;
             characterPos.x = characterForMakeSkill.positionInGrid.x;
             characterPos.y = characterForMakeSkill.positionInGrid.z;
-            if (tile.Value.isWalkable && ManhattanDistance(tilePos, characterPos) <= skillRadius)
+            if (tile.Value.isWalkable && !tile.Value.hasCharacter && ManhattanDistance(tilePos, characterPos) <= skillRadius)
             {
                 positions.Add(tile.Key, tile.Value);
             }
