@@ -138,7 +138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isDropDown: 0
   dropdownSelected: {fileID: 0}
-  scrollByCode: 0
+  scrollByCode: 1
   item: {fileID: 184078628352820552}
   viewport: {fileID: 0}
   container: {fileID: 0}
@@ -160,7 +160,6 @@ MonoBehaviour:
   character: {fileID: 0}
   characterImage: {fileID: 4584804110102627627}
   characterName: {fileID: 3397889840936469152}
-  button: {fileID: 7931216108475811935}
 --- !u!1 &5342127837942617582
 GameObject:
   m_ObjectHideFlags: 0

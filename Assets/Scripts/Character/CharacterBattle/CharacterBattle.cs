@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CharacterBattle : CharacterBase
@@ -22,25 +23,27 @@ public class CharacterBattle : CharacterBase
         canMoveAfterFinishTurn = false;
         startPositionInGrid = positionInGrid;
     }
-    public override IEnumerator Die(CharacterBase characterMakeDamage)
+    public override IEnumerator Die(CharacterBase characterMakeDamage, string lastAnimation = "")
     {
         yield return new WaitForSeconds(0.3f);
         GameObject dieEffect = Instantiate(dieEffectPrefab, transform.position, Quaternion.identity);
         characterModel.characterMeshRenderer.gameObject.SetActive(false);
-        if (characterAnimations.currentAnimation.name == "Lift" || characterAnimations.animationAfterEnd == "Lift")
+        if (lastAnimation == "Lift")
         {
-            if (transform.GetChild(1).gameObject.TryGetComponent(out CharacterAnimation component))
+            CharacterBase characterLifted = GetComponentsInChildren<CharacterBase>().FirstOrDefault(c => c != this);
+            if (characterLifted != null)
             {
-                if (component.currentAnimation.name != "Lift")
+                if (characterLifted.characterAnimations.currentAnimation.name != "Lift")
                 {
-                    component.MakeAnimation("Idle");
+                    characterLifted.characterAnimations.MakeAnimation("Idle");
                 }
-                BattlePlayerManager.Instance.aStarPathFinding.grid[Vector3Int.RoundToInt(gameObject.transform.position)].hasCharacter = component.character;
-                component.transform.position = transform.position;
-                component.character.positionInGrid = positionInGrid;
-                component.character.startPositionInGrid = startPositionInGrid;
+                BattlePlayerManager.Instance.aStarPathFinding.grid[Vector3Int.RoundToInt(gameObject.transform.position)].hasCharacter = characterLifted;
+                characterLifted.transform.localPosition = Vector3.zero;
+                characterLifted.positionInGrid = positionInGrid;
+                characterLifted.startPositionInGrid = startPositionInGrid;
+                characterLifted.hasLifted = false;
+                characterLifted.gameObject.transform.SetParent(BattlePlayerManager.Instance.charactersContainer);
             }
-            transform.GetChild(1).gameObject.transform.SetParent(transform.parent);
         }
         else
         {
@@ -67,8 +70,8 @@ public class CharacterBattle : CharacterBase
         if (path != null && path.Count > 0)
         {
             BattlePlayerManager.Instance.aStarPathFinding.grid[path[0]].hasCharacter = null;
-            if (isCharacterPlayer) BattlePlayerManager.Instance.characterPlayerMakingActions = true;
             BattlePlayerManager.Instance.aStarPathFinding.grid[targetPosition].hasCharacter = this;
+            if (isCharacterPlayer) BattlePlayerManager.Instance.characterPlayerMakingActions = true;
             StartCoroutine(FollowPath(path));
         }
     }

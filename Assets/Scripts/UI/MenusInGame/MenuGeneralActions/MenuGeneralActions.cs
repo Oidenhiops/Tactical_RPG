@@ -7,9 +7,9 @@ public class MenuGeneralActions : MonoBehaviour
 {
     public BattlePlayerManager playerManager;
     public GameObject menuGeneralActions;
+    public Button charactersButton;
     public Button executeButton;
-    public GameObject charactersButton;
-    public GameObject endTurnButton;
+    public Button endTurnButton;
     public async Awaitable EnableMenu()
     {
         try
@@ -39,6 +39,7 @@ public class MenuGeneralActions : MonoBehaviour
             playerManager.actionsManager.EnableMobileInputs();
             if (playerManager.aStarPathFinding.characterSelected && playerManager.aStarPathFinding.LastCharacterActionPermitActions()) playerManager.aStarPathFinding.EnableGrid(playerManager.aStarPathFinding.GetWalkableTiles(playerManager.aStarPathFinding.characterSelected), Color.magenta);
             executeButton.interactable = false;
+            endTurnButton.interactable = false;
             menuGeneralActions.SetActive(false);
         }
         catch (Exception e)
@@ -55,7 +56,22 @@ public class MenuGeneralActions : MonoBehaviour
             return executeButton.gameObject;
         }
         executeButton.interactable = false;
-        return endTurnButton;
+        if (AnyCharacterIsActive())
+        {
+            endTurnButton.interactable = true;
+            return endTurnButton.gameObject;
+        }
+        else endTurnButton.interactable = false;
+        return charactersButton.gameObject;
+    }
+
+    private bool AnyCharacterIsActive()
+    {
+        foreach (var character in playerManager.characters)
+        {
+            if (character.gameObject.activeSelf) return true;
+        }
+        return false;
     }
     public void ExecuteButton()
     {

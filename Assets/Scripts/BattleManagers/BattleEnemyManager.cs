@@ -18,7 +18,6 @@ public class BattleEnemyManager : MonoBehaviour
     public List<InitialDataSO> initialDataSelected;
     public CharacterBase principalCharacter;
     public Material materialCharacterEnemy;
-    public CharacterBase characterForTest;
     public Vector2Int amountCharacters;
     public bool manualCreateCharacters;
     public int _charactersMoving;
@@ -37,7 +36,6 @@ public class BattleEnemyManager : MonoBehaviour
             }
         }
     }
-    public Dictionary<CharacterBase, Vector3Int> occupiedPositions = new Dictionary<CharacterBase, Vector3Int>();
     public int targetLevel;
     void Awake()
     {
@@ -60,10 +58,17 @@ public class BattleEnemyManager : MonoBehaviour
         if (!actionsManager.isPlayerTurn)
         {
             bestActions.Clear();
-            occupiedPositions.Clear();
             foreach (var character in characters)
             {
-                GetCharacterActions(character, ref bestActions);
+                if (character.CanMakeActions()) 
+                {
+                    GetCharacterActions(character, ref bestActions);
+                    if (bestActions.ContainsKey(character))
+                    {
+                        aStarPathFinding.grid[character.positionInGrid].hasCharacter = null;
+                        aStarPathFinding.grid[bestActions[character].positionToMove].hasCharacter = character;
+                    }
+                }
             }
             MoveCharactersForMakeActions(bestActions);
         }
@@ -72,7 +77,10 @@ public class BattleEnemyManager : MonoBehaviour
     {
         charactersMoving--;
         characterFinishMove.OnCharacterFinishMovement -= DiscountCharacterMoving;
-        characterFinishMove.LookAt(characterFinishMove.positionInGrid, bestActions[characterFinishMove].posibleTargets.First().positionInGrid);
+        if (bestActions[characterFinishMove].posibleTargets.Count > 0)
+        {
+            characterFinishMove.LookAt(characterFinishMove.positionInGrid, bestActions[characterFinishMove].posibleTargets.First().positionInGrid);
+        }
     }
     public void GetCharacterActions(CharacterBase characterForValidate, ref Dictionary<CharacterBase, AiAction> actions)
     {
@@ -80,9 +88,25 @@ public class BattleEnemyManager : MonoBehaviour
         List<AiAction> posibleActions = new List<AiAction>();
         Dictionary<PosibleActions, AiAction> bestActions = new Dictionary<PosibleActions, AiAction>();
         GetPosibleCharactersForMakeAction(ref posibleTargets, characterForValidate);
-        GetPosibleActionsForMakeAction(ref posibleActions, posibleTargets, characterForValidate);
-        GetBestActions(ref bestActions, posibleActions, characterForValidate);
-        actions.Add(characterForValidate, bestActions.Values.First());
+        if (posibleTargets.Count > 0)
+        {
+            GetPosibleActionsForMakeAction(ref posibleActions, posibleTargets, characterForValidate);
+            GetBestActions(ref bestActions, posibleActions);
+            if (bestActions.Count > 0)
+            {
+                actions.Add(characterForValidate, bestActions.Values.First());
+            }
+            else
+            {
+                GetPositionsForMoveAction(ref bestActions, characterForValidate);
+                if (bestActions.Count > 0) actions.Add(characterForValidate, bestActions.Values.First());
+            }
+        }
+        else
+        {
+            GetPositionsForMoveAction(ref bestActions, characterForValidate);
+            if (bestActions.Count > 0) actions.Add(characterForValidate, bestActions.Values.First());
+        }
     }
     public void GetPosibleCharactersForMakeAction(ref List<CharacterBase> posibleTargets, CharacterBase characterForValidate)
     {
@@ -95,7 +119,7 @@ public class BattleEnemyManager : MonoBehaviour
             posTarget.x = posibleTarget.transform.position.x;
             posTarget.y = posibleTarget.transform.position.z;
 
-            if (posibleTarget.gameObject.activeSelf && Vector2.Distance(posCharacter, posTarget) <= characterForValidate.characterData.GetMovementRadius() * 2)
+            if (posibleTarget.gameObject.activeSelf && Vector2.Distance(posCharacter, posTarget) <= characterForValidate.characterData.GetMovementRadius() * 2 && !posibleTarget.hasLifted)
             {
                 posibleTargets.Add(posibleTarget);
             }
@@ -108,14 +132,13 @@ public class BattleEnemyManager : MonoBehaviour
             posTarget.x = posibleTarget.transform.position.x;
             posTarget.y = posibleTarget.transform.position.z;
 
-            if (posibleTarget.gameObject.activeSelf && Vector2.Distance(posCharacter, posTarget) <= characterForValidate.characterData.GetMovementRadius() * 2)
+            if (posibleTarget.gameObject.activeSelf && Vector2.Distance(posCharacter, posTarget) <= characterForValidate.characterData.GetMovementRadius() * 2 && !posibleTarget.hasLifted)
             {
                 posibleTargets.Add(posibleTarget);
             }
         }
 
         posibleTargets.Remove(characterForValidate);
-        print("finish");
     }
     public void GetPosibleActionsForMakeAction(ref List<AiAction> posibleActions, List<CharacterBase> posibleTargets, CharacterBase characterForValidate)
     {
@@ -133,7 +156,7 @@ public class BattleEnemyManager : MonoBehaviour
                     {
                         characterMakeAction = characterForValidate,
                         typeAction = PosibleActions.BasicAttack,
-                        posiblePositions = attackPositions,
+                        positionToMove = attackPositions.First().Value.pos,
                         posibleTargets = new List<CharacterBase> { posibleTarget }
                     };
                     posibleActions.Add(aiAction);
@@ -161,7 +184,7 @@ public class BattleEnemyManager : MonoBehaviour
                                         characterMakeAction = characterForValidate,
                                         typeAction = PosibleActions.SkillAttack,
                                         skill = skill.Value,
-                                        posiblePositions = skillPositions
+                                        positionToMove = skillPositions.First().Value.pos
                                     };
                                     posibleActions.Add(aiAction);
                                 }
@@ -192,7 +215,7 @@ public class BattleEnemyManager : MonoBehaviour
                                         characterMakeAction = characterForValidate,
                                         typeAction = PosibleActions.SkillAttack,
                                         skill = skill.Value,
-                                        posiblePositions = skillPositions
+                                        positionToMove = skillPositions.First().Value.pos
                                     };
                                     posibleActions.Add(aiAction);
                                 }
@@ -209,7 +232,7 @@ public class BattleEnemyManager : MonoBehaviour
             }
         }
     }
-    public void GetBestActions(ref Dictionary<PosibleActions, AiAction> bestActions, List<AiAction> posibleActions, CharacterBase characterForValidate)
+    public void GetBestActions(ref Dictionary<PosibleActions, AiAction> actions, List<AiAction> posibleActions)
     {
         Dictionary<PosibleActions, List<AiAction>> groupedActions = new Dictionary<PosibleActions, List<AiAction>>();
         foreach (var action in posibleActions)
@@ -227,67 +250,35 @@ public class BattleEnemyManager : MonoBehaviour
                 case PosibleActions.BasicAttack:
                     foreach (var action in group.Value)
                     {
-                        if (!bestActions.ContainsKey(PosibleActions.BasicAttack))
+                        if (!actions.ContainsKey(PosibleActions.BasicAttack))
                         {
-                            if (GetNonOccupiedPositionFromAction(action, out Vector3Int availablePos))
-                            {
-                                action.posiblePositions = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>
-                                {
-                                    { availablePos, action.posiblePositions[availablePos] }
-                                };
-                                bestActions.Add(PosibleActions.BasicAttack, action);
-                                occupiedPositions.Add(action.characterMakeAction, availablePos);
-                            }
+                                actions.Add(PosibleActions.BasicAttack, action);
                         }
                         else
                         {
-                            if (bestActions[PosibleActions.BasicAttack].posibleTargets[0].characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue -
+                            if (actions[PosibleActions.BasicAttack].posibleTargets[0].characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue -
                                 action.characterMakeAction.characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue > 0)
                             {
                                 if (action.posibleTargets[0].characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue -
                                 action.characterMakeAction.characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue > 0)
                                 {
                                     if (action.posibleTargets[0].characterData.statistics[CharacterData.TypeStatistic.Atk].currentValue >
-                                        bestActions[PosibleActions.BasicAttack].posibleTargets[0].characterData.statistics[CharacterData.TypeStatistic.Atk].currentValue)
+                                        actions[PosibleActions.BasicAttack].posibleTargets[0].characterData.statistics[CharacterData.TypeStatistic.Atk].currentValue)
                                     {
-                                        if (GetNonOccupiedPositionFromAction(action, out Vector3Int availablePos))
-                                        {
-                                            action.posiblePositions = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>
-                                            {
-                                                { availablePos, action.posiblePositions[availablePos] }
-                                            };
-                                            bestActions.Add(PosibleActions.BasicAttack, action);
-                                            occupiedPositions[action.characterMakeAction] = availablePos;
-                                        }
+                                        actions.Add(PosibleActions.BasicAttack, action);
                                     }
                                 }
                                 else
                                 {
-                                    if (GetNonOccupiedPositionFromAction(action, out Vector3Int availablePos))
-                                    {
-                                        action.posiblePositions = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>
-                                        {
-                                            { availablePos, action.posiblePositions[availablePos] }
-                                        };
-                                        bestActions.Add(PosibleActions.BasicAttack, action);
-                                        occupiedPositions[action.characterMakeAction] = availablePos;
-                                    }
+                                    actions.Add(PosibleActions.BasicAttack, action);
                                 }
                             }
                             else if (action.posibleTargets[0].characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue -
                                 action.characterMakeAction.characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue <= 0 &&
                                 action.posibleTargets[0].characterData.statistics[CharacterData.TypeStatistic.Atk].currentValue >
-                                bestActions[PosibleActions.BasicAttack].posibleTargets[0].characterData.statistics[CharacterData.TypeStatistic.Atk].currentValue)
+                                actions[PosibleActions.BasicAttack].posibleTargets[0].characterData.statistics[CharacterData.TypeStatistic.Atk].currentValue)
                             {
-                                if (GetNonOccupiedPositionFromAction(action, out Vector3Int availablePos))
-                                {
-                                    action.posiblePositions = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>
-                                    {
-                                        { availablePos, action.posiblePositions[availablePos] }
-                                    };
-                                    bestActions.Add(PosibleActions.BasicAttack, action);
-                                    occupiedPositions[action.characterMakeAction] = availablePos;
-                                }
+                                actions.Add(PosibleActions.BasicAttack, action);
                             }
                         }
                     }
@@ -295,9 +286,9 @@ public class BattleEnemyManager : MonoBehaviour
                 case PosibleActions.SkillAttack:
                     foreach (var action in group.Value)
                     {
-                        if (!bestActions.ContainsKey(PosibleActions.SkillAttack))
+                        if (!actions.ContainsKey(PosibleActions.SkillAttack))
                         {
-                            bestActions.Add(PosibleActions.SkillAttack, action);
+                            actions.Add(PosibleActions.SkillAttack, action);
                         }
                         else
                         {
@@ -308,16 +299,91 @@ public class BattleEnemyManager : MonoBehaviour
             }
         }
     }
+    public void GetPositionsForMoveAction(ref Dictionary<PosibleActions, AiAction> actions, CharacterBase characterForValidate)
+    {
+        var walkableTiles = aStarPathFinding.GetWalkableTiles(characterForValidate);
+        var activeTargets = battlePlayerManager.characters.Where(c => c.gameObject.activeSelf && !c.hasLifted).ToList();
+        if (activeTargets.Count == 0) return;
+
+        CharacterBase characterTarget = activeTargets[UnityEngine.Random.Range(0, activeTargets.Count)];
+        var path = aStarPathFinding.FindPath(characterForValidate.positionInGrid, characterTarget.positionInGrid, aStarPathFinding.grid);
+        if (path == null || path.Count == 0) return;
+
+        Vector3Int? farthest = null;
+        for (int i = path.Count - 1; i >= 0; i--)
+        {
+            if (walkableTiles.ContainsKey(path[i]))
+            {
+                farthest = path[i];
+                break;
+            }
+        }
+        if (farthest == null) return;
+
+        List<Vector3Int> areaPositions = new List<Vector3Int>();
+        for (int dx = -2; dx <= 2; dx++)
+        {
+            for (int dz = -2; dz <= 2; dz++)
+            {
+                Vector3Int pos = new Vector3Int(farthest.Value.x + dx, farthest.Value.y, farthest.Value.z + dz);
+                if (walkableTiles.ContainsKey(pos))
+                    areaPositions.Add(pos);
+            }
+        }
+        if (areaPositions.Count == 0) return;
+
+        SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positionsToMove = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
+
+        foreach (var pos in areaPositions)
+        {
+            if (!aStarPathFinding.grid[pos].hasCharacter)
+            {
+                positionsToMove.Add(pos, walkableTiles[pos]);
+            }
+        }
+
+        if (positionsToMove.Count == 0) return;
+
+        if (positionsToMove.ContainsKey(farthest.Value))
+        {
+            positionsToMove.Clear();
+            positionsToMove.Add(farthest.Value, walkableTiles[farthest.Value]);
+        }
+
+        var moveAction = new AiAction
+        {
+            characterMakeAction = characterForValidate,
+            typeAction = PosibleActions.Move,
+            positionToMove = positionsToMove.First().Value.pos,
+            posibleTargets = new List<CharacterBase>()
+        };
+
+        actions.Add(PosibleActions.Move, moveAction);
+    }
+
     void MoveCharactersForMakeActions(Dictionary<CharacterBase, AiAction> actions)
     {
-        foreach (var action in actions)
+        if (actions.Count > 0)
         {
-            if (action.Key.positionInGrid != action.Value.posiblePositions.Keys.First())
+            bool anyCharacterNeedsToMove = false;
+            foreach (var action in actions)
             {
-                charactersMoving++;
-                action.Key.OnCharacterFinishMovement += DiscountCharacterMoving;
-                action.Key.MoveCharacter(action.Value.posiblePositions.Keys.First());
+                if (action.Key.positionInGrid != action.Value.positionToMove)
+                {
+                    anyCharacterNeedsToMove = true;
+                    charactersMoving++;
+                    action.Key.OnCharacterFinishMovement += DiscountCharacterMoving;
+                    action.Key.MoveCharacter(action.Value.positionToMove);
+                }
             }
+            if (!anyCharacterNeedsToMove)
+            {
+                MakeActionsActerCharactersMoveFinish();
+            }
+        }
+        else
+        {
+            _ = actionsManager.EndTurn();
         }
     }
     void MakeActionsActerCharactersMoveFinish()
@@ -362,7 +428,7 @@ public class BattleEnemyManager : MonoBehaviour
                                 characterMakeAction = action.Key,
                                 typeAction = ActionsManager.TypeAction.Skill,
                                 skillInfo = action.Value.skill,
-                                positionsToMakeSkill = action.Value.posiblePositions.Keys.ToList()
+                                positionsToMakeSkill = action.Value.positionsToMakeSkill.ToList()
                             }
                         }
                     );
@@ -371,19 +437,12 @@ public class BattleEnemyManager : MonoBehaviour
                         characterMakeAction = action.Key,
                         typeAction = ActionsManager.TypeAction.Skill,
                         skillInfo = action.Value.skill,
-                        positionsToMakeSkill = action.Value.posiblePositions.Keys.ToList()
+                        positionsToMakeSkill = action.Value.positionsToMakeSkill.ToList()
                     });
                     break;
             }
         }
         _ = actionsManager.EndTurn();
-    }
-    public bool GetNonOccupiedPositionFromAction(AiAction action, out Vector3Int availablePos)
-    {
-        availablePos = occupiedPositions.Count > 0 ? action.posiblePositions.Keys.FirstOrDefault(pos => !occupiedPositions.ContainsValue(pos)) : action.posiblePositions.Keys.FirstOrDefault();
-        bool positionAvailable = availablePos != default;
-
-        return positionAvailable;
     }
     #region Character Initialization
     public void InitializeCharacters()
@@ -609,7 +668,8 @@ public class BattleEnemyManager : MonoBehaviour
         public CharacterBase characterMakeAction;
         public PosibleActions typeAction;
         public List<CharacterBase> posibleTargets;
-        public SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> posiblePositions;
+        public Vector3Int positionToMove;
+        public List<Vector3Int> positionsToMakeSkill;
         public CharacterData.CharacterSkillInfo skill;
     }
     public enum PosibleActions
@@ -620,6 +680,7 @@ public class BattleEnemyManager : MonoBehaviour
         BasicAttack,
         SkillAttack,
         SkillDebuff,
-        SkillBuff
+        SkillBuff,
+        Move
     }
 }

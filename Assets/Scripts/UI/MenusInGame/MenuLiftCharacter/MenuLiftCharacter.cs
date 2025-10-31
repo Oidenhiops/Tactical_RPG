@@ -116,6 +116,7 @@ public class MenuLiftCharacter : MonoBehaviour
             {
                 banner.character.characterAnimations.MakeAnimation("Lifted");
             }
+            banner.character.hasLifted = true;
             playerManager.aStarPathFinding.characterSelected.characterAnimations.MakeAnimation("Lift");
             playerManager.aStarPathFinding.characterSelected.characterStatusEffect.statusEffects.Add(statusEffectLiftSO, 0);
             playerManager.aStarPathFinding.grid[Vector3Int.RoundToInt(banner.character.transform.position)].hasCharacter = null;

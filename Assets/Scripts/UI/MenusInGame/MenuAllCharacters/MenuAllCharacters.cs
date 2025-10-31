@@ -98,7 +98,7 @@ public class MenuAllCharacters : MonoBehaviour
                 Destroy(child.gameObject);
             }
             banners = new SerializedDictionary<CharacterBase, AllCharactersBanner>();
-            playerManager.menuGeneralActions.BackToMenuWhitButton(playerManager.menuGeneralActions.charactersButton);
+            playerManager.menuGeneralActions.BackToMenuWhitButton(playerManager.menuGeneralActions.charactersButton.gameObject);
         }
         catch (Exception e)
         {

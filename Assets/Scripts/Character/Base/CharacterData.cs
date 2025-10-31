@@ -88,7 +88,8 @@ public class CharacterData
 
         foreach (KeyValuePair<TypeStatistic, Statistic> statistic in statistics)
         {
-            if (statistic.Key != TypeStatistic.Exp)
+            if (statistic.Key != TypeStatistic.Exp && statistic.Key != TypeStatistic.Mvtr && statistic.Key != TypeStatistic.Mvth && statistic.Key != TypeStatistic.Thwr &&
+                statistic.Key != TypeStatistic.Crtv && statistic.Key != TypeStatistic.Crtd)
             {
                 statistic.Value.baseValue = Mathf.CeilToInt(statistic.Value.baseValue * (1.25f * statistic.Value.aptitudeValue / 100));
                 statistic.Value.RefreshValue();

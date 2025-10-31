@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -69,7 +70,8 @@ public class MenuThrowCharacter : MonoBehaviour
             else
             {
                 isThrowingCharacter = false;
-                StartCoroutine(ThrowCharacterToPosition(playerManager.aStarPathFinding.characterSelected.positionInGrid + Vector3.up, playerManager.currentMousePos, playerManager.aStarPathFinding.characterSelected.transform.GetChild(1).GetComponent<CharacterBase>(), 1));
+                CharacterBase characterToThrow = playerManager.aStarPathFinding.characterSelected.GetComponentsInChildren<CharacterBase>().FirstOrDefault(c => c != playerManager.aStarPathFinding.characterSelected);
+                StartCoroutine(ThrowCharacterToPosition(playerManager.aStarPathFinding.characterSelected.positionInGrid + Vector3.up, playerManager.currentMousePos, characterToThrow, 1));
             }
         }
     }
@@ -107,6 +109,7 @@ public class MenuThrowCharacter : MonoBehaviour
         {
             character.characterAnimations.MakeAnimation("Idle");
         }
+        character.hasLifted = false;
         playerManager.aStarPathFinding.characterSelected.lastAction = ActionsManager.TypeAction.EndTurn;
         if (playerManager.actionsManager.characterActions.TryGetValue(playerManager.aStarPathFinding.characterSelected, out List<ActionsManager.ActionInfo> actions))
         {
@@ -117,7 +120,7 @@ public class MenuThrowCharacter : MonoBehaviour
         }
         else
         {
-            if (playerManager.aStarPathFinding.characterSelected.transform.GetChild(1).TryGetComponent(out CharacterBase component))
+            if (playerManager.aStarPathFinding.characterSelected.transform.GetComponentsInChildren<CharacterBase>().FirstOrDefault(c => c != playerManager.aStarPathFinding.characterSelected).TryGetComponent(out CharacterBase component))
             {
                 component.startPositionInGrid = Vector3Int.RoundToInt(endPos);
                 component.positionInGrid = Vector3Int.RoundToInt(endPos);

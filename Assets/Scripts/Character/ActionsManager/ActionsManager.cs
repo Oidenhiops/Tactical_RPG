@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
@@ -239,24 +240,38 @@ public class ActionsManager : MonoBehaviour
                     switch (actions.Value.typeAction)
                     {
                         case TypeAction.Attack:
-                            actions.Value.characterMakeAction.characterAnimations.MakeAnimation(actions.Value.characterMakeAction.characterAnimations.GetAnimationAttack());
-                            await Awaitable.NextFrameAsync();
-                            bool makedDamage = false;
-                            while (true)
+                            if (actions.Value.characterToMakeAction.First().character.characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue > 0)
                             {
-                                if (actions.Value.characterMakeAction.characterAnimations.currentAnimation.frameToInstance == actions.Value.characterMakeAction.characterAnimations.currentSpriteIndex && !makedDamage)
+                                actions.Value.characterMakeAction.characterAnimations.MakeAnimation(actions.Value.characterMakeAction.characterAnimations.GetAnimationAttack());
+                                await Awaitable.NextFrameAsync();
+                                bool makedDamage = false;
+                                while (true)
                                 {
-                                    makedDamage = true;
-                                    foreach (OtherCharacterInfo otherCharacter in actions.Value.characterToMakeAction)
+                                    if (actions.Value.characterMakeAction.characterAnimations.currentAnimation.frameToInstance == actions.Value.characterMakeAction.characterAnimations.currentSpriteIndex && !makedDamage)
                                     {
-                                        if (otherCharacter.character.characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue > 0)
+                                        makedDamage = true;
+                                        foreach (OtherCharacterInfo otherCharacter in actions.Value.characterToMakeAction)
                                         {
-                                            otherCharacter.character.TakeDamage(actions.Value.characterMakeAction, actions.Value.characterMakeAction.characterData.statistics[CharacterData.TypeStatistic.Atk].currentValue);
+                                            if (otherCharacter.character.characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue > 0)
+                                            {
+                                                string otherAnimation;
+
+                                                if (otherCharacter.character.characterAnimations.currentAnimation.name != "Idle")
+                                                {
+                                                    otherAnimation = otherCharacter.character.characterAnimations.currentAnimation.name;
+                                                }
+                                                else
+                                                {
+                                                    otherAnimation = "";
+                                                }
+
+                                                otherCharacter.character.TakeDamage(actions.Value.characterMakeAction, actions.Value.characterMakeAction.characterData.statistics[CharacterData.TypeStatistic.Atk].currentValue, otherAnimation);
+                                            }
                                         }
                                     }
+                                    if (actions.Value.characterMakeAction.characterAnimations.currentAnimation.name == "Idle") break;
+                                    await Awaitable.NextFrameAsync();
                                 }
-                                if (actions.Value.characterMakeAction.characterAnimations.currentAnimation.name == "Idle") break;
-                                await Awaitable.NextFrameAsync();
                             }
                             actions.Key.lastAction = TypeAction.EndTurn;
                             await Task.Delay(TimeSpan.FromSeconds(0.25f));
@@ -487,6 +502,6 @@ public class ActionsManager : MonoBehaviour
         Defend = 4,
         Lift = 5,
         Item = 6,
-        EndTurn = 7
+        EndTurn = 7,
     }
 }

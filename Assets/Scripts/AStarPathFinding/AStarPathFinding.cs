@@ -204,24 +204,25 @@ public class AStarPathFinding : MonoBehaviour
             yield return null;
         }
     }
-    public void GetRandomAvailablePosition(out GenerateMap.WalkablePositionInfo positionBlock)
+    public bool GetRandomAvailablePosition(out GenerateMap.WalkablePositionInfo positionBlock)
     {
         int x = 0;
         while (x < 100)
         {
             Vector3Int randomPos = new Vector3Int(UnityEngine.Random.Range(limitX.x, limitX.y), 0, UnityEngine.Random.Range(limitZ.x, limitZ.y));
             GetHighestBlockAt(randomPos.x, randomPos.z, out GenerateMap.WalkablePositionInfo blockFinded);
-            if (blockFinded != null)
+            if (blockFinded != null && blockFinded.blockInfo.typeBlock != Block.TypeBlock.Spawn)
             {
                 if (grid.TryGetValue(randomPos, out GenerateMap.WalkablePositionInfo block) && block.blockInfo.typeBlock == Block.TypeBlock.Normal && !block.hasCharacter)
                 {
                     positionBlock = block;
-                    return;
+                    return true;
                 }
             }
             x++;
         }
         positionBlock = grid[Vector3Int.zero];
+        return false;
     }
     public void ValidateAction(Vector3Int pointerPos)
     {
@@ -346,7 +347,7 @@ public class AStarPathFinding : MonoBehaviour
                 {
                     if (block.isWalkable && !block.hasCharacter ||
                         block.isWalkable && block.hasCharacter && block.hasCharacter.isCharacterPlayer && characterSelected.isCharacterPlayer ||
-                        block.isWalkable && block.hasCharacter && !block.hasCharacter.isCharacterPlayer && !characterSelected.isCharacterPlayer)
+                        block.isWalkable && block.hasCharacter && !block.hasCharacter.isCharacterPlayer && !characterSelected.isCharacterPlayer && block.blockInfo.typeBlock != Block.TypeBlock.Spawn)
                     {
                         positionsToValidate.Add(block.pos, block);
                     }
@@ -620,18 +621,30 @@ public class AStarPathFinding : MonoBehaviour
         {
             attackRadius = 1;
         }
-        foreach (var tile in walkableTiles)
+        tilePos.x = character.positionInGrid.x;
+        tilePos.y = character.positionInGrid.z;
+        characterPos.x = characterForAttack.positionInGrid.x;
+        characterPos.y = characterForAttack.positionInGrid.z;
+        if (Vector2.Distance(tilePos, characterPos) <= attackRadius)
         {
-            tilePos.x = tile.Key.x;
-            tilePos.y = tile.Key.z;
-            characterPos.x = characterForAttack.positionInGrid.x;
-            characterPos.y = characterForAttack.positionInGrid.z;
-            if (tile.Value.isWalkable && !tile.Value.hasCharacter && ManhattanDistance(tilePos, characterPos) <= attackRadius)
-            {
-                positions.Add(tile.Key, tile.Value);
-            }
+            positions.Add(character.positionInGrid, walkableTiles[character.positionInGrid]);
+            return true;
         }
-        return positions.Count > 0;
+        else
+        {
+            foreach (var tile in walkableTiles)
+            {
+                tilePos.x = tile.Key.x;
+                tilePos.y = tile.Key.z;
+                characterPos.x = characterForAttack.positionInGrid.x;
+                characterPos.y = characterForAttack.positionInGrid.z;
+                if (tile.Value.isWalkable && !tile.Value.hasCharacter && ManhattanDistance(tilePos, characterPos) <= attackRadius && tile.Value.blockInfo.typeBlock != Block.TypeBlock.Spawn)
+                {
+                    positions.Add(tile.Key, tile.Value);
+                }
+            }
+            return positions.Count > 0;
+        }
     }
     public bool GetTilesForMakeSkill(out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions, CharacterBase character, CharacterBase characterForMakeSkill, CharacterData.CharacterSkillInfo skillInfo)
     {
@@ -654,7 +667,7 @@ public class AStarPathFinding : MonoBehaviour
             tilePos.y = tile.Key.z;
             characterPos.x = characterForMakeSkill.positionInGrid.x;
             characterPos.y = characterForMakeSkill.positionInGrid.z;
-            if (tile.Value.isWalkable && !tile.Value.hasCharacter && ManhattanDistance(tilePos, characterPos) <= skillRadius)
+            if (tile.Value.isWalkable && !tile.Value.hasCharacter && ManhattanDistance(tilePos, characterPos) <= skillRadius && tile.Value.blockInfo.typeBlock != Block.TypeBlock.Spawn)
             {
                 positions.Add(tile.Key, tile.Value);
             }

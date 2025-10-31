@@ -17,6 +17,7 @@ public class CharacterBase : MonoBehaviour
     public Vector3Int positionInGrid;
     public Vector3Int startPositionInGrid;
     public ActionsManager.TypeAction lastAction;
+    public bool hasLifted;
     public GameObject floatingTextPrefab;
     public GameObject dieEffectPrefab;
     public Action<CharacterBase> OnCharacterFinishMovement;
@@ -99,6 +100,10 @@ public class CharacterBase : MonoBehaviour
             level++;
         }
     }
+    public bool CanMakeActions()
+    {
+        return !hasLifted;
+    }
     public void LookAt(Vector3Int startPos, Vector3Int finalPos)
     {
         if (startPos.x == finalPos.x)
@@ -134,9 +139,9 @@ public class CharacterBase : MonoBehaviour
         }
         characterAnimations.MakeEffect(CharacterAnimation.TypeAnimationsEffects.Shake);
         characterAnimations.MakeEffect(CharacterAnimation.TypeAnimationsEffects.Blink);
-        if (characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue <= 0) StartCoroutine(Die(characterMakeDamage));
+        if (characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue <= 0) StartCoroutine(Die(characterMakeDamage, otherAnimation));
     }
-    public virtual IEnumerator Die(CharacterBase characterMakeDamage)
+    public virtual IEnumerator Die(CharacterBase characterMakeDamage, string lastAnimation = "")
     {
         yield return new WaitForSeconds(0.3f);
         GameObject dieEffect = Instantiate(dieEffectPrefab, transform.position, Quaternion.identity);
