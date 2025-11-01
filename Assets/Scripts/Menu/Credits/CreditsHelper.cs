@@ -31,6 +31,7 @@ public class CreditsHelper : MonoBehaviour
     public void UnloadScene()
     {
         gameManagerHelper.lastButtonSelected = lastButtonSelected;
+        gameManagerHelper.PlayASoundButton("TouchButtonBack");
         gameManagerHelper.UnloadScene();
     }
 }

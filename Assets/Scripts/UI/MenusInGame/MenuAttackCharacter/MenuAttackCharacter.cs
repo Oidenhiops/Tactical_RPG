@@ -60,6 +60,7 @@ public class MenuAttackCharacter : MonoBehaviour
     {
         if (!GameManager.Instance.isPause)
         {
+            AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonAdvance"), 1, true);
             foreach (Transform child in containerBanners.transform)
             {
                 Destroy(child.gameObject);
@@ -119,6 +120,7 @@ public class MenuAttackCharacter : MonoBehaviour
     {
         try
         {
+            AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonAdvance"), 1, true);
             await SpawnBanners();
             playerManager.aStarPathFinding.EnableGrid(positionsToAttack, gridColor);
             index = 0;
@@ -170,6 +172,7 @@ public class MenuAttackCharacter : MonoBehaviour
     {
         try
         {
+            AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonAdvance"), 1, true);
             await Awaitable.NextFrameAsync();
             playerManager.aStarPathFinding.DisableGrid();
             menuAttackCharacter.SetActive(false);

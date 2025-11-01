@@ -224,6 +224,7 @@ public class ActionsManager : MonoBehaviour
                 playerManager.aStarPathFinding.grid[Vector3Int.RoundToInt(BattlePlayerManager.Instance.mouseDecal.transform.position)].hasCharacter = null;
             }
         }
+        AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonBack"), 1, true);
     }
     public ActionInfo GetLastActionByCharacter(CharacterBase character)
     {

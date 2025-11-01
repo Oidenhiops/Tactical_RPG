@@ -235,16 +235,18 @@ MonoBehaviour:
   positionInGrid: {x: 0, y: 0, z: 0}
   startPositionInGrid: {x: 0, y: 0, z: 0}
   lastAction: 0
+  hasLifted: 0
   floatingTextPrefab: {fileID: 2459534110922450985, guid: 735e9d32137233f4492a6d557a6c2880,
     type: 3}
   dieEffectPrefab: {fileID: 3328385887415025661, guid: f5ddebed183a2d947bd7dfdbb72a5cc5,
     type: 3}
-  setDataWhitInitialValues: 0
+  canMoveAfterFinishTurn: 0
   autoInit: 0
   movementDirection: {x: 0, y: 0, z: 0}
   isOnMovement: 0
   detectorOffset: {x: 0, y: 0.5, z: 0}
   detectorSize: {x: 0.2, y: 0.2, z: 0.2}
+  characterHitted: {fileID: 0}
 --- !u!114 &3788326535341420580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -473,7 +475,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0

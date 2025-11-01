@@ -70,6 +70,7 @@ public class MenuItemsCharacter : MonoBehaviour
     {
         if (!GameManager.Instance.isPause)
         {
+            AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonAdvance"), 1, true);
             currentBagItem = bagItem;
             EventSystem.current.SetSelectedGameObject(null);
             EventSystem.current.SetSelectedGameObject(gearBanners.ElementAt(gearIndex).Value.gameObject);
@@ -81,6 +82,8 @@ public class MenuItemsCharacter : MonoBehaviour
     {
         if (!GameManager.Instance.isPause)
         {
+            AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonAdvance"), 1, true);
+
             CharacterData.CharacterItem itemToBag = new CharacterData.CharacterItem()
             {
                 itemId = gearItem.item.itemId,
@@ -202,6 +205,7 @@ public class MenuItemsCharacter : MonoBehaviour
     {
         try
         {
+            AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonAdvance"), 1, true);
             await ReloadGearBanners();
             await ReloadBagBanners();
             bagIndex = 0;

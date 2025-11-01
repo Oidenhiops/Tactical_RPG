@@ -14,6 +14,7 @@ public class MenuGeneralActions : MonoBehaviour
     {
         try
         {
+            AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonAdvance"), 1, true);
             await Awaitable.NextFrameAsync();
             playerManager.actionsManager.DisableMobileInputs();
             EventSystem.current.SetSelectedGameObject(null);
@@ -75,7 +76,11 @@ public class MenuGeneralActions : MonoBehaviour
     }
     public void ExecuteButton()
     {
-        if (!GameManager.Instance.isPause) _ = ExecuteAction();
+        if (!GameManager.Instance.isPause)
+        {
+            AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonAdvance"), 1, true);
+            _ = ExecuteAction();
+        }
     }
     public async Awaitable ExecuteAction()
     {
@@ -101,6 +106,7 @@ public class MenuGeneralActions : MonoBehaviour
     {
         if (!GameManager.Instance.isPause)
         {
+            AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonAdvance"), 1, true);
             BattlePlayerManager.Instance.canShowGridAndDecal = false;
             BattlePlayerManager.Instance.DisableVisuals();
             menuGeneralActions.SetActive(false);
@@ -109,7 +115,7 @@ public class MenuGeneralActions : MonoBehaviour
     }
     public void CharactersButton()
     {
-        if (!GameManager.Instance.isPause) _= BattlePlayerManager.Instance.menuAllCharacters.EnableMenu();
+        if (!GameManager.Instance.isPause) _ = BattlePlayerManager.Instance.menuAllCharacters.EnableMenu();
     }
     public void BonusButton()
     {

@@ -61,6 +61,8 @@ public class MenuLiftCharacter : MonoBehaviour
     {
         if (!GameManager.Instance.isPause)
         {
+            AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonAdvance"), 1, true);
+
             foreach (Transform child in containerBanners.transform)
             {
                 Destroy(child.gameObject);
@@ -133,6 +135,7 @@ public class MenuLiftCharacter : MonoBehaviour
     {
         try
         {
+            AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonAdvance"), 1, true);
             await SpawnBanners();
             playerManager.aStarPathFinding.EnableGrid(positionsToLift, gridColor);
             index = 0;

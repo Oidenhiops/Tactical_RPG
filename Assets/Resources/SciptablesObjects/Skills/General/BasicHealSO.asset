@@ -68,7 +68,7 @@ MonoBehaviour:
   - {x: -2, y: 0, z: 0}
   - {x: 0, y: 0, z: -2}
   skillRadius: 2
-  usePositionsToMakeSkill: 0
+  usePositionsToMakeSkill: 1
   positionsSkillForm:
   - {x: 0, y: 0, z: 0}
   skillInnerRadius: 0

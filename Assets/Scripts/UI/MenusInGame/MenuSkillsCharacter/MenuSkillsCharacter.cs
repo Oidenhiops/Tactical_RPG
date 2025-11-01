@@ -98,6 +98,7 @@ public class MenuSkillsCharacter : MonoBehaviour
     {
         if (!GameManager.Instance.isPause)
         {
+            AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonAdvance"), 1, true);
             playerManager.aStarPathFinding.GetTilesToUseSkill(currentSkill.skill, out SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positions);
             playerManager.aStarPathFinding.EnableGrid(positions, Color.blue);
             playerManager.aStarPathFinding.EnableSubGrid(currentSkill.skill.skillsBaseSO.positionsSkillForm, Color.red);
@@ -137,6 +138,7 @@ public class MenuSkillsCharacter : MonoBehaviour
     {
         if (isMenuActive && !menuSkillSelectSkill.activeSelf && !GameManager.Instance.isPause)
         {
+            AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonAdvance"), 1, true);
             bool direction = context.ReadValue<float>() > 0;
             playerManager.mouseDecal.subGridContainer.rotation = Quaternion.Euler(0, playerManager.mouseDecal.subGridContainer.localRotation.eulerAngles.y + (direction ? 90 : -90), 0);
         }
@@ -149,6 +151,7 @@ public class MenuSkillsCharacter : MonoBehaviour
     {
         try
         {
+            AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonAdvance"), 1, true);
             await Awaitable.NextFrameAsync();
             await SpawnBanners();
             index = 0;
@@ -220,6 +223,8 @@ public class MenuSkillsCharacter : MonoBehaviour
     {
         try
         {
+            AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonAdvance"), 1, true);
+            
             List<Vector3Int> positionsToMakeSkill = new List<Vector3Int>();
 
             foreach (KeyValuePair<Vector3Int, GameObject> pos in playerManager.aStarPathFinding.currentSubGrid)

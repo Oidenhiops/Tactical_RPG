@@ -55,12 +55,17 @@ public class MenuAllCharacters : MonoBehaviour
     }
     public void OnCharacterSelect(AllCharactersBanner banner)
     {
-        if (!GameManager.Instance.isPause) _= playerManager.menuCharacterInfo.ReloadInfo(banner.character);
+        if (!GameManager.Instance.isPause)
+        {
+            AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonAdvance"), 1, true);
+            _ = playerManager.menuCharacterInfo.ReloadInfo(banner.character);
+        }
     }
     public async Awaitable EnableMenu()
     {
         try
         {
+            AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonAdvance"), 1, true);
             await SpawnBanners();
             index = 0;
             if (banners.Count > 0)

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class MenuSlotsHelper : MonoBehaviour
+public class MenuSlotsHelper : MonoBehaviour, MenuSelectCharacterToCreate.IMenuSelectCharacterToCreate
 {
     public GameManagerHelper gameManagerHelper;
     public GameObject slotButton;
@@ -13,6 +13,7 @@ public class MenuSlotsHelper : MonoBehaviour
     public GameObject buttonsContainer;
     public SlotInfo[] slotInfos = new SlotInfo[3];
     public MenuSelectCharacterToCreate menuCreateCharacter;
+    public bool isMenuActive;
     void OnEnable()
     {
         backButton.started += UnloadSlotsMenu;
@@ -48,6 +49,7 @@ public class MenuSlotsHelper : MonoBehaviour
             }
         }
         buttonsContainer.SetActive(false);
+        isMenuActive = true;
     }
     string GetPlayTime(string createdDate, string lastSaveDate)
     {
@@ -79,20 +81,22 @@ public class MenuSlotsHelper : MonoBehaviour
     }
     void UnloadSlotsMenu(InputAction.CallbackContext context)
     {
-        UnloadSlots();
-    }
-    public void UnloadSlots()
-    {
-        buttonsContainer.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(playButton);
-        gameObject.SetActive(false);
+        if (isMenuActive)
+        {
+            buttonsContainer.SetActive(true);
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(playButton);
+            gameObject.SetActive(false);
+            isMenuActive = false;
+            AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonBack"), 1, false);
+        }
     }
     public void LoadOrCreateSlot(int slotIndex)
     {
         GameData.Instance.systemDataInfo.currentGameDataIndex = slotIndex;
         if (GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].isUse)
         {
+            AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonAdvance"), 1, true);
             gameManagerHelper.ChangeScene(GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].currentZone);
             gameManagerHelper.SaveSystemData();
         }
@@ -108,6 +112,17 @@ public class MenuSlotsHelper : MonoBehaviour
         slotInfos[index].noData.SetActive(true);
         slotInfos[index].data.SetActive(false);
     }
+
+    public void DisableOtherMenu()
+    {
+        isMenuActive = false;
+    }
+
+    public void EnableOtherMenu()
+    {
+        isMenuActive = true;
+    }
+
     [Serializable] public class SlotInfo
     {
         public GameObject noData;

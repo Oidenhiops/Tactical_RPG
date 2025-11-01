@@ -241,11 +241,16 @@ public class AStarPathFinding : MonoBehaviour
                             {
                                 if (LastCharacterActionPermitActions() || CanMoveAfterFinishTurn())
                                 {
+                                    AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonAdvance"), 1, true);
                                     EnableGrid(GetWalkableTiles(characterSelected), Color.magenta);
                                 }
                                 else _ = BattlePlayerManager.Instance.menuCharacterActions.EnableMenu();
                             }
-                            else _ = BattlePlayerManager.Instance.menuCharacterInfo.ReloadInfo(characterSelected);
+                            else
+                            {
+                                    AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonAdvance"), 1, true);
+                                _ = BattlePlayerManager.Instance.menuCharacterInfo.ReloadInfo(characterSelected);
+                            }
                         }
                         else _ = BattlePlayerManager.Instance.menuCharacterActions.EnableMenu();
                     }
@@ -268,6 +273,7 @@ public class AStarPathFinding : MonoBehaviour
                         if (LastCharacterActionPermitActions() || CanMoveAfterFinishTurn())
                         {
                             EnableGrid(GetWalkableTiles(characterSelected), Color.magenta);
+                            AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonAdvance"), 1, true);
                         }
                         else _ = BattlePlayerManager.Instance.menuCharacterActions.EnableMenu();
                     }

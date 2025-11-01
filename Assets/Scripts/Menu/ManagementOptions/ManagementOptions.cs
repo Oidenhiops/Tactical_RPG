@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -20,7 +21,12 @@ public class ManagementOptions : MonoBehaviour
     public InputAction backButton;
     public GameManagerHelper gameManagerHelper;
     public GameObject lastButtonSelected;
+    public bool isMenuActive;
     void OnEnable()
+    {
+        _ = EnableMenu();
+    }
+    async Awaitable EnableMenu()
     {
         lastButtonSelected = EventSystem.current.currentSelectedGameObject;
         Time.timeScale = 0;
@@ -35,9 +41,12 @@ public class ManagementOptions : MonoBehaviour
         backButton.Enable();
         muteCheck.SetActive(GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.isMute);
         if (SceneManager.GetSceneByName("HomeScene").isLoaded) homeButton.SetActive(false);
+        await Awaitable.NextFrameAsync();
+        isMenuActive = true;
     }
     void OnDestroy()
     {
+        isMenuActive = false;
         backButton.started -= BackHandle;
         Time.timeScale = 1;
         GameManager.Instance.isPause = false;
@@ -70,7 +79,7 @@ public class ManagementOptions : MonoBehaviour
             buttonBackInfo.button.Select();
             buttonBackInfo.menu.SetActive(false);
             buttonBackInfo = new ButtonBackInfo();
-            AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonBack"), 1, true);
+            gameManagerHelper.PlayASoundButton("TouchButtonBack");
         }
         else
         {
@@ -174,52 +183,26 @@ public class ManagementOptions : MonoBehaviour
     {
         AudioManager.Instance.SetAudioMixerData();
     }
-    public void SetSoundValue(AudioManager.TypeSound typeSound, bool isAdd)
-    {
-        int amount = isAdd ? 1 : -1;
-        SoundInfo soundInfo = FindSoundInfo(typeSound);
-        switch (soundInfo.typeSound)
-        {
-            case AudioManager.TypeSound.Master:
-                soundInfo.slider.value += amount;
-                GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.MASTERValue = soundInfo.slider.value;
-                break;
-            case AudioManager.TypeSound.BGM:
-                soundInfo.slider.value += amount;
-                GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.BGMalue = soundInfo.slider.value;
-                break;
-            case AudioManager.TypeSound.SFX:
-                soundInfo.slider.value += amount;
-                GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.SFXalue = soundInfo.slider.value;
-                break;
-        }
-        SetVolumeSliders();
-        SetMixerValues();
-    }
     public void SetSoundValue(Slider slider)
     {
-        switch (FindSoundInfo(slider).typeSound)
+        if (isMenuActive)
         {
-            case AudioManager.TypeSound.Master:
-                GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.MASTERValue = slider.value;
-                break;
-            case AudioManager.TypeSound.BGM:
-                GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.BGMalue = slider.value;
-                break;
-            case AudioManager.TypeSound.SFX:
-                GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.SFXalue = slider.value;
-                break;
+            switch (FindSoundInfo(slider).typeSound)
+            {
+                case AudioManager.TypeSound.Master:
+                    GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.MASTERValue = slider.value;
+                    break;
+                case AudioManager.TypeSound.BGM:
+                    GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.BGMalue = slider.value;
+                    break;
+                case AudioManager.TypeSound.SFX:
+                    GameData.Instance.systemDataInfo.configurationsInfo.soundConfiguration.SFXalue = slider.value;
+                    break;
+            }
+            gameManagerHelper.PlayASoundButtonUniqueInstance("SliderButton");
+            SetVolumeSliders();
+            SetMixerValues();
         }
-        SetVolumeSliders();
-        SetMixerValues();
-    }
-    public void PlusVolume(int typeSound)
-    {
-        SetSoundValue((AudioManager.TypeSound)typeSound, true);
-    }
-    public void MiunsVolume(int typeSound)
-    {
-        SetSoundValue((AudioManager.TypeSound)typeSound, false);
     }
     public void SetMute()
     {

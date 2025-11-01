@@ -25,6 +25,14 @@ public class MenuSelectCharacterToCreate : MonoBehaviour
     {
         try
         {
+
+            characters = new SerializedDictionary<int, List<GameObject>>();
+
+            foreach (Transform child in charactersContainer.transform)
+            {
+                Destroy(child.gameObject);
+            }
+
             int xPos = -1;
             bool xPosLock = false;
             for (int x = 1; x <= GameData.Instance.charactersDataDBSO.data.Count; x++)
@@ -71,6 +79,7 @@ public class MenuSelectCharacterToCreate : MonoBehaviour
     {
         try
         {
+            AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonAdvance"), 1, true);
             backButton.started += UnloadMenuCreateCharacter;
             movementButton.started += ChangeIndex;
             selectButton.started += SelectCharacter;
@@ -84,6 +93,7 @@ public class MenuSelectCharacterToCreate : MonoBehaviour
             _ = menuCharacterInfo.ReloadInfo(characters[index.x][index.y].GetComponent<CharacterBase>());
             gameObject.SetActive(true);
             isMenuActive = true;
+            otherMenu.GetComponent<IMenuSelectCharacterToCreate>().DisableOtherMenu();
         }
         catch (System.Exception e)
         {
@@ -147,7 +157,8 @@ public class MenuSelectCharacterToCreate : MonoBehaviour
             index.y = characters[index.x].Count - 1;
         }
         gridCellMouse.transform.localPosition = new Vector3(index.y, 0, index.x);
-        _= menuCharacterInfo.ReloadInfo(characters[index.x][index.y].GetComponent<CharacterBase>());
+        _ = menuCharacterInfo.ReloadInfo(characters[index.x][index.y].GetComponent<CharacterBase>());
+        AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonAdvance"), 1, true);
     }
     void UnloadMenuCreateCharacter(InputAction.CallbackContext context)
     {
@@ -167,8 +178,15 @@ public class MenuSelectCharacterToCreate : MonoBehaviour
             characters = new SerializedDictionary<int, List<GameObject>>();
             menuCharacterInfo.DisableMenu();
             isMenuActive = false;
+            otherMenu.GetComponent<IMenuSelectCharacterToCreate>().EnableOtherMenu();
+            AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonBack"), 1, false);
             otherMenu.SetActive(true);
             gameObject.SetActive(false);
         }
+    }
+    public interface IMenuSelectCharacterToCreate
+    {
+        public void DisableOtherMenu();
+        public void EnableOtherMenu();
     }
 }

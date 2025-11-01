@@ -16,17 +16,13 @@ MonoBehaviour:
     _serializedList:
     - Key: HomeScene
       Value:
-        defaultClip: MenuBG
-        otherClip: 
-    - Key: GameScene
-      Value:
-        defaultClip: GameBg
-        otherClip: 
-    - Key: BattleScene
-      Value:
-        defaultClip: GameBg
+        defaultClip: HomeBg
         otherClip: 
     - Key: CityScene
+      Value:
+        defaultClip: CityBg
+        otherClip: 
+    - Key: BattleScene
       Value:
         defaultClip: GameBg
         otherClip: 

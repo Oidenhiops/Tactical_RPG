@@ -69,6 +69,7 @@ public class MenuCharacterSelector : MonoBehaviour
     {
         if (!GameManager.Instance.isPause)
         {
+            AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonAdvance"), 1, true);
             banner.SetActive(false);
             amountCharacters--;
             CharacterBase character = banners.FirstOrDefault(x => x.Value.gameObject == banner.gameObject).Key;
@@ -84,6 +85,7 @@ public class MenuCharacterSelector : MonoBehaviour
     {
         try
         {
+            AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonAdvance"), 1, true);
             await SpawnBanners();
             playerManager.actionsManager.DisableMobileInputs();
             menuCharacterSelector.SetActive(true);

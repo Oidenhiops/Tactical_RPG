@@ -16,6 +16,7 @@ public class MenuCharacterActions : MonoBehaviour
     {
         try
         {
+            AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonAdvance"), 1, true);
             playerManager.actionsManager.DisableMobileInputs();
             if (!playerManager.AnyMenuIsActive())
             {
@@ -169,16 +170,18 @@ public class MenuCharacterActions : MonoBehaviour
     }
     public void HandleAttack()
     {
-        if (isMenuActive && !GameManager.Instance.isPause) _= playerManager.menuAttackCharacter.EnableMenu();
+        if (isMenuActive && !GameManager.Instance.isPause) _ = playerManager.menuAttackCharacter.EnableMenu();
+        
     }
     public void HandleSpecial()
     {
-        if (isMenuActive && !GameManager.Instance.isPause) _= playerManager.menuSkillsCharacter.EnableMenu();
+        if (isMenuActive && !GameManager.Instance.isPause) _ = playerManager.menuSkillsCharacter.EnableMenu();
     }
     public void HandleDefend()
     {
         if (isMenuActive && !GameManager.Instance.isPause)
         {
+            AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonAdvance"), 1, true);
             playerManager.aStarPathFinding.characterSelected.lastAction = ActionsManager.TypeAction.Defend;
             if (playerManager.actionsManager.characterActions.TryGetValue(playerManager.aStarPathFinding.characterSelected, out List<ActionsManager.ActionInfo> actions))
             {
@@ -211,20 +214,20 @@ public class MenuCharacterActions : MonoBehaviour
                     typeAction = ActionsManager.TypeAction.Defend,
                 });
             }
-            _= DisableMenu();
+            _ = DisableMenu();
         }
     }
     public void HandleLift()
     {
-        if (isMenuActive && !GameManager.Instance.isPause) _= playerManager.menuLiftCharacter.EnableMenu();
+        if (isMenuActive && !GameManager.Instance.isPause) _ = playerManager.menuLiftCharacter.EnableMenu();
     }
     public void HandleThrow()
     {
-        if (isMenuActive && !GameManager.Instance.isPause) _= playerManager.menuThrowCharacter.EnableMenu();
+        if (isMenuActive && !GameManager.Instance.isPause) _ = playerManager.menuThrowCharacter.EnableMenu();
     }
     public void HandleItem()
     {
-        if (isMenuActive && !GameManager.Instance.isPause) _= playerManager.menuItemsCharacter.EnableMenu();
+        if (isMenuActive && !GameManager.Instance.isPause) _ = playerManager.menuItemsCharacter.EnableMenu();
     }
     public enum TypeButton
     {

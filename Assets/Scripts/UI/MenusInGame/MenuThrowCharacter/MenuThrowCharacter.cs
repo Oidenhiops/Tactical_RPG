@@ -17,6 +17,7 @@ public class MenuThrowCharacter : MonoBehaviour
     {
         try
         {
+            AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonAdvance"), 1, true);
             await Awaitable.NextFrameAsync();
             menuThrowCharacter.SetActive(true);
             _ = playerManager.menuCharacterActions.DisableMenu(true, true);
@@ -48,6 +49,7 @@ public class MenuThrowCharacter : MonoBehaviour
     {
         try
         {
+            AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonAdvance"), 1, true);
             await Awaitable.NextFrameAsync();
             menuThrowCharacter.SetActive(false);
             playerManager.aStarPathFinding.characterSelected = null;

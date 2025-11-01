@@ -10,16 +10,20 @@ using UnityEngine.UI;
 
 public class MenuSetCharacterNameToCreate : MonoBehaviour
 {
-    public SerializedDictionary<Button, TMP_Text> characterNameButtons = new SerializedDictionary<Button, TMP_Text>();
     public TMP_InputField nameLabel;
     public MenuSelectCharacterToCreate menuSelectCharacterToCreate;
     public CharacterBase characterView;
     public InputAction backAction;
     public bool isMenuActive;
+    public Button initialButton;
+    public List<TMP_Text> alphabetLettersTexts;
+    public int specialCharIndex = 0;
+    public List<GameObject> specialCharButtonsSets;
     public async Awaitable EnableMenu()
     {
         try
         {
+            AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonAdvance"), 1, true);
             characterView.initialDataSO = menuSelectCharacterToCreate.characterSelected;
             await characterView.InitializeCharacter();
             backAction.Enable();
@@ -28,8 +32,16 @@ public class MenuSetCharacterNameToCreate : MonoBehaviour
             menuSelectCharacterToCreate.isMenuActive = false;
             menuSelectCharacterToCreate.container.SetActive(false);
             EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(characterNameButtons.ElementAt(0).Key.gameObject);
+            EventSystem.current.SetSelectedGameObject(initialButton.gameObject);
             isMenuActive = true;
+            specialCharIndex = 0;
+            foreach (GameObject set in specialCharButtonsSets)
+            {
+                set.SetActive(false);
+            }
+            specialCharButtonsSets[specialCharIndex].SetActive(true);
+            if (alphabetLettersTexts.First().text == alphabetLettersTexts.First().text.ToUpper()) ToUpperOrLowercase();
+            await Awaitable.NextFrameAsync();
             gameObject.SetActive(true);
         }
         catch (Exception e)
@@ -55,6 +67,8 @@ public class MenuSetCharacterNameToCreate : MonoBehaviour
                 menuSelectCharacterToCreate.menuCharacterInfo.isMenuActive = true;
                 menuSelectCharacterToCreate.isMenuActive = true;
                 menuSelectCharacterToCreate.container.SetActive(true);
+                AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TouchButtonBack"), 1, false);
+                await Awaitable.NextFrameAsync();
                 gameObject.SetActive(false);
             }
         }
@@ -63,9 +77,29 @@ public class MenuSetCharacterNameToCreate : MonoBehaviour
             Debug.LogError(e);
         }
     }
+    public void ToUpperOrLowercase()
+    {
+        bool isUpper = alphabetLettersTexts.First().text == alphabetLettersTexts.First().text.ToUpper();
+        foreach (TMP_Text letterText in alphabetLettersTexts)
+        {
+            if (!isUpper) letterText.text = letterText.text.ToUpper();
+            else letterText.text = letterText.text.ToLower();
+        }
+    }
+    public void SwapSpecialChars()
+    {
+        specialCharIndex++;
+        if (specialCharIndex >= specialCharButtonsSets.Count) specialCharIndex = 0;
+
+        foreach (GameObject set in specialCharButtonsSets)
+        {
+            set.SetActive(false);
+        }
+        specialCharButtonsSets[specialCharIndex].SetActive(true);
+    }
     public void OnButtonSelect(Button buttonSelected)
     {
-        nameLabel.text += characterNameButtons[buttonSelected].text;
+        nameLabel.text += buttonSelected.GetComponentInChildren<TMP_Text>().text;
     }
     public void OnButtonDelete()
     {
@@ -159,10 +193,12 @@ public class MenuSetCharacterNameToCreate : MonoBehaviour
                 GameData.Instance.LoadGameDataInfo();
                 EventSystem.current.SetSelectedGameObject(null);
                 EventSystem.current.SetSelectedGameObject(menuSelectCharacterToCreate.lastButtonSelected);
-                gameObject.SetActive(false);
                 menuSelectCharacterToCreate.container.SetActive(true);
                 menuSelectCharacterToCreate.gameObject.SetActive(false);
+                menuSelectCharacterToCreate.otherMenu.GetComponent<MenuSelectCharacterToCreate.IMenuSelectCharacterToCreate>().EnableOtherMenu();
                 menuSelectCharacterToCreate.otherMenu.SetActive(true);
+                await Awaitable.NextFrameAsync();
+                gameObject.SetActive(false);
             }
         }
         catch (Exception e)
