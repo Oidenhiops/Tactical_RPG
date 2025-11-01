@@ -18,7 +18,8 @@ public class MenuSetCharacterNameToCreate : MonoBehaviour
     public Button initialButton;
     public List<TMP_Text> alphabetLettersTexts;
     public int specialCharIndex = 0;
-    public List<GameObject> specialCharButtonsSets;
+    public SerializedDictionary<int, List<string>> specialCharButtonsSets;
+    public List<TMP_Text> specialCharButtonsTexts;
     public async Awaitable EnableMenu()
     {
         try
@@ -35,11 +36,10 @@ public class MenuSetCharacterNameToCreate : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(initialButton.gameObject);
             isMenuActive = true;
             specialCharIndex = 0;
-            foreach (GameObject set in specialCharButtonsSets)
+            for (int i = 0; i < specialCharButtonsTexts.Count; i++)
             {
-                set.SetActive(false);
+                specialCharButtonsTexts[i].text = specialCharButtonsSets[specialCharIndex][i];
             }
-            specialCharButtonsSets[specialCharIndex].SetActive(true);
             if (alphabetLettersTexts.First().text == alphabetLettersTexts.First().text.ToUpper()) ToUpperOrLowercase();
             await Awaitable.NextFrameAsync();
             gameObject.SetActive(true);
@@ -91,11 +91,10 @@ public class MenuSetCharacterNameToCreate : MonoBehaviour
         specialCharIndex++;
         if (specialCharIndex >= specialCharButtonsSets.Count) specialCharIndex = 0;
 
-        foreach (GameObject set in specialCharButtonsSets)
+        for (int i = 0; i < specialCharButtonsTexts.Count; i++)
         {
-            set.SetActive(false);
+            specialCharButtonsTexts[i].text = specialCharButtonsSets[specialCharIndex][i];
         }
-        specialCharButtonsSets[specialCharIndex].SetActive(true);
     }
     public void OnButtonSelect(Button buttonSelected)
     {

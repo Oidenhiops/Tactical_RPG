@@ -11,7 +11,6 @@ public class ActionsManager : MonoBehaviour
     public BattlePlayerManager playerManager;
     public Animator roundStateAnimator;
     public ManagementLanguage roundStateLanguage;
-    public InputAction endTurnTest;
     public SerializedDictionary<CharacterBase, List<ActionInfo>> characterActions = new SerializedDictionary<CharacterBase, List<ActionInfo>>();
     public SerializedDictionary<CharacterBase, ActionInfo> characterFinalActions = new SerializedDictionary<CharacterBase, ActionInfo>();
     public GameObject[] mobileInputs;
@@ -39,12 +38,9 @@ public class ActionsManager : MonoBehaviour
     {
         playerManager.characterActions.CharacterInputs.Back.performed += OnUndoAction;
         ManagementOpenCloseScene.Instance.OnFinishOpenAnimation += OnFinishOpenAnimation;
-        endTurnTest.started += OnEndTurnTest;
-        endTurnTest.Enable();
     }
     void OnDestroy()
     {
-        endTurnTest.started -= OnEndTurnTest;
         playerManager.characterActions.CharacterInputs.Back.performed -= OnUndoAction;
         ManagementOpenCloseScene.Instance.OnFinishOpenAnimation -= OnFinishOpenAnimation;
 
@@ -73,10 +69,6 @@ public class ActionsManager : MonoBehaviour
         {
             Debug.LogError(e);
         }
-    }
-    public void OnEndTurnTest(InputAction.CallbackContext context)
-    {
-        if (!isPlayerTurn) _ = EndTurn();
     }
     void OnUndoAction(InputAction.CallbackContext context)
     {
