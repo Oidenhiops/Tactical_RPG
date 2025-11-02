@@ -58,7 +58,7 @@ public class WorldManager : MonoBehaviour
         {
             var characterInfo = GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].
                 characters[GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].principalCharacterName];
-            characterWorld.initialDataSO = GameData.Instance.charactersDataDBSO.data[characterInfo.id][characterInfo.subId].initialDataSO;
+            characterWorld.initialDataSO = GameData.Instance.charactersDataDBSO.data[characterInfo.characterId][characterInfo.characterRangeId].initialDataSO;
             characterWorld.isCharacterPlayer = true;
             characterWorld.name = characterInfo.name;
             characterWorld.characterData = characterInfo;

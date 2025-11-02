@@ -40,6 +40,21 @@ public class CharacterBase : MonoBehaviour
             ChangeDirectionModel();
         }
     }
+    [NaughtyAttributes.Button]
+    public void ChangeSkin()
+    {
+        characterData.characterSkinId++;
+        if (characterData.characterSkinId > GameData.Instance.charactersSkinDBSO.data[initialDataSO.id].Count - 1)
+        {
+            characterData.characterSkinId = 0;
+        }
+        characterData.characterSkinData = new CharacterData.CharacterSkinData
+        {
+            atlas = GameData.Instance.charactersSkinDBSO.data[initialDataSO.id][characterData.characterSkinId].atlas,
+            atlasHands = GameData.Instance.charactersSkinDBSO.data[initialDataSO.id][characterData.characterSkinId].atlasHands
+        };
+        _ = InitializeAnimations();
+    }
     public async Awaitable InitializeCharacter()
     {
         try
@@ -57,7 +72,7 @@ public class CharacterBase : MonoBehaviour
     {
         try
         {
-            characterAnimations.SetInitialData(ref initialDataSO);
+            characterAnimations.SetInitialData();
             await Awaitable.NextFrameAsync();
         }
         catch (Exception e)
@@ -69,8 +84,8 @@ public class CharacterBase : MonoBehaviour
     {
         characterData.name = GameData.Instance.charactersDataDBSO.GenerateFantasyName();
         characterData.level = 1;
-        characterData.id = initialDataSO.id;
-        characterData.subId = initialDataSO.subId;
+        characterData.characterId = initialDataSO.id;
+        characterData.characterRangeId = initialDataSO.subId;
         gameObject.name = characterData.name;
         characterData.statistics = initialDataSO.CloneStatistics();
         characterData.skills = initialDataSO.CloneSkills();
@@ -80,6 +95,11 @@ public class CharacterBase : MonoBehaviour
             statistic.Value.RefreshValue();
             statistic.Value.SetMaxValue();
         }
+        characterData.characterSkinData = new CharacterData.CharacterSkinData
+        {
+            atlas = GameData.Instance.charactersSkinDBSO.data[initialDataSO.id][characterData.characterSkinId].atlas,
+            atlasHands = GameData.Instance.charactersSkinDBSO.data[initialDataSO.id][characterData.characterSkinId].atlasHands
+        };
         characterData.mastery = initialDataSO.CloneMastery();
         await Awaitable.NextFrameAsync();
     }

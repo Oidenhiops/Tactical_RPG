@@ -12,17 +12,17 @@ public class CharacterAnimation : MonoBehaviour
     public string animationAfterEnd;
     bool isUp = false;
 
-    public void SetInitialData(ref InitialDataSO animationsData)
+    public void SetInitialData()
     {
         StopAllCoroutines();
         currentSpriteIndex = 0;
         animationAfterEnd = "";
-        character.characterModel.characterMeshRenderer.transform.parent.transform.localScale = Vector3.one * GetScaleFactor(animationsData.animations["Idle"].spritesInfoDown[0].characterSprite.rect.width);
-        character.characterModel.characterMeshRenderer.material.SetTexture("_BaseTexture", animationsData.atlas);
-        if (animationsData.atlasHands)
+        character.characterModel.characterMeshRenderer.transform.parent.transform.localScale = Vector3.one * GetScaleFactor(character.initialDataSO.animations["Idle"].spritesInfoDown[0].characterSprite.rect.width);
+        character.characterModel.characterMeshRenderer.material.SetTexture("_BaseTexture", character.characterData.characterSkinData.atlas);
+        if (character.characterData.characterSkinData.atlasHands)
         {
             character.characterModel.characterMeshRendererHand.gameObject.SetActive(true);
-            character.characterModel.characterMeshRendererHand.material.SetTexture("_BaseTexture", animationsData.atlasHands);
+            character.characterModel.characterMeshRendererHand.material.SetTexture("_BaseTexture", character.characterData.characterSkinData.atlasHands);
         }
         else
         {
@@ -69,7 +69,7 @@ public class CharacterAnimation : MonoBehaviour
                     currentAnimation.spritesInfoDown[currentSpriteIndex].characterSprite,
                 character.characterModel.characterMeshRenderer
             );
-            if (character.initialDataSO.atlasHands)
+            if (character.characterData.characterSkinData.atlasHands)
             {
                 SetTextureFromAtlas(
                     isUp ?

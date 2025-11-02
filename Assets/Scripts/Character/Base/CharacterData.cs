@@ -6,9 +6,11 @@ using UnityEngine;
 [Serializable]
 public class CharacterData
 {
-    public int id;
-    public int subId;
+    public int characterId;
+    public int characterRangeId;
+    public int characterSkinId;
     public int level;
+    public CharacterSkinData characterSkinData;
     public string name;
     public SerializedDictionary<TypeStatistic, Statistic> statistics = new SerializedDictionary<TypeStatistic, Statistic>();
     public SerializedDictionary<CharacterItemInfo, CharacterItem> items = new SerializedDictionary<CharacterItemInfo, CharacterItem>
@@ -127,6 +129,12 @@ public class CharacterData
         public SkillsBaseSO skillsBaseSO;
         public int level;
         public SerializedDictionary<TypeStatistic, Statistic> statistics = new SerializedDictionary<TypeStatistic, Statistic>();
+    }
+    [Serializable]
+    public class CharacterSkinData
+    {
+        public Texture2D atlas;
+        public Texture2D atlasHands;
     }
     public enum TypeMastery
     {

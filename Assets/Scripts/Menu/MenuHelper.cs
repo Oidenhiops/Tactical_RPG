@@ -15,7 +15,7 @@ public class MenuHelper : MonoBehaviour
         {
             var characterInfo = GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].
                 characters[GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].principalCharacterName];
-            characterView.initialDataSO = GameData.Instance.charactersDataDBSO.data[characterInfo.id][characterInfo.subId].initialDataSO;
+            characterView.initialDataSO = GameData.Instance.charactersDataDBSO.data[characterInfo.characterId][characterInfo.characterRangeId].initialDataSO;
         }
         _ = characterView.InitializeCharacter();
     }

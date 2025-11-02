@@ -123,11 +123,16 @@ public class MenuSetCharacterNameToCreate : MonoBehaviour
             GameData.Instance.SetStartingItems();
             CharacterData character = new CharacterData
             {
-                id = menuSelectCharacterToCreate.characterSelected.id,
-                subId = menuSelectCharacterToCreate.characterSelected.subId,
+                characterId = menuSelectCharacterToCreate.characterSelected.id,
+                characterRangeId = menuSelectCharacterToCreate.characterSelected.subId,
                 name = nameLabel.text,
                 level = 1,
-                mastery = new SerializedDictionary<CharacterData.TypeMastery, CharacterData.CharacterMasteryInfo>()
+                mastery = new SerializedDictionary<CharacterData.TypeMastery, CharacterData.CharacterMasteryInfo>(),
+                characterSkinData = new CharacterData.CharacterSkinData
+                {
+                    atlas = GameData.Instance.charactersSkinDBSO.data[menuSelectCharacterToCreate.characterSelected.id][0].atlas,
+                    atlasHands = GameData.Instance.charactersSkinDBSO.data[menuSelectCharacterToCreate.characterSelected.id][0].atlasHands
+                }
             };
             character.statistics = menuSelectCharacterToCreate.characterSelected.CloneStatistics();
             character.mastery = menuSelectCharacterToCreate.characterSelected.CloneMastery();
@@ -152,11 +157,16 @@ public class MenuSetCharacterNameToCreate : MonoBehaviour
             {
                 CharacterData companionCharacter = new CharacterData
                 {
-                    id = companion.initialDataSO.id,
-                    subId = companion.initialDataSO.subId,
+                    characterId = companion.initialDataSO.id,
+                    characterRangeId = companion.initialDataSO.subId,
                     name = GameData.Instance.charactersDataDBSO.GenerateFantasyName(),
                     level = 1,
-                    mastery = new SerializedDictionary<CharacterData.TypeMastery, CharacterData.CharacterMasteryInfo>()
+                    mastery = new SerializedDictionary<CharacterData.TypeMastery, CharacterData.CharacterMasteryInfo>(),
+                    characterSkinData = new CharacterData.CharacterSkinData
+                    {
+                        atlas = GameData.Instance.charactersSkinDBSO.data[companion.initialDataSO.id][0].atlas,
+                        atlasHands = GameData.Instance.charactersSkinDBSO.data[companion.initialDataSO.id][0].atlasHands
+                    }
                 };
                 companionCharacter.statistics = companion.initialDataSO.CloneStatistics();
                 companionCharacter.mastery = companion.initialDataSO.CloneMastery();

@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b8f3c642bf0794480692cc2850b655, type: 3}
+  m_Name: CharactersSkinsDataDB
+  m_EditorClassIdentifier: Assembly-CSharp::CharactersSkinDBSO
+  data:
+    _serializedList:
+    - Key: 1
+      Value:
+        _serializedList:
+        - Key: 0
+          Value:
+            atlas: {fileID: 2800000, guid: 28ba607fe7aaf0248a6d0c1da3c60b3d, type: 3}
+            atlasHands: {fileID: 2800000, guid: 4065f90a94fe85e44a5e6838f5cc4fd8,
+              type: 3}
+    - Key: 2
+      Value:
+        _serializedList:
+        - Key: 0
+          Value:
+            atlas: {fileID: 2800000, guid: 09cbacb19c47a3c4d999053c9e486107, type: 3}
+            atlasHands: {fileID: 0}
+    - Key: 3
+      Value:
+        _serializedList:
+        - Key: 0
+          Value:
+            atlas: {fileID: 2800000, guid: cf5617fe2deeb7645bb997b5d684dcec, type: 3}
+            atlasHands: {fileID: 2800000, guid: be64ab223c6f65543a661d5ac197e511,
+              type: 3}
+    - Key: 4
+      Value:
+        _serializedList:
+        - Key: 0
+          Value:
+            atlas: {fileID: 2800000, guid: a6948391d5746e44494287e33ad8a1d1, type: 3}
+            atlasHands: {fileID: 0}
+    - Key: 5
+      Value:
+        _serializedList:
+        - Key: 0
+          Value:
+            atlas: {fileID: 2800000, guid: 6bde0e5effe3d0441bdc221a040c4da6, type: 3}
+            atlasHands: {fileID: 0}
+    - Key: 6
+      Value:
+        _serializedList:
+        - Key: 0
+          Value:
+            atlas: {fileID: 2800000, guid: c3aeef89109800944a9811ca450704db, type: 3}
+            atlasHands: {fileID: 2800000, guid: 8de3fb909136d5541a4e46830aa34b83,
+              type: 3}
+        - Key: 1
+          Value:
+            atlas: {fileID: 2800000, guid: 47c19d5e934626e4b8413a5e043a84c4, type: 3}
+            atlasHands: {fileID: 2800000, guid: 47c19d5e934626e4b8413a5e043a84c4,
+              type: 3}
+        - Key: 2
+          Value:
+            atlas: {fileID: 2800000, guid: 57f69ac392412474bafcb53ae281fffa, type: 3}
+            atlasHands: {fileID: 2800000, guid: 5e2b9c5373979ab4891892b19028530f,
+              type: 3}
+        - Key: 3
+          Value:
+            atlas: {fileID: 2800000, guid: 88470c04f4eb74448b78fc31500005e9, type: 3}
+            atlasHands: {fileID: 2800000, guid: 3ef4764f82e7ad24391b53e8fa6ddda7,
+              type: 3}
+        - Key: 4
+          Value:
+            atlas: {fileID: 2800000, guid: 3a8aa508bb1eb7941b25d150af4ab0b0, type: 3}
+            atlasHands: {fileID: 2800000, guid: ac96f1dd3e0ee8946a116c2d4745f18e,
+              type: 3}
+        - Key: 5
+          Value:
+            atlas: {fileID: 2800000, guid: 9966ab3212d68594dae8ed0f33172a25, type: 3}
+            atlasHands: {fileID: 2800000, guid: 07aad0b38543ecb4aa8979a63a8681ad,
+              type: 3}
+    - Key: 7
+      Value:
+        _serializedList:
+        - Key: 0
+          Value:
+            atlas: {fileID: 2800000, guid: 5557c4d2217701447bae7f9f38274fd4, type: 3}
+            atlasHands: {fileID: 2800000, guid: 0468e53e820f17a4b9c7ab65f50c28eb,
+              type: 3}

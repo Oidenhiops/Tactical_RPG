@@ -85,7 +85,7 @@ public class BattlePlayerManager : MonoBehaviour
             foreach (KeyValuePair<string, CharacterData> characterInfo in GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].characters)
             {
                 CharacterBase character = Instantiate(characterBattlePrefab, Vector3Int.down * 2, Quaternion.identity, charactersContainer).GetComponent<CharacterBase>();
-                character.initialDataSO = GameData.Instance.charactersDataDBSO.data[characterInfo.Value.id][characterInfo.Value.subId].initialDataSO;
+                character.initialDataSO = GameData.Instance.charactersDataDBSO.data[characterInfo.Value.characterId][characterInfo.Value.characterRangeId].initialDataSO;
                 character.isCharacterPlayer = true;
                 character.characterData = characterInfo.Value;
                 character.name = character.characterData.name;

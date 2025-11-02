@@ -70,3 +70,4 @@ MonoBehaviour:
   charactersDataDBSO: {fileID: 11400000, guid: 531313ff13345ad4fa1312acb11008c2, type: 2}
   itemsDBSO: {fileID: 11400000, guid: 68c84c9b952137347842bd55f2920dbe, type: 2}
   skillsDBSO: {fileID: 11400000, guid: 0053e4031ce50c54c823b834917bff4f, type: 2}
+  charactersSkinDBSO: {fileID: 11400000, guid: d55870b6871acfc48996197b729f1916, type: 2}

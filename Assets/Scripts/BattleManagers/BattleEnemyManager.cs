@@ -492,8 +492,8 @@ public class BattleEnemyManager : MonoBehaviour
                 {
                     CharacterData characterData = new CharacterData
                     {
-                        id = initialData.id,
-                        subId = initialData.subId,
+                        characterId = initialData.id,
+                        characterRangeId = initialData.subId,
                         level = 1,
                         mastery = new SerializedDictionary<CharacterData.TypeMastery, CharacterData.CharacterMasteryInfo>()
                     };
@@ -538,8 +538,8 @@ public class BattleEnemyManager : MonoBehaviour
                     character.characterData.statistics = character.initialDataSO.CloneStatistics();
                     character.characterData.mastery = character.initialDataSO.CloneMastery();
                     character.characterData.skills = character.initialDataSO.CloneSkills();
-                    character.characterData.id = character.initialDataSO.id;
-                    character.characterData.subId = character.initialDataSO.subId;
+                    character.characterData.characterId = character.initialDataSO.id;
+                    character.characterData.characterRangeId = character.initialDataSO.subId;
                     character.characterModel.characterMeshRenderer.material = materialCharacterEnemy;
                     character.characterModel.characterMeshRendererHand.material = materialCharacterEnemy;
                     foreach (KeyValuePair<CharacterData.TypeStatistic, CharacterData.Statistic> statistic in character.characterData.statistics)

@@ -16,6 +16,7 @@ public class GameData : MonoBehaviour
     public CharacterDataDBSO charactersDataDBSO;
     public ItemsDBSO itemsDBSO;
     public SkillsDBSO skillsDBSO;
+    public CharactersSkinDBSO charactersSkinDBSO;
     void Awake()
     {
         if (Instance == null)
@@ -41,6 +42,7 @@ public class GameData : MonoBehaviour
             LoadLOCS();
             InitializeResolutionData();
             InitializeBGM();
+            InitializeSkinsData();
             InitializeBagItems();
             InitializeCharacterItems();
             InitializeCharacterSkills();
@@ -103,6 +105,20 @@ public class GameData : MonoBehaviour
                         }
                     }
                 }
+            }
+        }
+    }
+    void InitializeSkinsData()
+    {
+        foreach (GameDataSlot gameDataSlot in gameDataInfo.gameDataSlots)
+        {
+            foreach (KeyValuePair<string, CharacterData> characterData in gameDataSlot.characters)
+            {
+                characterData.Value.characterSkinData = new CharacterData.CharacterSkinData
+                {
+                    atlas = charactersSkinDBSO.data[characterData.Value.characterId][characterData.Value.characterSkinId].atlas,
+                    atlasHands = charactersSkinDBSO.data[characterData.Value.characterId][characterData.Value.characterSkinId].atlasHands
+                };
             }
         }
     }
