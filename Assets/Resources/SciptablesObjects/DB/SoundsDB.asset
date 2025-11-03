@@ -65,18 +65,6 @@ MonoBehaviour:
           - {fileID: 8300000, guid: 3c3ad5fea782d6745bb174be9e20ae50, type: 3}
           - {fileID: 8300000, guid: 82f4cba4b4c4cce4c9ab53e977e8303c, type: 3}
           - {fileID: 8300000, guid: cebcb279b62453d4e90973cfdc8982ce, type: 3}
-        - Key: SelectChar
-          Value:
-          - {fileID: 8300000, guid: 2b3341bb02476a34094516b03867a41c, type: 3}
-          - {fileID: 8300000, guid: 9a607fe8a9d0e0b4ea59001439da9e1d, type: 3}
-          - {fileID: 8300000, guid: b7e2a99dd36892e40bc2684c17c26cfe, type: 3}
-          - {fileID: 8300000, guid: 2edbe5c7d41b70b44a2fb1e5e6e576f2, type: 3}
-          - {fileID: 8300000, guid: 23bbc5b86811d1e4fbcf3d2504feb6f1, type: 3}
-          - {fileID: 8300000, guid: d52d44f3db5e4d74e8c0317c34b4919c, type: 3}
-          - {fileID: 8300000, guid: c6afe7f0455dadc4f85e986e8c5a1e77, type: 3}
-          - {fileID: 8300000, guid: fd8aab2dd67b71c4e97e44edbc049715, type: 3}
-          - {fileID: 8300000, guid: ad2c1aa4fc4f4a94e9d604363e04ceef, type: 3}
-          - {fileID: 8300000, guid: b5efb1726d0f1cb41b5120e645c74c3a, type: 3}
         - Key: UndoChar
           Value:
           - {fileID: 8300000, guid: 7d91ce4fd01a9a147b9437436afcd451, type: 3}
@@ -113,3 +101,27 @@ MonoBehaviour:
           - {fileID: 8300000, guid: 353022afb60f8574a9c32e1351424e6c, type: 3}
           - {fileID: 8300000, guid: 210a01e91416a964f860fd657efd1ea6, type: 3}
           - {fileID: 8300000, guid: da734b2ba8b9f4449a8b69cc9a5307b2, type: 3}
+        - Key: SelectChar
+          Value:
+          - {fileID: 8300000, guid: 2b3341bb02476a34094516b03867a41c, type: 3}
+          - {fileID: 8300000, guid: 9a607fe8a9d0e0b4ea59001439da9e1d, type: 3}
+          - {fileID: 8300000, guid: b7e2a99dd36892e40bc2684c17c26cfe, type: 3}
+          - {fileID: 8300000, guid: 2edbe5c7d41b70b44a2fb1e5e6e576f2, type: 3}
+          - {fileID: 8300000, guid: 23bbc5b86811d1e4fbcf3d2504feb6f1, type: 3}
+          - {fileID: 8300000, guid: d52d44f3db5e4d74e8c0317c34b4919c, type: 3}
+          - {fileID: 8300000, guid: c6afe7f0455dadc4f85e986e8c5a1e77, type: 3}
+          - {fileID: 8300000, guid: fd8aab2dd67b71c4e97e44edbc049715, type: 3}
+          - {fileID: 8300000, guid: ad2c1aa4fc4f4a94e9d604363e04ceef, type: 3}
+          - {fileID: 8300000, guid: b5efb1726d0f1cb41b5120e645c74c3a, type: 3}
+        - Key: TypeSound
+          Value:
+          - {fileID: 8300000, guid: 2b3341bb02476a34094516b03867a41c, type: 3}
+          - {fileID: 8300000, guid: 9a607fe8a9d0e0b4ea59001439da9e1d, type: 3}
+          - {fileID: 8300000, guid: b7e2a99dd36892e40bc2684c17c26cfe, type: 3}
+          - {fileID: 8300000, guid: 2edbe5c7d41b70b44a2fb1e5e6e576f2, type: 3}
+          - {fileID: 8300000, guid: 23bbc5b86811d1e4fbcf3d2504feb6f1, type: 3}
+          - {fileID: 8300000, guid: d52d44f3db5e4d74e8c0317c34b4919c, type: 3}
+          - {fileID: 8300000, guid: c6afe7f0455dadc4f85e986e8c5a1e77, type: 3}
+          - {fileID: 8300000, guid: fd8aab2dd67b71c4e97e44edbc049715, type: 3}
+          - {fileID: 8300000, guid: ad2c1aa4fc4f4a94e9d604363e04ceef, type: 3}
+          - {fileID: 8300000, guid: b5efb1726d0f1cb41b5120e645c74c3a, type: 3}

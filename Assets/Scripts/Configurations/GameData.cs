@@ -175,12 +175,12 @@ public class GameData : MonoBehaviour
         }
         try
         {
-            TextAsset locsChars = Resources.Load<TextAsset>("LOCS/LOC_Chars");
-            locs.Add(TypeLOCS.Chars, TransformCSV(locsChars));
+            TextAsset locsDialogs = Resources.Load<TextAsset>("LOCS/LOC_Dialogs");
+            locs.Add(TypeLOCS.Dialogs, TransformCSV(locsDialogs));
         }
         catch
         {
-            Debug.LogError("No se encontro el archivo LOC_Chars");
+            Debug.LogError("No se encontro el archivo LOC_Dialogs");
         }
     }
     Dictionary<string, string[]> TransformCSV(TextAsset textAsset)
