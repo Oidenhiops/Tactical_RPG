@@ -183,9 +183,7 @@ public class CharacterWorldPlayer : CharacterBase
             {
                 if (from.blockInfo.transform.rotation.y == 0 && to.blockInfo.transform.rotation.y == 0)
                 {
-                    Vector3Int moveDir = Vector3Int.RoundToInt(to.blockInfo.transform.position - from.blockInfo.transform.position);
-                    float dot = Vector3.Dot(moveDir, transform.forward);
-                    if (dot > 0.5f)
+                    if (from.blockInfo.typeBlock == Block.TypeBlock.Stair)
                     {
                         midPoint.y = 0;
                     }
@@ -193,11 +191,11 @@ public class CharacterWorldPlayer : CharacterBase
                     {
                         if (from.blockInfo.typeBlock == Block.TypeBlock.Block)
                         {
-                            midPoint.y = endPos.y;
+                            midPoint.y = startPos.y;
                         }
                         else
                         {
-                            midPoint.y = startPos.y;
+                            midPoint.y = endPos.y;
                         }
                     }
                 }
