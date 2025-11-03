@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class CameraInfo : MonoBehaviour
@@ -22,7 +23,6 @@ public class CameraInfo : MonoBehaviour
         Quaternion rotationOffset = Quaternion.Euler(0, -45f, 0);
         Vector3 camForward = rotationOffset * forward;
         Vector3 camRight = rotationOffset * right;
-
         Vector3 camRelativeDir = (direction.x * camRight + direction.z * camForward).normalized;
         directionFromCamera = new Vector3Int(Mathf.RoundToInt(camRelativeDir.x), 0, Mathf.RoundToInt(camRelativeDir.z));
     }

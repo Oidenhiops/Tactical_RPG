@@ -90,9 +90,13 @@ MonoBehaviour:
     originalMesh: {fileID: 6622264641530768373, guid: 4385848d124d476478957ebbe044aec6,
       type: 3}
   characterData:
-    id: 0
-    subId: 0
+    characterId: 0
+    characterRangeId: 0
+    characterSkinId: 0
     level: 0
+    characterSkinData:
+      atlas: {fileID: 0}
+      atlasHands: {fileID: 0}
     name: 
     statistics:
       _serializedList:
@@ -255,6 +259,9 @@ MonoBehaviour:
           masteryLevel: 0
           currentExp: 0
           maxExp: 0
+    skills:
+      m_Keys: 
+      m_Values: []
   direction: {x: 0, y: 0, z: 0}
   nextDirection: {x: 0, y: 0, z: 0}
   characterAnimations: {fileID: 3788326535341420580}
@@ -262,11 +269,12 @@ MonoBehaviour:
   positionInGrid: {x: 0, y: 0, z: 0}
   startPositionInGrid: {x: 0, y: 0, z: 0}
   lastAction: 0
+  hasLifted: 0
   floatingTextPrefab: {fileID: 2459534110922450985, guid: 735e9d32137233f4492a6d557a6c2880,
     type: 3}
   dieEffectPrefab: {fileID: 3328385887415025661, guid: f5ddebed183a2d947bd7dfdbb72a5cc5,
     type: 3}
-  setDataWhitInitialValues: 1
+  canMoveAfterFinishTurn: 0
   autoInit: 0
 --- !u!114 &3788326535341420580
 MonoBehaviour:
@@ -351,6 +359,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 825085045171416096}
+  - component: {fileID: 1931932381152730494}
   m_Layer: 0
   m_Name: CharacterModel
   m_TagString: Untagged
@@ -374,6 +383,19 @@ Transform:
   - {fileID: 7873512387308882313}
   m_Father: {fileID: 1791299666810847271}
   m_LocalEulerAnglesHint: {x: 45, y: 45, z: 0}
+--- !u!114 &1931932381152730494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5252179369395549219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a62d7b397d4428042ad074edfbcdca18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Billboard
+  offsetRotation: {x: -10, y: 0, z: 0}
 --- !u!1 &7988671965371829188
 GameObject:
   m_ObjectHideFlags: 0

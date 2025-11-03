@@ -417,6 +417,9 @@ public class BattleEnemyManager : MonoBehaviour
                             new ActionsManager.OtherCharacterInfo(action.Value.posibleTargets.First(), Vector3Int.RoundToInt(action.Value.posibleTargets.First().transform.position))
                         }
                     });
+
+                    action.Key.LookAt(action.Value.characterMakeAction.positionInGrid, action.Value.posibleTargets.First().positionInGrid);
+                    
                     break;
                 case PosibleActions.SkillAttack:
                     actionsManager.characterActions.Add(

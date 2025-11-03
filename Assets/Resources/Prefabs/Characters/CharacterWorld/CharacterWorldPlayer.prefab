@@ -141,9 +141,13 @@ MonoBehaviour:
     originalMesh: {fileID: 6622264641530768373, guid: 4385848d124d476478957ebbe044aec6,
       type: 3}
   characterData:
-    id: 0
-    subId: 0
+    characterId: 0
+    characterRangeId: 0
+    characterSkinId: 0
     level: 0
+    characterSkinData:
+      atlas: {fileID: 0}
+      atlasHands: {fileID: 0}
     name: 
     statistics:
       _serializedList: []
@@ -366,7 +370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a62d7b397d4428042ad074edfbcdca18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offsetRotation: {x: 0, y: 0, z: 0}
+  offsetRotation: {x: -10, y: 0, z: 0}
 --- !u!1 &5889088858638714361
 GameObject:
   m_ObjectHideFlags: 0

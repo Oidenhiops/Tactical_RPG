@@ -211,13 +211,10 @@ public class AStarPathFinding : MonoBehaviour
         {
             Vector3Int randomPos = new Vector3Int(UnityEngine.Random.Range(limitX.x, limitX.y), 0, UnityEngine.Random.Range(limitZ.x, limitZ.y));
             GetHighestBlockAt(randomPos.x, randomPos.z, out GenerateMap.WalkablePositionInfo blockFinded);
-            if (blockFinded != null && blockFinded.blockInfo.typeBlock != Block.TypeBlock.Spawn)
+            if (blockFinded != null && blockFinded.blockInfo.typeBlock != Block.TypeBlock.Spawn && !blockFinded.hasCharacter)
             {
-                if (grid.TryGetValue(randomPos, out GenerateMap.WalkablePositionInfo block) && block.blockInfo.typeBlock == Block.TypeBlock.Normal && !block.hasCharacter)
-                {
-                    positionBlock = block;
-                    return true;
-                }
+                positionBlock = blockFinded;
+                return true;
             }
             x++;
         }
@@ -228,7 +225,7 @@ public class AStarPathFinding : MonoBehaviour
     {
         if (grid.TryGetValue(pointerPos, out GenerateMap.WalkablePositionInfo block))
         {
-            if (block.blockInfo.typeBlock == Block.TypeBlock.Normal)
+            if (block.blockInfo.typeBlock != Block.TypeBlock.Spawn)
             {
                 if (block.hasCharacter)
                 {
@@ -263,7 +260,7 @@ public class AStarPathFinding : MonoBehaviour
                 }
                 else if (characterSelected && characterSelected.isCharacterPlayer) characterSelected.MoveCharacter(pointerPos);
             }
-            else if (block.blockInfo.typeBlock == Block.TypeBlock.Spawn)
+            else
             {
                 if (block.hasCharacter)
                 {

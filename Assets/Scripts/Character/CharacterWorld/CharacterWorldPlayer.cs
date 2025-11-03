@@ -86,7 +86,7 @@ public class CharacterWorldPlayer : CharacterBase
                     characterAnimations.MakeAnimation("Walk");
                 }
                 isOnMovement = true;
-                StartCoroutine(MoveTo(positionInGrid, block.pos));
+                StartCoroutine(MoveTo(WorldManager.Instance.aStarPathFinding.grid[positionInGrid], block));
                 positionInGrid = block.pos;
             }
             else if (characterAnimations.currentAnimation.name == "Walk")
@@ -99,16 +99,23 @@ public class CharacterWorldPlayer : CharacterBase
             characterAnimations.MakeAnimation("Idle");
         }
     }
-    public IEnumerator MoveTo(Vector3Int initialPos, Vector3Int finalPos)
+    public IEnumerator MoveTo(GenerateMap.WalkablePositionInfo initialBlock, GenerateMap.WalkablePositionInfo finalBlock)
     {
-        LookAt(initialPos, finalPos);
-        if (initialPos.y != finalPos.y)
+        LookAt(initialBlock.pos, finalBlock.pos);
+        if (initialBlock.blockInfo.typeBlock == Block.TypeBlock.Stair || finalBlock.blockInfo.typeBlock == Block.TypeBlock.Stair)
         {
-            yield return StartCoroutine(JumpToPosition(initialPos, finalPos, 0.5f));
+            yield return StartCoroutine(WalkInStairs(initialBlock, finalBlock));
         }
         else
         {
-            yield return StartCoroutine(MoveToPosition(finalPos));
+            if (initialBlock.pos.y != finalBlock.pos.y)
+            {
+                yield return StartCoroutine(JumpToPosition(initialBlock.pos, finalBlock.pos, 0.5f));
+            }
+            else
+            {
+                yield return StartCoroutine(MoveToPosition(finalBlock.pos));
+            }
         }
         isOnMovement = false;
     }
@@ -144,6 +151,129 @@ public class CharacterWorldPlayer : CharacterBase
             yield return MakeParabola(midPos, endPos, duration / 2);
         }
         transform.position = endPos;
+    }
+    private IEnumerator WalkInStairs(GenerateMap.WalkablePositionInfo from, GenerateMap.WalkablePositionInfo to)
+    {
+        Vector3 startPos = new Vector3(from.pos.x, from.pos.y, from.pos.z);
+        Vector3 endPos = new Vector3(to.pos.x, to.pos.y, to.pos.z);
+        float duration = 0.2f;
+        float elapsed = 0f;
+        if (from.blockInfo.typeBlock == Block.TypeBlock.Stair && to.blockInfo.typeBlock == Block.TypeBlock.Stair)
+        {
+            startPos.y -= 0.3f;
+            endPos.y -= 0.3f;
+        }
+        else if (to.blockInfo.typeBlock == Block.TypeBlock.Stair)
+        {
+            endPos.y -= 0.3f;
+        }
+        else
+        {
+            startPos.y -= 0.3f;
+        }
+
+        if (from.blockInfo.typeBlock != to.blockInfo.typeBlock)
+        {
+            Vector3 midPoint = (startPos + endPos) / 2f;
+            if (from.pos.y == to.pos.y)
+            {
+                midPoint.y = Mathf.RoundToInt(midPoint.y);
+            }
+            else
+            {
+                if (from.blockInfo.transform.rotation.y == 0 && to.blockInfo.transform.rotation.y == 0)
+                {
+                    Vector3Int moveDir = Vector3Int.RoundToInt(to.blockInfo.transform.position - from.blockInfo.transform.position);
+                    float dot = Vector3.Dot(moveDir, transform.forward);
+                    if (dot > 0.5f)
+                    {
+                        midPoint.y = 0;
+                    }
+                    else
+                    {
+                        if (from.blockInfo.typeBlock == Block.TypeBlock.Block)
+                        {
+                            midPoint.y = endPos.y;
+                        }
+                        else
+                        {
+                            midPoint.y = startPos.y;
+                        }
+                    }
+                }
+                else if (from.blockInfo.transform.rotation.y != 0 && to.blockInfo.transform.rotation.y == 0)
+                {
+                    Vector3 localToPos = from.blockInfo.transform.InverseTransformPoint(to.blockInfo.transform.position);
+                    if (Mathf.Abs(localToPos.z) > Mathf.Abs(localToPos.x))
+                    {
+                        midPoint.y = 0;
+                    }
+                    else
+                    {
+                        if (from.blockInfo.typeBlock == Block.TypeBlock.Block)
+                        {
+                            midPoint.y = endPos.y;
+                        }
+                        else
+                        {
+                            midPoint.y = startPos.y;
+                        }
+                    }
+                }
+                else if (from.blockInfo.transform.rotation.y == 0 && to.blockInfo.transform.rotation.y != 0)
+                {
+                    Vector3 moveDir = (to.blockInfo.transform.position - from.blockInfo.transform.position).normalized; 
+                    Vector3 forward = to.blockInfo.transform.forward; Vector3 right = to.blockInfo.transform.right;
+                    float forwardDot = Vector3.Dot(moveDir, forward);
+                    float rightDot = Vector3.Dot(moveDir, right); 
+                    if (Mathf.Abs(forwardDot) > Mathf.Abs(rightDot))
+                    {
+                        midPoint.y = 0;
+                    }
+                    else
+                    {
+                        if (from.blockInfo.typeBlock == Block.TypeBlock.Block)
+                        {
+                            midPoint.y = endPos.y;
+                        }
+                        else
+                        {
+                            midPoint.y = startPos.y;
+                        }
+                    }
+                }
+            }
+
+            float halfDuration = duration / 2f;
+            while (elapsed < halfDuration)
+            {
+                float t = elapsed / halfDuration;
+                transform.position = Vector3.Lerp(startPos, midPoint, t);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+            transform.position = midPoint;
+            float elapsed2 = 0f;
+            while (elapsed2 < halfDuration)
+            {
+                float t = elapsed2 / halfDuration;  
+                transform.position = Vector3.Lerp(midPoint, endPos, t);
+                elapsed2 += Time.deltaTime;
+                yield return null;
+            }
+            transform.position = endPos;
+        }
+        else
+        {
+            while (elapsed < duration)
+            {
+                float t = elapsed / duration;
+                Vector3 pos = Vector3.Lerp(startPos, endPos, t);
+                transform.position = pos;
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+        }
     }
     public IEnumerator GoToHightPoint(Vector3 startPos, Vector3 endPos, float duration)
     {

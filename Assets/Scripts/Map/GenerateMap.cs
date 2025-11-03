@@ -4,7 +4,7 @@ using UnityEngine;
 public class GenerateMap : MonoBehaviour
 {
     public AStarPathFinding aStarPathFinding;
-    public Sprite currentAtlasMap;
+    public MapBlocksInfoSO currentAtlasMap;
     public Block[] blocks;
     public bool isWorldMap;
     public bool autoStart;

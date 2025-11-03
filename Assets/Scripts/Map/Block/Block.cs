@@ -17,8 +17,9 @@ public class Block : MonoBehaviour
     public enum TypeBlock
     {
         None = 0,
-        Normal = 1,
-        Spawn = 2
+        Block = 1,
+        Spawn = 2,
+        Stair = 3
     }
     public void DrawBlock()
     {
@@ -58,12 +59,30 @@ public class Block : MonoBehaviour
                 TypeNeighbors.Up,
                 TypeNeighbors.Down
             };
+
             for (int i = 0; i < directions.Count; i++)
             {
                 if (!neighbors.Contains(directions[i]))
                 {
-                    meshes[directions[i]].meshRenderer.gameObject.SetActive(true);
-                    SetTextureFromAtlas(GetVariationSprite(blockInfo.targetSprite), meshes[directions[i]]);
+                    if (meshes.ContainsKey(directions[i]))
+                    {
+                        meshes[directions[i]].meshRenderer.gameObject.SetActive(true);
+                    }
+                }
+                else if (typeBlock != TypeBlock.Stair)
+                {
+                    if (meshes.ContainsKey(directions[i]))
+                    {
+                        meshes[directions[i]].meshRenderer.gameObject.SetActive(false);
+                    }
+                }
+            }
+
+            foreach (var meshInfo in meshes)
+            {
+                if (meshInfo.Value.meshRenderer.gameObject.activeSelf)
+                {
+                    SetTextureFromAtlas(GetVariationSprite(blockInfo.targetSprite), meshInfo.Value);
                 }
             }
         }
@@ -91,7 +110,7 @@ public class Block : MonoBehaviour
     {
         Vector2[] uvs = meshesInfo.originalMesh.uv;
         Texture2D texture = spriteFromAtlas.texture;
-        meshesInfo.meshRenderer.material.mainTexture = generateMap.currentAtlasMap.texture;
+        meshesInfo.meshRenderer.material.mainTexture = typeBlock == TypeBlock.Stair ? generateMap.currentAtlasMap.stairsTexture : generateMap.currentAtlasMap.blocksTexture;
         Rect spriteRect = spriteFromAtlas.rect; 
         for (int i = 0; i < uvs.Length; i++)
         {

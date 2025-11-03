@@ -406,6 +406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7820b9f1b1c01b43bc70375c5b07563, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  generateMap: {fileID: 0}
   typeBlock: 1
   meshes:
     _serializedList:
@@ -1461,6 +1462,56 @@ MonoBehaviour:
         blockGeneratedRule: {fileID: 0}
         targetSprite: {fileID: 202917199, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
+    - Key: 229500
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: 962547960, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 32876
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: -1151626442, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 458876
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: 1966042493, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 393284
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: 1966042493, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 426108
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: 1683445351, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 491628
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: 1924828573, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 163964
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: 281183329, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 393340
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: 1137728938, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 491612
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: 1317299955, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 131196
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: 1683445351, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
   variationsSprites:
     _serializedList:
     - Key: {fileID: -978724912, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
@@ -1504,6 +1555,7 @@ MonoBehaviour:
     - Key: {x: -1, y: 0, z: -1}
       Value: 17
   poolingGrid: {fileID: 0}
+  cantWalk: 0
 --- !u!1 &3656936762363064886
 GameObject:
   m_ObjectHideFlags: 0
