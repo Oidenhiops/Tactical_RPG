@@ -57,7 +57,7 @@ public class CharacterBattle : CharacterBase
             characterMakeDamage.TakeExp(characterData.statistics[CharacterData.TypeStatistic.Exp]);
         }
         if (isCharacterPlayer) BattlePlayerManager.Instance.characters.Remove(this);
-        else BattleEnemyManager.Instance.characters.Remove(this);
+        else BattleEnemyManager.Instance.OnCharacterDie(this);
         characterStatusEffect.statusEffects = new AYellowpaper.SerializedCollections.SerializedDictionary<StatusEffectBaseSO, int>();
         GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].dieCharacters.Add(characterData.name, characterData);
         GameData.Instance.gameDataInfo.gameDataSlots[GameData.Instance.systemDataInfo.currentGameDataIndex].characters.Remove(characterData.name);

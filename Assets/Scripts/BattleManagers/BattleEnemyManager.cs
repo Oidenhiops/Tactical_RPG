@@ -140,6 +140,15 @@ public class BattleEnemyManager : MonoBehaviour
 
         posibleTargets.Remove(characterForValidate);
     }
+    public void OnCharacterDie(CharacterBase characterDead)
+    {
+        characters.Remove(characterDead);
+
+        if (characters.Count == 0)
+        {
+            print("Victory for Players");
+        }
+    }
     public void GetPosibleActionsForMakeAction(ref List<AiAction> posibleActions, List<CharacterBase> posibleTargets, CharacterBase characterForValidate)
     {
         foreach (var posibleTarget in posibleTargets)
