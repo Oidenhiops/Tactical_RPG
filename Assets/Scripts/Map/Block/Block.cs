@@ -20,7 +20,8 @@ public class Block : MonoBehaviour
         None = 0,
         Block = 1,
         Spawn = 2,
-        Stair = 3
+        Stair = 3,
+        End = 4
     }
     public void DrawBlock()
     {

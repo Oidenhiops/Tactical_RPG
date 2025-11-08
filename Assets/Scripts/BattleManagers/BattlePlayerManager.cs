@@ -188,6 +188,10 @@ public class BattlePlayerManager : MonoBehaviour
     {
         actionsManager.currenPhase = ActionsManager.TypePhaseTurn.None;
         menusContainer.SetActive(false);
+        aStarPathFinding.DisableGrid();
+        aStarPathFinding.DisableSubGrid();
+        actionsManager.currenPhase = ActionsManager.TypePhaseTurn.None;
+        menusContainer.SetActive(false);
         mouseDecal.decal.enabled = false;
         foreach (var character in characters)
         {

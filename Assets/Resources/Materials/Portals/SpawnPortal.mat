@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Portal
+  m_Name: SpawnPortal
   m_Shader: {fileID: -6465566751694194690, guid: 127b70ff65a4d9c498f6cfa2f9d39713,
     type: 3}
   m_Parent: {fileID: 0}

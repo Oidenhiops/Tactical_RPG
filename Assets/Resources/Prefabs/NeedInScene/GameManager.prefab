@@ -283,11 +283,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cc592e7819b48f448720de5db0be7b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  openCloseScene: {fileID: 0}
   isPause: 0
   isWebGlBuild: 0
   lockDevice: 0
-  principalDevice: 3
+  principalDevice: 1
   _currentDevice: 0
   _startGame: 0
   pauseButton:

@@ -9150,7 +9150,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89e0ff74a414393469970354f2634cf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManagerHelper
-  _unloadAnimator: {fileID: 0}
 --- !u!1 &807028624
 GameObject:
   m_ObjectHideFlags: 0
@@ -9221,6 +9220,8 @@ MonoBehaviour:
   blockPrefab: {fileID: 3654539373334881833, guid: e1ce28cf769e2b54c96c7292e8182135,
     type: 3}
   spawnBlockPrefab: {fileID: 3654539373334881833, guid: 0ab022e51c14ec84e825408a1ce2fe0f,
+    type: 3}
+  endBlockPrefab: {fileID: 3654539373334881833, guid: e1674b0766ba5ed4882c3c0bd9f15758,
     type: 3}
   sizeCell: 3
   testGeneration: 1

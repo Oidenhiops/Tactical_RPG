@@ -8,6 +8,7 @@ public class MazeGenerator : MonoBehaviour
     public int mazeSize = 21;
     public GameObject blockPrefab;
     public GameObject spawnBlockPrefab;
+    public GameObject endBlockPrefab;
     private int[,] maze;
     public int sizeCell;
     public bool testGeneration = true;
@@ -109,7 +110,7 @@ public class MazeGenerator : MonoBehaviour
                     {
                         if (sizeCell <= 1)
                         {
-                            Block block = Instantiate(blockPrefab, pos + new Vector3(-1, 0, -1), Quaternion.identity, transform).GetComponent<Block>();
+                            Block block = Instantiate(endBlockPrefab, pos + new Vector3(-1, 0, -1), Quaternion.identity, transform).GetComponent<Block>();
                             foreach (KeyValuePair<Block.TypeNeighbors, Block.MeshesInfo> mesh in block.meshes)
                             {
                                 mesh.Value.meshRenderer.material.color = Color.red;
@@ -123,7 +124,7 @@ public class MazeGenerator : MonoBehaviour
                             {
                                 for (int i = 0; i < positions.Count; i++)
                                 {
-                                    Block block = Instantiate(blockPrefab, (pos + new Vector3(-1, 0, -1)) * sizeCell + positions[i], Quaternion.identity, transform).GetComponent<Block>();
+                                    Block block = Instantiate(endBlockPrefab, (pos + new Vector3(-1, 0, -1)) * sizeCell + positions[i], Quaternion.identity, transform).GetComponent<Block>();
                                     foreach (KeyValuePair<Block.TypeNeighbors, Block.MeshesInfo> mesh in block.meshes)
                                     {
                                         mesh.Value.meshRenderer.material.color = Color.red;

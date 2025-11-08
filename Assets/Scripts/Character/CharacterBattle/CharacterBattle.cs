@@ -103,7 +103,7 @@ public class CharacterBattle : CharacterBase
         if (isCharacterPlayer)
         {
             BattlePlayerManager.Instance.characterPlayerMakingActions = false;
-            if (positionInGrid == Vector3Int.zero)
+            if (BattlePlayerManager.Instance.aStarPathFinding.grid[positionInGrid].blockInfo.typeBlock == Block.TypeBlock.Spawn)
             {
                 gameObject.SetActive(false);
                 BattlePlayerManager.Instance.aStarPathFinding.characterSelected = null;
@@ -115,6 +115,10 @@ public class CharacterBattle : CharacterBase
                 BattlePlayerManager.Instance.menuCharacterSelector.amountCharacters++;
                 startPositionInGrid = Vector3Int.zero;
                 BattlePlayerManager.Instance.aStarPathFinding.DisableGrid();
+            }
+            else if (BattlePlayerManager.Instance.aStarPathFinding.grid[positionInGrid].blockInfo.typeBlock == Block.TypeBlock.End)
+            {
+                _ = BattlePlayerManager.Instance.PlayersWin();
             }
             else
             {
