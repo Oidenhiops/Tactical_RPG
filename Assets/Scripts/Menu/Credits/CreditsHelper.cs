@@ -3,12 +3,13 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class CreditsHelper : MonoBehaviour
+public class CreditsHelper : MonoBehaviour, GameManagerHelper.IScene
 {
     public Button creditsButton;
     public InputAction backButton;
     public GameManagerHelper gameManagerHelper;
     public GameObject lastButtonSelected;
+    public Animator menuAnimator;
     void OnEnable()
     {
         backButton.started += UnloadCreditScene;
@@ -20,6 +21,7 @@ public class CreditsHelper : MonoBehaviour
     }
     void Start()
     {
+        gameManagerHelper.sceneData = this;
         lastButtonSelected = EventSystem.current.currentSelectedGameObject;
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(creditsButton.gameObject);
@@ -32,6 +34,14 @@ public class CreditsHelper : MonoBehaviour
     {
         gameManagerHelper.lastButtonSelected = lastButtonSelected;
         gameManagerHelper.PlayASoundButton("TouchButtonBack");
-        gameManagerHelper.UnloadScene();
+        GameManager.Instance.UnloadAdditiveScene(GameManager.TypeScene.CreditsScene, this, lastButtonSelected);
+    }
+    public bool AnimationEnded()
+    {
+        return menuAnimator.GetCurrentAnimatorStateInfo(0).IsName("MenuExit") && menuAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1;
+    }
+    public void PlayEndAnimation()
+    {
+        menuAnimator.SetBool("exit", true);
     }
 }

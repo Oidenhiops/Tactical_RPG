@@ -88,13 +88,24 @@ public class WorldManager : MonoBehaviour
             enemyHitted = true;
             ManagementBattleInfo.Instance.generateMap = currentWorldMap;
             ManagementBattleInfo.Instance.principalCharacterEnemy = characterWorld.characterHitted;
-            _ = GameManager.Instance.ChangeScene(GameManager.TypeScene.BattleScene, LoadSceneMode.Additive);
+            _ = GameManager.Instance.LoadScene(GameManager.TypeScene.BattleScene, LoadSceneMode.Additive, GameManager.TypeLoader.BlackOut, true);
+            while (!ManagementLoaderScene.Instance.ValidateLoaderIsOnIdle()) await Awaitable.NextFrameAsync();
             worldContainer.gameObject.SetActive(false);
         }
         catch (Exception e)
         {
             Debug.LogError(e);
         }
+    }
+    public void ResumeWorldAfterBattle()
+    {
+        enemyHitted = false;
+        characterWorld.characterHitted.characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue = 0;
+        ManagementLoaderScene.Instance.OnFinishOpenAnimation += () =>
+        {
+            _ = characterWorld.characterHitted.TakeDamage(null, characterWorld.characterHitted.characterData.statistics[CharacterData.TypeStatistic.Hp].maxValue);
+        };
+        worldContainer.gameObject.SetActive(true);
     }
     IEnumerator RotateCamera()
     {

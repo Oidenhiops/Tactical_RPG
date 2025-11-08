@@ -55,7 +55,7 @@ public class BattleEnemyManager : MonoBehaviour
     [NaughtyAttributes.Button]
     public void CreateStrategy()
     {
-        if (!actionsManager.isPlayerTurn)
+        if (actionsManager.currenPhase == ActionsManager.TypePhaseTurn.EnemyTurn)
         {
             bestActions.Clear();
             foreach (var character in characters)
@@ -140,14 +140,16 @@ public class BattleEnemyManager : MonoBehaviour
 
         posibleTargets.Remove(characterForValidate);
     }
-    public void OnCharacterDie(CharacterBase characterDead)
+    public async Awaitable OnCharacterDie(CharacterBase characterDead)
     {
         characters.Remove(characterDead);
 
         if (characters.Count == 0)
         {
-            print("Victory for Players");
+            await Awaitable.WaitForSecondsAsync(0.5f);
+            _ = battlePlayerManager.PlayersWin();
         }
+        await Awaitable.NextFrameAsync();
     }
     public void GetPosibleActionsForMakeAction(ref List<AiAction> posibleActions, List<CharacterBase> posibleTargets, CharacterBase characterForValidate)
     {

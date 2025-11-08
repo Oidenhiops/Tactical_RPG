@@ -54,6 +54,7 @@ public class MenuGeneralActions : MonoBehaviour
         if (actionExist)
         {
             executeButton.interactable = true;
+            endTurnButton.interactable = true;
             return executeButton.gameObject;
         }
         executeButton.interactable = false;

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1912737825558116856}
   - component: {fileID: 1797068387684963175}
   - component: {fileID: 2595800844662266268}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: BlockPointer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 7088249257437290954}
   - component: {fileID: 9204504995116789454}
   - component: {fileID: 1251838692970674424}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: LoaderAmount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,7 +146,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 1
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -175,7 +175,7 @@ GameObject:
   - component: {fileID: 6706959668015723115}
   - component: {fileID: 5733617743444132062}
   - component: {fileID: 7624220631676910269}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: LoaderBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -248,7 +248,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5258179519811165130}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -263,7 +263,7 @@ GameObject:
   - component: {fileID: 9202569955543913851}
   - component: {fileID: 1526649453689541452}
   - component: {fileID: 2344146475149362923}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: Rigth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -286,7 +286,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 1920, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1526649453689541452
@@ -341,9 +341,9 @@ GameObject:
   - component: {fileID: 9032661873298262001}
   - component: {fileID: 1048388950150689534}
   - component: {fileID: 4497200985678187403}
-  - component: {fileID: 5297414955061433305}
-  m_Layer: 5
-  m_Name: OpenCloseScene
+  - component: {fileID: 7742907620826395073}
+  m_Layer: 11
+  m_Name: WhitProgressBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -443,7 +443,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7841709542804157756}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -457,7 +457,7 @@ Animator:
   m_GameObject: {fileID: 7841709542804157756}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 07e108db8626d404e9996086b91f3b32, type: 2}
+  m_Controller: {fileID: 9100000, guid: 7301d146e3c93624881f75f8b31ad3c5, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 2
   m_ApplyRootMotion: 0
@@ -469,7 +469,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5297414955061433305
+--- !u!114 &7742907620826395073
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -478,14 +478,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7841709542804157756}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c42cb1bd4ef871247b9e20893879d51b, type: 3}
+  m_Script: {fileID: 11500000, guid: c18447a9ef8ace649bc3dc7d60ba1bec, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  openCloseSceneAnimator: {fileID: 4497200985678187403}
+  m_EditorClassIdentifier: Assembly-CSharp::ManagementLoaderSceneWhitProgressBar
+  loaderAnimator: {fileID: 4497200985678187403}
   _finishLoad: 0
-  speedFill: 0.5
-  finishLoad: 0
   currentLoad: 0
+  speedFill: 0.5
   loaderImage: {fileID: 9204504995116789454}
 --- !u!1 &7992471077387337800
 GameObject:
@@ -498,7 +497,7 @@ GameObject:
   - component: {fileID: 4668648652270826122}
   - component: {fileID: 780812529546596873}
   - component: {fileID: 4714517471251685164}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -521,7 +520,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -1920, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &780812529546596873

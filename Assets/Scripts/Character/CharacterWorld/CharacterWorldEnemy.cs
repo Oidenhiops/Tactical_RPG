@@ -26,15 +26,18 @@ public class CharacterWorldEnemy : CharacterBase
     }
     void Update()
     {
-        if (!target) DetectTarget();
-        else if (target)
+        if (isInitialize && characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue > 0)
         {
-            targetPos = Vector3Int.RoundToInt(target.transform.position);
-            if (!isOnMovement)
+            if (!target) DetectTarget();
+            else if (target)
             {
-                if (targetPos != Vector3Int.RoundToInt(transform.position))
+                targetPos = Vector3Int.RoundToInt(target.transform.position);
+                if (!isOnMovement)
                 {
-                    MoveCharacter(targetPos);
+                    if (targetPos != Vector3Int.RoundToInt(transform.position))
+                    {
+                        MoveCharacter(targetPos);
+                    }
                 }
             }
         }
@@ -53,6 +56,17 @@ public class CharacterWorldEnemy : CharacterBase
         }
         target = null;
         return false;
+    }
+    public override async Awaitable Die(CharacterBase characterMakeDamage, string lastAnimation = "")
+    {
+        await Awaitable.WaitForSecondsAsync(0.3f);
+        GameObject dieEffect = Instantiate(dieEffectPrefab, transform.position, Quaternion.identity);
+        characterModel.characterMeshRenderer.gameObject.SetActive(false);
+        await Awaitable.WaitForSecondsAsync(1);
+        Destroy(dieEffect);
+        WorldManager.Instance.characterWorld.characterHitted = null;
+        Destroy(gameObject);
+        await Awaitable.NextFrameAsync();
     }
     public override void MoveCharacter(Vector3Int targetPosition)
     {
@@ -117,129 +131,6 @@ public class CharacterWorldEnemy : CharacterBase
         }
         transform.position = endPos;
     }
-    private IEnumerator WalkInStairs(GenerateMap.WalkablePositionInfo from, GenerateMap.WalkablePositionInfo to)
-    {
-        Vector3 startPos = new Vector3(from.pos.x, from.pos.y, from.pos.z);
-        Vector3 endPos = new Vector3(to.pos.x, to.pos.y, to.pos.z);
-        float duration = 0.2f;
-        float elapsed = 0f;
-        if (from.blockInfo.typeBlock == Block.TypeBlock.Stair && to.blockInfo.typeBlock == Block.TypeBlock.Stair)
-        {
-            startPos.y -= 0.3f;
-            endPos.y -= 0.3f;
-        }
-        else if (to.blockInfo.typeBlock == Block.TypeBlock.Stair)
-        {
-            endPos.y -= 0.3f;
-        }
-        else
-        {
-            startPos.y -= 0.3f;
-        }
-
-        if (from.blockInfo.typeBlock != to.blockInfo.typeBlock)
-        {
-            Vector3 midPoint = (startPos + endPos) / 2f;
-            if (from.pos.y == to.pos.y)
-            {
-                midPoint.y = Mathf.RoundToInt(midPoint.y);
-            }
-            else
-            {
-                if (from.blockInfo.transform.rotation.y == 0 && to.blockInfo.transform.rotation.y == 0)
-                {
-                    Vector3Int moveDir = Vector3Int.RoundToInt(to.blockInfo.transform.position - from.blockInfo.transform.position);
-                    float dot = Vector3.Dot(moveDir, transform.forward);
-                    if (dot > 0.5f)
-                    {
-                        midPoint.y = 0;
-                    }
-                    else
-                    {
-                        if (from.blockInfo.typeBlock == Block.TypeBlock.Block)
-                        {
-                            midPoint.y = endPos.y;
-                        }
-                        else
-                        {
-                            midPoint.y = startPos.y;
-                        }
-                    }
-                }
-                else if (from.blockInfo.transform.rotation.y != 0 && to.blockInfo.transform.rotation.y == 0)
-                {
-                    Vector3 localToPos = from.blockInfo.transform.InverseTransformPoint(to.blockInfo.transform.position);
-                    if (Mathf.Abs(localToPos.z) > Mathf.Abs(localToPos.x))
-                    {
-                        midPoint.y = 0;
-                    }
-                    else
-                    {
-                        if (from.blockInfo.typeBlock == Block.TypeBlock.Block)
-                        {
-                            midPoint.y = endPos.y;
-                        }
-                        else
-                        {
-                            midPoint.y = startPos.y;
-                        }
-                    }
-                }
-                else if (from.blockInfo.transform.rotation.y == 0 && to.blockInfo.transform.rotation.y != 0)
-                {
-                    Vector3 moveDir = (to.blockInfo.transform.position - from.blockInfo.transform.position).normalized;
-                    Vector3 forward = to.blockInfo.transform.forward; Vector3 right = to.blockInfo.transform.right;
-                    float forwardDot = Vector3.Dot(moveDir, forward);
-                    float rightDot = Vector3.Dot(moveDir, right);
-                    if (Mathf.Abs(forwardDot) > Mathf.Abs(rightDot))
-                    {
-                        midPoint.y = 0;
-                    }
-                    else
-                    {
-                        if (from.blockInfo.typeBlock == Block.TypeBlock.Block)
-                        {
-                            midPoint.y = endPos.y;
-                        }
-                        else
-                        {
-                            midPoint.y = startPos.y;
-                        }
-                    }
-                }
-            }
-
-            float halfDuration = duration / 2f;
-            while (elapsed < halfDuration)
-            {
-                float t = elapsed / halfDuration;
-                transform.position = Vector3.Lerp(startPos, midPoint, t);
-                elapsed += Time.deltaTime;
-                yield return null;
-            }
-            transform.position = midPoint;
-            float elapsed2 = 0f;
-            while (elapsed2 < halfDuration)
-            {
-                float t = elapsed2 / halfDuration;
-                transform.position = Vector3.Lerp(midPoint, endPos, t);
-                elapsed2 += Time.deltaTime;
-                yield return null;
-            }
-            transform.position = endPos;
-        }
-        else
-        {
-            while (elapsed < duration)
-            {
-                float t = elapsed / duration;
-                Vector3 pos = Vector3.Lerp(startPos, endPos, t);
-                transform.position = pos;
-                elapsed += Time.deltaTime;
-                yield return null;
-            }
-        }
-    }
     private IEnumerator JumpToPosition(Vector3Int from, Vector3Int to, float duration)
     {
         Vector3 startPos = new Vector3(from.x, from.y, from.z);
@@ -291,8 +182,6 @@ public class CharacterWorldEnemy : CharacterBase
     {
         Gizmos.color = Color.rebeccaPurple;
         Gizmos.DrawWireCube(transform.position + detectorOffset, detectorSize);
-
-        // Gizmo para el path
         if (path != null && path.Count > 1)
         {
             Gizmos.color = Color.green;

@@ -15,16 +15,16 @@ public class ActionsManager : MonoBehaviour
     public SerializedDictionary<CharacterBase, ActionInfo> characterFinalActions = new SerializedDictionary<CharacterBase, ActionInfo>();
     public GameObject[] mobileInputs;
     public Action OnEndTurn;
-    public bool _isPlayerTurn;
-    public bool isPlayerTurn
+    public TypePhaseTurn _currenPhase;
+    public TypePhaseTurn currenPhase
     {
-        get => _isPlayerTurn;
+        get => _currenPhase;
         set
         {
-            if (_isPlayerTurn != value)
+            if (_currenPhase != value)
             {
-                _isPlayerTurn = value;
-                if (_isPlayerTurn)
+                _currenPhase = value;
+                if (_currenPhase == TypePhaseTurn.PlayerTurn)
                 {
                     playerManager.canShowGridAndDecal = true;
                     playerManager.EnableVisuals();
@@ -37,12 +37,12 @@ public class ActionsManager : MonoBehaviour
     void Start()
     {
         playerManager.characterActions.CharacterInputs.Back.performed += OnUndoAction;
-        ManagementOpenCloseScene.Instance.OnFinishOpenAnimation += OnFinishOpenAnimation;
+        ManagementLoaderScene.Instance.OnFinishOpenAnimation += OnFinishOpenAnimation;
     }
     void OnDestroy()
     {
         playerManager.characterActions.CharacterInputs.Back.performed -= OnUndoAction;
-        ManagementOpenCloseScene.Instance.OnFinishOpenAnimation -= OnFinishOpenAnimation;
+        ManagementLoaderScene.Instance.OnFinishOpenAnimation -= OnFinishOpenAnimation;
 
     }
     void OnFinishOpenAnimation()
@@ -55,14 +55,15 @@ public class ActionsManager : MonoBehaviour
         {
             roundStateLanguage.ChangeTextById(idText);
             roundStateAnimator.Play("ShowStateOpen");
+            await Awaitable.NextFrameAsync();
             while (true)
             {
-                await Awaitable.NextFrameAsync();
                 if (roundStateAnimator.GetCurrentAnimatorStateInfo(0).IsName("ShowStateIdle"))
                 {
-                    isPlayerTurn = !isPlayerTurn;
+                    currenPhase = currenPhase == TypePhaseTurn.PlayerTurn ? TypePhaseTurn.EnemyTurn : TypePhaseTurn.PlayerTurn;
                     break;
                 }
+                await Awaitable.NextFrameAsync();
             }
         }
         catch (Exception e)
@@ -258,7 +259,8 @@ public class ActionsManager : MonoBehaviour
                                                     otherAnimation = "";
                                                 }
 
-                                                otherCharacter.character.TakeDamage(actions.Value.characterMakeAction, actions.Value.characterMakeAction.characterData.statistics[CharacterData.TypeStatistic.Atk].currentValue, otherAnimation);
+                                                await otherCharacter.character.TakeDamage(actions.Value.characterMakeAction, actions.Value.characterMakeAction.characterData.statistics[CharacterData.TypeStatistic.Atk].currentValue, otherAnimation);
+                                                await Awaitable.NextFrameAsync();
                                             }
                                         }
                                     }
@@ -379,8 +381,15 @@ public class ActionsManager : MonoBehaviour
             await MakeActions();
             characterActions = new SerializedDictionary<CharacterBase, List<ActionInfo>>();
             characterFinalActions = new SerializedDictionary<CharacterBase, ActionInfo>();
-            await ChangeRoundState();
-            await DiscountStatusEffects();
+            if (BattlePlayerManager.Instance.characters.Count == 0)
+            {
+                print("Player Game Over");
+            }
+            else
+            {
+                await ChangeRoundState();
+                await DiscountStatusEffects();
+            }
         }
         catch (Exception e)
         {
@@ -419,7 +428,7 @@ public class ActionsManager : MonoBehaviour
     {
         try
         {
-            await ChangeRoundState(!isChangingTurn ? isPlayerTurn ? "game_scene_menu_round_state_player_turn" : "game_scene_menu_round_state_enemy_turn" : !isPlayerTurn ? "game_scene_menu_round_state_player_turn" : "game_scene_menu_round_state_enemy_turn");
+            await ChangeRoundState(!isChangingTurn ? currenPhase == TypePhaseTurn.PlayerTurn ? "game_scene_menu_round_state_player_turn" : "game_scene_menu_round_state_enemy_turn" : currenPhase != TypePhaseTurn.PlayerTurn ? "game_scene_menu_round_state_player_turn" : "game_scene_menu_round_state_enemy_turn");
             isChangingTurn = false;
         }
         catch (Exception e)
@@ -496,5 +505,11 @@ public class ActionsManager : MonoBehaviour
         Lift = 5,
         Item = 6,
         EndTurn = 7,
+    }
+    public enum TypePhaseTurn
+    {
+        None = 0,
+        PlayerTurn = 1,
+        EnemyTurn = 2,
     }
 }

@@ -42,10 +42,7 @@ public class GameData : MonoBehaviour
             LoadLOCS();
             InitializeResolutionData();
             InitializeBGM();
-            InitializeSkinsData();
-            InitializeBagItems();
-            InitializeCharacterItems();
-            InitializeCharacterSkills();
+            LoadCharacterDataInfo();
             Application.targetFrameRate = systemDataInfo.configurationsInfo.FpsLimit;
             await InitializeAudioMixerData();
             systemDataInfo.configurationsInfo.canShowFps = true;
@@ -55,9 +52,17 @@ public class GameData : MonoBehaviour
             Debug.LogError(e);
         }
     }
+    public void LoadCharacterDataInfo()
+    {
+        InitializeSkinsData();
+        InitializeBagItems();
+        InitializeCharacterItems();
+        InitializeCharacterSkills();
+    }
     public void LoadGameDataInfo()
     {
-        gameDataInfo = ReadGameDataFromJson();
+        ReadGameDataFromJson();
+        LoadCharacterDataInfo();
     }
     public void LoadSystemDataInfo()
     {

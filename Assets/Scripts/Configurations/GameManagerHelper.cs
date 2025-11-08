@@ -1,25 +1,21 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 public class GameManagerHelper : MonoBehaviour
 {
-    public Animator _unloadAnimator;
+    public IScene sceneData;
     GameObject audioBoxInstance;
     [NonSerialized] public GameObject lastButtonSelected;
     public void ChangeScene(int typeScene)
     {
         GameManager.TypeScene scene = (GameManager.TypeScene)typeScene;
-        GameManager.Instance.ChangeSceneSelector(scene);
+        _ = GameManager.Instance.LoadScene(scene);
     }
     public void ChangeScene(GameManager.TypeScene typeScene)
     {
-        GameManager.Instance.ChangeSceneSelector(typeScene);
+        _ = GameManager.Instance.LoadScene(typeScene);
     }
     public void SaveGameData()
     {
@@ -70,50 +66,9 @@ public class GameManagerHelper : MonoBehaviour
     {
         AudioManager.Instance.SetAudioMixerData();
     }
-    public void UnloadScene()
+    public interface IScene
     {
-        string sceneForUnload = ValidateScene();
-        _ = UnloadSceneByName(sceneForUnload);
-    }
-    public string ValidateScene()
-    {
-        int sceneCount = SceneManager.sceneCount;
-        List<string> scenes = new List<string>();
-        for (int i = 0; i < sceneCount; i++)
-        {
-            scenes.Add(SceneManager.GetSceneAt(i).name);
-        }
-        if (scenes.Contains("CreditsScene")) return "CreditsScene";
-        return "OptionsScene";
-    }
-    public async Awaitable UnloadSceneByName(string sceneForUnload)
-    {
-        try
-        {
-            _unloadAnimator.SetBool("exit", true);
-            await Task.Delay(TimeSpan.FromSeconds(0.25f));
-            while (ManagementOpenCloseScene.Instance.openCloseSceneAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
-            {
-                await Awaitable.NextFrameAsync();
-            }
-            Scene scene = SceneManager.GetSceneByName("HomeScene");
-            if (sceneForUnload == "OptionsScene")
-            {
-                Time.timeScale = 1;
-                GameManager.Instance.isPause = false;
-            }
-            await Task.Delay(TimeSpan.FromSeconds(0.25f));
-            if (lastButtonSelected)
-            {
-                EventSystem.current.SetSelectedGameObject(null);
-                EventSystem.current.SetSelectedGameObject(lastButtonSelected);
-            }
-            _ = SceneManager.UnloadSceneAsync(sceneForUnload);
-            await Task.Delay(TimeSpan.FromSeconds(0.05f));
-        }
-        catch (Exception e)
-        {
-            Debug.LogError(e);
-        }
+        public void PlayEndAnimation();
+        public bool AnimationEnded();
     }
 }

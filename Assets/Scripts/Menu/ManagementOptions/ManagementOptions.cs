@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -7,8 +6,9 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class ManagementOptions : MonoBehaviour
+public class ManagementOptions : MonoBehaviour, GameManagerHelper.IScene
 {
+    public static ManagementOptions Instance { get; private set; }
     public TMP_Dropdown dropdownLanguage;
     public TMP_Dropdown dropdownResolution;
     public SoundInfo[] soundInfo;
@@ -21,6 +21,7 @@ public class ManagementOptions : MonoBehaviour
     public InputAction backButton;
     public GameManagerHelper gameManagerHelper;
     public GameObject lastButtonSelected;
+    public Animator menuAnimator;
     public bool isMenuActive;
     void OnEnable()
     {
@@ -28,6 +29,8 @@ public class ManagementOptions : MonoBehaviour
     }
     async Awaitable EnableMenu()
     {
+        Instance = this;
+        gameManagerHelper.sceneData = this;
         lastButtonSelected = EventSystem.current.currentSelectedGameObject;
         Time.timeScale = 0;
         GameManager.Instance.isPause = true;
@@ -85,7 +88,7 @@ public class ManagementOptions : MonoBehaviour
         {
             gameManagerHelper.PlayASoundButton("TouchButtonBack");
             gameManagerHelper.lastButtonSelected = lastButtonSelected;
-            gameManagerHelper.UnloadScene();
+            GameManager.Instance.UnloadAdditiveScene(GameManager.TypeScene.OptionsScene, this, lastButtonSelected);
         }
     }
     public void SetSelectedButtonToBack(int buttonId)
@@ -264,6 +267,14 @@ public class ManagementOptions : MonoBehaviour
         int width = int.Parse(resolution.Substring(0, index));
         int height = int.Parse(resolution.ToString().Substring(index + 1));
         return new GameData.ResolutionsInfo(width, height);
+    }
+    public bool AnimationEnded()
+    {
+        return menuAnimator.GetCurrentAnimatorStateInfo(0).IsName("MenuExit") && menuAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1;
+    }
+    public void PlayEndAnimation()
+    {
+        menuAnimator.SetBool("exit", true);
     }
     [Serializable]
     public class SoundInfo

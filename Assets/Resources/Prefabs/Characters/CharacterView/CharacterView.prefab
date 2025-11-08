@@ -359,7 +359,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 825085045171416096}
-  - component: {fileID: 1931932381152730494}
   m_Layer: 0
   m_Name: CharacterModel
   m_TagString: Untagged
@@ -383,19 +382,6 @@ Transform:
   - {fileID: 7873512387308882313}
   m_Father: {fileID: 1791299666810847271}
   m_LocalEulerAnglesHint: {x: 45, y: 45, z: 0}
---- !u!114 &1931932381152730494
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5252179369395549219}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a62d7b397d4428042ad074edfbcdca18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Billboard
-  offsetRotation: {x: -10, y: 0, z: 0}
 --- !u!1 &7988671965371829188
 GameObject:
   m_ObjectHideFlags: 0

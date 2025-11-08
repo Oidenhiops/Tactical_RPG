@@ -4455,6 +4455,7 @@ MonoBehaviour:
     m_Flags: 0
   gameManagerHelper: {fileID: 473639350}
   lastButtonSelected: {fileID: 0}
+  menuAnimator: {fileID: 473639348}
   isMenuActive: 0
 --- !u!114 &473639350
 MonoBehaviour:
@@ -4468,7 +4469,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89e0ff74a414393469970354f2634cf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _unloadAnimator: {fileID: 473639348}
 --- !u!1 &476152452
 GameObject:
   m_ObjectHideFlags: 0

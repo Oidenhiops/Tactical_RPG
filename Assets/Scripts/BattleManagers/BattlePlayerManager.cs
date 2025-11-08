@@ -9,6 +9,7 @@ public class BattlePlayerManager : MonoBehaviour
     public static BattlePlayerManager Instance { get; private set; }
     public CharacterActions characterActions;
     public ActionsManager actionsManager;
+    public GameManagerHelper gameManagerHelper;
     public MenuCharacterSelector menuCharacterSelector;
     public MenuGeneralActions menuGeneralActions;
     public MenuCharacterActions menuCharacterActions;
@@ -27,6 +28,7 @@ public class BattlePlayerManager : MonoBehaviour
     public List<CharacterBase> characters;
     public Transform charactersContainer;
     public bool _characterPlayerMakingActions;
+    public GameObject menusContainer;
     public Action<bool, bool> OnCharacterPlayerMakingActions;
     public bool characterPlayerMakingActions
     {
@@ -74,9 +76,12 @@ public class BattlePlayerManager : MonoBehaviour
         characterActions.CharacterInputs.RotateCamera.started += HandleRotateCamera;
         characterActions.CharacterInputs.ActiveGeneralActions.performed += HandleMenuGeneralActions;
         OnCharacterPlayerMakingActions += OnToggleCharacterPlayerMove;
-
     }
-
+    public async Awaitable OnCharacterDie(CharacterBase characterDead)
+    {
+        characters.Remove(characterDead);
+        await Awaitable.NextFrameAsync();
+    }
     public async Awaitable InitializeCharacterData()
     {
         try
@@ -124,7 +129,7 @@ public class BattlePlayerManager : MonoBehaviour
     void HandleMovement(InputAction.CallbackContext context)
     {
         if (GameManager.Instance.isPause) return;
-        if (actionsManager.isPlayerTurn && !characterPlayerMakingActions && !actionsManager.isChangingTurn && !cantRotateCamera &&
+        if (actionsManager.currenPhase == ActionsManager.TypePhaseTurn.PlayerTurn && !characterPlayerMakingActions && !actionsManager.isChangingTurn && !cantRotateCamera &&
             !AnyMenuIsActive() && !menuThrowCharacter.isThrowingCharacter || menuThrowCharacter.menuThrowCharacter.activeSelf &&
             !menuThrowCharacter.isThrowingCharacter || menuSkillsCharacter.menuSkillsCharacter.activeSelf && !menuSkillsCharacter.menuSkillSelectSkill.activeSelf &&
             menuSkillsCharacter.canMovePointer || aStarPathFinding.characterSelected && !aStarPathFinding.characterSelected.isCharacterPlayer)
@@ -143,7 +148,7 @@ public class BattlePlayerManager : MonoBehaviour
     void HandleAction(InputAction.CallbackContext context)
     {
         if (GameManager.Instance.isPause) return;
-        if (actionsManager.isPlayerTurn && !characterPlayerMakingActions && !actionsManager.isChangingTurn && !cantRotateCamera && !AnyMenuIsActive() &&
+        if (actionsManager.currenPhase == ActionsManager.TypePhaseTurn.PlayerTurn && !characterPlayerMakingActions && !actionsManager.isChangingTurn && !cantRotateCamera && !AnyMenuIsActive() &&
             !menuThrowCharacter.menuThrowCharacter.activeSelf || aStarPathFinding.characterSelected && !aStarPathFinding.characterSelected.isCharacterPlayer)
         {
             aStarPathFinding.ValidateAction(new Vector3Int(Mathf.RoundToInt(mouseDecal.transform.position.x), Mathf.RoundToInt(mouseDecal.transform.position.y), Mathf.RoundToInt(mouseDecal.transform.position.z)));
@@ -151,7 +156,7 @@ public class BattlePlayerManager : MonoBehaviour
     }
     void HandleRotateCamera(InputAction.CallbackContext context)
     {
-        if (actionsManager.isPlayerTurn && !characterPlayerMakingActions && !actionsManager.isChangingTurn && !cantRotateCamera && !onRotateCamera && !AnyMenuIsActive() &&
+        if (actionsManager.currenPhase == ActionsManager.TypePhaseTurn.PlayerTurn && !characterPlayerMakingActions && !actionsManager.isChangingTurn && !cantRotateCamera && !onRotateCamera && !AnyMenuIsActive() &&
             !GameManager.Instance.isPause)
         {
             cantRotateCamera = true;
@@ -162,7 +167,7 @@ public class BattlePlayerManager : MonoBehaviour
     }
     void HandleMenuGeneralActions(InputAction.CallbackContext callbackContext)
     {
-        if (actionsManager.isPlayerTurn && !AnyMenuIsActive() && !GameManager.Instance.isPause)
+        if (actionsManager.currenPhase == ActionsManager.TypePhaseTurn.PlayerTurn && !AnyMenuIsActive() && !GameManager.Instance.isPause)
         {
             _= menuGeneralActions.EnableMenu();
         }
@@ -178,6 +183,22 @@ public class BattlePlayerManager : MonoBehaviour
                menuAttackCharacter.menuAttackCharacter.activeSelf ||
                menuItemsCharacter.menuItemCharacters.activeSelf ||
                menuSkillsCharacter.isMenuActive;
+    }
+    public async Awaitable PlayersWin()
+    {
+        actionsManager.currenPhase = ActionsManager.TypePhaseTurn.None;
+        menusContainer.SetActive(false);
+        mouseDecal.decal.enabled = false;
+        foreach (var character in characters)
+        {
+            if (character.gameObject.activeSelf) character.characterAnimations.MakeAnimation("Defend");
+        }
+        await Awaitable.WaitForSecondsAsync(1f);
+        GameManager.Instance.UnloadAdditiveScene(GameManager.TypeScene.BattleScene, GameManager.TypeLoader.BlackOut);
+    }
+    public async Awaitable PlayersDefeat()
+    {
+        
     }
     void Update()
     {

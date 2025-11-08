@@ -1512,6 +1512,115 @@ MonoBehaviour:
         blockGeneratedRule: {fileID: 0}
         targetSprite: {fileID: 1683445351, guid: d64c0359c796dab4baf19ad7460c56d7,
           type: 3}
+    - Key: 10098428
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: -1393592081, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 10491580
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: -71565637, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 10229500
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: 962547960, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 10491644
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: -978724912, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 10360572
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: 195528181, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 10458876
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: -978724912, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 10491636
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: -482110032, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 10426108
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: 1683445351, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 10491628
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: 1924828573, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 10327804
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: 1518431117, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 10163964
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: 281183329, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 10393340
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: 1137728938, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 10491612
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: 1317299955, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 10131196
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: 1683445351, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 10098364
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: 1983516140, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 10032812
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: 1005503913, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 10163948
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: -1965653608, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 10131148
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: 1005503913, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 10393308
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: -1727559, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
+    - Key: 10262228
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: 1005503913, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 10327796
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: 566411187, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
+    - Key: 10065588
+      Value:
+        blockGeneratedRule: {fileID: 0}
+        targetSprite: {fileID: 1005503913, guid: d64c0359c796dab4baf19ad7460c56d7,
+          type: 3}
   variationsSprites:
     _serializedList:
     - Key: {fileID: -978724912, guid: d64c0359c796dab4baf19ad7460c56d7, type: 3}
@@ -1556,6 +1665,7 @@ MonoBehaviour:
       Value: 17
   poolingGrid: {fileID: 0}
   cantWalk: 0
+  containsStairAround: 0
 --- !u!1 &3656936762363064886
 GameObject:
   m_ObjectHideFlags: 0

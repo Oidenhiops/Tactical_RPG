@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
@@ -58,19 +59,19 @@ public class GameManager : MonoBehaviour
     }
     void OnEnable()
     {
-        pauseButton.started += PauseHandle;
+        pauseButton.performed += PauseHandle;
         pauseButton.Enable();
     }
     void OnDestroy()
     {
-        pauseButton.started -= PauseHandle;
+        pauseButton.performed -= PauseHandle;
     }
     void Start()
     {
         //Cursor.visible = false;
         //Cursor.lockState = CursorLockMode.Locked;
         currentDevice = principalDevice;
-        ManagementOpenCloseScene.Instance.OnFinishOpenAnimation += () => { startGame = true; };
+        ManagementLoaderScene.Instance.OnFinishOpenAnimation += () => { startGame = true; };
     }
     void LateUpdate()
     {
@@ -84,66 +85,122 @@ public class GameManager : MonoBehaviour
         {
             if (!SceneManager.GetSceneByName("OptionsScene").isLoaded)
             {
-                ChangeSceneSelector(TypeScene.OptionsScene);
+                _ = LoadScene(TypeScene.OptionsScene);
             }
-            else
+            else if (ManagementOptions.Instance && ManagementOptions.Instance.isMenuActive)
             {
-                ManagementOptions managementOptions = GameObject.FindWithTag("ManagementOptions").GetComponent<ManagementOptions>();
-                if (managementOptions.gameManagerHelper._unloadAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
-                {
-                    managementOptions.gameManagerHelper.UnloadScene();
-                }
+                _ = UnloadAdditiveScene(TypeScene.OptionsScene, true, TypeLoader.WhitProgressBar, ManagementOptions.Instance, ManagementOptions.Instance.lastButtonSelected);
             }
         }
     }
-    public void ChangeSceneSelector(TypeScene typeScene)
+    public void UnloadAdditiveScene(TypeScene typeScene, TypeLoader typeLoader)
     {
-        switch (typeScene)
-        {
-            case TypeScene.OptionsScene:
-                if (!SceneManager.GetSceneByName("OptionsScene").isLoaded) SceneManager.LoadScene("OptionsScene", LoadSceneMode.Additive);
-                break;
-            case TypeScene.CreditsScene:
-                if (!SceneManager.GetSceneByName("CreditsScene").isLoaded) SceneManager.LoadScene("CreditsScene", LoadSceneMode.Additive);
-                break;
-            case TypeScene.GameOverScene:
-                if (!SceneManager.GetSceneByName("GameOverScene").isLoaded) SceneManager.LoadScene("GameOverScene", LoadSceneMode.Additive);
-                break;
-            default:
-                _ = ChangeScene(typeScene);
-                break;
-        }
+        _ = UnloadAdditiveScene(typeScene, false, typeLoader, null, null);
     }
-    public async Awaitable ChangeScene(TypeScene typeScene, LoadSceneMode loadSceneMode = LoadSceneMode.Single)
+    public void UnloadAdditiveScene(TypeScene typeScene, GameManagerHelper.IScene sceneData, GameObject lastButtonSelected)
+    {
+        _ = UnloadAdditiveScene(typeScene, true, TypeLoader.None, sceneData, lastButtonSelected);
+    }
+    public async Awaitable UnloadAdditiveScene(TypeScene typeScene, bool isMenuScene, TypeLoader typeLoader, GameManagerHelper.IScene sceneData, GameObject lastButtonSelected)
     {
         try
         {
-            startGame = false;
-            currentScene = typeScene.ToString();
-            ManagementOpenCloseScene.Instance.openCloseSceneAnimator.SetBool("Out", true);
-            await AudioManager.Instance.FadeOut();
-            AudioManager.Instance.ChangeBGM(GameData.Instance.systemDataInfo.bgmSceneData[currentScene]);
-            while (!ManagementOpenCloseScene.Instance.openCloseSceneAnimator.GetCurrentAnimatorStateInfo(0).IsName("OpenCloseSceneIdle")) await Awaitable.NextFrameAsync();
-            if (typeScene == TypeScene.Reload)
+            if (isMenuScene)
             {
-                SceneManager.LoadScene(SceneManager.GetSceneAt(0).name, loadSceneMode);
-            }
-            else if (typeScene == TypeScene.HomeScene)
-            {
-                SceneManager.LoadScene(typeScene.ToString(), loadSceneMode);
-                GameData.Instance.LoadGameDataInfo();
-            }
-            else if (typeScene == TypeScene.Exit)
-            {
-                Application.Quit();
+                sceneData.PlayEndAnimation();
+                while (!sceneData.AnimationEnded())
+                {
+                    await Awaitable.NextFrameAsync();
+                }
+                if (typeScene == TypeScene.OptionsScene)
+                {
+                    Time.timeScale = 1;
+                    isPause = false;
+                }
+                if (lastButtonSelected)
+                {
+                    EventSystem.current.SetSelectedGameObject(null);
+                    EventSystem.current.SetSelectedGameObject(lastButtonSelected);
+                }
+                _ = SceneManager.UnloadSceneAsync(typeScene.ToString());
             }
             else
             {
-                SceneManager.LoadScene(typeScene.ToString(), loadSceneMode);
+                startGame = false;
+                Instantiate(Resources.Load<GameObject>($"Prefabs/Loader/{typeLoader}"));
+                await Awaitable.NextFrameAsync();
+                ManagementLoaderScene.Instance.OnFinishOpenAnimation += () => { startGame = true; };
+                await AudioManager.Instance.FadeOut();
+                await Awaitable.NextFrameAsync();
+                while (!ManagementLoaderScene.Instance.ValidateLoaderIsOnIdle()) await Awaitable.NextFrameAsync();
+                if (typeScene == TypeScene.BattleScene)
+                {
+                    await SceneManager.UnloadSceneAsync(SceneManager.GetSceneByName(typeScene.ToString()));
+                    WorldManager.Instance.ResumeWorldAfterBattle();
+                }
+                if (typeScene != TypeScene.OptionsScene || typeScene != TypeScene.CreditsScene || typeScene != TypeScene.GameOverScene)
+                {
+                    if (SceneManager.GetSceneByName(TypeScene.OptionsScene.ToString()).isLoaded)
+                    {
+                        await SceneManager.UnloadSceneAsync(SceneManager.GetSceneByName(TypeScene.OptionsScene.ToString()));
+                    }
+                }
+                _ = ManagementLoaderScene.Instance.AutoCharge();
+                await AudioManager.Instance.FadeIn();
+                await Task.Delay(TimeSpan.FromSeconds(0.5f));
             }
-            await ManagementOpenCloseScene.Instance.WaitFinishCloseAnimation();
-            await AudioManager.Instance.FadeIn();
-            await Task.Delay(TimeSpan.FromSeconds(0.5f));
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
+    }
+    public async Awaitable LoadScene(TypeScene typeScene, LoadSceneMode loadSceneMode = LoadSceneMode.Single, TypeLoader typeLoader = TypeLoader.WhitProgressBar, bool consertLastScene = false)
+    {
+        try
+        {
+            switch (typeScene)
+            {
+                case TypeScene.OptionsScene:
+                    if (!SceneManager.GetSceneByName("OptionsScene").isLoaded) SceneManager.LoadScene("OptionsScene", LoadSceneMode.Additive);
+                    break;
+                case TypeScene.CreditsScene:
+                    if (!SceneManager.GetSceneByName("CreditsScene").isLoaded) SceneManager.LoadScene("CreditsScene", LoadSceneMode.Additive);
+                    break;
+                case TypeScene.GameOverScene:
+                    if (!SceneManager.GetSceneByName("GameOverScene").isLoaded) SceneManager.LoadScene("GameOverScene", LoadSceneMode.Additive);
+                    break;
+                default:
+                    startGame = false;
+                    Instantiate(Resources.Load<GameObject>($"Prefabs/Loader/{typeLoader}"));
+                    await Awaitable.NextFrameAsync();
+                    ManagementLoaderScene.Instance.OnFinishOpenAnimation += () => { startGame = true; };
+                    if (!consertLastScene) currentScene = typeScene.ToString();
+                    await AudioManager.Instance.FadeOut();
+                    AudioManager.Instance.ChangeBGM(GameData.Instance.systemDataInfo.bgmSceneData[currentScene]);
+                    await Awaitable.NextFrameAsync();
+                    while (!ManagementLoaderScene.Instance.ValidateLoaderIsOnIdle()) await Awaitable.NextFrameAsync();
+                    if (typeScene == TypeScene.Reload)
+                    {
+                        SceneManager.LoadScene(SceneManager.GetSceneAt(0).name, loadSceneMode);
+                    }
+                    else if (typeScene == TypeScene.HomeScene)
+                    {
+                        SceneManager.LoadScene(typeScene.ToString(), loadSceneMode);
+                        GameData.Instance.LoadGameDataInfo();
+                    }
+                    else if (typeScene == TypeScene.Exit)
+                    {
+                        Application.Quit();
+                    }
+                    else
+                    {
+                        SceneManager.LoadScene(typeScene.ToString(), loadSceneMode);
+                    }
+                    await AudioManager.Instance.FadeIn();
+                    await Task.Delay(TimeSpan.FromSeconds(0.5f));
+                    break;
+            }
         }
         catch (Exception e)
         {
@@ -178,7 +235,7 @@ public class GameManager : MonoBehaviour
         var keyboard = Keyboard.current;
         var mouse = Mouse.current;
         if (keyboard == null || mouse == null) return false;
-        bool validateAnyPcInput = 
+        bool validateAnyPcInput =
             keyboard.anyKey.wasPressedThisFrame ||
             mouse.leftButton.wasPressedThisFrame ||
             mouse.rightButton.wasPressedThisFrame ||
@@ -199,7 +256,7 @@ public class GameManager : MonoBehaviour
             gamePad.rightStick.ReadValue().magnitude > 0.1f ||
             gamePad.dpad.ReadValue().magnitude > 0.1f ||
             gamePad.leftTrigger.wasPressedThisFrame ||
-            gamePad.rightTrigger.wasPressedThisFrame;        
+            gamePad.rightTrigger.wasPressedThisFrame;
         return gamePad != null && validateAnyGamepadInput && !ValidateDeviceIsPc();
     }
     bool IsRealGamepadConnected()
@@ -232,6 +289,12 @@ public class GameManager : MonoBehaviour
         GameOverScene = 6,
         BattleScene = 7,
         CityScene = 8,
+    }
+    public enum TypeLoader
+    {
+        None = 0,
+        WhitProgressBar = 1,
+        BlackOut = 2
     }
     public enum TypeDevice
     {

@@ -17,7 +17,7 @@ public class CharacterStatusEffect : MonoBehaviour
     }
     public void DiscountStatusEffects()
     {
-        if (character.isCharacterPlayer && BattlePlayerManager.Instance.actionsManager.isPlayerTurn)
+        if (character.isCharacterPlayer && BattlePlayerManager.Instance.actionsManager.currenPhase == ActionsManager.TypePhaseTurn.PlayerTurn)
         {
             foreach (KeyValuePair<StatusEffectBaseSO, int> statusEffect in statusEffects)
             {
@@ -31,7 +31,7 @@ public class CharacterStatusEffect : MonoBehaviour
                 }
             }
         }
-        else if (!character.isCharacterPlayer && !BattlePlayerManager.Instance.actionsManager.isPlayerTurn)
+        else if (!character.isCharacterPlayer && BattlePlayerManager.Instance.actionsManager.currenPhase == ActionsManager.TypePhaseTurn.EnemyTurn)
         {
             foreach (KeyValuePair<StatusEffectBaseSO, int> statusEffect in statusEffects)
             {

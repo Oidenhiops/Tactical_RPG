@@ -104,6 +104,136 @@ public class CharacterBase : MonoBehaviour
         await Awaitable.NextFrameAsync();
     }
     public virtual void MoveCharacter(Vector3Int targetPosition) { }
+    protected IEnumerator WalkInStairs(GenerateMap.WalkablePositionInfo from, GenerateMap.WalkablePositionInfo to)
+    {
+        Vector3 startPos = new Vector3(from.pos.x, from.pos.y, from.pos.z);
+        Vector3 endPos = new Vector3(to.pos.x, to.pos.y, to.pos.z);
+        float duration = 0.2f;
+        float elapsed = 0f;
+        if (from.blockInfo.typeBlock == Block.TypeBlock.Stair && to.blockInfo.typeBlock == Block.TypeBlock.Stair)
+        {
+            startPos.y -= 0.3f;
+            endPos.y -= 0.3f;
+        }
+        else if (to.blockInfo.typeBlock == Block.TypeBlock.Stair)
+        {
+            endPos.y -= 0.3f;
+        }
+        else
+        {
+            startPos.y -= 0.3f;
+        }
+
+        if (from.blockInfo.typeBlock != to.blockInfo.typeBlock)
+        {
+            Vector3 midPoint = (startPos + endPos) / 2f;
+            if (from.pos.y == to.pos.y)
+            {
+                midPoint.y = Mathf.RoundToInt(midPoint.y);
+            }
+            else
+            {
+                if (from.blockInfo.transform.rotation.y == 0 && to.blockInfo.transform.rotation.y == 0)
+                {
+                    Vector3 moveDir = (to.blockInfo.transform.position - from.blockInfo.transform.position).normalized;
+                    float dot = Vector3.Dot(moveDir, to.blockInfo.transform.forward);
+                    if (Mathf.Abs(dot) > 0)
+                    {
+                        if (from.blockInfo.typeBlock == Block.TypeBlock.Block)
+                        {
+                            midPoint.y = startPos.y;
+                        }
+                        else
+                        {
+                            midPoint.y = endPos.y;
+                        }
+                    }
+                    else
+                    {
+                        if (from.blockInfo.typeBlock == Block.TypeBlock.Block)
+                        {
+                            midPoint.y = endPos.y;
+                        }
+                        else
+                        {
+                            midPoint.y = startPos.y;
+                        }
+                    }
+                }
+                else if (from.blockInfo.transform.rotation.y != 0 && to.blockInfo.transform.rotation.y == 0)
+                {
+                    Vector3 localToPos = from.blockInfo.transform.InverseTransformPoint(to.blockInfo.transform.position);
+                    if (Mathf.Abs(localToPos.z) > Mathf.Abs(localToPos.x))
+                    {
+                        midPoint.y = endPos.y;
+                    }
+                    else
+                    {
+                        if (from.blockInfo.typeBlock == Block.TypeBlock.Block)
+                        {
+                            midPoint.y = endPos.y;
+                        }
+                        else
+                        {
+                            midPoint.y = startPos.y;
+                        }
+                    }
+                }
+                else if (from.blockInfo.transform.rotation.y == 0 && to.blockInfo.transform.rotation.y != 0)
+                {
+                    Vector3 moveDir = (to.blockInfo.transform.position - from.blockInfo.transform.position).normalized;
+                    Vector3 forward = to.blockInfo.transform.forward; Vector3 right = to.blockInfo.transform.right;
+                    float forwardDot = Vector3.Dot(moveDir, forward);
+                    float rightDot = Vector3.Dot(moveDir, right);
+                    if (Mathf.Abs(forwardDot) > Mathf.Abs(rightDot))
+                    {
+                        midPoint.y = startPos.y;
+                    }
+                    else
+                    {
+                        if (from.blockInfo.typeBlock == Block.TypeBlock.Block)
+                        {
+                            midPoint.y = endPos.y;
+                        }
+                        else
+                        {
+                            midPoint.y = startPos.y;
+                        }
+                    }
+                }
+            }
+
+            float halfDuration = duration / 2f;
+            while (elapsed < halfDuration)
+            {
+                float t = elapsed / halfDuration;
+                transform.position = Vector3.Lerp(startPos, midPoint, t);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+            transform.position = midPoint;
+            float elapsed2 = 0f;
+            while (elapsed2 < halfDuration)
+            {
+                float t = elapsed2 / halfDuration;
+                transform.position = Vector3.Lerp(midPoint, endPos, t);
+                elapsed2 += Time.deltaTime;
+                yield return null;
+            }
+            transform.position = endPos;
+        }
+        else
+        {
+            while (elapsed < duration)
+            {
+                float t = elapsed / duration;
+                Vector3 pos = Vector3.Lerp(startPos, endPos, t);
+                transform.position = pos;
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+        }
+    }
     public virtual void TakeExp(CharacterData.Statistic statistic)
     {
         int amount = Mathf.CeilToInt(statistic.maxValue * 0.1f);
@@ -147,7 +277,7 @@ public class CharacterBase : MonoBehaviour
     {
         characterModel.characterMeshRenderer.transform.localRotation = direction.x > 0 ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 180, 0);
     }
-    public void TakeDamage(CharacterBase characterMakeDamage, int damage, string otherAnimation = "")
+    public async Awaitable TakeDamage(CharacterBase characterMakeDamage, int damage, string otherAnimation = "")
     {
         characterAnimations.MakeAnimation("TakeDamage");
         characterAnimations.animationAfterEnd = otherAnimation;
@@ -159,16 +289,18 @@ public class CharacterBase : MonoBehaviour
         }
         characterAnimations.MakeEffect(CharacterAnimation.TypeAnimationsEffects.Shake);
         characterAnimations.MakeEffect(CharacterAnimation.TypeAnimationsEffects.Blink);
-        if (characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue <= 0) StartCoroutine(Die(characterMakeDamage, otherAnimation));
+        if (characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue <= 0) await Die(characterMakeDamage, otherAnimation);
+        await Awaitable.NextFrameAsync();
     }
-    public virtual IEnumerator Die(CharacterBase characterMakeDamage, string lastAnimation = "")
+    public virtual async Awaitable Die(CharacterBase characterMakeDamage, string lastAnimation = "")
     {
-        yield return new WaitForSeconds(0.3f);
+        await Awaitable.WaitForSecondsAsync(0.3f);
         GameObject dieEffect = Instantiate(dieEffectPrefab, transform.position, Quaternion.identity);
         characterModel.characterMeshRenderer.gameObject.SetActive(false);
-        yield return new WaitForSeconds(1);
+        await Awaitable.WaitForSecondsAsync(1);
         Destroy(dieEffect);
-        GameManager.Instance.ChangeSceneSelector(GameManager.TypeScene.HomeScene);
+        _ = GameManager.Instance.LoadScene(GameManager.TypeScene.HomeScene);
+        await Awaitable.NextFrameAsync();
     }
     [Serializable]
     public class CharacterModel

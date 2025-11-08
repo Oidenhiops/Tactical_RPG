@@ -14,6 +14,7 @@ public class Block : MonoBehaviour
     public SerializedDictionary<Vector3Int, TypeNeighbors> directions;
     public GameObject poolingGrid;
     public bool cantWalk;
+    public bool containsStairAround;
     public enum TypeBlock
     {
         None = 0,
@@ -38,6 +39,7 @@ public class Block : MonoBehaviour
     public void CheckDirection()
     {
         neighbors = new List<TypeNeighbors>();
+        containsStairAround = false;
         Vector3Int direction;
         foreach (KeyValuePair<Vector3Int, TypeNeighbors> value in directions)
         {
@@ -45,11 +47,22 @@ public class Block : MonoBehaviour
             if (generateMap.aStarPathFinding.grid.ContainsKey(direction))
             {
                 neighbors.Add(directions[GetDirection(Vector3Int.RoundToInt(transform.position), Vector3Int.RoundToInt(transform.position + value.Key))]);
+                if (typeBlock != TypeBlock.Stair &&  generateMap.aStarPathFinding.grid[direction].blockInfo.typeBlock == TypeBlock.Stair)
+                {
+                    containsStairAround = true;
+                }
             }
         }
-        if (renderInfo.TryGetValue(GetBitmask(), out BlocksInfo blockInfo))
+        bitMask = GetBitmask();
+
+        if (containsStairAround && !neighbors.Contains(TypeNeighbors.Up))
         {
-            bitMask = GetBitmask();
+            bitMask += 10000000;
+        }
+
+        if (renderInfo.TryGetValue(bitMask, out BlocksInfo blockInfo))
+        {
+            
             List<TypeNeighbors> directions = new List<TypeNeighbors>()
             {
                 TypeNeighbors.Forward,
@@ -69,7 +82,7 @@ public class Block : MonoBehaviour
                         meshes[directions[i]].meshRenderer.gameObject.SetActive(true);
                     }
                 }
-                else if (typeBlock != TypeBlock.Stair)
+                else if (typeBlock != TypeBlock.Stair && !containsStairAround)
                 {
                     if (meshes.ContainsKey(directions[i]))
                     {
@@ -86,7 +99,7 @@ public class Block : MonoBehaviour
                 }
             }
         }
-        else if (BlockAddRuleManager.Instance && !BlockAddRuleManager.Instance.blockToAddRule.renderInfo.ContainsKey(GetBitmask())) BlockAddRuleManager.Instance.blockToAddRule.renderInfo.Add(GetBitmask(), new BlocksInfo { targetSprite = null, blockGeneratedRule = this });
+        else if (BlockAddRuleManager.Instance && !BlockAddRuleManager.Instance.blockToAddRule.renderInfo.ContainsKey(bitMask)) BlockAddRuleManager.Instance.blockToAddRule.renderInfo.Add(bitMask, new BlocksInfo { targetSprite = null, blockGeneratedRule = this });
     }
     Sprite GetVariationSprite(Sprite originalSprite)
     {

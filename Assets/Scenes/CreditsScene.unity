@@ -913,7 +913,9 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 831593738}
   id: credits_scene_role_lead_artist
+  isDescription: 0
   initByCode: 0
+  otherInfo: []
 --- !u!1 &915751492
 GameObject:
   m_ObjectHideFlags: 0
@@ -1355,7 +1357,9 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 1177616070}
   id: credits_scene_role_game_director
+  isDescription: 0
   initByCode: 0
+  otherInfo: []
 --- !u!1 &1245983216
 GameObject:
   m_ObjectHideFlags: 0
@@ -1509,7 +1513,9 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 1245983218}
   id: credits_scene_role_lead_programmer
+  isDescription: 0
   initByCode: 0
+  otherInfo: []
 --- !u!1 &1294689527
 GameObject:
   m_ObjectHideFlags: 0
@@ -1663,7 +1669,9 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 1294689529}
   id: credits_scene_team
+  isDescription: 0
   initByCode: 0
+  otherInfo: []
 --- !u!1 &1487486703
 GameObject:
   m_ObjectHideFlags: 0
@@ -1805,7 +1813,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89e0ff74a414393469970354f2634cf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _unloadAnimator: {fileID: 1487486709}
 --- !u!114 &1487486711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1846,6 +1853,7 @@ MonoBehaviour:
     m_Flags: 0
   gameManagerHelper: {fileID: 1487486710}
   lastButtonSelected: {fileID: 0}
+  menuAnimator: {fileID: 1487486709}
 --- !u!114 &1487486712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2088,7 +2096,9 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 1511376278}
   id: credits_scene_button_back
+  isDescription: 0
   initByCode: 0
+  otherInfo: []
 --- !u!114 &1511376281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2662,7 +2672,9 @@ MonoBehaviour:
   typeLOCS: 1
   dialogText: {fileID: 2118601893}
   id: credits_scene_title
+  isDescription: 0
   initByCode: 0
+  otherInfo: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
