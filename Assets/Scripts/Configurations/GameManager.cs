@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
             }
             else if (ManagementOptions.Instance && ManagementOptions.Instance.isMenuActive)
             {
-                _ = UnloadAdditiveScene(TypeScene.OptionsScene, true, TypeLoader.WhitProgressBar, ManagementOptions.Instance, ManagementOptions.Instance.lastButtonSelected);
+                _ = UnloadAdditiveScene(TypeScene.OptionsScene, true, TypeLoader.WithProgressBar, ManagementOptions.Instance, ManagementOptions.Instance.lastButtonSelected);
             }
         }
     }
@@ -135,6 +135,7 @@ public class GameManager : MonoBehaviour
                 while (!ManagementLoaderScene.Instance.ValidateLoaderIsOnIdle()) await Awaitable.NextFrameAsync();
                 if (typeScene == TypeScene.BattleScene)
                 {
+                    AudioManager.Instance.ChangeBGM(GameData.Instance.systemDataInfo.bgmSceneData[currentScene]);
                     await SceneManager.UnloadSceneAsync(SceneManager.GetSceneByName(typeScene.ToString()));
                     WorldManager.Instance.ResumeWorldAfterBattle();
                 }
@@ -155,7 +156,7 @@ public class GameManager : MonoBehaviour
             Debug.LogError(e);
         }
     }
-    public async Awaitable LoadScene(TypeScene typeScene, LoadSceneMode loadSceneMode = LoadSceneMode.Single, TypeLoader typeLoader = TypeLoader.WhitProgressBar, bool consertLastScene = false)
+    public async Awaitable LoadScene(TypeScene typeScene, LoadSceneMode loadSceneMode = LoadSceneMode.Single, TypeLoader typeLoader = TypeLoader.WithProgressBar, bool consertLastScene = false)
     {
         try
         {
@@ -177,7 +178,7 @@ public class GameManager : MonoBehaviour
                     ManagementLoaderScene.Instance.OnFinishOpenAnimation += () => { startGame = true; };
                     if (!consertLastScene) currentScene = typeScene.ToString();
                     await AudioManager.Instance.FadeOut();
-                    AudioManager.Instance.ChangeBGM(GameData.Instance.systemDataInfo.bgmSceneData[currentScene]);
+                    AudioManager.Instance.ChangeBGM(GameData.Instance.systemDataInfo.bgmSceneData[typeScene.ToString()]);
                     await Awaitable.NextFrameAsync();
                     while (!ManagementLoaderScene.Instance.ValidateLoaderIsOnIdle()) await Awaitable.NextFrameAsync();
                     if (typeScene == TypeScene.Reload)
@@ -293,7 +294,7 @@ public class GameManager : MonoBehaviour
     public enum TypeLoader
     {
         None = 0,
-        WhitProgressBar = 1,
+        WithProgressBar = 1,
         BlackOut = 2
     }
     public enum TypeDevice

@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using AYellowpaper.SerializedCollections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -20,19 +22,23 @@ public class MenuAllCharacters : MonoBehaviour
     {
         try
         {
-            CharacterBase[] characters = SortCharacters(FindObjectsByType<CharacterBase>(FindObjectsSortMode.None));
-
-            for (int i = 0; i < characters.Length; i++)
+            List<CharacterBase> characters = new List<CharacterBase>();
+            characters.AddRange(BattlePlayerManager.Instance.characters);
+            characters.AddRange(BattleEnemyManager.Instance.characters);
+            for (int i = 0; i < characters.Count; i++)
             {
-                AllCharactersBanner characterBanner = Instantiate(allCharactersBannerPrefab, containerBanners).GetComponent<AllCharactersBanner>();
-                characterBanner.menuAllCharacters = this;
-                characterBanner.onObjectSelect.container = containerBanners;
-                characterBanner.onObjectSelect.scrollRect = ScrollRect;
-                characterBanner.onObjectSelect.viewport = viewport;
-                characterBanner.SetBannerData(characters[i]);
-                characterBanner.name = characters[i].characterData.name;
-                characterBanner.character = characters[i];
-                banners.Add(characters[i], characterBanner);
+                if (characters[i].gameObject.activeSelf)
+                {
+                    AllCharactersBanner characterBanner = Instantiate(allCharactersBannerPrefab, containerBanners).GetComponent<AllCharactersBanner>();
+                    characterBanner.menuAllCharacters = this;
+                    characterBanner.onObjectSelect.container = containerBanners;
+                    characterBanner.onObjectSelect.scrollRect = ScrollRect;
+                    characterBanner.onObjectSelect.viewport = viewport;
+                    characterBanner.SetBannerData(characters[i]);
+                    characterBanner.name = characters[i].characterData.name;
+                    characterBanner.character = characters[i];
+                    banners.Add(characters[i], characterBanner);
+                }
             }
             await Awaitable.NextFrameAsync();
         }

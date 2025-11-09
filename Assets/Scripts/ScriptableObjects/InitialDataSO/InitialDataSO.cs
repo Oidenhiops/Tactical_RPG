@@ -134,6 +134,11 @@ public class InitialDataSO : ScriptableObject
                     animations[animationName].loop = true;
                     break;
             }
+            if (animationName == "Defend")
+            {
+                animations.Add("GeneralSkillEffect", animations["Defend"]);
+                animations["GeneralSkillEffect"].name = "GeneralSkillEffect";
+            }
             nameIndex++;
             indexSpriteForEvaluate += row.Count;
             if (nameIndex >= generateAllAnimations.atlas.height / spriteW)

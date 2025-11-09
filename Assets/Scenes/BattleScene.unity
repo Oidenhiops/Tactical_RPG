@@ -9014,7 +9014,7 @@ MonoBehaviour:
   principalCharacter: {fileID: 1268461956}
   materialCharacterEnemy: {fileID: 2100000, guid: 1f4e078730a00e045b171a29f909c53e,
     type: 2}
-  amountCharacters: {x: 1, y: 1}
+  amountCharacters: {x: 10, y: 10}
   manualCreateCharacters: 0
   _charactersMoving: 0
   targetLevel: 0
@@ -9216,7 +9216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MazeGenerator
   generateMap: {fileID: 807028625}
-  mazeSize: 5
+  mazeSize: 11
   blockPrefab: {fileID: 3654539373334881833, guid: e1ce28cf769e2b54c96c7292e8182135,
     type: 3}
   spawnBlockPrefab: {fileID: 3654539373334881833, guid: 0ab022e51c14ec84e825408a1ce2fe0f,

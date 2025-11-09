@@ -343,7 +343,7 @@ GameObject:
   - component: {fileID: 4497200985678187403}
   - component: {fileID: 7742907620826395073}
   m_Layer: 11
-  m_Name: WhitProgressBar
+  m_Name: WithProgressBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

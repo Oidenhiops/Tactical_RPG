@@ -202,7 +202,7 @@ public class BattlePlayerManager : MonoBehaviour
     }
     public async Awaitable PlayersDefeat()
     {
-        
+        _ = GameManager.Instance.LoadScene(GameManager.TypeScene.HomeScene);
     }
     void Update()
     {

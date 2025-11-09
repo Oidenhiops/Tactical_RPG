@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ManagementLoaderSceneWhitProgressBar : ManagementLoaderScene
+public class ManagementLoaderSceneWithProgressBar : ManagementLoaderScene
 {
     public float speedFill;
     public Image loaderImage;
