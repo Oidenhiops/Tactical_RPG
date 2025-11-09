@@ -3956,25 +3956,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &295958058
-RectTransform:
+--- !u!4 &295958058
+Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 295958057}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 806458680}
+  m_Father: {fileID: 807028626}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &308357420
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8701,9 +8697,9 @@ MonoBehaviour:
     _serializedList: []
   grid:
     _serializedList: []
-  poolinGrid: {fileID: 894394564533644610, guid: 9ec3cae84d18c744eb89964d75844592,
+  poolinGrid: {fileID: 4820209071628616504, guid: 9ec3cae84d18c744eb89964d75844592,
     type: 3}
-  gridContainer: {fileID: 295958058}
+  gridContainer: {fileID: 0}
   poolSize: 50
   characterSelected: {fileID: 0}
   limitX: {x: -10, y: 10}
@@ -9130,7 +9126,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 80196936}
-  - {fileID: 295958058}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -9201,6 +9196,7 @@ Transform:
   m_Children:
   - {fileID: 1962269940}
   - {fileID: 1728341174}
+  - {fileID: 295958058}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &807028627

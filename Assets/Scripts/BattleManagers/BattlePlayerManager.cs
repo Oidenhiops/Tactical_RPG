@@ -57,15 +57,16 @@ public class BattlePlayerManager : MonoBehaviour
         InitializeActions();
         _ = InitializeCharacterData();
     }
-    void OnDestroy()
+    void OnDisable()
     {
         characterActions.CharacterInputs.Movement.performed -= HandleMovement;
         characterActions.CharacterInputs.Movement.canceled -= HandleMovement;
         characterActions.CharacterInputs.Interact.performed -= HandleAction;
         characterActions.CharacterInputs.Interact.performed -= menuThrowCharacter.OnHandleTrow;
-        characterActions.CharacterInputs.RotateCamera.performed -= HandleRotateCamera;
+        characterActions.CharacterInputs.RotateCamera.started -= HandleRotateCamera;
         characterActions.CharacterInputs.ActiveGeneralActions.performed -= HandleMenuGeneralActions;
         OnCharacterPlayerMakingActions -= OnToggleCharacterPlayerMove;
+        characterActions.Disable();
     }
     void InitializeActions()
     {

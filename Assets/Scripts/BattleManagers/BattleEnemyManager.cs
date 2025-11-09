@@ -47,7 +47,7 @@ public class BattleEnemyManager : MonoBehaviour
         generateMap.OnFinishGenerateMap += InitializeCharacters;
         actionsManager.OnEndTurn += CreateStrategy;
     }
-    void OnDestroy()
+    void OnDisable()
     {
         generateMap.OnFinishGenerateMap -= InitializeCharacters;
         actionsManager.OnEndTurn -= CreateStrategy;
@@ -142,14 +142,21 @@ public class BattleEnemyManager : MonoBehaviour
     }
     public async Awaitable OnCharacterDie(CharacterBase characterDead)
     {
-        characters.Remove(characterDead);
-
-        if (characters.Count == 0)
+        try
         {
-            await Awaitable.WaitForSecondsAsync(0.5f);
-            _ = battlePlayerManager.PlayersWin();
+            characters.Remove(characterDead);
+
+            if (characters.Count == 0)
+            {
+                await Awaitable.WaitForSecondsAsync(0.5f);
+                _ = battlePlayerManager.PlayersWin();
+            }
+            await Awaitable.NextFrameAsync();
         }
-        await Awaitable.NextFrameAsync();
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
     public void GetPosibleActionsForMakeAction(ref List<AiAction> posibleActions, List<CharacterBase> posibleTargets, CharacterBase characterForValidate)
     {
@@ -276,12 +283,12 @@ public class BattleEnemyManager : MonoBehaviour
                                     if (action.posibleTargets[0].characterData.statistics[CharacterData.TypeStatistic.Atk].currentValue >
                                         actions[PosibleActions.BasicAttack].posibleTargets[0].characterData.statistics[CharacterData.TypeStatistic.Atk].currentValue)
                                     {
-                                        actions.Add(PosibleActions.BasicAttack, action);
+                                        actions[PosibleActions.BasicAttack] = action;
                                     }
                                 }
                                 else
                                 {
-                                    actions.Add(PosibleActions.BasicAttack, action);
+                                    actions[PosibleActions.BasicAttack] = action;
                                 }
                             }
                             else if (action.posibleTargets[0].characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue -
@@ -289,7 +296,7 @@ public class BattleEnemyManager : MonoBehaviour
                                 action.posibleTargets[0].characterData.statistics[CharacterData.TypeStatistic.Atk].currentValue >
                                 actions[PosibleActions.BasicAttack].posibleTargets[0].characterData.statistics[CharacterData.TypeStatistic.Atk].currentValue)
                             {
-                                actions.Add(PosibleActions.BasicAttack, action);
+                                actions[PosibleActions.BasicAttack] = action;
                             }
                         }
                     }

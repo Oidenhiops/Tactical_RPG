@@ -10,7 +10,7 @@ public class CharacterBattle : CharacterBase
         if (autoInit) _ = InitializeCharacter();
         BattlePlayerManager.Instance.actionsManager.OnEndTurn += OnEndTurn;
     }
-    void OnDestroy()
+    void OnDisable()
     {
         BattlePlayerManager.Instance.actionsManager.OnEndTurn -= OnEndTurn;
     }

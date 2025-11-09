@@ -144,9 +144,16 @@ public class GameData : MonoBehaviour
     {
         Resolution[] resolutions = Screen.resolutions;
         Array.Reverse(resolutions);
+
+        HashSet<string> seen = new HashSet<string>();
         foreach (Resolution res in resolutions)
         {
-            allResolutions.Add(new ResolutionsInfo(res.width, res.height));
+            string key = $"{res.width}x{res.height}";
+            if (!seen.Contains(key))
+            {
+                seen.Add(key);
+                allResolutions.Add(new ResolutionsInfo(res.width, res.height));
+            }
         }
     }
     void LoadLOCS()

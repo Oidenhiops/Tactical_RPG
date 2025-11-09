@@ -47,7 +47,7 @@ public class ManagementOptions : MonoBehaviour, GameManagerHelper.IScene
         await Awaitable.NextFrameAsync();
         isMenuActive = true;
     }
-    void OnDestroy()
+    void OnDisable()
     {
         isMenuActive = false;
         backButton.started -= BackHandle;

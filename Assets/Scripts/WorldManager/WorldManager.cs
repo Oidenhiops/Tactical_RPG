@@ -24,9 +24,10 @@ public class WorldManager : MonoBehaviour
         characterActions.Enable();
         _ = InitializeData();
     }
-    void OnDestroy()
+    void OnDisable()
     {
-        characterActions.CharacterInputs.RotateCamera.performed -= HandleRotateCamera;
+        characterActions.CharacterInputs.RotateCamera.started -= HandleRotateCamera;
+        characterActions.Disable();
     }
     async Awaitable InitializeData()
     {

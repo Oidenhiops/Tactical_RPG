@@ -14,7 +14,7 @@ public class CharacterWorldPlayer : CharacterBase
         WorldManager.Instance.characterActions.CharacterInputs.Movement.started += HandleMovement;
         WorldManager.Instance.characterActions.CharacterInputs.Movement.canceled += HandleMovement;
     }
-    void OnDestroy()
+    void OnDisable()
     {
         WorldManager.Instance.characterActions.CharacterInputs.Movement.started -= HandleMovement;
         WorldManager.Instance.characterActions.CharacterInputs.Movement.canceled -= HandleMovement;

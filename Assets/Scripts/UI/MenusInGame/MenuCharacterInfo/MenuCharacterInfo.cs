@@ -41,7 +41,7 @@ public class MenuCharacterInfo : MonoBehaviour
         changeSkillInput.Enable();
         changeSkillInput.started += OnHandleChangeSkill;
     }
-    void OnDestroy()
+    void OnDisable()
     {
         changeSubMenuInput.started -= OnHandleChangeSubMenu;
         changeSkillInput.started -= OnHandleChangeSkill;

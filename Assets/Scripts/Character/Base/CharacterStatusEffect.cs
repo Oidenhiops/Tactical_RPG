@@ -11,7 +11,7 @@ public class CharacterStatusEffect : MonoBehaviour
     {
         if(BattlePlayerManager.Instance) BattlePlayerManager.Instance.actionsManager.OnEndTurn += DiscountStatusEffects;
     }
-    public void OnDestroy()
+    public void OnDisable()
     {
         if(BattlePlayerManager.Instance) BattlePlayerManager.Instance.actionsManager.OnEndTurn -= DiscountStatusEffects;
     }

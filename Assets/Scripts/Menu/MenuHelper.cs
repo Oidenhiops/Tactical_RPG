@@ -19,7 +19,7 @@ public class MenuHelper : MonoBehaviour
         }
         _ = characterView.InitializeCharacter();
     }
-    void OnDestroy()
+    void OnDisable()
     {
         handleBack.Disable();
     }

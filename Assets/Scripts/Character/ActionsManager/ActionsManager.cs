@@ -39,7 +39,7 @@ public class ActionsManager : MonoBehaviour
         playerManager.characterActions.CharacterInputs.Back.performed += OnUndoAction;
         ManagementLoaderScene.Instance.OnFinishOpenAnimation += OnFinishOpenAnimation;
     }
-    void OnDestroy()
+    void OnDisable()
     {
         playerManager.characterActions.CharacterInputs.Back.performed -= OnUndoAction;
         ManagementLoaderScene.Instance.OnFinishOpenAnimation -= OnFinishOpenAnimation;

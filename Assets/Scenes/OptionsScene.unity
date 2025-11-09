@@ -19188,7 +19188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isDropDown: 1
   dropdownSelected: {fileID: 1600073121}
-  scrollByCode: 0
+  scrollByCode: 1
   item: {fileID: 2019250781}
   viewport: {fileID: 1373310079}
   container: {fileID: 1288392403}

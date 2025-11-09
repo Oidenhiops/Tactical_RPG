@@ -15,7 +15,7 @@ public class ManagementLanguage : MonoBehaviour
     {
         if (dialogText == null) dialogText = GetComponent<TMP_Text>();
     }
-    void OnDestroy()
+    void OnDisable()
     {
         if (!isDescription)
         {

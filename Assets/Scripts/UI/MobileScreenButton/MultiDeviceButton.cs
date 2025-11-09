@@ -12,7 +12,7 @@ public class MultiDeviceButton : MonoBehaviour
             GameManager.Instance.OnDeviceChanged += ValidateScreenButton;
         }
     }
-    void OnDestroy()
+    void OnDisable()
     {
         GameManager.Instance.OnDeviceChanged -= ValidateScreenButton;
     }

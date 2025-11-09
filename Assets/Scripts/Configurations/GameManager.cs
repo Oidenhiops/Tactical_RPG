@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
         pauseButton.performed += PauseHandle;
         pauseButton.Enable();
     }
-    void OnDestroy()
+    void OnDisable()
     {
         pauseButton.performed -= PauseHandle;
     }
@@ -178,7 +178,10 @@ public class GameManager : MonoBehaviour
                     ManagementLoaderScene.Instance.OnFinishOpenAnimation += () => { startGame = true; };
                     if (!consertLastScene) currentScene = typeScene.ToString();
                     await AudioManager.Instance.FadeOut();
-                    AudioManager.Instance.ChangeBGM(GameData.Instance.systemDataInfo.bgmSceneData[typeScene.ToString()]);
+                    if (typeScene != TypeScene.Exit)
+                    {
+                        AudioManager.Instance.ChangeBGM(GameData.Instance.systemDataInfo.bgmSceneData[typeScene.ToString()]);
+                    }
                     await Awaitable.NextFrameAsync();
                     while (!ManagementLoaderScene.Instance.ValidateLoaderIsOnIdle()) await Awaitable.NextFrameAsync();
                     if (typeScene == TypeScene.Reload)
