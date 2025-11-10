@@ -5,23 +5,27 @@ using UnityEngine;
 
 public class CharacterBattle : CharacterBase
 {
-    public override void Awake()
+    public override void OnEnableHandle()
     {
-        if (autoInit) _ = InitializeCharacter();
         BattlePlayerManager.Instance.actionsManager.OnEndTurn += OnEndTurn;
     }
     void OnDisable()
     {
         BattlePlayerManager.Instance.actionsManager.OnEndTurn -= OnEndTurn;
     }
-    void OnEndTurn()
+    public void OnEndTurn()
     {
         if (lastAction == ActionsManager.TypeAction.EndTurn)
         {
             lastAction = ActionsManager.TypeAction.None;
         }
+        OnEndTurnActions();
+    }
+    void OnEndTurnActions()
+    {
         canMoveAfterFinishTurn = false;
         startPositionInGrid = positionInGrid;
+        characterStatusEffect.DiscountStatusEffects();
     }
     public override async Awaitable Die(CharacterBase characterMakeDamage, string lastAnimation = "")
     {

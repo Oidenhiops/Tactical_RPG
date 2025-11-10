@@ -7,14 +7,6 @@ public class CharacterStatusEffect : MonoBehaviour
 {
     public CharacterBase character;
     public SerializedDictionary<StatusEffectBaseSO, int> statusEffects = new SerializedDictionary<StatusEffectBaseSO, int>();
-    public void Start()
-    {
-        if(BattlePlayerManager.Instance) BattlePlayerManager.Instance.actionsManager.OnEndTurn += DiscountStatusEffects;
-    }
-    public void OnDisable()
-    {
-        if(BattlePlayerManager.Instance) BattlePlayerManager.Instance.actionsManager.OnEndTurn -= DiscountStatusEffects;
-    }
     public void DiscountStatusEffects()
     {
         if (character.isCharacterPlayer && BattlePlayerManager.Instance.actionsManager.currenPhase == ActionsManager.TypePhaseTurn.PlayerTurn)

@@ -359,18 +359,6 @@ public class ActionsManager : MonoBehaviour
             Debug.LogError(e);
         }
     }
-    private async Awaitable DiscountStatusEffects()
-    {
-        try
-        {
-            OnEndTurn?.Invoke();
-            await Awaitable.NextFrameAsync();
-        }
-        catch (Exception e)
-        {
-            Debug.LogError(e);
-        }
-    }
     public async Awaitable EndTurn()
     {
         try
@@ -395,7 +383,7 @@ public class ActionsManager : MonoBehaviour
             else
             {
                 await ChangeRoundState();
-                await DiscountStatusEffects();
+                OnEndTurn?.Invoke();
             }
         }
         catch (Exception e)

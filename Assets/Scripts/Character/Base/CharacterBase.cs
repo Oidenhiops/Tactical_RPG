@@ -26,8 +26,9 @@ public class CharacterBase : MonoBehaviour
     public void OnEnable()
     {
         if (isInitialize) characterAnimations.MakeAnimation("Idle");
+        OnEnableHandle();
     }
-    public virtual void Awake()
+    public void Awake()
     {
         if (autoInit) _ = InitializeCharacter();
     }
@@ -55,6 +56,7 @@ public class CharacterBase : MonoBehaviour
         };
         _ = InitializeAnimations();
     }
+    public virtual void OnEnableHandle() { }
     public async Awaitable InitializeCharacter()
     {
         try
