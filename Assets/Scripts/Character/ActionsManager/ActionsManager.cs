@@ -61,6 +61,10 @@ public class ActionsManager : MonoBehaviour
                 if (roundStateAnimator.GetCurrentAnimatorStateInfo(0).IsName("ShowStateIdle"))
                 {
                     currenPhase = currenPhase == TypePhaseTurn.PlayerTurn ? TypePhaseTurn.EnemyTurn : TypePhaseTurn.PlayerTurn;
+                    if (currenPhase == TypePhaseTurn.PlayerTurn)
+                    {
+                        await playerManager.mouseDecal.ReturnSubCamera();
+                    }
                     break;
                 }
                 await Awaitable.NextFrameAsync();

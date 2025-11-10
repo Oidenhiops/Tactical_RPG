@@ -384,6 +384,7 @@ public class BattleEnemyManager : MonoBehaviour
         if (actions.Count > 0)
         {
             bool anyCharacterNeedsToMove = false;
+            CharacterBase anyCharacterAttack = null;
             foreach (var action in actions)
             {
                 if (action.Key.positionInGrid != action.Value.positionToMove)
@@ -393,6 +394,18 @@ public class BattleEnemyManager : MonoBehaviour
                     action.Key.OnCharacterFinishMovement += DiscountCharacterMoving;
                     action.Key.MoveCharacter(action.Value.positionToMove);
                 }
+                if (!anyCharacterAttack && action.Value.typeAction != PosibleActions.Move)
+                {
+                    anyCharacterAttack = action.Key;
+                }
+            }
+            if (anyCharacterAttack)
+            {
+                battlePlayerManager.mouseDecal.SendSubCamera(anyCharacterAttack.gameObject);
+            }
+            else
+            {
+                battlePlayerManager.mouseDecal.SendSubCamera(actions.ElementAt(0).Key.gameObject);
             }
             if (!anyCharacterNeedsToMove)
             {
