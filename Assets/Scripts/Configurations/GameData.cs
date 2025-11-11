@@ -43,9 +43,7 @@ public class GameData : MonoBehaviour
             InitializeResolutionData();
             InitializeBGM();
             LoadCharacterDataInfo();
-            Application.targetFrameRate = systemDataInfo.configurationsInfo.FpsLimit;
             await InitializeAudioMixerData();
-            systemDataInfo.configurationsInfo.canShowFps = true;
         }
         catch (Exception e)
         {
@@ -54,10 +52,38 @@ public class GameData : MonoBehaviour
     }
     public void LoadCharacterDataInfo()
     {
-        InitializeSkinsData();
-        InitializeBagItems();
-        InitializeCharacterItems();
-        InitializeCharacterSkills();
+        try
+        {
+            InitializeSkinsData();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Error cargando skins: {e}");
+        }
+        try
+        {
+            InitializeBagItems();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Error cargando items del inventario: {e}");
+        }
+        try
+        {
+            InitializeCharacterItems();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Error cargando items de los personajes: {e}");
+        }
+        try
+        {
+            InitializeCharacterSkills();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Error cargando habilidades de los personajes: {e}");
+        }
     }
     public void LoadGameDataInfo()
     {
@@ -414,11 +440,7 @@ public class GameData : MonoBehaviour
     }
     string DataPath(TypeSaveData typeSaveData)
     {
-        if (Directory.Exists(Application.persistentDataPath))
-        {
-            return Path.Combine(Application.persistentDataPath, typeSaveData + ".json");
-        }
-        return Path.Combine(Application.streamingAssetsPath, typeSaveData + ".json");
+        return Path.Combine(Application.persistentDataPath, typeSaveData + ".json");
     }
     [Serializable]
     public class GameDataInfo
@@ -455,21 +477,6 @@ public class GameData : MonoBehaviour
                 }
             }
         }
-        public bool _canShowFps;
-        public Action<bool> OnCanShowFpsChange;
-        public bool canShowFps
-        {
-            get => _canShowFps;
-            set
-            {
-                if (_canShowFps != value)
-                {
-                    _canShowFps = value;
-                    OnCanShowFpsChange?.Invoke(_canShowFps);
-                }
-            }
-        }
-        public int FpsLimit = 0;
         public ResolutionConfiguration resolutionConfiguration = new ResolutionConfiguration();
         public SoundConfiguration soundConfiguration = new SoundConfiguration();
     }

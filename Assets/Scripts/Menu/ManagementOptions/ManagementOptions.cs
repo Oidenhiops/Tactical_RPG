@@ -13,7 +13,6 @@ public class ManagementOptions : MonoBehaviour, GameManagerHelper.IScene
     public TMP_Dropdown dropdownResolution;
     public SoundInfo[] soundInfo;
     public WindowModeButtonsInfo windowModeButtonsInfo;
-    public FpsButtonsInfo fpsButtonsInfo;
     public ButtonsBackInfo[] buttonsBackInfos;
     public ButtonBackInfo buttonBackInfo;
     public GameObject homeButton;
@@ -37,7 +36,6 @@ public class ManagementOptions : MonoBehaviour, GameManagerHelper.IScene
         InitializeLanguageDropdown();
         InitializeResolutionDropdown();
         SetFullScreenButtonsSprite();
-        SetFpsLimitButtonsSprite();
         SetVolumeSliders();
         buttonsBackInfos[0].buttonToBack.Select();
         backButton.started += BackHandle;
@@ -235,22 +233,6 @@ public class ManagementOptions : MonoBehaviour, GameManagerHelper.IScene
         windowModeButtonsInfo.buttonsImage[0].sprite = windowModeButtonsInfo.spriteOff;
         windowModeButtonsInfo.buttonsImage[1].sprite = windowModeButtonsInfo.spriteOn;
     }
-    public void SetFpsLimit(int id)
-    {
-        int fps = id * 30;
-        GameData.Instance.systemDataInfo.configurationsInfo.FpsLimit = fps;
-        Application.targetFrameRate = fps;
-        SetFpsLimitButtonsSprite();
-        GameData.Instance.SaveSystemData();
-    }
-    public void SetFpsLimitButtonsSprite()
-    {
-        foreach (FpsButton fpsButton in fpsButtonsInfo.buttons)
-        {
-            bool isSelected = fpsButton.id == GameData.Instance.systemDataInfo.configurationsInfo.FpsLimit;
-            fpsButton.buttonImage.sprite = isSelected ? fpsButtonsInfo.spriteOn : fpsButtonsInfo.spriteOff;
-        }
-    }
     public void ChangeResolution()
     {
         GameData.ResolutionsInfo currentResolution = GetCurrentResolution(dropdownResolution.options[dropdownResolution.value].text);
@@ -288,19 +270,6 @@ public class ManagementOptions : MonoBehaviour, GameManagerHelper.IScene
         public Sprite spriteOn;
         public Sprite spriteOff;
         public Image[] buttonsImage;
-    }
-    [Serializable]
-    public class FpsButtonsInfo
-    {
-        public Sprite spriteOn;
-        public Sprite spriteOff;
-        public FpsButton[] buttons;
-    }
-    [Serializable]
-    public class FpsButton
-    {
-        public int id;
-        public Image buttonImage;
     }
     [Serializable]
     public class ControlsInfo

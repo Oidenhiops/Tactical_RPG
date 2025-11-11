@@ -20,7 +20,6 @@ options_scene_menu_display_resolution;Resolution;N/A;Resolución;N/A;
 options_scene_menu_display_window_mode;Window Mode;N/A;Tipo de ventana;N/A;
 options_scene_menu_display_full_screen;Full screen;N/A;Pantalla completa;N/A;
 options_scene_menu_display_window;Window;N/A;Ventana;N/A;
-options_scene_menu_display_fps_limit;Fps Limit;N/A;Limite de Fps;N/A;
 options_scene_menu_display_language;Language;N/A;Lenguaje;N/A;
 options_scene_menu_display_mute;Mute;N/A;Silenciar;N/A;
 credits_scene_title;Credits;N/A;Creditos;N/A;

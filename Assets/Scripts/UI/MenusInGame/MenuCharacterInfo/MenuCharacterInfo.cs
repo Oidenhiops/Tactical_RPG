@@ -106,7 +106,7 @@ public class MenuCharacterInfo : MonoBehaviour
 
             foreach (KeyValuePair<CharacterData.TypeStatistic, TMP_Text> aptitude in aptitudes)
             {
-                aptitude.Value.text = character.characterData.statistics[aptitude.Key].aptitudeValue + "%";
+                aptitude.Value.text = string.Concat(character.characterData.statistics[aptitude.Key].aptitudeValue, "%");
             }
             foreach (KeyValuePair<CharacterData.TypeMastery, MasteryInfo> mastery in masteries)
             {

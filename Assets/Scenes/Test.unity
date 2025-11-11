@@ -8609,66 +8609,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
-        type: 3}
-      propertyPath: gameDataInfo.gameDataSlots.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
-        type: 3}
-      propertyPath: gameDataInfo.gameDataSlots.Array.data[0].characters._serializedList.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
-        type: 3}
-      propertyPath: gameDataInfo.gameDataSlots.Array.data[0].characters._serializedList.Array.data[0].Value.items._serializedList.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
-        type: 3}
-      propertyPath: gameDataInfo.gameDataSlots.Array.data[0].characters._serializedList.Array.data[0].Value.skills._serializedList.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
-        type: 3}
-      propertyPath: gameDataInfo.gameDataSlots.Array.data[0].characters._serializedList.Array.data[0].Value.mastery._serializedList.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
-        type: 3}
-      propertyPath: gameDataInfo.gameDataSlots.Array.data[0].characters._serializedList.Array.data[0].Value.skills2._serializedList.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
-        type: 3}
-      propertyPath: gameDataInfo.gameDataSlots.Array.data[0].characters._serializedList.Array.data[0].Value.skills._serializedList.Array.data[0].Key
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
-        type: 3}
-      propertyPath: gameDataInfo.gameDataSlots.Array.data[0].characters._serializedList.Array.data[0].Value.skills._serializedList.Array.data[0].Value.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
-        type: 3}
-      propertyPath: gameDataInfo.gameDataSlots.Array.data[0].characters._serializedList.Array.data[0].Value.skills._serializedList.Array.data[0].Value._serializedList.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
-        type: 3}
-      propertyPath: gameDataInfo.gameDataSlots.Array.data[0].characters._serializedList.Array.data[0].Value.skills2._serializedList.Array.data[0].Value._serializedList.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
-        type: 3}
-      propertyPath: gameDataInfo.gameDataSlots.Array.data[0].characters._serializedList.Array.data[0].Value.items._serializedList.Array.data[0].Value.itemStatistics._serializedList.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4778762121774082280, guid: 70d5f5f27a53fae47986d8faed5a303b,
-        type: 3}
-      propertyPath: gameDataInfo.gameDataSlots.Array.data[0].characters._serializedList.Array.data[0].Value.skills._serializedList.Array.data[0].Value._serializedList.Array.data[0].Value._serializedList.Array.size
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11386,20 +11326,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 566199893591039105, guid: ad2cda2a82dbe0c44af4de318af09bee,
-        type: 3}
-      propertyPath: lockDevice
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 9091504262032546078, guid: ad2cda2a82dbe0c44af4de318af09bee,
         type: 3}
       propertyPath: m_Name
       value: GameManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 9091504262032546078, guid: ad2cda2a82dbe0c44af4de318af09bee,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13978,11 +13908,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: OpenCloseScene
-      objectReference: {fileID: 0}
-    - target: {fileID: 7841709542804157756, guid: f305ec5a30b75574585134c60f1177d0,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -18822,11 +18747,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6855568087044737239, guid: 0d8859d2a037bd14ba889d76bdc1a89c,
-        type: 3}
-      propertyPath: m_Resource
-      value: 
-      objectReference: {fileID: 8300000, guid: a612d49759e71fe48bce9300b3756900, type: 3}
     - target: {fileID: 6893429223320566446, guid: 0d8859d2a037bd14ba889d76bdc1a89c,
         type: 3}
       propertyPath: m_Name

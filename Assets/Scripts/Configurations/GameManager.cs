@@ -30,7 +30,6 @@ public class GameManager : MonoBehaviour
     public bool _startGame;
     public Action<bool> OnStartGame;
     public InputAction pauseButton;
-    public TMP_Text fpsText;
     public string currentScene;
     string[] _excludedScenesForPause = { "CreditsScene", "HomeScene", "OptionsScene" };
     public bool startGame
@@ -45,6 +44,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+    public TMP_Text fpsText;
     void Awake()
     {
         if (Instance == null)
@@ -68,15 +68,18 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        //Cursor.visible = false;
-        //Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
+        Physics2D.simulationMode = SimulationMode2D.Script;
+        Physics2D.autoSyncTransforms = false;
         currentDevice = principalDevice;
         ManagementLoaderScene.Instance.OnFinishOpenAnimation += () => { startGame = true; };
     }
     void LateUpdate()
     {
-        float fps = 1.0f / Time.deltaTime;
-        fpsText.text = Mathf.RoundToInt(fps).ToString();
+        fpsText.text = Mathf.RoundToInt(1.0f / Time.deltaTime).ToString();
         CheckCurrentDevice();
     }
     public void PauseHandle(InputAction.CallbackContext context)

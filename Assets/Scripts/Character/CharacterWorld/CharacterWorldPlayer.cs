@@ -9,6 +9,7 @@ public class CharacterWorldPlayer : CharacterBase
     public Vector3 detectorOffset;
     public Vector3 detectorSize = Vector3.one;
     public CharacterBase characterHitted;
+    Collider[] colliders;
     void Start()
     {
         WorldManager.Instance.characterActions.CharacterInputs.Movement.started += HandleMovement;
@@ -62,7 +63,7 @@ public class CharacterWorldPlayer : CharacterBase
     }
     bool EnemyHit()
     {
-        Collider[] colliders = Physics.OverlapBox(transform.position + detectorOffset, detectorSize / 2, Quaternion.identity, LayerMask.GetMask("CharacterEnemy"));
+        colliders = Physics.OverlapBox(transform.position + detectorOffset, detectorSize / 2, Quaternion.identity, LayerMask.GetMask("CharacterEnemy"));
 
         foreach (var col in colliders)
         {

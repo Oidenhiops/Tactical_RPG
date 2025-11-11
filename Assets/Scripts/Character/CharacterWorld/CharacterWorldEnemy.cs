@@ -11,6 +11,7 @@ public class CharacterWorldEnemy : CharacterBase
     public CharacterBase target;
     public bool isOnMovement;
     bool remakePath;
+    Collider[] colliders;
     Vector3Int _targetPos;
     Vector3Int targetPos
     {
@@ -44,7 +45,7 @@ public class CharacterWorldEnemy : CharacterBase
     }
     bool DetectTarget()
     {
-        Collider[] colliders = Physics.OverlapBox(transform.position + detectorOffset, detectorSize / 2, Quaternion.identity, LayerMask.GetMask("CharacterPlayer"));
+        colliders = Physics.OverlapBox(transform.position + detectorOffset, detectorSize / 2, Quaternion.identity, LayerMask.GetMask("CharacterPlayer"));
 
         foreach (var col in colliders)
         {

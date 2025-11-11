@@ -29,19 +29,25 @@ public class CharacterDataDBSO : ScriptableObject
         switch (pattern)
         {
             case 0:
-                name = syllablesStart[Random.Range(0, syllablesStart.Length)] +
-                        syllablesEnd[Random.Range(0, syllablesEnd.Length)];
+                name = string.Concat(
+                    syllablesStart[Random.Range(0, syllablesStart.Length)],
+                    syllablesEnd[Random.Range(0, syllablesEnd.Length)]
+                );
                 break;
             case 1:
-                name = syllablesStart[Random.Range(0, syllablesStart.Length)] +
-                        syllablesMiddle[Random.Range(0, syllablesMiddle.Length)] +
-                        syllablesEnd[Random.Range(0, syllablesEnd.Length)];
+                name = string.Concat(
+                    syllablesStart[Random.Range(0, syllablesStart.Length)],
+                    syllablesMiddle[Random.Range(0, syllablesMiddle.Length)],
+                    syllablesEnd[Random.Range(0, syllablesEnd.Length)]
+                );
                 break;
             case 2:
-                name = syllablesStart[Random.Range(0, syllablesStart.Length)] +
-                        syllablesMiddle[Random.Range(0, syllablesMiddle.Length)] +
-                        syllablesMiddle[Random.Range(0, syllablesMiddle.Length)] +
-                        syllablesEnd[Random.Range(0, syllablesEnd.Length)];
+                name = string.Concat(
+                    syllablesStart[Random.Range(0, syllablesStart.Length)],
+                    syllablesMiddle[Random.Range(0, syllablesMiddle.Length)],
+                    syllablesMiddle[Random.Range(0, syllablesMiddle.Length)],
+                    syllablesEnd[Random.Range(0, syllablesEnd.Length)]
+                );
                 break;
         }
 
