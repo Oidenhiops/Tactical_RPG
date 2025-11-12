@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class BattleEnemyManager : MonoBehaviour
 {
-    public static BattleEnemyManager Instance;
+    public static BattleEnemyManager Instance { get; private set; }
     public ActionsManager actionsManager;
     public GenerateMap generateMap;
     public BattlePlayerManager battlePlayerManager;
