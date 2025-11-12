@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - ManagementOptions
+  - CharacterEnemy
+  - CharacterPlayer
+  - Interactable
   layers:
   - Default
   - TransparentFX

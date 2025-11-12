@@ -80,7 +80,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isInitialize: 0
   isCharacterPlayer: 0
-  typeCharacter: 1
   initialDataSO: {fileID: 0}
   characterModel:
     characterMeshRenderer: {fileID: 372686384909317343}
@@ -262,8 +261,8 @@ MonoBehaviour:
     skills:
       m_Keys: 
       m_Values: []
-  direction: {x: 0, y: 0, z: 0}
-  nextDirection: {x: 0, y: 0, z: 0}
+  direction: {x: 1, y: 0, z: -1}
+  nextDirection: {x: 1, y: 0, z: -1}
   characterAnimations: {fileID: 3788326535341420580}
   characterStatusEffect: {fileID: 3168936691978696117}
   positionInGrid: {x: 0, y: 0, z: 0}

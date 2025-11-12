@@ -6,19 +6,19 @@ public class CharacterWorldPlayer : CharacterBase
 {
     public Vector3Int movementDirection;
     public bool isOnMovement;
-    public Vector3 detectorOffset;
-    public Vector3 detectorSize = Vector3.one;
     public CharacterBase characterHitted;
-    Collider[] colliders;
+    public IInteractable interactableObject;
     void Start()
     {
         WorldManager.Instance.characterActions.CharacterInputs.Movement.started += HandleMovement;
         WorldManager.Instance.characterActions.CharacterInputs.Movement.canceled += HandleMovement;
+        WorldManager.Instance.characterActions.CharacterInputs.Interact.performed += HandleAction;
     }
     void OnDisable()
     {
         WorldManager.Instance.characterActions.CharacterInputs.Movement.started -= HandleMovement;
         WorldManager.Instance.characterActions.CharacterInputs.Movement.canceled -= HandleMovement;
+        WorldManager.Instance.characterActions.CharacterInputs.Interact.performed -= HandleAction;
     }
     void Update()
     {
@@ -37,10 +37,6 @@ public class CharacterWorldPlayer : CharacterBase
                 {
                     characterAnimations.MakeAnimation("Idle");
                 }
-                if (EnemyHit())
-                {
-                    _ = WorldManager.Instance.OnEnemyHit();
-                }
             }
         }
     }
@@ -56,24 +52,10 @@ public class CharacterWorldPlayer : CharacterBase
     }
     void HandleAction(InputAction.CallbackContext context)
     {
-        if (!WorldManager.Instance.enemyHitted && !GameManager.Instance.isPause && GameManager.Instance.startGame)
+        if (!WorldManager.Instance.enemyHitted && !GameManager.Instance.isPause && GameManager.Instance.startGame && interactableObject != null)
         {
-            
+            interactableObject.Interact(this);
         }
-    }
-    bool EnemyHit()
-    {
-        colliders = Physics.OverlapBox(transform.position + detectorOffset, detectorSize / 2, Quaternion.identity, LayerMask.GetMask("CharacterEnemy"));
-
-        foreach (var col in colliders)
-        {
-            if (col.transform != transform && col.GetComponent<CharacterBase>().characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue > 0)
-            {
-                characterHitted = col.GetComponent<CharacterBase>();
-                return true;
-            }
-        }
-        return false;
     }
     public override void MoveCharacter(Vector3Int targetPosition)
     {
@@ -185,9 +167,31 @@ public class CharacterWorldPlayer : CharacterBase
             yield return null;
         }
     }
-    public void OnDrawGizmos()
+    void OnCollisionEnter(Collision collision)
     {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(transform.position + detectorOffset, detectorSize);
+        if (collision.gameObject.CompareTag("CharacterEnemy") && !characterHitted)
+        {
+            characterHitted = collision.gameObject.GetComponent<CharacterBase>();
+            _ = WorldManager.Instance.OnEnemyHit();
+        }
+        else if (collision.gameObject.CompareTag("Interactable") && !characterHitted)
+        {
+            interactableObject = collision.gameObject.GetComponent<IInteractable>();
+            interactableObject.OnInteractEnter();
+        }
+    }
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Interactable"))
+        {
+            interactableObject.OnInteractExit();
+            interactableObject = null;
+        }
+    }
+    public interface IInteractable
+    {
+        void Interact(CharacterWorldPlayer character);
+        void OnInteractEnter();
+        void OnInteractExit();
     }
 }

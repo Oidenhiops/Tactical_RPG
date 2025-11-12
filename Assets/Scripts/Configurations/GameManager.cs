@@ -68,8 +68,6 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 60;
         Physics2D.simulationMode = SimulationMode2D.Script;

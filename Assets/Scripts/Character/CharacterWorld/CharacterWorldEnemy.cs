@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,11 +6,11 @@ public class CharacterWorldEnemy : CharacterBase
 {
     public Vector3 detectorOffset;
     public Vector3 detectorSize = Vector3.one;
+    Collider[] colliders;
     List<Vector3Int> path = new List<Vector3Int>();
     public CharacterBase target;
     public bool isOnMovement;
     bool remakePath;
-    Collider[] colliders;
     Vector3Int _targetPos;
     Vector3Int targetPos
     {

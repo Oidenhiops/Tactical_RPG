@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class DialogManager : MonoBehaviour
 {
-    public List<DialogText> texts;
+    public DialogBaseSO dialogBaseSO;
     public GameObject charPrefab;
     public Transform charsContainer;
     [NaughtyAttributes.Button]
@@ -20,7 +19,7 @@ public class DialogManager : MonoBehaviour
             Destroy(child.gameObject);
         }
         await Awaitable.NextFrameAsync();
-        foreach (var dialogText in texts)
+        foreach (var dialogText in dialogBaseSO.dialogLines)
         {
             List<string> words = new List<string>(GameData.Instance.GetDialog(dialogText.textId, GameData.TypeLOCS.Dialogs).dialog.Split(' '));
             for (int w = 0; w < words.Count; w++)
@@ -52,33 +51,12 @@ public class DialogManager : MonoBehaviour
     bool WordNeedJumpLine(string word, out int amountChars)
     {
         int lineNumber = charsContainer.childCount / 48;
-        if (charsContainer.childCount - (lineNumber * 48) + word.Length > 48) // Assuming 40 characters fit in one line
+        if (charsContainer.childCount - (lineNumber * 48) + word.Length > 48)
         {
             amountChars = Math.Abs(charsContainer.childCount - (lineNumber * 48) - 48);
             return true;
         }
         amountChars = 0;
         return false;
-    }
-    [Serializable]
-    public class DialogText
-    {
-        public List<TypeAnimate> typeAnimates;
-        public string textId;
-        public float timeBetweenChars = 0.05f;
-    }
-    public enum TypeAnimate
-    {
-        None,
-        Bounce,
-        Dangle,
-        Rainb,
-        Rot,
-        Shake,
-        Incr,
-        Slide,
-        Swing,
-        Wave,
-        Wiggle
     }
 }

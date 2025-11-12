@@ -6,7 +6,6 @@ public class CharacterBase : MonoBehaviour
 {
     public bool isInitialize;
     public bool isCharacterPlayer;
-    public TypeCharacter typeCharacter;
     public InitialDataSO initialDataSO;
     public CharacterModel characterModel;
     public CharacterData characterData;
@@ -312,12 +311,5 @@ public class CharacterBase : MonoBehaviour
         public Transform leftHand;
         public Transform rightHand;
         public Mesh originalMesh;
-    }
-    public enum TypeCharacter
-    {
-        None = 0,
-        Character = 1,
-        GeoSymbol = 2,
-        Chest = 3
     }
 }

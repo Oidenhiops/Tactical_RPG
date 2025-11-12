@@ -8,7 +8,7 @@ public class DialogChar : MonoBehaviour
     public TypewriterByWord typewriter;
     public TextAnimator_TMP textAnimator;
     public TMP_Text charText;
-    public List<DialogManager.TypeAnimate> typeAnimates;
+    public List<DialogBaseSO.TypeAnimate> typeAnimates;
     public string testText;
     [NaughtyAttributes.Button]
     public void Test()
