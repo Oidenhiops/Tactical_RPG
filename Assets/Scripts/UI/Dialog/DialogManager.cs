@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class DialogManager : MonoBehaviour
@@ -7,6 +8,7 @@ public class DialogManager : MonoBehaviour
     public DialogBaseSO dialogBaseSO;
     public GameObject charPrefab;
     public Transform charsContainer;
+    public bool skipDialog;
     [NaughtyAttributes.Button]
     public void TestText()
     {
@@ -40,11 +42,25 @@ public class DialogManager : MonoBehaviour
                         dialogChar.typeAnimates = dialogText.typeAnimates;
                         dialogChar.SetText(words[w][c].ToString());
                         AudioManager.Instance.PlayASound(AudioManager.Instance.GetAudioClip(SoundsDBSO.TypeSound.SFX, "TypeSound"), 1, false);
-                        await Awaitable.WaitForSecondsAsync(dialogText.timeBetweenChars);
+                        if (!skipDialog)
+                        {
+                            await Awaitable.WaitForSecondsAsync(dialogText.timeBetweenChars);
+                        }
                     }
                 }
                 var space = Instantiate(charPrefab, charsContainer).GetComponent<DialogChar>();
                 space.SetText(" ");
+                if (w == words.Count - 1 && dialogText.banners.Count > 0)
+                {
+                    foreach (var banner in dialogBaseSO.dialogLines.ElementAt(dialogBaseSO.dialogLines.Count - 1).banners)
+                    {
+                        dialogBaseSO.MakeBannerFunction(banner.bannerFunction);
+                    }
+                    while (true)
+                    {
+                        await Awaitable.NextFrameAsync();
+                    }
+                }
             }
         }
     }

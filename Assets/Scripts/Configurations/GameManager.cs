@@ -164,13 +164,16 @@ public class GameManager : MonoBehaviour
             switch (typeScene)
             {
                 case TypeScene.OptionsScene:
-                    if (!SceneManager.GetSceneByName("OptionsScene").isLoaded) SceneManager.LoadScene("OptionsScene", LoadSceneMode.Additive);
+                    if (!SceneManager.GetSceneByName("OptionsScene").isLoaded) await SceneManager.LoadSceneAsync("OptionsScene", LoadSceneMode.Additive);
                     break;
                 case TypeScene.CreditsScene:
-                    if (!SceneManager.GetSceneByName("CreditsScene").isLoaded) SceneManager.LoadScene("CreditsScene", LoadSceneMode.Additive);
+                    if (!SceneManager.GetSceneByName("CreditsScene").isLoaded) await SceneManager.LoadSceneAsync("CreditsScene", LoadSceneMode.Additive);
                     break;
                 case TypeScene.GameOverScene:
-                    if (!SceneManager.GetSceneByName("GameOverScene").isLoaded) SceneManager.LoadScene("GameOverScene", LoadSceneMode.Additive);
+                    if (!SceneManager.GetSceneByName("GameOverScene").isLoaded) await SceneManager.LoadSceneAsync("GameOverScene", LoadSceneMode.Additive);
+                    break;
+                case TypeScene.DialogScene:
+                    if (!SceneManager.GetSceneByName("DialogScene").isLoaded) await SceneManager.LoadSceneAsync("DialogScene", LoadSceneMode.Additive);
                     break;
                 default:
                     startGame = false;
@@ -294,6 +297,7 @@ public class GameManager : MonoBehaviour
         GameOverScene = 6,
         BattleScene = 7,
         CityScene = 8,
+        DialogScene = 9
     }
     public enum TypeLoader
     {

@@ -8,6 +8,7 @@ public class CharacterWorldPlayer : CharacterBase
     public bool isOnMovement;
     public CharacterBase characterHitted;
     public IInteractable interactableObject;
+    public bool cantMakeActions;
     void Start()
     {
         WorldManager.Instance.characterActions.CharacterInputs.Movement.started += HandleMovement;
@@ -22,7 +23,7 @@ public class CharacterWorldPlayer : CharacterBase
     }
     void Update()
     {
-        if (isInitialize && characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue > 0)
+        if (isInitialize && characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue > 0 && !cantMakeActions)
         {
             if (!WorldManager.Instance.enemyHitted && !GameManager.Instance.isPause && GameManager.Instance.startGame)
             {
@@ -42,7 +43,7 @@ public class CharacterWorldPlayer : CharacterBase
     }
     void HandleMovement(InputAction.CallbackContext context)
     {
-        if (!WorldManager.Instance.enemyHitted && !GameManager.Instance.isPause && GameManager.Instance.startGame && !isOnMovement)
+        if (!WorldManager.Instance.enemyHitted && !GameManager.Instance.isPause && GameManager.Instance.startGame && !isOnMovement && !cantMakeActions)
         {
             if (!context.performed)
             {

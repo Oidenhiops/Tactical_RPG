@@ -20,7 +20,15 @@ public class DialogBaseSO : ScriptableObject
     }
     public void MakeBannerFunction(string functionName)
     {
-        
+        var metodo = GetType().GetMethod(functionName, System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public);
+        if (metodo != null)
+        {
+            metodo.Invoke(this, new object[] { WorldManager.Instance.characterWorld });
+        }
+    }
+    public void TestFunction(CharacterBase characterWorld)
+    {
+        Debug.Log("TestFunction called on " + characterWorld.name);
     }
     public enum TypeAnimate
     {

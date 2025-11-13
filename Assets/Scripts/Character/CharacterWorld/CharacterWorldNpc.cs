@@ -19,9 +19,11 @@ public class CharacterWorldNpc : CharacterBase, CharacterWorldPlayer.IInteractab
     }
     public void Interact(CharacterWorldPlayer character)
     {
-        print($"Interacted with NPC: {gameObject.name} by Character: {character.gameObject.name}");
+        character.cantMakeActions = true;
+        bannerInteract.SetActive(false);
+        _ = GameManager.Instance.LoadScene(GameManager.TypeScene.DialogScene);
     }
-
+    
     public void OnInteractEnter()
     {
         bannerInteract.SetActive(true);

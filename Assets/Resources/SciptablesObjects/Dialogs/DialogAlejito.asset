@@ -24,4 +24,6 @@ MonoBehaviour:
   - typeAnimates: 05000000
     textId: dialog_text_alejo3
     timeBetweenChars: 0.05
-    banners: []
+    banners:
+    - bannerTextId: dialog_text_alejo_banner1
+      bannerFunction: TestFunction
