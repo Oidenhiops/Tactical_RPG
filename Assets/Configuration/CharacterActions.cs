@@ -163,6 +163,15 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SkipDialog"",
+                    ""type"": ""Button"",
+                    ""id"": ""e7b10fde-994e-4fbd-b189-7204a4d3a530"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -517,6 +526,28 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
                     ""action"": ""RotateSkill"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""028310f2-877f-4e9a-9615-768e97675330"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SkipDialog"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7de59b86-1acb-4639-a53f-60cd333df9a3"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SkipDialog"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -1060,6 +1091,7 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
         m_CharacterInputs_ActiveGeneralActions = m_CharacterInputs.FindAction("ActiveGeneralActions", throwIfNotFound: true);
         m_CharacterInputs_ChangeSubMenu = m_CharacterInputs.FindAction("ChangeSubMenu", throwIfNotFound: true);
         m_CharacterInputs_RotateSkill = m_CharacterInputs.FindAction("RotateSkill", throwIfNotFound: true);
+        m_CharacterInputs_SkipDialog = m_CharacterInputs.FindAction("SkipDialog", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1161,6 +1193,7 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_CharacterInputs_ActiveGeneralActions;
     private readonly InputAction m_CharacterInputs_ChangeSubMenu;
     private readonly InputAction m_CharacterInputs_RotateSkill;
+    private readonly InputAction m_CharacterInputs_SkipDialog;
     /// <summary>
     /// Provides access to input actions defined in input action map "CharacterInputs".
     /// </summary>
@@ -1204,6 +1237,10 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "CharacterInputs/RotateSkill".
         /// </summary>
         public InputAction @RotateSkill => m_Wrapper.m_CharacterInputs_RotateSkill;
+        /// <summary>
+        /// Provides access to the underlying input action "CharacterInputs/SkipDialog".
+        /// </summary>
+        public InputAction @SkipDialog => m_Wrapper.m_CharacterInputs_SkipDialog;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1254,6 +1291,9 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
             @RotateSkill.started += instance.OnRotateSkill;
             @RotateSkill.performed += instance.OnRotateSkill;
             @RotateSkill.canceled += instance.OnRotateSkill;
+            @SkipDialog.started += instance.OnSkipDialog;
+            @SkipDialog.performed += instance.OnSkipDialog;
+            @SkipDialog.canceled += instance.OnSkipDialog;
         }
 
         /// <summary>
@@ -1289,6 +1329,9 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
             @RotateSkill.started -= instance.OnRotateSkill;
             @RotateSkill.performed -= instance.OnRotateSkill;
             @RotateSkill.canceled -= instance.OnRotateSkill;
+            @SkipDialog.started -= instance.OnSkipDialog;
+            @SkipDialog.performed -= instance.OnSkipDialog;
+            @SkipDialog.canceled -= instance.OnSkipDialog;
         }
 
         /// <summary>
@@ -1580,6 +1623,13 @@ public partial class @CharacterActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnRotateSkill(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SkipDialog" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSkipDialog(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

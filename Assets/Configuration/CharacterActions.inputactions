@@ -77,6 +77,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SkipDialog",
+                    "type": "Button",
+                    "id": "e7b10fde-994e-4fbd-b189-7204a4d3a530",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -431,6 +440,28 @@
                     "action": "RotateSkill",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "028310f2-877f-4e9a-9615-768e97675330",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SkipDialog",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7de59b86-1acb-4639-a53f-60cd333df9a3",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SkipDialog",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },

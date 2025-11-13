@@ -22,6 +22,19 @@ public class CharacterWorldNpc : CharacterBase, CharacterWorldPlayer.IInteractab
         character.cantMakeActions = true;
         bannerInteract.SetActive(false);
         _ = GameManager.Instance.LoadScene(GameManager.TypeScene.DialogScene);
+        _ = AwaitForShowDialog();
+    }
+    public async Awaitable AwaitForShowDialog()
+    {
+        while (true)
+        {
+            if (DialogManager.Instance && DialogManager.Instance.CanShowDialogs())
+            {
+                await DialogManager.Instance.ShowText();
+                break;
+            }
+            await Awaitable.NextFrameAsync();
+        }
     }
     
     public void OnInteractEnter()

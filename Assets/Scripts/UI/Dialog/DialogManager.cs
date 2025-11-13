@@ -5,14 +5,31 @@ using UnityEngine;
 
 public class DialogManager : MonoBehaviour
 {
+    public static DialogManager Instance { get; private set; }
     public DialogBaseSO dialogBaseSO;
     public GameObject charPrefab;
     public Transform charsContainer;
+    public Animator menuAnimator;
+    public CharacterActions inputActions;
     public bool skipDialog;
     [NaughtyAttributes.Button]
     public void TestText()
     {
         _ = ShowText();
+    }
+    void Awake()
+    {
+        Instance = this;
+    }
+    public void OnEnable()
+    {
+        inputActions = new CharacterActions();
+        inputActions.Enable();
+        inputActions.CharacterInputs.SkipDialog.performed += ctx => skipDialog = true;
+    }
+    public void OnDisable()
+    {
+        
     }
     public async Awaitable ShowText()
     {
@@ -56,12 +73,14 @@ public class DialogManager : MonoBehaviour
                     {
                         dialogBaseSO.MakeBannerFunction(banner.bannerFunction);
                     }
+                    skipDialog = false;
                     while (true)
                     {
                         await Awaitable.NextFrameAsync();
                     }
                 }
             }
+            skipDialog = false;
         }
     }
     bool WordNeedJumpLine(string word, out int amountChars)
@@ -74,5 +93,9 @@ public class DialogManager : MonoBehaviour
         }
         amountChars = 0;
         return false;
+    }
+    public bool CanShowDialogs()
+    {
+        return dialogBaseSO != null && menuAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle");
     }
 }
