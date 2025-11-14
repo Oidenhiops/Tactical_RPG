@@ -9,7 +9,10 @@ public class DialogManager : MonoBehaviour
     public DialogBaseSO dialogBaseSO;
     public GameObject charPrefab;
     public Transform charsContainer;
+    public Transform bannerContainer;
+    public GameObject bannerPrefab;
     public Animator menuAnimator;
+    public Animator bannerAnimator;
     public CharacterActions inputActions;
     public bool skipDialog;
     [NaughtyAttributes.Button]
@@ -69,9 +72,21 @@ public class DialogManager : MonoBehaviour
                 space.SetText(" ");
                 if (w == words.Count - 1 && dialogText.banners.Count > 0)
                 {
+                    bannerContainer.gameObject.SetActive(true);
+                    await Awaitable.NextFrameAsync();
+                    while (true)
+                    {
+                        if (bannerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
+                        {
+                            break;
+                        }
+                        await Awaitable.NextFrameAsync();
+                    }
                     foreach (var banner in dialogBaseSO.dialogLines.ElementAt(dialogBaseSO.dialogLines.Count - 1).banners)
                     {
-                        dialogBaseSO.MakeBannerFunction(banner.bannerFunction);
+                        ManagementLanguage bannerML = Instantiate(bannerPrefab, bannerContainer).GetComponentInChildren<ManagementLanguage>();
+                        bannerML.id = banner.bannerTextId;
+                        bannerML.RefreshDialog();
                     }
                     skipDialog = false;
                     while (true)

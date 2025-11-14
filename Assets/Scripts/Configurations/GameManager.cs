@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
         Physics2D.simulationMode = SimulationMode2D.Script;
         Physics2D.autoSyncTransforms = false;
         currentDevice = principalDevice;
-        ManagementLoaderScene.Instance.OnFinishOpenAnimation += () => { startGame = true; };
+        if (ManagementLoaderScene.Instance) ManagementLoaderScene.Instance.OnFinishOpenAnimation += () => { startGame = true; };
     }
     void LateUpdate()
     {
