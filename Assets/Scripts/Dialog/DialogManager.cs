@@ -22,6 +22,7 @@ public class DialogManager : MonoBehaviour, GameManagerHelper.IScene
     public bool isResettingDialog;
     public CharacterData leftCharacter;
     public CharacterData rightCharacter;
+    public GameObject nextDialogButton;
     [NaughtyAttributes.Button]
     public void TestText()
     {
@@ -80,6 +81,7 @@ public class DialogManager : MonoBehaviour, GameManagerHelper.IScene
             Destroy(child.gameObject);
         }
         await Awaitable.NextFrameAsync();
+        nextDialogButton.SetActive(true);
         for (int d = 0; d < dialogBaseSO.dialogLines.Count; d++)
         {
             List<string> words = new List<string>(GameData.Instance.GetDialog(dialogBaseSO.dialogLines[d].textId, GameData.TypeLOCS.Dialogs).dialog.Split(' '));
@@ -112,6 +114,7 @@ public class DialogManager : MonoBehaviour, GameManagerHelper.IScene
                 if (w == words.Count - 1 && dialogBaseSO.dialogLines[d].banners.Count > 0)
                 {
                     bannerContainer.gameObject.SetActive(true);
+                    nextDialogButton.SetActive(false);
                     bannerAnimator.Play("Enter");
                     await Awaitable.NextFrameAsync();
                     while (true)
@@ -149,6 +152,7 @@ public class DialogManager : MonoBehaviour, GameManagerHelper.IScene
             }
         }
         nextDialog = false;
+        nextDialogButton.SetActive(true);
         if (dialogBaseSO.dialogLines.Last().finishDialog)
         {
             AddNextDialogIndicator();
