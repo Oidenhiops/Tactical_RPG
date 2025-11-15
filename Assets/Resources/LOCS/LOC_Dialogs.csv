@@ -1,5 +1,9 @@
 ﻿ID;English;EnglishDescription;Español;EspañolDescripción;
-dialog_text_alejo1;Hello there! Welcome to our village. aaaaaa aaaaa aaaaa;A friendly greeting from Alejo.;¡Hola! Bienvenido a nuestro pueblo. Intentemos hacer un salto de linea :D;Un saludo amistoso de Alejo.;
-dialog_text_alejo2;Rainbow;si;Arcoiris;si;
-dialog_text_alejo3;Test;si;Prueba;si;
-dialog_text_alejo_banner1;This is a banner message!;A message that appears as a banner.;¡Este es un mensaje de banner!;Un mensaje que aparece como un banner.;
+city_dialog_enter;Hello there! Welcome to our village.;;¡Hola! Bienvenido a nuestro pueblo.;;
+city_dialog_loop;What do you need from me?;;¿Que necesitas de mi?;;
+city_dialog_exit;Goodbye! Come back soon.;;¡Adiós! Vuelve pronto.;;
+city_dialog_test_banner1;Exit;;Salir;;
+city_dialog_test_banner2;I want go to test map;Dialog banner npc tutorial;Quiero ir al mapa de prueba;Diálogo banner npc tutorial;
+city_dialog_test_banner3;I want to know, how are you?;Dialog banner npc tutorial;Quiero saber ¿Como estás?;Diálogo banner npc tutorial;
+city_dialog_test_response1;Sure, I can help you with that. Follow me!;Dialog response npc tutorial;Claro, puedo ayudarte con eso. ¡Sígueme!;Diálogo respuesta npc tutorial;
+city_dialog_test_response2;I'm doing well, thank you for asking!;Dialog response npc tutorial;¡Estoy bien, gracias por preguntar!;Diálogo respuesta npc tutorial;

@@ -79,9 +79,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SkipDialog",
+                    "name": "NextDialog",
                     "type": "Button",
-                    "id": "e7b10fde-994e-4fbd-b189-7204a4d3a530",
+                    "id": "a903893b-8999-423c-9c1b-5465a07871c5",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -443,23 +443,23 @@
                 },
                 {
                     "name": "",
-                    "id": "028310f2-877f-4e9a-9615-768e97675330",
-                    "path": "<Keyboard>/e",
+                    "id": "fa159891-476e-41ab-956c-3cf7aaea76ba",
+                    "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "SkipDialog",
+                    "action": "NextDialog",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "7de59b86-1acb-4639-a53f-60cd333df9a3",
+                    "id": "30ce8dc8-2eda-4fef-ae37-a1923965a60d",
                     "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "SkipDialog",
+                    "action": "NextDialog",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

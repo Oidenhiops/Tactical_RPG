@@ -19,7 +19,8 @@ public class CharacterWorldNpc : CharacterBase, CharacterWorldPlayer.IInteractab
     }
     public void Interact(CharacterWorldPlayer character)
     {
-        character.cantMakeActions = true;
+        LookAt(positionInGrid, WorldManager.Instance.characterWorld.positionInGrid);
+        WorldManager.Instance.cantMakeActions = true;
         bannerInteract.SetActive(false);
         _ = GameManager.Instance.LoadScene(GameManager.TypeScene.DialogScene);
         _ = AwaitForShowDialog();
@@ -30,6 +31,8 @@ public class CharacterWorldNpc : CharacterBase, CharacterWorldPlayer.IInteractab
         {
             if (DialogManager.Instance && DialogManager.Instance.CanShowDialogs())
             {
+                
+                await DialogManager.Instance.InitializeCharacter(WorldManager.Instance.characterWorld, this);
                 await DialogManager.Instance.ShowText();
                 break;
             }
@@ -45,5 +48,13 @@ public class CharacterWorldNpc : CharacterBase, CharacterWorldPlayer.IInteractab
     public void OnInteractExit()
     {
         bannerInteract.SetActive(false);
+    }
+    public void ResumeWorldAfterInteraction()
+    {
+        bannerInteract.SetActive(true);
+    }
+    public CharacterBase GetObjectInteract()
+    {
+        return this;
     }
 }

@@ -145,7 +145,7 @@ public class BattleEnemyManager : MonoBehaviour
         try
         {
             characters.Remove(characterDead);
-
+            await Awaitable.NextFrameAsync();
             if (characters.Count == 0)
             {
                 await Awaitable.WaitForSecondsAsync(0.5f);

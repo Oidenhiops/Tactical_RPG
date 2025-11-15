@@ -21,8 +21,8 @@ TagManager:
   - CharacterEnemy
   - GenerateMap
   - Loader
-  - 
-  - 
+  - LeftCharacterDialog
+  - RightCharacterDialog
   - 
   - 
   - 

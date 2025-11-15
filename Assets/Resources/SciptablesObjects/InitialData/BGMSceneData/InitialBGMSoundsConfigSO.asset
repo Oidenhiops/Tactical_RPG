@@ -26,3 +26,7 @@ MonoBehaviour:
       Value:
         defaultClip: GameBg
         otherClip: 
+    - Key: TestScene
+      Value:
+        defaultClip: GameBg
+        otherClip: 

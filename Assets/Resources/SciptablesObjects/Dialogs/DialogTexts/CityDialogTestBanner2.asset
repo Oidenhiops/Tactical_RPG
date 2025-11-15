@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daf82998e672b1b488fb768a1e3512e1, type: 3}
+  m_Name: CityDialogTestBanner2
+  m_EditorClassIdentifier: Assembly-CSharp::DialogBaseSO
+  dialogLines:
+  - typeAnimates: 
+    textId: city_dialog_test_response2
+    timeBetweenChars: 0.05
+    banners: []
+    finishDialog: 0
+    otherDialog: {fileID: 11400000, guid: 41a5c55683a4abe4784d6a78542fea97, type: 2}
+    bannerFunction: 

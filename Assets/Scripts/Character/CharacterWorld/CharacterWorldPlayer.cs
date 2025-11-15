@@ -8,8 +8,7 @@ public class CharacterWorldPlayer : CharacterBase
     public bool isOnMovement;
     public CharacterBase characterHitted;
     public IInteractable interactableObject;
-    public bool cantMakeActions;
-    void Start()
+    public override void OnEnableHandle()
     {
         WorldManager.Instance.characterActions.CharacterInputs.Movement.started += HandleMovement;
         WorldManager.Instance.characterActions.CharacterInputs.Movement.canceled += HandleMovement;
@@ -23,9 +22,9 @@ public class CharacterWorldPlayer : CharacterBase
     }
     void Update()
     {
-        if (isInitialize && characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue > 0 && !cantMakeActions)
+        if (isInitialize && characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue > 0 && !WorldManager.Instance.cantMakeActions)
         {
-            if (!WorldManager.Instance.enemyHitted && !GameManager.Instance.isPause && GameManager.Instance.startGame)
+            if (!GameManager.Instance.isPause && GameManager.Instance.startGame)
             {
                 if (WorldManager.Instance.characterActions.CharacterInputs.Movement.IsPressed())
                 {
@@ -43,7 +42,7 @@ public class CharacterWorldPlayer : CharacterBase
     }
     void HandleMovement(InputAction.CallbackContext context)
     {
-        if (!WorldManager.Instance.enemyHitted && !GameManager.Instance.isPause && GameManager.Instance.startGame && !isOnMovement && !cantMakeActions)
+        if (!GameManager.Instance.isPause && GameManager.Instance.startGame && !isOnMovement && !WorldManager.Instance.cantMakeActions)
         {
             if (!context.performed)
             {
@@ -53,8 +52,9 @@ public class CharacterWorldPlayer : CharacterBase
     }
     void HandleAction(InputAction.CallbackContext context)
     {
-        if (!WorldManager.Instance.enemyHitted && !GameManager.Instance.isPause && GameManager.Instance.startGame && interactableObject != null)
+        if (!GameManager.Instance.isPause && GameManager.Instance.startGame && interactableObject != null && !WorldManager.Instance.cantMakeActions)
         {
+            LookAt(positionInGrid, interactableObject.GetObjectInteract().positionInGrid);
             interactableObject.Interact(this);
         }
     }
@@ -192,7 +192,9 @@ public class CharacterWorldPlayer : CharacterBase
     public interface IInteractable
     {
         void Interact(CharacterWorldPlayer character);
+        void ResumeWorldAfterInteraction();
         void OnInteractEnter();
         void OnInteractExit();
+        CharacterBase GetObjectInteract();
     }
 }

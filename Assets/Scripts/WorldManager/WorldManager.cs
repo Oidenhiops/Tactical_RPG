@@ -16,7 +16,7 @@ public class WorldManager : MonoBehaviour
     bool onRotateCamera = false;
     bool directionCamera = false;
     public Transform cameraRot;
-    public bool enemyHitted;
+    public bool cantMakeActions;
     void Awake()
     {
         if (Instance == null) Instance = this;
@@ -74,7 +74,7 @@ public class WorldManager : MonoBehaviour
     }
     void HandleRotateCamera(InputAction.CallbackContext context)
     {
-        if (!cantRotateCamera && !onRotateCamera && !GameManager.Instance.isPause)
+        if (!cantRotateCamera && !onRotateCamera && !GameManager.Instance.isPause && !cantMakeActions)
         {
             cantRotateCamera = true;
             onRotateCamera = true;
@@ -86,7 +86,7 @@ public class WorldManager : MonoBehaviour
     {
         try
         {
-            enemyHitted = true;
+            cantMakeActions = true;
             ManagementBattleInfo.Instance.generateMap = currentWorldMap;
             ManagementBattleInfo.Instance.principalCharacterEnemy = characterWorld.characterHitted;
             _ = GameManager.Instance.LoadScene(GameManager.TypeScene.BattleScene, LoadSceneMode.Additive, GameManager.TypeLoader.BlackOut, true);
@@ -100,13 +100,21 @@ public class WorldManager : MonoBehaviour
     }
     public void ResumeWorldAfterBattle()
     {
-        enemyHitted = false;
-        characterWorld.characterHitted.characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue = 0;
-        ManagementLoaderScene.Instance.OnFinishOpenAnimation += () =>
+        cantMakeActions = false;
+        if (characterWorld.characterHitted)
         {
-            _ = characterWorld.characterHitted.TakeDamage(null, characterWorld.characterHitted.characterData.statistics[CharacterData.TypeStatistic.Hp].maxValue);
-        };
+            characterWorld.characterHitted.characterData.statistics[CharacterData.TypeStatistic.Hp].currentValue = 0;
+            ManagementLoaderScene.Instance.OnFinishOpenAnimation += () =>
+            {
+                _ = characterWorld.characterHitted.TakeDamage(null, characterWorld.characterHitted.characterData.statistics[CharacterData.TypeStatistic.Hp].maxValue);
+            };
+        } 
         worldContainer.gameObject.SetActive(true);
+    }
+    public void ResumeWorldAfterCloseDialog()
+    {
+        cantMakeActions = false;
+        characterWorld.interactableObject.ResumeWorldAfterInteraction();
     }
     IEnumerator RotateCamera()
     {

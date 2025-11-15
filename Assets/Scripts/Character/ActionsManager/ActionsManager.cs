@@ -373,18 +373,7 @@ public class ActionsManager : MonoBehaviour
             await MakeActions();
             characterActions = new SerializedDictionary<CharacterBase, List<ActionInfo>>();
             characterFinalActions = new SerializedDictionary<CharacterBase, ActionInfo>();
-            if (BattlePlayerManager.Instance.characters.Count == 0 || BattleEnemyManager.Instance.characters.Count == 0)
-            {
-                if (BattlePlayerManager.Instance.characters.Count == 0)
-                {
-                    _ = BattlePlayerManager.Instance.PlayersDefeat();
-                }
-                else
-                {
-                    print("Enemy Game Over");
-                }
-            }
-            else
+            if (BattlePlayerManager.Instance.characters.Count != 0 && BattleEnemyManager.Instance.characters.Count != 0)
             {
                 await ChangeRoundState();
                 OnEndTurn?.Invoke();

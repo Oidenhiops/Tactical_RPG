@@ -22,6 +22,7 @@ public class CharacterBase : MonoBehaviour
     public Action<CharacterBase> OnCharacterFinishMovement;
     public bool canMoveAfterFinishTurn;
     public bool autoInit;
+    public bool lookRotation;
     public void OnEnable()
     {
         if (isInitialize) characterAnimations.MakeAnimation("Idle");
@@ -33,7 +34,7 @@ public class CharacterBase : MonoBehaviour
     }
     void LateUpdate()
     {
-        if (CameraInfo.Instance)
+        if (CameraInfo.Instance && !lookRotation)
         {
             CameraInfo.Instance.CamDirection(nextDirection, out Vector3 directionFromCamera);
             direction = Vector3Int.RoundToInt(directionFromCamera);

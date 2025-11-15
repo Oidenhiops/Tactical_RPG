@@ -90,23 +90,23 @@ public class GameManager : MonoBehaviour
             }
             else if (ManagementOptions.Instance && ManagementOptions.Instance.isMenuActive)
             {
-                _ = UnloadAdditiveScene(TypeScene.OptionsScene, true, TypeLoader.WithProgressBar, ManagementOptions.Instance, ManagementOptions.Instance.lastButtonSelected);
+                _ = UnloadAdditiveScene(TypeScene.OptionsScene, TypeLoader.WithProgressBar, ManagementOptions.Instance, ManagementOptions.Instance.lastButtonSelected);
             }
         }
     }
     public void UnloadAdditiveScene(TypeScene typeScene, TypeLoader typeLoader)
     {
-        _ = UnloadAdditiveScene(typeScene, false, typeLoader, null, null);
+        _ = UnloadAdditiveScene(typeScene, typeLoader, null, null);
     }
     public void UnloadAdditiveScene(TypeScene typeScene, GameManagerHelper.IScene sceneData, GameObject lastButtonSelected)
     {
-        _ = UnloadAdditiveScene(typeScene, true, TypeLoader.None, sceneData, lastButtonSelected);
+        _ = UnloadAdditiveScene(typeScene, TypeLoader.None, sceneData, lastButtonSelected);
     }
-    public async Awaitable UnloadAdditiveScene(TypeScene typeScene, bool isMenuScene, TypeLoader typeLoader, GameManagerHelper.IScene sceneData, GameObject lastButtonSelected)
+    public async Awaitable UnloadAdditiveScene(TypeScene typeScene, TypeLoader typeLoader, GameManagerHelper.IScene sceneData, GameObject lastButtonSelected)
     {
         try
         {
-            if (isMenuScene)
+            if (sceneData != null)
             {
                 sceneData.PlayEndAnimation();
                 while (!sceneData.AnimationEnded())
@@ -118,9 +118,13 @@ public class GameManager : MonoBehaviour
                     Time.timeScale = 1;
                     isPause = false;
                 }
+                else if (typeScene == TypeScene.DialogScene)
+                {
+                    WorldManager.Instance.ResumeWorldAfterCloseDialog();
+                }
+                EventSystem.current.SetSelectedGameObject(null);
                 if (lastButtonSelected)
                 {
-                    EventSystem.current.SetSelectedGameObject(null);
                     EventSystem.current.SetSelectedGameObject(lastButtonSelected);
                 }
                 _ = SceneManager.UnloadSceneAsync(typeScene.ToString());
@@ -136,9 +140,18 @@ public class GameManager : MonoBehaviour
                 while (!ManagementLoaderScene.Instance.ValidateLoaderIsOnIdle()) await Awaitable.NextFrameAsync();
                 if (typeScene == TypeScene.BattleScene)
                 {
-                    AudioManager.Instance.ChangeBGM(GameData.Instance.systemDataInfo.bgmSceneData[currentScene]);
-                    await SceneManager.UnloadSceneAsync(SceneManager.GetSceneByName(typeScene.ToString()));
-                    WorldManager.Instance.ResumeWorldAfterBattle();
+                    if (SceneManager.GetSceneByName(TypeScene.DialogScene.ToString()).isLoaded)
+                    {
+                        AudioManager.Instance.ChangeBGM(GameData.Instance.systemDataInfo.bgmSceneData[currentScene]);
+                        await SceneManager.UnloadSceneAsync(SceneManager.GetSceneByName(typeScene.ToString()));
+                        WorldManager.Instance.ResumeWorldAfterBattle();
+                    }
+                    else
+                    {
+                        AudioManager.Instance.ChangeBGM(GameData.Instance.systemDataInfo.bgmSceneData[currentScene]);
+                        await SceneManager.UnloadSceneAsync(SceneManager.GetSceneByName(TypeScene.TestScene.ToString()));
+                        WorldManager.Instance.ResumeWorldAfterBattle();
+                    }
                 }
                 if (typeScene != TypeScene.OptionsScene || typeScene != TypeScene.CreditsScene || typeScene != TypeScene.GameOverScene)
                 {
@@ -184,7 +197,15 @@ public class GameManager : MonoBehaviour
                     await AudioManager.Instance.FadeOut();
                     if (typeScene != TypeScene.Exit)
                     {
-                        AudioManager.Instance.ChangeBGM(GameData.Instance.systemDataInfo.bgmSceneData[typeScene.ToString()]);
+                        if (GameData.Instance.systemDataInfo.bgmSceneData.ContainsKey(typeScene.ToString()))
+                        {
+                            AudioManager.Instance.ChangeBGM(GameData.Instance.systemDataInfo.bgmSceneData[typeScene.ToString()]);
+                        }
+                        else
+                        {
+                            GameData.Instance.systemDataInfo.bgmSceneData.Add(typeScene.ToString(), GameData.Instance.systemDataInfo.bgmSceneData["BattleScene"]);
+                            AudioManager.Instance.ChangeBGM(GameData.Instance.systemDataInfo.bgmSceneData[typeScene.ToString()]);
+                        }
                     }
                     await Awaitable.NextFrameAsync();
                     while (!ManagementLoaderScene.Instance.ValidateLoaderIsOnIdle()) await Awaitable.NextFrameAsync();
@@ -297,7 +318,8 @@ public class GameManager : MonoBehaviour
         GameOverScene = 6,
         BattleScene = 7,
         CityScene = 8,
-        DialogScene = 9
+        DialogScene = 9,
+        TestScene = 10
     }
     public enum TypeLoader
     {

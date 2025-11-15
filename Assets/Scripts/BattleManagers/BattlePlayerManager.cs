@@ -82,6 +82,12 @@ public class BattlePlayerManager : MonoBehaviour
     {
         characters.Remove(characterDead);
         await Awaitable.NextFrameAsync();
+        if (characters.Count == 0)
+        {
+            await Awaitable.WaitForSecondsAsync(0.5f);
+            _ = PlayersDefeat();
+        }
+        await Awaitable.NextFrameAsync();
     }
     public async Awaitable InitializeCharacterData()
     {
@@ -187,7 +193,6 @@ public class BattlePlayerManager : MonoBehaviour
     }
     public async Awaitable PlayersWin()
     {
-        actionsManager.currenPhase = ActionsManager.TypePhaseTurn.None;
         menusContainer.SetActive(false);
         aStarPathFinding.DisableGrid();
         aStarPathFinding.DisableSubGrid();
