@@ -54,7 +54,7 @@ public class CharacterWorldPlayer : CharacterBase
     {
         if (!GameManager.Instance.isPause && GameManager.Instance.startGame && interactableObject != null && !WorldManager.Instance.cantMakeActions)
         {
-            LookAt(positionInGrid, interactableObject.GetObjectInteract().positionInGrid);
+            LookAt(positionInGrid, Vector3Int.RoundToInt(interactableObject.GetObjectInteract().transform.position));
             interactableObject.Interact(this);
         }
     }
@@ -62,8 +62,8 @@ public class CharacterWorldPlayer : CharacterBase
     {
         if (isOnMovement) return;
 
-        Vector3Int finalPosition = targetPosition + positionInGrid;
-        WorldManager.Instance.aStarPathFinding.GetHighestBlockAt(finalPosition, out GenerateMap.WalkablePositionInfo block);
+        Vector3Int positionForValidate = targetPosition + positionInGrid;
+        WorldManager.Instance.aStarPathFinding.GetNextBlockAt(positionInGrid ,positionForValidate, out GenerateMap.WalkablePositionInfo block);
         if (block != null && block.isWalkable)
         {
             if (block.pos.y < transform.position.y + characterData.GetMovementMaxHeight())
@@ -195,6 +195,6 @@ public class CharacterWorldPlayer : CharacterBase
         void ResumeWorldAfterInteraction();
         void OnInteractEnter();
         void OnInteractExit();
-        CharacterBase GetObjectInteract();
+        GameObject GetObjectInteract();
     }
 }

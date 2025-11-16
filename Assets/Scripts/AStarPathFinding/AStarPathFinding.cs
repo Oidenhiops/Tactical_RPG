@@ -328,6 +328,60 @@ public class AStarPathFinding : MonoBehaviour
         block = null;
         return false;
     }
+    public bool GetNextBlockAt(Vector3Int initialPosition, Vector3Int positionForValidate, out GenerateMap.WalkablePositionInfo block)
+    {
+        Vector3Int posToValidate = positionForValidate;
+        Vector3Int barrierValidationPos = initialPosition;
+        for (int i = positionForValidate.y; i <= 10; i++)
+        {
+            posToValidate.y = i;
+            barrierValidationPos.y = i;
+            if (grid.ContainsKey(posToValidate) && !grid.ContainsKey(posToValidate + Vector3Int.up) && !ContainsBarrierBetweenPositions(initialPosition, barrierValidationPos))
+            {
+                block = grid[posToValidate];
+                return true;
+            }
+        }
+        for (int i = positionForValidate.y; i >= 0; i--)
+        {
+            posToValidate.y = i;
+            barrierValidationPos.y = i;
+            if (grid.ContainsKey(posToValidate) && !grid.ContainsKey(posToValidate + Vector3Int.up) && !ContainsBarrierBetweenPositions(initialPosition, barrierValidationPos))
+            {
+                block = grid[posToValidate];
+                return true;
+            }
+        }
+        block = null;
+        return false;
+    }
+    bool ContainsBarrierBetweenPositions(Vector3Int from, Vector3Int to)
+    {
+        Vector3Int checkPos = from;
+        if (from.y > to.y)
+        {
+            for (int i = to.y; i <= from.y; i++)
+            {
+                checkPos.y = i;
+                if (grid.ContainsKey(checkPos) && !grid[checkPos].isWalkable)
+                {
+                    return true;
+                }
+            }
+        }
+        else
+        {
+            for (int i = from.y; i <= to.y + 1; i++)
+            {
+                checkPos.y = i;
+                if (grid.ContainsKey(checkPos) && !grid[checkPos].isWalkable)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     public SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> GetWalkableTiles(CharacterBase characterSelected)
     {
         SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo> positionsToValidate = new SerializedDictionary<Vector3Int, GenerateMap.WalkablePositionInfo>();
@@ -720,11 +774,12 @@ public class AStarPathFinding : MonoBehaviour
     {
         var neighbors = new List<Node>();
         var directions = useEightDirections ? eightDirections : fourDirections;
+        Vector3Int target = new Vector3Int();
         foreach (var dir in directions)
         {
-            int targetX = node.X + dir.x;
-            int targetZ = node.Z + dir.z;
-            if (GetHighestBlockAt(new Vector3Int(targetX, 0, targetZ), out var highestBlock))
+            target.x = node.X + dir.x;
+            target.z = node.Z + dir.z;
+            if (GetHighestBlockAt(new Vector3Int(target.x, 0, target.z), out var highestBlock))
             {
                 if (!highestBlock.isWalkable)
                     continue;

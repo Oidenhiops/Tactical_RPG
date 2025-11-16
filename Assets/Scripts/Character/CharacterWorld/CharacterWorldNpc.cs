@@ -53,8 +53,8 @@ public class CharacterWorldNpc : CharacterBase, CharacterWorldPlayer.IInteractab
     {
         bannerInteract.SetActive(true);
     }
-    public CharacterBase GetObjectInteract()
+    public GameObject GetObjectInteract()
     {
-        return this;
+        return gameObject;
     }
 }

@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
 
@@ -15,14 +17,6 @@ public class Block : MonoBehaviour
     public GameObject poolingGrid;
     public bool cantWalk;
     public bool containsStairAround;
-    public enum TypeBlock
-    {
-        None = 0,
-        Block = 1,
-        Spawn = 2,
-        Stair = 3,
-        End = 4
-    }
     public void DrawBlock()
     {
         CheckDirection();
@@ -41,30 +35,45 @@ public class Block : MonoBehaviour
     {
         neighbors = new List<TypeNeighbors>();
         containsStairAround = false;
-        Vector3Int direction;
-        foreach (KeyValuePair<Vector3Int, TypeNeighbors> value in directions)
+        if (typeBlock != TypeBlock.Barrier)
         {
-            direction = Vector3Int.RoundToInt(transform.position + value.Key);
-            if (generateMap.aStarPathFinding.grid.ContainsKey(direction))
+            Vector3Int direction;
+            foreach (KeyValuePair<Vector3Int, TypeNeighbors> value in directions)
             {
-                neighbors.Add(directions[GetDirection(Vector3Int.RoundToInt(transform.position), Vector3Int.RoundToInt(transform.position + value.Key))]);
-                if (typeBlock != TypeBlock.Stair &&  generateMap.aStarPathFinding.grid[direction].blockInfo.typeBlock == TypeBlock.Stair)
+                direction = Vector3Int.RoundToInt(transform.position + value.Key);
+                if (generateMap.aStarPathFinding.grid.ContainsKey(direction))
                 {
-                    containsStairAround = true;
+                    if (typeBlock == TypeBlock.Block || typeBlock == TypeBlock.Spawn || typeBlock == TypeBlock.End)
+                    {
+                        if (generateMap.aStarPathFinding.grid[direction].blockInfo.typeBlock != TypeBlock.Barrier)
+                        {
+                            neighbors.Add(directions[GetDirection(Vector3Int.RoundToInt(transform.position), Vector3Int.RoundToInt(transform.position + value.Key))]);
+                            if (typeBlock != TypeBlock.Stair && generateMap.aStarPathFinding.grid[direction].blockInfo.typeBlock == TypeBlock.Stair)
+                            {
+                                containsStairAround = true;
+                            }
+                        }
+                    }
+                    else if (typeBlock == TypeBlock.Stair)
+                    {
+                        if (generateMap.aStarPathFinding.grid[direction].blockInfo.typeBlock == TypeBlock.Stair)
+                        {
+                            neighbors.Add(GetDirectionByRotation(directions[GetDirection(Vector3Int.RoundToInt(transform.position), Vector3Int.RoundToInt(transform.position + value.Key))]));
+                        }
+                    }
                 }
             }
-        }
-        bitMask = GetBitmask();
+            bitMask = GetBitmask();
 
-        if (containsStairAround && !neighbors.Contains(TypeNeighbors.Up))
-        {
-            bitMask += 10000000;
-        }
+            if (containsStairAround && !neighbors.Contains(TypeNeighbors.Up))
+            {
+                bitMask += 10000000;
+            }
 
-        if (renderInfo.TryGetValue(bitMask, out BlocksInfo blockInfo))
-        {
-            
-            List<TypeNeighbors> directions = new List<TypeNeighbors>()
+            if (renderInfo.TryGetValue(bitMask, out BlocksInfo blockInfo))
+            {
+
+                List<TypeNeighbors> directions = new List<TypeNeighbors>()
             {
                 TypeNeighbors.Forward,
                 TypeNeighbors.Back,
@@ -74,33 +83,41 @@ public class Block : MonoBehaviour
                 TypeNeighbors.Down
             };
 
-            for (int i = 0; i < directions.Count; i++)
-            {
-                if (!neighbors.Contains(directions[i]))
+                for (int i = 0; i < directions.Count; i++)
                 {
-                    if (meshes.ContainsKey(directions[i]))
+                    if (!neighbors.Contains(directions[i]))
                     {
-                        meshes[directions[i]].meshRenderer.gameObject.SetActive(true);
+                        if (meshes.ContainsKey(directions[i]))
+                        {
+                            meshes[directions[i]].meshRenderer.gameObject.SetActive(true);
+                        }
+                    }
+                    else if (typeBlock != TypeBlock.Stair && !containsStairAround)
+                    {
+                        if (meshes.ContainsKey(directions[i]))
+                        {
+                            meshes[directions[i]].meshRenderer.gameObject.SetActive(false);
+                        }
                     }
                 }
-                else if (typeBlock != TypeBlock.Stair && !containsStairAround)
+
+                foreach (var meshInfo in meshes)
                 {
-                    if (meshes.ContainsKey(directions[i]))
+                    if (meshInfo.Value.meshRenderer.gameObject.activeSelf)
                     {
-                        meshes[directions[i]].meshRenderer.gameObject.SetActive(false);
+                        SetTextureFromAtlas(GetVariationSprite(blockInfo.targetSprite), meshInfo.Value);
                     }
                 }
             }
-
-            foreach (var meshInfo in meshes)
+            else if (BlockAddRuleManager.Instance && !BlockAddRuleManager.Instance.blockToAddRule.renderInfo.ContainsKey(bitMask))
             {
-                if (meshInfo.Value.meshRenderer.gameObject.activeSelf)
-                {
-                    SetTextureFromAtlas(GetVariationSprite(blockInfo.targetSprite), meshInfo.Value);
-                }
+                BlockAddRuleManager.Instance.blockToAddRule.renderInfo.Add(bitMask, new BlocksInfo { targetSprite = null, blockGeneratedRule = this });
             }
         }
-        else if (BlockAddRuleManager.Instance && !BlockAddRuleManager.Instance.blockToAddRule.renderInfo.ContainsKey(bitMask)) BlockAddRuleManager.Instance.blockToAddRule.renderInfo.Add(bitMask, new BlocksInfo { targetSprite = null, blockGeneratedRule = this });
+        else
+        {
+            Destroy(transform.GetChild(0).gameObject);
+        }
     }
     Sprite GetVariationSprite(Sprite originalSprite)
     {
@@ -119,6 +136,56 @@ public class Block : MonoBehaviour
             diff.y == 0 ? 0 : (diff.y > 0 ? 1 : -1),
             diff.z == 0 ? 0 : (diff.z > 0 ? 1 : -1)
         );
+    }
+    TypeNeighbors GetDirectionByRotation(TypeNeighbors originalDirection)
+    {
+        switch (Mathf.RoundToInt(transform.eulerAngles.y))
+        {
+            case 90:
+                switch (originalDirection)
+                {
+                    case TypeNeighbors.Forward:
+                        return TypeNeighbors.Left;
+                    case TypeNeighbors.Back:
+                        return TypeNeighbors.Right;
+                    case TypeNeighbors.Left:
+                        return TypeNeighbors.Back;
+                    case TypeNeighbors.Right:
+                        return TypeNeighbors.Forward;
+                    default:
+                        return originalDirection;
+                }
+            case 180:
+                switch (originalDirection)
+                {
+                    case TypeNeighbors.Forward:
+                        return TypeNeighbors.Back;
+                    case TypeNeighbors.Back:
+                        return TypeNeighbors.Forward;
+                    case TypeNeighbors.Left:
+                        return TypeNeighbors.Right;
+                    case TypeNeighbors.Right:
+                        return TypeNeighbors.Left;
+                    default:
+                        return originalDirection;
+                }
+            case 270:
+                switch (originalDirection)
+                {
+                    case TypeNeighbors.Forward:
+                        return TypeNeighbors.Right;
+                    case TypeNeighbors.Back:
+                        return TypeNeighbors.Left;
+                    case TypeNeighbors.Left:
+                        return TypeNeighbors.Forward;
+                    case TypeNeighbors.Right:
+                        return TypeNeighbors.Back;
+                    default:
+                        return originalDirection;
+                }
+            default:
+                return originalDirection;
+        }
     }
     void SetTextureFromAtlas(Sprite spriteFromAtlas, MeshesInfo meshesInfo)
     {
@@ -164,5 +231,14 @@ public class Block : MonoBehaviour
         ForwardRight = 16,
         BackLeft = 17,
         BackRight = 18,
+    }
+    public enum TypeBlock
+    {
+        None = 0,
+        Block = 1,
+        Spawn = 2,
+        Stair = 3,
+        End = 4,
+        Barrier = 5,
     }
 }

@@ -35,11 +35,6 @@ public class GenerateMap : MonoBehaviour
                         });
                     }
                 }
-                foreach (Block blockEvaluate in blocks)
-                {
-                    aStarPathFinding.GetHighestBlockAt(Vector3Int.RoundToInt(blockEvaluate.transform.position), out WalkablePositionInfo block);
-                    if (block != null) block.isWalkable = blockEvaluate.cantWalk ? false : true;
-                }
                 await Awaitable.NextFrameAsync();
                 DrawBlocks();
                 OnFinishGenerateMap?.Invoke();
